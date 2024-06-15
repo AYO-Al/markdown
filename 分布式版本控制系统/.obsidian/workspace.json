@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "ccff7643ba449cd1",
+    "id": "048acf6eac25de99",
     "type": "split",
     "children": [
       {
-        "id": "7050d2971efe62a5",
+        "id": "3f5e586f0f70a261",
         "type": "tabs",
         "children": [
           {
-            "id": "74a2ea7691a96259",
+            "id": "e6d45c9f6b67f47b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -25,15 +25,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "ee74772a3e754a8b",
+    "id": "6f7f47ab284ac448",
     "type": "split",
     "children": [
       {
-        "id": "bc5a4c6a8bbb1d91",
+        "id": "bfd1998d4eb68d1a",
         "type": "tabs",
         "children": [
           {
-            "id": "baeef48a6c91db2d",
+            "id": "4f0f2ca6323c33fe",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -43,7 +43,7 @@
             }
           },
           {
-            "id": "01a79f1832820e4e",
+            "id": "ff0141aac6aabeb4",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -58,7 +58,7 @@
             }
           },
           {
-            "id": "8b35e78a5bedd50f",
+            "id": "943e8e2ffccda74f",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -73,15 +73,15 @@
     "collapsed": true
   },
   "right": {
-    "id": "58202dfb1ef38810",
+    "id": "a689601275098279",
     "type": "split",
     "children": [
       {
-        "id": "c90d069a9787bf28",
+        "id": "93fe5a4b68d4d3aa",
         "type": "tabs",
         "children": [
           {
-            "id": "d22d0cc6da71573c",
+            "id": "0d64ace92237c3dc",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -98,7 +98,7 @@
             }
           },
           {
-            "id": "83cd118eed3b3bb9",
+            "id": "079d57d0612ac669",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -110,7 +110,7 @@
             }
           },
           {
-            "id": "6f82cbf501fe1a99",
+            "id": "307df7045b48c172",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -121,7 +121,7 @@
             }
           },
           {
-            "id": "6b751dc6319e8857",
+            "id": "874645832d36bcee",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -147,13 +147,16 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "74a2ea7691a96259",
+  "active": "e6d45c9f6b67f47b",
   "lastOpenFiles": [
-    "image/Pasted image 20240612142654.png",
-    "image/Pasted image 20240612142445.png",
-    "image/Pasted image 20240612142252.png",
-    "image/Pasted image 20240612141654.png",
-    "image/Pasted image 20240612141046.png",
-    "image"
+    "tmp1718440101571_Git_time_7.md",
+    "Git.md",
+    "image/Git_time_7.png",
+    "image/Git_time_8.png",
+    "image/Git_time_9.png",
+    "image/Git_time_4.png",
+    "image/Git_time_5.png",
+    "image/Git_time_6.png",
+    "image/Pasted image 20240614122903.png"
   ]
 }
