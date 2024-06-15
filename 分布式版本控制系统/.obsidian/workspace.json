@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Git.md",
+                "file": "git.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Git.md",
+                "file": "git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Git.md",
+                "file": "git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Git.md"
+                "file": "git.md"
               }
             }
           }
@@ -149,14 +149,18 @@
   },
   "active": "e6d45c9f6b67f47b",
   "lastOpenFiles": [
+    "image/git_time_7.png",
+    "git.md",
+    "image/git_time_8.png",
+    "image/git_time_1.png",
+    "image/git_time_2.png",
+    "image/git_time_3.png",
+    "image/git_time_4.png",
+    "image/git_time_5.png",
+    "image/git_time_6.png",
+    "image/git_time_9.png",
     "tmp1718440101571_Git_time_7.md",
     "Git.md",
-    "image/Git_time_7.png",
-    "image/Git_time_8.png",
-    "image/Git_time_9.png",
-    "image/Git_time_4.png",
-    "image/Git_time_5.png",
-    "image/Git_time_6.png",
     "image/Pasted image 20240614122903.png"
   ]
 }
