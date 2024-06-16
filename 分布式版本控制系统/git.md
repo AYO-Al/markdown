@@ -140,4 +140,11 @@ index 0cfbf08..4792e70 100644
  2 # 代表一样的内容
 +3 # 代表源文件加上这一行后会和目标文件一致
 ```
-也可以使用`git diff HEAD`比较最新提交内容与工作区的差异，或使用`git diff <commit id>`指定提交内容比较。或使用`git diff --cached commit_id`比较提交内容和暂存区的差异
+也可以使用`git diff HEAD`比较最新提交内容与工作区的差异，或使用`git diff <commit id>`指定提交内容比较。或使用`git diff --cached commit_id`比较提交内容和暂存区的差异。
+## 2.8.远程仓库
+使用远程仓库时有以下几个关键命令
+- push：推送
+	- -u origin \<branchname>:推送本地同名分支到远程分支，绑定后可以只执行`git push`推送
+- pull：拉取，同时会执行合并
+	- pull=fetch+merge
+- `git remote add origin <url>`：添加远程仓库
