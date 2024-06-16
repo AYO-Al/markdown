@@ -148,3 +148,12 @@ index 0cfbf08..4792e70 100644
 - pull：拉取，同时会执行合并
 	- pull=fetch+merge
 - `git remote add origin <url>`：添加远程仓库
+	- show \<remotename>:不带名字列出所有远程仓库别名，带名字列出具体远程仓库详细信息
+- `git config --global push.default simple`:在没有指定分支名称时`git push`应该推送那些分支，simple会默认推送到使用`git pull`拉取的分支。
+在我们基于git进行开发的时候，可以遵循以下几个模型：
+1. Gitflow：最佳实践，但比较复杂
+2. 基于Git分支的开发模型：
+	1. develop分支(频繁变化的一个分支)
+	2. test分支(供产品和测试等人员使用的分支，变化不是特别频繁)
+	3. master分支(生产发布分支，变化不频繁)
+	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
