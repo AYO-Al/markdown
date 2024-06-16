@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "a689601275098279",
@@ -147,20 +146,20 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "4f0f2ca6323c33fe",
+  "active": "e6d45c9f6b67f47b",
   "lastOpenFiles": [
-    "image/git_time_7.png",
+    "image/tmp1718531027949_git_time_10.png",
     "git.md",
+    "image/git_time_10.png",
+    "image/git_time_9.png",
+    "image/git_time_11.png",
+    "image/git_time_12.png",
+    "image/git/image-20240616172630262.png",
+    "image/git",
+    "image/git_time_7.png",
     "image/git_time_8.png",
     "image/git_time_1.png",
-    "image/git_time_2.png",
-    "image/git_time_3.png",
-    "image/git_time_4.png",
-    "image/git_time_5.png",
-    "image/git_time_6.png",
-    "image/git_time_9.png",
     "tmp1718440101571_Git_time_7.md",
-    "Git.md",
-    "image/Pasted image 20240614122903.png"
+    "Git.md"
   ]
 }
