@@ -159,7 +159,11 @@ index 0cfbf08..4792e70 100644
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
 
 ## 2.9.Git协作
-当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，
+当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，可以使用`git branch -a`查看，且使用`git status`时，你可能会看到以下几种信息
+```bash
+Your branch is up to date with 'origin/main'. # 本地仓库和远程仓库状态一致
+Your branch is ahead of 'origin/main' by 1 commit. # 你的本地仓库和远程仓库不一致
+```
 
 
 
