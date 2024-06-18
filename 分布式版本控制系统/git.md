@@ -46,6 +46,8 @@
 	- git clone
 - 版本管理
 	- git add
+		- `.`:提交所有文件，但会检查gitignore
+		- `*`:提交所有文件，不会检查gitignore
 	- git commit
 		- 会对提交内容使用sha1计算出一个commitid
 		- `git commit --amend -m 'mesge'`:修正上一条提交的信息
@@ -74,6 +76,9 @@
 	> 1. /etc/gitconfig(几乎不会使用) git config --system
 	> 2. ~/.gitconfig git config --global
 	> 3. 针对特定项目 .git/config git config --local
+	
+- 参数设置：
+	- `git config core.igorecase false`：关闭忽略大小写
 
 ## 2.4.gitignore
 在git中可以在.gitigore文件中编写一定的规则，让git管理时忽略一些文件。编写规则的语法如下：
@@ -148,8 +153,10 @@ index 0cfbf08..4792e70 100644
 - pull：拉取，同时会执行合并
 	- pull=fetch+merge
 - `git remote add origin <url>`：添加远程仓库
-	- show \<remotename>:不带名字列出所有远程仓库别名，带名字列出具体远程仓库详细信息
+	- show \<remotename>:不带名字列出所有远程仓库别名，带名字列出具体远程仓库详细信息。执行命令的时候会读取远程仓库信息
+	- url可以是https形式的，也可以是ssh形式的，ssh形式需要将主机的公钥添加到仓库中
 - `git config --global push.default simple`:在没有指定分支名称时`git push`应该推送那些分支，simple会默认推送到使用`git pull`拉取的分支。
+- `git clone <url> <dic>`:将远程仓库全部克隆下来，可以使用dic指定拉取下来的目录名
 在我们基于git进行开发的时候，可以遵循以下几个模型：
 1. Gitflow：最佳实践，但比较复杂
 2. 基于Git分支的开发模型：
@@ -159,11 +166,11 @@ index 0cfbf08..4792e70 100644
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
 
 ## 2.9.Git协作
-当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，可以使用`git branch -a`查看，且使用`git status`时，你可能会看到以下几种信息
+当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
 ```bash
 Your branch is up to date with 'origin/main'. # 本地仓库和远程仓库状态一致
 Your branch is ahead of 'origin/main' by 1 commit. # 你的本地仓库和远程仓库不一致
 ```
-
+当使用`git push`的时候，如果跟远程仓库执行的是快进合并的话，没有任何问题，但如果有合并冲突，则必须先执行一次`git pull`，在本地解决完冲突后再推送到远程仓库。
 
 
