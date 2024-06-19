@@ -105,7 +105,7 @@
 在git中，使用`HEAD`指向当前分支，信息存储在.git/HEAD中
 快进合并：master没有做任何修改，直接就是把master指向最新的提交。
 ![](./image/git_time_7.png)
-分支合并：master和分支都做了操作，如果有冲突需要手动解决冲突再合并。有冲突的文件会变成下面这样。解决完冲突后使用`git add filename`标记解决冲突，再使用`git commit`提交合并。
+三方合并：master和分支都做了操作，如果有冲突需要手动解决冲突再合并。有冲突的文件会变成下面这样。git会把这两个冲突节点和他们共同的祖先节点一起合并，称之为三方合并。解决完冲突后使用`git add filename`标记解决冲突，再使用`git commit`提交合并。
 ![](./image/git_time_8.png)
 ![](./image/git_time_9.png)
 如果可能的话，合并分支时Git会使用fast-forward模式，这种模式下，删除分支时会丢掉分支信息。可以在合并时加上`--no-ff`参数会禁用fast-forward，这样会多出一个`commit id`。
@@ -164,6 +164,8 @@ index 0cfbf08..4792e70 100644
 	2. test分支(供产品和测试等人员使用的分支，变化不是特别频繁)
 	3. master分支(生产发布分支，变化不频繁)
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
+
+### 2.8.1.远程分支
 
 ## 2.9.Git协作
 当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
