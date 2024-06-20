@@ -52,6 +52,7 @@
 		- 会对提交内容使用sha1计算出一个commitid
 		- `git commit --amend -m 'mesge'`:修正上一条提交的信息
 		- `git commit -am`：直接把全部修改过文件添加到暂存区并提交，但新增的文件不能
+		- 执行命令时，git会创建一个commit对象，并且将这个commit对象的parent指针设置为HEAD所指向引用的SHA-1值
 	- git rm：删除文件，本质和rm命令一致
 		- 使用`git rm`后不需要再使用`git add`命令将修改添加在暂存区，使用`rm`的话仍然需要使用使用`git add`命令将修改添加在暂存区
 		- 如果想将删除的文件恢复，可以使用`git reset HEAD filename`将文件从暂存区移除，再使用`git checkout -- fielname`将工作区中的修改丢弃
@@ -135,6 +136,9 @@ git中有两种标签，一种是轻量级标签(lightweight)与带有附注标�
 - `git tag v1.0.0`:创建轻量级标签
 - `git tag -a v1.0.2 -m 'release version'`:创建带附注的标签
 - `git tag -d tag_name`:删除标签
+- `git show v1.0`：查看标签详细信息
+- `git push origin tag[..tag]/--tags`：推送标签/全部标签和内容
+- `git push prigin :refs/tags/v6.0`/`git push origin --delete tag v5.0`：删除远程标签
 在git中可以使用`git blame filename`查看文件具体都是由谁修改提交的。
 在git中可以使用`git diff`比较暂存区与工作区的内容。
 ```bash
@@ -157,6 +161,7 @@ index 0cfbf08..4792e70 100644
 - `git remote add origin <url>`：添加远程仓库
 	- show \<remotename>:不带名字列出所有远程仓库别名，带名字列出具体远程仓库详细信息。执行命令的时候会读取远程仓库信息
 	- url可以是https形式的，也可以是ssh形式的，ssh形式需要将主机的公钥添加到仓库中
+	- prune origin：清除失效的远程追踪分支
 - `git config --global push.default simple`:在没有指定分支名称时`git push`应该推送那些分支，simple会默认推送到使用`git pull`拉取的分支。
 - `git clone <url> <dic>`:将远程仓库全部克隆下来，可以使用dic指定拉取下来的目录名
 在我们基于git进行开发的时候，可以遵循以下几个模型：
@@ -167,12 +172,31 @@ index 0cfbf08..4792e70 100644
 	3. master分支(生产发布分支，变化不频繁)
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
 
-### 2.8.1.远程分支
+### 2.8.1.远程分支&refspec
 当我们把本地的分支推送到远程仓库但远程仓库并没有跟本地分支同名的分支，这个时候就会报错，我们可以使用以下命令避免报错
 - `git push --set-upstream origin develop`:本地分支 `develop` 推送到远程仓库 `origin`，并设置远程分支与本地分支之间的上游跟踪关系。
 在其他协作者新建并上传新的分支后，在本地使用`git pull`会把这个新远程分支也拉取下来，跟`origin/main`一样，所以这个时候本地要基于这个远程分支创建一个本地分支与之对应`git checkout -b origin/develop`/`git checkout --track origin/develop`
+
 如果想要删除远程分支，可以使用`git push origin :dest`/`git push origin --delete dest`，这将删除远程的dest分支。
 
+`Refspec` 是 `Reference Specification` 的缩写，用于在执行 `push` 或 `fetch` 操作时指定本地引用（如分支或标签）与远程引用之间的映射关系。通常，它描述了本地分支或标签与远程库中对应分支或标签之间的关联。
+
+在 Git 中，`refs/heads/` 表示本地分支，`refs/remotes/` 表示远程分支。`refs/heads/*` 匹配所有本地分支，`refs/remotes/origin/*` 匹配远程分支。
+
+例如，以下是一个常见的 refspec，用于从远程库拉取所有分支到本地：
+```
+fetch = +refs/heads/*:refs/remotes/origin/*
+```
+这表示 Git 会将远程库上的所有分支（`refs/heads/*`）拉取到本地的远程分支（`refs/remotes/origin/*`）。如果你只想拉取远程库的 `master` 分支，可以修改为：
+```
+fetch = +refs/heads/master:refs/remotes/origin/master
+```
+
+此外，你还可以在命令行中指定特定的 refspec，例如：
+```
+$ git fetch origin master:refs/remotes/origin/mymaster
+```
+这将把远程库的 `master` 分支拉取到本地的 `origin/mymaster` 分支。
 ## 2.9.Git协作
 当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，只有在有拉取和推送动作的时候，这个分支才会更新。可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
 ```bash
@@ -182,3 +206,16 @@ Your branch is ahead of 'origin/main' by 1 commit. # 你的本地仓库和远程
 当使用`git push`的时候，如果跟远程仓库执行的是快进合并的话，没有任何问题，但如果有合并冲突，则必须先执行一次`git pull`，在本地解决完冲突后再推送到远程仓库。
 
 
+## 2.11.git目录
+- HEAD：文本文件，记录当前所在分支，可以手动修改，但不推荐
+```
+ref: refs/heads/main
+```
+- ORIG_HEAD：文本文件，记录远程仓库所处位置
+```
+3716de57bef8ec0a3b7b45932ceae9f7488806f9
+```
+- FETCH_HEAD：文本文件，记录从远程拉取的分支
+```
+60b9b0994ff1f6a8b9e8db7ce0a908cdca315130                branch 'main' of https://github.com/AYO-Al/markdown
+```
