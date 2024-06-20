@@ -67,12 +67,14 @@
 		- --pretty=oneline|format:"%h"：指定格式进行输出
 	- git diff
 - 远程协作
-	- git pull
-	- git push
-- 设置信息：在提交文件时需要进行设置
+	- git pull 
+	- git push origin src:dest
+- 设置信息：
+	- git config alias.br branch:给branch命令设置一个br的别名
+		- 可以把`branch`替换成`!branch`这样执行的时候会把前面的git去掉，相当于执行Linux命令
 	- git config --global user.name "Your Name"
 	- git config --global user.email you@example.com
-	> 可以在三个地方进行设置
+	> 可以在三个地方进行设置，在提交文件时需要进行设置
 	> 1. /etc/gitconfig(几乎不会使用) git config --system
 	> 2. ~/.gitconfig git config --global
 	> 3. 针对特定项目 .git/config git config --local
@@ -166,9 +168,13 @@ index 0cfbf08..4792e70 100644
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
 
 ### 2.8.1.远程分支
+当我们把本地的分支推送到远程仓库但远程仓库并没有跟本地分支同名的分支，这个时候就会报错，我们可以使用以下命令避免报错
+- `git push --set-upstream origin develop`:本地分支 `develop` 推送到远程仓库 `origin`，并设置远程分支与本地分支之间的上游跟踪关系。
+在其他协作者新建并上传新的分支后，在本地使用`git pull`会把这个新远程分支也拉取下来，跟`origin/main`一样，所以这个时候本地要基于这个远程分支创建一个本地分支与之对应`git checkout -b origin/develop`/`git checkout --track origin/develop`
+如果想要删除远程分支，可以使用`git push origin :dest`/`git push origin --delete dest`，这将删除远程的dest分支。
 
 ## 2.9.Git协作
-当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
+当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，只有在有拉取和推送动作的时候，这个分支才会更新。可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
 ```bash
 Your branch is up to date with 'origin/main'. # 本地仓库和远程仓库状态一致
 Your branch is ahead of 'origin/main' by 1 commit. # 你的本地仓库和远程仓库不一致
