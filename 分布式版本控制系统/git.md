@@ -235,3 +235,52 @@ ref: refs/heads/main
 	- heads：目录，记录当前本地分支信息，里面的文件都记录着每个分支的commitid
 	- remotes：目录，记录远程分支信息
 	- tags：目录，存储所有标签信息
+## 2.12.Git裸库与submodule
+- 裸库：没有工作区的git仓库，仅仅用来存放和中转提交的代码和文件，一般在服务端使用，使用`git init --bare`
+- Git 的 Submodule 是一种在一个 Git 仓库中包含另一个 Git 仓库的方法。使用 submodule，可以将一个外部项目作为子项目嵌入到主项目中。这在项目依赖于其他项目或库时非常有用，因为它允许你在保持子项目独立的同时，也可以方便地进行版本管理。常用操作如下：
+	- 添加submodule：`git submodule add url path`。path事先不能存在否则报错。添加成功后会在仓库多出一个`.gitmodules`的文件记录子模块相关信息。
+	- 如果克隆一个包含submodule的仓库，需要先初始化submodule：`git submodule init`
+	- 初始化后还需要获取submodule的数据：`git submodule update`/`git submudole foreach git pull`
+		- git submodule update只会更新.gitmodules记录的提交
+		- git submudole foreach git pull会遍历所有submodule目录执行pull
+	- 如果不想执行以上两步操作，可以直接使用`git clone --recurse-submodules/--recursive url`来自动初始化和更新数据
+	- 在子模块更新后，可以直接在子模块目录下执行`git pull origin main`拉取最新提交
+	- 在git中没有一个命令可以直接删除submodule，要手动执行一系列动作删除submodule
+		- 删除.gitmodules文件
+		- 在.git/中移除对应的submodule信息
+		- 删除子模块目录
+		- 在git缓存中移除子模块追踪：`git rm --cache path`
+		- 提交更改即可
+## 2.12.subtree
+subtree和submodule要解决的问题是一样的，都是为了引用另外的仓库，但subtree可以双向修改，也就是可以在父仓库中修改子仓库的代码，推荐使用subtree。常用操作如下：
+- 添加子仓库：`git subtree add --prefix=subtree url branch <--squash>`。squash会把子仓库的所有提交合并成一个新的提交。当add的时候使用了squash，那么后续所有命令都要使用squash。
+- 拉取更新：`git subtree pull --prefix=<directory> <repository-url> <branch>`
+	- 有可能会出现子仓库修改后，主仓库合并会提示冲突。这是因为在三方合并时，git没有找到共同的parent节点导致的。
+- 推送更改：`git subtree push --prefix=<directory> <repository-url> <branch>`
+- 合并subtree：`git subtree merge --prefix=<directory> <repository-url> <branch>
+- 将子目录内容分离成一个独立的仓库：`git subtree split --prefix=<directory> --branch=<new-branch>`
+## 2.13.cherry-pick
+`git cherry-pick` 是一个非常有用的 Git 命令，它允许你选择一个或多个特定的提交并将它们应用到当前分支。它在处理特定功能、错误修复或从一个分支提取特定更改时特别有用。常用操作如下：
+- `git cherry-pick <commit-hash>`：将提交转移到本分支中。
+- 如果有冲突，需执行以下流程：
+	- 手动编辑冲突文件，并执行`git add <conflicted-file>`
+	- 继续操作：`git cherry-pick --continue`
+## 2.14.rebase
+- rebase：变基，即改变分支的根基
+`git rebase` 是 Git 中一个强大的命令，用于将一个分支上的提交重新应用到另一个基底提交之上。与 `git merge` 相比，`git rebase` 可以创建一个更直线化的提交历史。
+- merge作用如下图
+![](./image/git_time_10.png)![](./image/git_time_11.png)
+- rebase作用如下图
+	- 使用rebase合并后，会把c5、c6删除，导致仓库的提交变成一条直线，实际上是把另一条分支的提交作用到主分支上
+![](image/git_time_12.png)
+- 感觉上有点像`cherry-pick`命令，所以解决冲突的方式也和`cherry-pick`类似
+	- 把命令改为`git rebase --continue`
+	- 终止命令为：`hgit rebase --abort`
+	- 以变基分支改动为准：`git rebase --skip`
+- 不要对master分支执行rebase，因为会修改提交历史，会出现很多问题
+- 一般来说，执行rebase的分支都是自己的本地分支，没有推送到远程版本库
+- 一般来说，如果我们要把bugfix分支变基到main上，使用rebase流程如下：
+	- 先把分支切换到要变基的分支，也就是bugfix
+	- 再使用`git rebase main`，如有冲突要解决完冲突
+	- 再切换到main分支，使用`git rebase bugfix`，使HEAD快进到变基后的bugfix节点
+![](./image/git_time_13.png)
