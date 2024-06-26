@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -134,8 +135,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 281.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -156,13 +156,12 @@
     "疑惑.md",
     "git.md",
     "image/tmp1718531027949_git_time_10.png",
-    "image/git_time_10.png",
     "image/git_time_9.png",
-    "image/git_time_11.png",
-    "image/git_time_12.png",
     "image/git/image-20240616172630262.png",
     "image/git",
     "image/git_time_7.png",
+    "image/git_time_8.png",
+    "image/git_time_1.png",
     "tmp1718440101571_Git_time_7.md",
     "Git.md"
   ]

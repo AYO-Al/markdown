@@ -164,6 +164,9 @@ index 0cfbf08..4792e70 100644
 	- show \<remotename>:不带名字列出所有远程仓库别名，带名字列出具体远程仓库详细信息。执行命令的时候会读取远程仓库信息
 	- url可以是https形式的，也可以是ssh形式的，ssh形式需要将主机的公钥添加到仓库中
 	- prune origin：清除失效的远程追踪分支
+	- set-url origin url：替换指定远程仓库的url
+	- remove origin：去除本地关于远程仓库的配置信息
+	- -v：查看远程仓库的地址信息
 - `git config --global push.default simple`:在没有指定分支名称时`git push`应该推送那些分支，simple会默认推送到使用`git pull`拉取的分支。
 - `git clone <url> <dic>`:将远程仓库全部克隆下来，可以使用dic指定拉取下来的目录名
 
