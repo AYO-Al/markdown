@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/golang.md"
+                "file": "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md"
               }
             }
           }
@@ -148,15 +148,17 @@
   },
   "active": "a842eb55b3b85745",
   "lastOpenFiles": [
-    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
+    "云计算/容器/Kubernetes in Action/image/Pasted image 20240702222453.png",
+    "云计算/容器/Kubernetes in Action/image/第三章：副本机制和控制器_time_1.png",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
+    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
+    "go/基础/golang.md",
     "云计算/容器/云原生/k8s极速版.md",
     "云计算/容器/云原生/Kubernetes.md",
     "云计算/容器/云原生/云原生.md",
     "云计算/容器/云原生/Docker.md",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/容器网络/kubernetes网络.md",
-    "go/基础/golang.md",
     "image/git_time_13.png",
     "image/git_time_12.png",
     "image/git_time_11.png",
@@ -168,7 +170,6 @@
     "image/git_time_9.png",
     "image/git_time_11.png",
     "image/git_time_12.png",
-    "image/git/image-20240616172630262.png",
     "image/git",
     "tmp1718440101571_Git_time_7.md",
     "Git.md"
