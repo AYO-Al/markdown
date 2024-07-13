@@ -80,6 +80,9 @@ metadata:
   name: kubia
 spec:
   sessionAffinity: ClientIP
+  sessionAffinityConfig: 
+	  clientIP: 
+		  timeoutSeconds: 3600  # 亲和性过期时间
   ports:
   - port: 80
     targetPort: 8080
@@ -87,7 +90,7 @@ spec:
     app: kubia
 ```
 
-Kubernetes服务并不支持基于cookie的亲和性，因为服务不在HTTP层面上工作。服务处理TCP和UDP包，并不关心其中的载荷内容，而cookie是HTTP协议中的一部分。
+Kubernetes服务并不支持基于cookie的亲和性，因为服务不在HTTP层面上工作。服务处理TCP和UDP包，并不关心其中的载荷内容，而cookie是HTTP协议中的一部分。Web服务器可能会使用长连接导致就算不设置会话亲和性，请求也每次会打到同一个pod上。
 
 **同一个服务暴露多个端口**
 
@@ -194,8 +197,150 @@ Endpoint资源就是暴露一个服务的IP地址和端口的列表，Endpoint�
 
 ## 配置endpoints
 
+服务的endpoint与服务解耦之后，可以手动配置endpoint了。如果创建了不包含pod选择器的服务，Kubernetes将不会创建endpoint资源，这时候将需要手动endpoint资源。
+```yaml
+# 创建一个不包含pod选择器的service
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service
+spec:
+  ports:
+  - port: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-service
+subsets:
+  - addresses:      # IP列表
+    - ip: 11.11.11.11
+    - ip: 22.22.22.22
+    ports:  # 端口列表
+    - port: 80 
+```
 
+endpoint是一个单独的资源而不是服务的一个属性。endpoint对象需要和service具有相同的名称，在service和endpoint都发布之后，服务就能正常使用了，在创建完成后，可以对service进行编辑添加pod选择器，从而对endpoint进行自动化管理，会自动把符合pod选择器的IP接入到endpoint中。在使用pod选择器后，由于endpoint是一个独立的资源，所以我们可以手动把一些IP加入到endpoint中，但不推荐这么做。
+## 为外部服务创建别名
 
+除了手动配置服务的endpoint来代替公开外部服务的方法，还有一种更简单的方法，就是通过其完全限定域名访问外部服务。
 
+**创建ExternalName类型的服务**
 
+要创建一个具有别名的外部服务的服务时，要将创建服务资源的一个type字段设置为ExteralName。
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service
+spec:
+  type: ExternalName  # 设置service的类型
+  externalName: api.somecompany.com # 实际服务的完全限定域名
+  ports:
+  - port: 80
+```
+服务创建完成后，pod可以通过`external-service.default.svc.cluster.local`域名连接到外部服务器，而不是使用服务实际的FQDN。这隐藏了实际的服务名称及其使用该服务的pod的位置，允许修改服务定义，并且在以后如果将其指向不同的服务，只需简单的修改externalName属性即可。
 
+ExternalName服务仅在DNS级别实施，为服务创建简单的`CNAME DNS`记录，因此连接服务的客户端将直接连接到外部服务，完全绕过服务代理，出于这个原因，这类型的服务甚至不会获得集群IP。
+# 将服务暴露给外部客户端
+
+以上说明了集群内部服务如何被pod使用，现在我们来说说怎么把集群内部的服务暴露给外部访问。比如部署一个web服务，让外部能够访问到。
+
+在Kubernetes中有几种方法可以将服务暴露给外部客户端：
+- 将服务的类型设置成NodePort：每个集群节点都会在节点上打开一个端口，对于NodePort服务，每个集群节点在节点本身上打开一个端口，并将该端口上接受到的流量重定向到基础服务。
+- 将服务类型设置成LoadBalance：NodePort类型的一种扩展，这使得服务可以通过一个专用的负载均衡器来访问，这是由Kubernetes中正在运行的云基础设置提供的。负载均衡器将流量重定向到跨所有节点的节点端口，客户端通过访问负载均衡器的IP连接到服务。
+- 创建一个Ingress资源：这是一个完全不同的机制，通过一个IP地址公开多个服务，它运行在HTTP层(网络协议第七层)上，因此可以提供比工作在第四层的服务更多的功能。
+## 使用NodePort
+
+将一组pod公开给外部客户端的第一种方法是创建一个服务并将其类型设置为`NodePort`。通过创建NodePort服务，可以让Kubernetes在其所有节点上保留一个端口(所有节点上都使用相同的端口号)，并将其传入的连接转发给作为服务部分的pod。
+
+**创建NodePort服务**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-nodeport
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local # 外部流量策略，默认为Cluster，Local会把流量转发到本节点pod，如果本节点没有pod则将请求挂起。
+  ports:
+  - port: 80   # 服务集群的port
+    targetPort: 8080  # 容器内部的port
+    nodePort: 30123   # 节点上的port
+  selector:
+    app: kubia
+```
+如果不指定节点端口，那么Kubernetes会随机选择一个端口。
+```bash
+[root@master ~]# kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        13d
+kubia        NodePort    10.105.236.252   <none>        80:30123/TCP   7s
+```
+在这里可以看到service对应的集群IP和port及nodeport。需要注意的是，通过NodeIP和Nodeport访问的是Service，所以请求到达的pod还是随机的。
+## 负载均衡器暴露服务
+
+在云提供商上运行的Kubernetes集群通常支持从云基础架构自动提供负载均衡器。所以需要做的就是设置服务的类型为LoadBaLancer。负载均衡器拥有自己独一无二的可公开访问的IP地址，并将所有连接重定向到服务，可以通过负载均衡器的IP地址访问服务。
+
+**创建LoadBalance服务**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kubia
+```
+在创建好服务后，负载均衡器的IP需要一段时间后才能创建出来，当External-IP创建出来后，就可以直接通过这个IP访问服务了。
+```bash
+[root@master ~]# kubectl get svc
+NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes           ClusterIP      10.96.0.1       <none>        443/TCP        13d
+kubia-loadbalancer   LoadBalancer   10.110.56.216   <pending>     80:31431/TCP   4s
+```
+## 通过ingress暴露服务
+
+为什么需要ingress？一个重要的原因是每个LoadBalancer服务都需要自己的负载均衡器，以及独有的公有IP地址。而ingress只需要一个公网IP就能为许多服务提供访问。当客户端向ingress发送HTTP请求时，Ingress会根据请求的主机名和路径决定请求转发到的服务。
+![](image/第四章：服务-让客户端发现pod并与之通信_time_2.png)
+Ingress在网络栈的应用层操作，并且可以提供一些服务不能实现的功能，如基于cookie的会话亲和性等功能。在使用ingress之前，必须确保已经安装了Ingress Controller，Ingress需要一个控制器来处理Ingress资源。常见的Ingress Controller有nginx-ingress、traefik等。可以使用以下命令进行安装
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+```
+### 创建ingress
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  rules:
+  - host: kubia.example.com # 映射域名到服务
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubia-nodeport # 服务名
+          servicePort: 80  # 端口
+```
+这里会将ingress控制器收到的所有请求主机的kubia.example.com的HTTP请求都会被发送到端口80的kubia-nodeport服务。记住域名的解析必须为ingress的IP。
+```bash
+[root@master ~]# kubectl get ingress
+NAME    HOSTS               ADDRESS           PORTS   AGE
+kubia   kubia.example.com   192.168.99.100     80      10s
+```
+### ingress工作原理
+
+ingress的作用原理大概是这样：
+1. 客户端首先对域名执行DNS查询，DNS服务器返回了ingress控制器的IP；
+2. 客户端向Ingress控制器发送Http请求，并在Host头部指定域名；
+3. 控制器从该头部确定客户端尝试访问哪个服务，通过该服务关联的Endpoint对象查看pod IP；
+4. 最后将客户端的请求转发给其中一个pod。
+![](image/第四章：服务-让客户端发现pod并与之通信_time_3.png)
