@@ -36,7 +36,7 @@ spec:
   - port: 80    # 服务可用段都
     targetPort: 8080  # 转发到的容器端口
   selector:
-    app: kubia   # 转到具有指定标签的pod上
+    app: kubia   # 转到具有指定标签的pod上，不指定将无法转发流量
 ```
 以上的yaml创建了一个叫kubia的Service资源，对外开放80端口，将外部请求转发到具有`app: kibia`标签的pod上的8080端口。
 
@@ -344,3 +344,174 @@ ingress的作用原理大概是这样：
 3. 控制器从该头部确定客户端尝试访问哪个服务，通过该服务关联的Endpoint对象查看pod IP；
 4. 最后将客户端的请求转发给其中一个pod。
 ![](image/第四章：服务-让客户端发现pod并与之通信_time_3.png)
+### ingress暴露多个服务
+
+在ingress的配置文件中，rules字段和paths字段都是数组，因此可以包含多个条目。一个ingress可以将多个主机和路径映射到多个服务。
+```yaml
+# 将多个服务映射到不同的path
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  rules:
+  - host: kubia.example.com # 映射域名到服务
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubia-nodeport # 服务名
+          servicePort: 80  # 端口
+	  - path: /foo      # 通过不同的路径映射到不同的服务
+	    backend:
+	      serviveName: kubia-foo
+	      servicePort: 80
+  - host: bar.example.com   # 通过URL映射不同的服务
+    http:
+      paths:
+      - path: /bar
+        backend:
+          serviceName: kubia-bar
+          servicePort: 80
+```
+以上配置分别可以通过同一个URL的不同路径将请求转发到不同的服务，也可以根据不同的URL转发到不同的服务，以上两个域名的DNS解析都要是ingress的IP。
+### 配置TLS
+
+以上的配置都是Ingress如何转发HTTP流量，那个Ingress如何转发HTTPS流量呢？当客户端创建到Ingress控制器的TLS连接时，控制器将终止TLS连接。客户端和控制器之间的通信是加密的，而控制器和后端pod之间的通信则不是。运行在pod上的容器不需要支持TLS。例如，如果pod运行web服务器，则它只需要接受HTTP通信，并让Ingress控制器负责处理与TLS相关的所有内容。要使控制器能够处理TLS相关内容，需要将证书和私钥附加到Ingress上。这两个必需资源存储在Secret上。
+```yaml
+# 创建secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: hello-app-tls
+  namespace: dev
+type: kubernetes.io/tls
+data:
+  server.crt: |
+       <crt contents here>
+  server.key: |
+       <private key contents here>
+---
+# 创建ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  tls:
+  - hosts:  
+    - kubia.example.com   # 接收此域名的HTTPS请求
+    secretName: tls-secret
+  - hosts: 
+    - example.org 
+    secretName: example-org-tls
+  rules:
+  - host: kubia.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubia-nodeport
+          servicePort: 80
+```
+# 就绪探针
+
+当配置好Ingress和Service之后，就会自动匹配pod选择器，匹配好之后pod就将作为服务的后端接收外部请求了，但如果后端pod此时并没有准备好要接受请求呢？pod有可能需要时间来加载配置或数据，或者可能需要执行预热过程以防止第一个用户请求时间太长影响用户体验。这种情况下，我们需要一种机制来帮我们检查pod是否已经就绪，这就是接下来要介绍的接续探针。
+## 介绍就绪探针
+
+在之前的内容中，我们介绍了存活探针，就绪探针与存活探针一样，都会定期调用，确定特定的pod是否准备好接收客户端请求了。**与存活探针不同的是，就绪探针就算检查失败，也不会终止或重启pod。** 当容器的准备就绪探测返回成功时，表示容器已准备好接收请求。当容器未能通过就绪探针的检查，则从endpoint列表中删除该pod的IP，当通过就绪探针检查后再加入到endpoint列表中提供服务。
+
+准备就绪的概念显然是每个容器特有的东西。Kubernetes只能检查在容器中运行的程序是否响应一个简单的请求，一般这种确切的准备就绪的判定是应用程序开发人员的工作。
+
+就绪探针跟存活探针一样支持三种类型：
+1. Exec探针：执行命令，状态由命令的退出状态码确定；
+2. HTTP GET探针：向容器发送HTTP GET请求，通过响应的HTTP状态码判断容器状态；
+3. TCP socket探针：打开一个TCP连接到容器指定端口，如果连接已建立，认为容器已就绪。
+
+就绪探针的好处就在于一切转发请求的动作都在Kubernetes中进行，用户是无感知的，只与正常的pod进行交互，对系统可能出现的问题无察觉。
+## 配置就绪探针
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kubia
+spec:
+  replicas: 3
+  selector:
+    app: kubia
+  template:
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - name: kubia
+        image: luksa/kubia
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:   # 就绪探针
+          initialDelaySeconds: 10 # 10s之后再检查，默认0
+          periodSeconds: 5 # 探测间隔时间，默认10s
+          timeoutSeconds: 1 # 探测超时时间，默认1s
+          successThreshold: 1 # 探测成功的阈值，表示在被认为就绪之前需要连续成功的次数（默认值：1）
+          failureThreshold: 3 # 探测失败的阈值，表示在被认为不就绪之前需要连续失败的次数（默认值：3）
+          exec:            # exec探针
+            command:
+            - ls
+            - /var/ready
+	      httpGet: 
+		    path: /healthz 
+		    port: 8080 
+		    httpHeaders:   # 请求头信息
+		    - name: Custom-Header 
+		      value: Awesome
+		  tcpSocket:   # tcp探针
+		    port: 8080
+```
+上面这个就绪探针定期在pod中执行`ls /var/ready`命令。如果文件存在，则命令返回状态码0，否则返回非零状态码就绪探针失败。**注意：每个容器只能定义一个就绪探针（Readiness Probe）和一个存活探针（Liveness Probe）。**
+# handless服务
+
+通过上面的介绍我们知道了如何将流量转发到特定的pod上，但如果客户端需要连接到所有的pod呢？如果后端pod需要连接到所有其他pod呢？
+
+在Kubernetes中可以通过DNS查找发生pod IP。通常情况下，当执行服务的DNS查找时，DNS服务器会返回单个IP，也就是服务的集群IP，但如果把服务的`clusterIP`设置为None，那么DNS服务器将返回pod IP。DNS会返回该服务的多个A记录。无头服务主要用于 StatefulSet、数据库集群等需要直接访问 Pod 的场景。
+
+## 创建handless
+
+将服务的spec中的clusterIP字段设置为None会使服务成为handless服务，因为Kubernetes不会为其分配集群IP。
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-headless
+spec:
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kubia
+  publishNotReadyAddresses: true # 将未就绪的 Pod IP 地址也发布到 DNS 中
+```
+
+## 通过DNS发现pod
+
+在service创建好之后，可以创建一个容器用来执行DNS解析。
+```bash
+kubectl exec dnspod nslookup kubia-headless
+...
+Name: kubia-headless.default.svc.cluster.local
+Address: 10.108.1.4
+Name: kubia-headless.default.svc.cluster.local
+Address: 10.108.1.5
+```
+DNS服务器为该服务的FQDN返回了两个pod IP。如果是常规的service，那么将返回service的IP
+```bash
+kubectl exec dnspod nslookup kubia
+...
+Name: kubia-headless.default.svc.cluster.local
+Address: 10.111.249.153
+```
+对于headless服务，由于DNS返回了pod的IP，客户端直接连接到该pod，而不是通过服务代理。headless服务仍然提供跨pod的负载均衡，但是通过DNS轮询机制而不是通过服务代理。
+
