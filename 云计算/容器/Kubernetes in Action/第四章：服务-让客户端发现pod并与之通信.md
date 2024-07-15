@@ -33,8 +33,9 @@ metadata:
   name: kubia
 spec:
   ports:
-  - port: 80    # 服务可用段都
+  - port: 80    # 服务可用端口
     targetPort: 8080  # 转发到的容器端口
+    protocol: TCP # 默认TCP，支持TCP/UDP/SCTP
   selector:
     app: kubia   # 转到具有指定标签的pod上，不指定将无法转发流量
 ```
@@ -322,20 +323,35 @@ metadata:
   name: kubia
 spec:
   rules:
-  - host: kubia.example.com # 映射域名到服务
+  - host: kubia.example.com # 映射域名到服务，不允许使用IP
     http:
       paths:
       - path: /
+        pathType: Exact # path匹配模式
         backend:
           serviceName: kubia-nodeport # 服务名
           servicePort: 80  # 端口
 ```
-这里会将ingress控制器收到的所有请求主机的kubia.example.com的HTTP请求都会被发送到端口80的kubia-nodeport服务。记住域名的解析必须为ingress的IP。
+这里会将ingress控制器收到的所有请求主机的kubia.example.com的HTTP请求都会被发送到端口80的kubia-nodeport服务。记住域名的解析必须为ingress的IP。**一般ingress搭配Node Port类型和LoadBalancer类型的service使用**
 ```bash
 [root@master ~]# kubectl get ingress
 NAME    HOSTS               ADDRESS           PORTS   AGE
 kubia   kubia.example.com   192.168.99.100     80      10s
 ```
+
+可以在ingress的主机名设置通配符域名，但通配符仅支持覆盖第一个DNS标签，不能单独使用通配符作为标签（例如，Host=“*”）。如果 host 是用通配符给出的，那么如果 HTTP `Host` 标头与通配符规则的后缀（删除第一个标签）相同， 则请求与此规则匹配。
+
+| 主机          | host 头部           | 匹配与否？                |
+| ----------- | ----------------- | -------------------- |
+| `*.foo.com` | `bar.foo.com`     | 基于相同的后缀匹配            |
+| `*.foo.com` | `baz.bar.foo.com` | 不匹配，通配符仅覆盖了一个 DNS 标签 |
+| `*.foo.com` | `foo.com`         | 不匹配，通配符仅覆盖了一个 DNS 标签 |
+在某些情况下，Ingress 中会有多条路径与同一个请求匹配。这时匹配路径最长者优先。 如果仍然有两条同等的匹配路径，则精确路径类型优先于前缀路径类型。
+
+pathType支持三种匹配模式：
+- `Exact`：与 URL 路径完全匹配。
+- `Prefix`：前缀匹配，如 `/foo/bar` 匹配 `/foo/bar/baz`，但不匹配 `/foo/barbaz`）。
+- ImplementationSpecific：由具体的Ingress Controller实现决定其行为。如果未指定 `pathType`，有些Ingress Controller可能会默认使用这种类型，但行为可能因实现而异。
 ### ingress工作原理
 
 ingress的作用原理大概是这样：

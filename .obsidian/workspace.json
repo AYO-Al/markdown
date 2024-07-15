@@ -4,28 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "0ba30ae2036001f1",
+        "id": "c21a23f9b88d7e1c",
         "type": "tabs",
         "children": [
           {
-            "id": "a842eb55b3b85745",
+            "id": "05dc4b1ae909aa7b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "8008d30a105791da",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
                 "mode": "source",
                 "source": false
               }
@@ -158,17 +146,18 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "a842eb55b3b85745",
+  "active": "05dc4b1ae909aa7b",
   "lastOpenFiles": [
+    "分布式版本控制系统/git.md",
+    "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
     "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_3.png",
     "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_2.png",
-    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
-    "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
     "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_1.png",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
+    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/Kubernetes in Action/image/Pasted image 20240702222453.png",
     "云计算/容器/Kubernetes in Action/image/第三章：副本机制和控制器_time_1.png",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "go/基础/golang.md",
     "云计算/容器/云原生/k8s极速版.md",
     "云计算/容器/云原生/Kubernetes.md",
@@ -182,7 +171,6 @@
     "疑惑.md",
     "git.md",
     "image/tmp1718531027949_git_time_10.png",
-    "image/git_time_10.png",
     "image/git",
     "tmp1718440101571_Git_time_7.md",
     "Git.md"
