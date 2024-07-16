@@ -14,14 +14,14 @@ pod需要一种寻找其他pod的方法来使用其他pod提供的服务。如�
 - 水平伸缩意味着多个pod可以提供相同的服务，每个pod都有自己的地址。
 为了解决以上问题，kubernetes提供了一种解决方法----服务(service)。
 
-# 服务介绍
+# 1 服务介绍
 
 kubernetes服务是一种为一组功能相同的pod提供单一不变的接入点的资源。当服务存在时，它的IP和端口不会改变。客户端通过IP地址和端口号建立连接，这些连接会被路由到提供该服务的任意一个pod上。通过这种方式，客户端不需要知道每个提供服务的pod的地址，这样这些pod就能被随意的在集群中增加或删除。
 
 举个例子，现在有三个pod对外提供前端服务，一个pod为前端提供后端服务，结合上服务如下图所示：
 ![](./image/第四章：服务-让客户端发现pod并与之通信_time_1.png)
 
-# 创建服务
+# 2 创建服务
 
 服务的后端可能不止一个pod。服务的连接对所有的后端pod是负载均衡的，可以使用标签选择器来指定哪些pod属于同一组。
 
@@ -148,7 +148,7 @@ spec:
 ```
 采用命名端口的方式最大的好处就是即使更换端口号也无需更改服务spec。
 
-# 服务发现
+# 3 服务发现
 
 通过创建服务，现在就可以通过一个单一稳定的IP地址访问到pod。在服务整个生命周期内这个地址保持不变。Kubernetes为用户提供了发现服务的IP和端口的方式。
 
@@ -184,11 +184,11 @@ kubectl delete po --all
 
 且服务的集群IP是一个虚拟IP，并且只有在与服务端口结合时才有意义，所以在pod容器中去ping服务的IP是行不通的。且Kubernetes中的服务主要是基于OSI模型的四层协议（即传输层协议）进行流量转发的。Kubernetes服务使用四层协议（TCP/UDP/SCTP）来路由和负载均衡流量到后端的Pod，不包括ICMP协议。
 
-# 连接集群外部的服务
+# 4 连接集群外部的服务
 
 服务的主要功能是负载均衡和服务发现。除了上面介绍的在集群内部连接服务外，还可以把集群内部运行的客户端像连接内部服务一样连接到外部服务。
 
-## endpoint
+## 4.1 endpoint
 
 服务并不是直接和pod相连的。有一种介于两者之间的`Endpoint`资源。如果运行`kubectl describe svc/pod-name`就会发现在服务的详情中有一个`Endpoints: 10.1.0.1:8080,10.1.0.2:8080,10.1.0.2:8080`。
 
@@ -196,7 +196,7 @@ Endpoint资源就是暴露一个服务的IP地址和端口的列表，Endpoint�
 
 虽然在spec服务中定义了pod选择器，但在重定向传入连接中一般不会直接使用它，选择器一般用来构建IP和端口列表，然后存储在Endpoint资源中。当客户端连接到服务时，服务代理选择这些IP和端口对中的一个，并将传入连接重定向到该位置的pod上。
 
-## 配置endpoints
+## 4.2 配置endpoints
 
 服务的endpoint与服务解耦之后，可以手动配置endpoint了。如果创建了不包含pod选择器的服务，Kubernetes将不会创建endpoint资源，这时候将需要手动endpoint资源。
 ```yaml
@@ -222,7 +222,7 @@ subsets:
 ```
 
 endpoint是一个单独的资源而不是服务的一个属性。endpoint对象需要和service具有相同的名称，在service和endpoint都发布之后，服务就能正常使用了，在创建完成后，可以对service进行编辑添加pod选择器，从而对endpoint进行自动化管理，会自动把符合pod选择器的IP接入到endpoint中。在使用pod选择器后，由于endpoint是一个独立的资源，所以我们可以手动把一些IP加入到endpoint中，但不推荐这么做。
-## 为外部服务创建别名
+## 4.3 为外部服务创建别名
 
 除了手动配置服务的endpoint来代替公开外部服务的方法，还有一种更简单的方法，就是通过其完全限定域名访问外部服务。
 
@@ -243,7 +243,7 @@ spec:
 服务创建完成后，pod可以通过`external-service.default.svc.cluster.local`域名连接到外部服务器，而不是使用服务实际的FQDN。这隐藏了实际的服务名称及其使用该服务的pod的位置，允许修改服务定义，并且在以后如果将其指向不同的服务，只需简单的修改externalName属性即可。
 
 ExternalName服务仅在DNS级别实施，为服务创建简单的`CNAME DNS`记录，因此连接服务的客户端将直接连接到外部服务，完全绕过服务代理，出于这个原因，这类型的服务甚至不会获得集群IP。
-# 将服务暴露给外部客户端
+# 5 将服务暴露给外部客户端
 
 以上说明了集群内部服务如何被pod使用，现在我们来说说怎么把集群内部的服务暴露给外部访问。比如部署一个web服务，让外部能够访问到。
 
@@ -251,7 +251,7 @@ ExternalName服务仅在DNS级别实施，为服务创建简单的`CNAME DNS`记
 - 将服务的类型设置成NodePort：每个集群节点都会在节点上打开一个端口，对于NodePort服务，每个集群节点在节点本身上打开一个端口，并将该端口上接受到的流量重定向到基础服务。
 - 将服务类型设置成LoadBalance：NodePort类型的一种扩展，这使得服务可以通过一个专用的负载均衡器来访问，这是由Kubernetes中正在运行的云基础设置提供的。负载均衡器将流量重定向到跨所有节点的节点端口，客户端通过访问负载均衡器的IP连接到服务。
 - 创建一个Ingress资源：这是一个完全不同的机制，通过一个IP地址公开多个服务，它运行在HTTP层(网络协议第七层)上，因此可以提供比工作在第四层的服务更多的功能。
-## 使用NodePort
+## 5.1 使用NodePort
 
 将一组pod公开给外部客户端的第一种方法是创建一个服务并将其类型设置为`NodePort`。通过创建NodePort服务，可以让Kubernetes在其所有节点上保留一个端口(所有节点上都使用相同的端口号)，并将其传入的连接转发给作为服务部分的pod。
 
@@ -280,7 +280,7 @@ kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        13d
 kubia        NodePort    10.105.236.252   <none>        80:30123/TCP   7s
 ```
 在这里可以看到service对应的集群IP和port及nodeport。需要注意的是，通过NodeIP和Nodeport访问的是Service，所以请求到达的pod还是随机的。
-## 负载均衡器暴露服务
+## 5.2 负载均衡器暴露服务
 
 在云提供商上运行的Kubernetes集群通常支持从云基础架构自动提供负载均衡器。所以需要做的就是设置服务的类型为LoadBaLancer。负载均衡器拥有自己独一无二的可公开访问的IP地址，并将所有连接重定向到服务，可以通过负载均衡器的IP地址访问服务。
 
@@ -306,7 +306,7 @@ NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)       
 kubernetes           ClusterIP      10.96.0.1       <none>        443/TCP        13d
 kubia-loadbalancer   LoadBalancer   10.110.56.216   <pending>     80:31431/TCP   4s
 ```
-## 通过ingress暴露服务
+## 5.3 通过ingress暴露服务
 
 为什么需要ingress？一个重要的原因是每个LoadBalancer服务都需要自己的负载均衡器，以及独有的公有IP地址。而ingress只需要一个公网IP就能为许多服务提供访问。当客户端向ingress发送HTTP请求时，Ingress会根据请求的主机名和路径决定请求转发到的服务。
 ![](image/第四章：服务-让客户端发现pod并与之通信_time_2.png)
@@ -314,7 +314,7 @@ Ingress在网络栈的应用层操作，并且可以提供一些服务不能实�
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
-### 创建ingress
+### 5.3.1 创建ingress
 
 ```yaml
 apiVersion: extensions/v1beta1
@@ -352,7 +352,7 @@ pathType支持三种匹配模式：
 - `Exact`：与 URL 路径完全匹配。
 - `Prefix`：前缀匹配，如 `/foo/bar` 匹配 `/foo/bar/baz`，但不匹配 `/foo/barbaz`）。
 - ImplementationSpecific：由具体的Ingress Controller实现决定其行为。如果未指定 `pathType`，有些Ingress Controller可能会默认使用这种类型，但行为可能因实现而异。
-### ingress工作原理
+### 5.3.2 ingress工作原理
 
 ingress的作用原理大概是这样：
 1. 客户端首先对域名执行DNS查询，DNS服务器返回了ingress控制器的IP；
@@ -360,7 +360,7 @@ ingress的作用原理大概是这样：
 3. 控制器从该头部确定客户端尝试访问哪个服务，通过该服务关联的Endpoint对象查看pod IP；
 4. 最后将客户端的请求转发给其中一个pod。
 ![](image/第四章：服务-让客户端发现pod并与之通信_time_3.png)
-### ingress暴露多个服务
+### 5.3.3 ingress暴露多个服务
 
 在ingress的配置文件中，rules字段和paths字段都是数组，因此可以包含多个条目。一个ingress可以将多个主机和路径映射到多个服务。
 ```yaml
@@ -391,7 +391,7 @@ spec:
           servicePort: 80
 ```
 以上配置分别可以通过同一个URL的不同路径将请求转发到不同的服务，也可以根据不同的URL转发到不同的服务，以上两个域名的DNS解析都要是ingress的IP。
-### 配置TLS
+### 5.3.4 配置TLS
 
 以上的配置都是Ingress如何转发HTTP流量，那个Ingress如何转发HTTPS流量呢？当客户端创建到Ingress控制器的TLS连接时，控制器将终止TLS连接。客户端和控制器之间的通信是加密的，而控制器和后端pod之间的通信则不是。运行在pod上的容器不需要支持TLS。例如，如果pod运行web服务器，则它只需要接受HTTP通信，并让Ingress控制器负责处理与TLS相关的所有内容。要使控制器能够处理TLS相关内容，需要将证书和私钥附加到Ingress上。这两个必需资源存储在Secret上。
 ```yaml
@@ -430,10 +430,10 @@ spec:
           serviceName: kubia-nodeport
           servicePort: 80
 ```
-# 就绪探针
+# 6 就绪探针
 
 当配置好Ingress和Service之后，就会自动匹配pod选择器，匹配好之后pod就将作为服务的后端接收外部请求了，但如果后端pod此时并没有准备好要接受请求呢？pod有可能需要时间来加载配置或数据，或者可能需要执行预热过程以防止第一个用户请求时间太长影响用户体验。这种情况下，我们需要一种机制来帮我们检查pod是否已经就绪，这就是接下来要介绍的接续探针。
-## 介绍就绪探针
+## 6.1 介绍就绪探针
 
 在之前的内容中，我们介绍了存活探针，就绪探针与存活探针一样，都会定期调用，确定特定的pod是否准备好接收客户端请求了。**与存活探针不同的是，就绪探针就算检查失败，也不会终止或重启pod。** 当容器的准备就绪探测返回成功时，表示容器已准备好接收请求。当容器未能通过就绪探针的检查，则从endpoint列表中删除该pod的IP，当通过就绪探针检查后再加入到endpoint列表中提供服务。
 
@@ -445,7 +445,7 @@ spec:
 3. TCP socket探针：打开一个TCP连接到容器指定端口，如果连接已建立，认为容器已就绪。
 
 就绪探针的好处就在于一切转发请求的动作都在Kubernetes中进行，用户是无感知的，只与正常的pod进行交互，对系统可能出现的问题无察觉。
-## 配置就绪探针
+## 6.2 配置就绪探针
 
 ```yaml
 apiVersion: v1
@@ -487,13 +487,13 @@ spec:
 		    port: 8080
 ```
 上面这个就绪探针定期在pod中执行`ls /var/ready`命令。如果文件存在，则命令返回状态码0，否则返回非零状态码就绪探针失败。**注意：每个容器只能定义一个就绪探针（Readiness Probe）和一个存活探针（Liveness Probe）。**
-# handless服务
+# 7 handless服务
 
 通过上面的介绍我们知道了如何将流量转发到特定的pod上，但如果客户端需要连接到所有的pod呢？如果后端pod需要连接到所有其他pod呢？
 
 在Kubernetes中可以通过DNS查找发生pod IP。通常情况下，当执行服务的DNS查找时，DNS服务器会返回单个IP，也就是服务的集群IP，但如果把服务的`clusterIP`设置为None，那么DNS服务器将返回pod IP。DNS会返回该服务的多个A记录。无头服务主要用于 StatefulSet、数据库集群等需要直接访问 Pod 的场景。
 
-## 创建handless
+## 7.1 创建handless
 
 将服务的spec中的clusterIP字段设置为None会使服务成为handless服务，因为Kubernetes不会为其分配集群IP。
 ```yaml
@@ -511,7 +511,7 @@ spec:
   publishNotReadyAddresses: true # 将未就绪的 Pod IP 地址也发布到 DNS 中
 ```
 
-## 通过DNS发现pod
+## 7.2 通过DNS发现pod
 
 在service创建好之后，可以创建一个容器用来执行DNS解析。
 ```bash
