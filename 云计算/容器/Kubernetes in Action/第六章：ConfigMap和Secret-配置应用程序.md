@@ -142,7 +142,7 @@ kubectl create configmap my-config
 [root@master ~]# kubectl get cm/my-config -oyaml
 apiVersion: v1
 data:
-  1.txt: |
+  1.txt: |  # 表示后续的条目值是多行字面量
     1
     2
   2.txt: |
@@ -165,3 +165,227 @@ metadata:
   uid: 1c01da17-d58d-4a75-9798-35ec7e52c514
 ```
 **注意：同一个ConfigMap中的键名不能一样。**
+
+## 给容器传递ConfigMap作为环境变量
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-env-from-configmap
+spec:
+  containers:
+  - image: luksa/fortune:env
+    env:
+    - name: INTERVAL
+      valueFrom:   
+        configMapKeyRef:
+          name: fortune-config # 引用ConfigMap名称
+          key: sleep-interval  # 环境变量值被设置为ConfigMap下对应键的值
+    name: html-generator
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - containerPort: 80
+      protocol: TCP
+  volumes:
+  - name: html
+    emptyDir: {}
+```
+这里定义了一个环境变量INTERVAL，并将其设置为`fortune-config`ConfigMap中键名为sleep-interval对应的值。如果在容器中引用了不存在的ConfigMap，容器会启动失败，其他容器会启动成功，这个启动失败的容器会在ConfigMap创建后自动启动，无需重新创建pod。
+>**注意：可以设置对ConfigMap的引用是可选的，设置configMapKeyRef.optional: true。这样即使ConfigMap不存在，容器也能正常启动。**
+## 一次性传递所有ConfigMap的内容作为环境变量
+
+如果ConfigMap包含很多内容，把每个键单独列出来是很容易出错且耗时比较长的过程，在Kubernetes1.6版本之后，提供了暴露ConfigMap所有条目作为环境变量的手段。
+```yaml
+spec:
+  containers:
+  - image: luksa/fortune:env
+    envFrom: # 使用envFrom字段，而不是env
+    - prefix: CONFIG_ # 所有环境变量包含CONFIG_前缀
+      configMapRef: 
+        name: my-config-map # 指定ConfigMap名
+```
+容器中所有的环境变量都为"CONFIG_keyname"，可以不指定前缀，这样环境变量的名称就和ConfigMap中的键名一致。
+> **注意：当ConfigMap中的键名不是合法的环境变量名的话，创建环境变量的时候会忽略掉对应的条目，如键名包含破折号。**
+## 传递ConfigMap作为命令行参数
+
+如何将ConfigMap中的值作为参数传递到运行在容器中的主进程。在字段pod.spec.containers.args中无法直接引用ConfigMap中的内容，但是可以利用ConfigMap内容初始化某个环境变量，然后再在参数 字段中引用该环境变量。
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-args-from-configmap
+spec:
+  containers:
+  - image: luksa/fortune:args
+    env:
+    - name: INTERVAL
+      valueFrom: 
+        configMapKeyRef:
+          name: fortune-config
+          key: sleep-interval
+    args: ["$(INTERVAL)"]
+    name: html-generator
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    ports:
+    - containerPort: 80
+      protocol: TCP
+  volumes:
+  - name: html
+    emptyDir: {}
+```
+环境变量的定义与之前相同，需要通过$(INTERVAL)将环境变量的值注入到参数值。
+## 使用ConfigMap卷将条目暴露为文件
+
+环境变量或命令行参数作为配置值通常适用于变量值较短的创建。由于ConfigMap中可以包含完整的配置文件内容，当想要把文件完整暴露给容器的时候，可以借助前面提到的一种称为ConfigMap卷的特殊卷格式。
+
+创建包含ConfigMap条目内容的卷只需要创建一个引用ConfigMap名称的卷并挂载到容器中即可。
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-configmap-volume
+spec:
+  containers:
+  - image: luksa/fortune:env
+    env:
+    - name: INTERVAL
+      valueFrom:
+        configMapKeyRef:
+          name: fortune-config
+          key: sleep-interval
+    name: html-generator
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    - name: config
+      mountPath: /etc/nginx/conf.d
+      readOnly: true
+    - name: config
+      mountPath: /tmp/whole-fortune-config-volume
+      readOnly: true
+    ports:
+      - containerPort: 80
+        name: http
+        protocol: TCP
+  volumes:
+  - name: html
+    emptyDir: {}
+  - name: config
+    configMap:   # configMap类型的卷
+      name: fortune-config
+      items:  # 可选，不设置则传递整个ConfigMap值
+      - key: my-nginx.conf  # 指定单个条目
+        path: gzip.conf # 条目的值被存储在该文件中
+```
+在指定单个条目时需同时设置条目的键名以及对应的文件名。
+
+如果通过上面的方法挂载到容器中的某个目录中，那么该目录下之前存在的文件会被隐藏，可能会导致容器出问题。这时候就需要用到volumeMount中的subPath字段了，这个字段可以被用作挂载卷中的某个独立文件或者是文件夹，无需挂载完整卷。
+```yaml
+spec:
+  containers:
+  - image: image
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html.someconfig.conf # 挂载到某一文件
+      subPath: myconfig.conf  # 仅挂载指定的条目，而非完整的卷
+```
+挂载任一种卷时均可以使用subPath属性。可以选择挂载部分卷而不是挂载完整的卷。不过这种独立文件的挂载方式会带来文件更新上的缺陷，在后面会了解到。
+
+**为ConfigMap卷中文件设置权限**
+
+ConfigMap卷中的所有文件的权限默认被设置为644.可以通过卷规格定义中的defaultMode属性改变默认权限。
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-configmap-volume
+spec:
+  containers:
+  - image: luksa/fortune:env
+    env:
+    - name: INTERVAL
+      valueFrom:
+        configMapKeyRef:
+          name: fortune-config
+          key: sleep-interval
+    name: html-generator
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    - name: config
+      mountPath: /etc/nginx/conf.d
+      readOnly: true
+    - name: config
+      mountPath: /tmp/whole-fortune-config-volume
+      readOnly: true
+  volumes:
+  - name: html
+    emptyDir: {}
+  - name: config
+    configMap:
+      name: fortune-config
+      defaultMode: 0660  # 设置权限
+```
+## 更新配置而不是重启pod
+
+使用环境变量或者命令行参数作为配置源的缺陷在于无法再应用程序运行时更新配置。将ConfigMap暴露为卷可以达到热更新的效果，无需重新创建pod。
+
+ConfigMap被更新后，卷中引用它的所有文件也会相应的更新，进程发现文件被改变之后进行重载。Kubernetes同样支持文件更新之后手动通知容器。但请注意，更新ConfigMap之后对应文件的更新耗时可能会有数分钟，不是立即就能同步更新完成的。
+
+**文件自动更新**
+
+被挂载到ConfigMap卷中的文件是`..data`文件夹中文件的符号链接，而`..data`文件夹同样是另一个文件夹的符号链接，可以在ConfigMap挂载的目录下查看。每当ConfigMap被更新之后，Kubernetes会创建这样一个文件夹，写入所有文件并重新被符号`..data`链接到新文件夹，通过这样的方式可以一次性修改所有文件。
+
+**挂载至已存在文件夹的文件不会被更新**
+
+涉及到更新ConfigMap卷需要提出一个警告：如果挂载的是容器中的单个文件，而不是完整的卷，ConfigMap更新之后对应的文件不会被更新。
+
+**注意**
+
+因为挂载整个ConfigMap卷，在ConfigMap更新的时候，挂载在容器内的文件也会更新(虽然不是立即的)，所以如果不是容器中的应用程序支持自动重载，那么更新ConfigMap不是一个很好的注意。而且在多个pod挂载同一个ConfigMap的情况下更新，可能会在较长的时间内导致各个pod中的文件不一致。
+
+# 使用Secret给容器传递敏感数据
+
+到目前为止，所有传递给容器的信息都是表常规的非敏感信息。然而，在配置中通常会包含一些敏感数据，如证书和私钥，需要确保其安全性。
+## 介绍Secret
+
+为了存储和分发敏感信息，Kubernetes提供了`Secret`的单独资源对象。Secret结构与ConfigMap类似，都是键值对的映射。Secret的使用方法也与ConfigMap相同。
+- 将Secret条目作为环境变量传递给容器。
+- 将Secret条目暴露为卷中文件。
+Kubernetes通过仅仅将Secret分到到需要访问Secret的pod所在的机器节点来保障其安全性。另外，Secret只会存在节点的内存中，永不写入物理存储中，这样从节点上删除Secret的时候就不需要擦除磁盘了。
+
+对于主节点本身(尤其是etcd)，Secret通常以非加密方式存储，这就需要保障主节点的安全从而确保存储在Secret中的敏感数据的安全性。这种保障不仅仅是对etcd存储的安全性保障，同样包括防止未授权用户对API服务器的访问，这是因为任何人都能通过创建pod并将Secret挂载来获取此类敏感信息。从Kubernetes1.7开始，etcd会以加密的形式存储Secret。
+- 采用ConfigMap存储非敏感的文本配置数据。
+- 采用Secret存储敏感的数据，通过键来引用。如果一个配置文件同时包含敏感和非敏感信息，该文件应该被存储在Secret中。
+## 默认令牌Secret介绍
+
+首先
