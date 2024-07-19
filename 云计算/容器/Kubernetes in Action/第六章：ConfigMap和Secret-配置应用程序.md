@@ -388,4 +388,165 @@ Kubernetes通过仅仅将Secret分到到需要访问Secret的pod所在的机器�
 - 采用Secret存储敏感的数据，通过键来引用。如果一个配置文件同时包含敏感和非敏感信息，该文件应该被存储在Secret中。
 ## 默认令牌Secret介绍
 
-首先
+首先来介绍一种被默认挂载到所有容器的Secret，对任意一个pod使用命令`kubectl describe pod`
+```bash
+volume:
+  default-token-lch48:
+    TYPE: Secret
+    SecretName: default-token-lch48
+
+[root@master ~]# kubectl get secret
+NAME                  TYPE                                  DATA   AGE
+default-token-lch48   kubernetes.io/service-account-token   3      19d
+```
+可以查看一下这个Secret的详细信息
+```bash
+[root@master ~]# kubectl describe secret/default-token-lch48
+Name:         default-token-lch48
+Namespace:    default
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name: default
+              kubernetes.io/service-account.uid: 322faf17-27aa-4c1c-b7d8-705538d40811
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  7 bytes
+token: eyJhbGciOiJSUzI1NiIsImtpZCI6InVpZnRrdVUzNTVRJWa
+```
+可以看出这个Secret包含三个条目--ca.crt、namespace、token，包含了从pod内部安全访问Kubernetes API服务器所需的全部信息。
+>**注意：这个Secret默认会被挂载到每个容器。可以通过设置pod定义中的automountServiceAccountToken:false或这只pod使用的服务账户中相同字段为false来关闭这种默认行为。**
+## 创建Secret
+
+```bash
+[root@master ~]# kubectl create secret generic for --from-file=tt.txt
+secret/for created
+[root@master ~]# kubectl get secret/for -oyaml
+apiVersion: v1
+data:
+  tt.txt: YWEKYmIK
+kind: Secret
+metadata:
+  creationTimestamp: "2024-07-19T11:58:11Z"
+  name: for
+  namespace: default
+  resourceVersion: "158180"
+  selfLink: /api/v1/namespaces/default/secrets/for
+  uid: 63ef9e03-f655-4da1-832e-4b52d243d3a9
+type: Opaque
+```
+Secret条目的内容会被以Base64编码格式编码，而ConfigMap直接以纯文本展示。这种却别导致在处理YAML和JSON格式的Secret时有些麻烦，需要在设置和读取相关条目时对内容进行编解码。
+
+**为二进制数据创建Secret**
+
+采用Base64编码的原因很简单。Secret的条目可以涵盖二进制数据而不仅仅是纯文本。Base64编码可以将二进制数据转换为纯文本，以YAML或JSON格式展示。
+> Secret甚至可以用来存储非敏感二进制数据。不过Secret的大小限制于1MB。
+
+**stringData字段**
+
+由于并非所有的敏感信息数据都是二进制形式的，Kubernetes允许通过Secret的stringData字段设置条目的纯文本值
+```yaml
+apiVersion: v1
+kind: Secret
+stringDate:
+  foo: test  # 未被编码
+data:
+  tt.txt: YWEKYmIK
+```
+stringData字段是只写的，可以被用来设置条目值。通过`kubectl get -o yaml`获取Secret的YAML格式定义时，不会展示stringData字段，相反，stringData字段中的所有条目会被Base64编码之后展示在data字段下。
+
+**在pod读取Secret条目**
+
+通过Secret卷将Secret暴露给容器之后，Secret条目的值会被解码并以真实形式写入对应文件。通过环境变量暴露Secret也是如此。在这两种情况下，应用程序均无需主动解码，可以直接读取文件内容或者查找环境变量。
+## 在pod使用Secret
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-https
+spec:
+  containers:
+  - image: luksa/fortune:env
+    name: html-generator
+    env:
+    - name: INTERVAL
+      valueFrom: 
+        configMapKeyRef:
+          name: fortune-config
+          key: sleep-interval
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html
+      mountPath: /usr/share/nginx/html
+      readOnly: true
+    - name: config
+      mountPath: /etc/nginx/conf.d
+      readOnly: true
+    - name: certs
+      mountPath: /etc/nginx/certs/  # 挂载到指定路径下
+      readOnly: true
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+  volumes:
+  - name: html
+    emptyDir: {}
+  - name: config
+    configMap:
+      name: fortune-config
+      items:
+      - key: my-nginx-config.conf
+        path: https.conf
+  - name: certs   
+    secret:    # 挂载Secret
+      secretName: fortune-https
+
+```
+Secret跟ConfigMap一样，可以通过`defaultModes`属性指定默认权限。
+
+**通过环境变量暴露Secret条目**
+
+除卷之外，Secret独立条目可作为环境变量被暴露
+```yaml
+env:
+- name: foo
+  valueFrom:
+    secretKeyRef:
+      name: fortune-https
+      key: foo
+```
+使用`secretKeyRef`可以将Secret条目传递给环境变量。但一般不建议这么做，因为应用程序通常会在错误报告时转储环境变量，或者是启动时打印在应用日志里，无意会暴露Secret中的敏感信息。
+
+**镜像拉取Secret**
+
+有时pod去拉取私有仓库的镜像时，会需要有拉取镜像所需的证书。
+
+**在Docker Hub上使用私有镜像仓库**
+
+可以在Docker Hub上创建私有仓库。运行一个镜像来源于私有仓库的pod时，需要做以下两件事：
+- 创建包含Docker镜像仓库证书的Secret。
+- pod定义中的imagePullSecrets字段引用该secret。
+这里创建secret跟之前一样，但可以创建类型为`docker-registry`类型的secret。
+
+**在pod中使用**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-pod
+spec:
+  imagePullSecrets:
+  - name: mydockerhubsecret  # 指定Secret名称
+  containers:
+  - image: username/private:tag
+    name: main
+```
+在pod中imagePullSecrets引用上面创建的`docker-registry`类型的secret即可拉取私有仓库的镜像。也可以在ServiceAccount中添加secret让所有的pod都能自动添加上镜像拉取Secret。
