@@ -8,7 +8,7 @@
 > - 回滚pod到上个版本
 
 根据前面介绍的章节已经知道如何将应用程序打包进容器，将它们分组到pod中，并为它们提供临时存储或持久化存储，将密钥或配置文件注入并可以使pod之间相互通信。除此之外，还需要升级应用程序。这一章讲述如何升级在Kubernetes集群中运行的应用程序，以及Kubernetes如何帮助实现真正的零停机升级过程。升级操作可以通过ReplicationController或ReplicaSet实现，但Kubernetes提供了另一种基于ReplicaSet的资源deployment，并**支持声明式的更新应用程序**。
-# 更新运行在pod内的应用程序
+# 1 更新运行在pod内的应用程序
 
 有一组pod实例为其他pod或外部客户端提供服务，，这些pod是由ReplicationCrontroller或ReplicaSet创建和管理的，客户端通过service访问pod，这就是Kubernetes中一个典型应用程序的运行方式。
 ![k8s典型运行方式](image/第八章：Deployment-声明式的升级应用_time_1.png)
@@ -18,13 +18,13 @@
 - 直接删除所有现有的pod，然后创建新的pod；
 - 也可以创建新的pod，并等待它们成功运行之后，再删除旧的pod。也可以先创建所有新的pod，然后一次性删除所有旧的pod，或者按顺序创建新的pod，然后再逐渐删除旧的pod。
 这两种方法各有优缺点。第一种方法将会导致应用程序在一定的时间内不可用。第二种方法，你的应用程序需要支持两个版本同时对外提供服务。如果应用程序使用数据库存储数据，那么新版本不应该对原有的数据格式或者数据本身进行修改，从而导致之前的版本运行异常。
-## 删除旧版本pod，使用新版本pod替换
+## 1.1 删除旧版本pod，使用新版本pod替换
 
 之前介绍ReplicationController的时候，我们已经知道如果修改RC中的容器模板的话，RC会使用新模板创建新的容器。
 
 如果你有一个RC来管理一组v1版本的pod，可以直接修改pod模板中容器镜像为v2，然后删除旧的pod实例。RC会检测到当前没有pod匹配它的标签选择器，便会创建新的实例。如果你能接受从删除旧的pod到启动新的pod之间短暂的服务不可用，那这将是更新一组pod的最简单的方式。
 
-## 创建新版本再删除老版本
+## 1.2 创建新版本再删除老版本
 
 如果短暂的服务不可用完全不能接受，并且你的应用程序支持多个版本同时对外提供服务，那么可以先创建新的pod再删除原有pod。这会需要更多的硬件资源。
 
@@ -56,7 +56,7 @@ kubectl通过复制kubia-v1的RC并在pod模板中改变镜像版本，还有修
 - 首先将心的Controller扩展为1，新的RC因此创建一个新的pod；
 - 然后kubectl将旧的RC缩小1
 - 重复执行以上过程，直达v1 pod被伸缩到0，此时kubectl删除原始RC完成升级过程。
-## rolling-update方式已经过时
+## 1.3 rolling-update方式已经过时
 
 为什么rolling-update方式已经不推荐使用了？
 - 这个过程会修改创建的对象，直接修改pod和RC的标签不符合之前创建的预期；
@@ -66,7 +66,7 @@ kubectl通过复制kubia-v1的RC并在pod模板中改变镜像版本，还有修
 > 这个--v 6 提高日志级别使得能展示更多的通信细节信息。
 
 但是为什么由客户端执行升级过程，而不是服务端执行是不好的呢？在上述的例子当中，升级过程看起来很顺利，但如果在滚动升级的中间kubectl断开了网络连接，那么pod和RC最终会处于中间状态。而且Kubernetes中pod的部署方式和伸缩方式都是通过不断收敛来达到期望的系统状态的，直接使用期待副本数来伸缩pod而不是通过手动的删除或增加一个pod，是更加符合Kubernetes的工作方式的。正是这一点推动了deployment资源的引入。
-# Deployment声明式的升级应用
+# 2 Deployment声明式的升级应用
 
 Deployment是一种更高阶资源，用于部署应用程序并以声明的方式升级应用，而不是通过RC或RS进行部署，这两都被认为是更底层的概念。
 
@@ -76,7 +76,7 @@ Deployment是一种更高阶资源，用于部署应用程序并以声明的方�
 
 使用Deployment可以更容易的更新应用程序，因为可以直接定义单个Deployment资源所需达到的状态，并让Kubernetes处理中间状态。
 
-## 创建一个Deployment
+## 2.1 创建一个Deployment
 
 创建RS和Deployment并没有任何区别。Deployment也是由标签选择器、期望副本数和pod模板组成的。但Deployment有一个新的字段用来指定部署策略，定义在修改Deployment时应该如何执行更新。
 ```yaml
@@ -118,7 +118,7 @@ Waiting for deployment "nginx-deployment" rollout to finish: 0 of 3 updated repl
 
 如果在deployment创建好pod之后查看pod状态，你会发现，pod的名字中有一串数字，这是什么呢？这个数字实际上是deployment中pod模板的哈希值。在deployment创建的RS名称中也有。deployment会创建多个ReplicaSet，用来对应和管理一个版本的pod模板。
 
-## 升级deployment
+## 2.2 升级deployment
 
 使用RC部署应用时，必须通过运行`kubectl rolling-update`显式告诉Kubernetes来执行更新，甚至必须指定名称来替换旧资源，整个滚动升级过程必须打开终端让kubectl完成升级。
 
@@ -163,7 +163,7 @@ kubectl set image deployment kubia nodejs=luksa/kubia:v2
 > **注意：如果Deployment中的pod模板引用了一个ConfigMap，那么更改ConfigMap资源本身将不会触发更新操作。如果需要修改应用程序的配置并想触发更新的话，可以通过创建一个新的ConfigMap并修改pod模板引用新的。**
 
 Deployment背后工作原理和rolling-update命令相似，创建一个新的ReplicaSet会被创建然后慢慢扩容，同时之前版本的ReplicaSet会慢啊慢缩容到0；但旧的ReplicaSet仍然会被保留，用作版本回滚。
-## 回滚Deployment
+## 2.3 回滚Deployment
 
 如果你发现你升级的这个版本会有问题，需要快速回滚到上个版本的话，可以执行
 ```bash
@@ -193,7 +193,7 @@ REVISION  CHANGE-CAUSE
 这会回滚到你指定的版本号。Deployment在更新后不会删除老版本的ReplicaSet，这些ReplicaSet通过特定的版本号连接成了这个Deployment的版本链，所以不是非必须的情况，不要手动删除ReplicaSet。这样做会导致丢失Deployment历史版本记录而导致无法回滚。
 
 但太多的ReplicaSet会导致ReplicaSet列表过于混乱，可以指定Deployment的`revisionHistoryLimit`属性来限制历史版本数量。默认值是10，只保留两个版本，更早之前的版本会被全部删除。
-## 控制版本升级速率
+## 2.4 控制版本升级速率
 
 当执行`kubectl rollout status`命令来观察升级到新版本的过程时，会看到一个pod新创建，当它运行时，一个旧的pod会被删除，循环往复。创建新的pod和删除旧pod的方式可以通过配置滚动更新策略里的两个属性设置。
 
@@ -214,7 +214,7 @@ spec:
 | maxSurge       | 决定了Deployment配置中期望的副本数之外，最多允许超过的pod实例数量。默认值25%，所以pod实例最多比期望值多25%。如果期望副本数是4，那么同时运行的pod最多只能是5。百分数转换时会向上取整，且可以指定绝对值。                                            |
 | maxunavailable | 决定了在滚动升级期间，相对于期望副本数能够允许有多少个pod处于不可用状态。默认值是25%，所以可用的pod实例数量不能低于期望副本数的75%。百分数转换成绝对值时这个数字也会向下取整。如果期望副本数是4，并且百分比是25%，那么只有一个pod处于不可用状态。与maxSurge一样，可以指定绝对值而不是百分比。 |
 **注意：这两个属性都只是针对期望副本数而言的。**
-## 暂停滚动升级
+## 2.5 暂停滚动升级
 
 如果在更新完成后再来检查更新的版本是否有问题，可能会导致大部分用户都察觉到应用出问题了，可以在更新时，把更新暂停，只更新部分pod来验证更新是否有问题。
 ```bash
@@ -230,7 +230,7 @@ kubectl rollout resume deploy kubia
 ```
 
 暂停滚动升级还能用来组织滚动升级，这样能让运维多次修改Deployment，直达修改完成再手动进行滚动升级。
-## 阻止出错版本的滚动升级
+## 2.6 阻止出错版本的滚动升级
 
 还记得在上面使用的`minReadySeconds`属性嘛，这个属性的作用主要是避免部署出错的版本，而不是单纯拖慢部署的速度。
 
