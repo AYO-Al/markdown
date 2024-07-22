@@ -275,7 +275,7 @@ spec:
 
 默认情况下，如果10分钟之内不能完成滚动升级的话，将被视为失败。如果运行`kubectl describe deploy`命令，将会显示一条`ProgressDeadlineExceeded`记录。
 
-判定Deployment滚动升级失败的超时时间，可以通过设定Deployment spec中的progressDeadlineSeconds来指定，默认是600s。
+判定Deployment滚动升级失败的超时时间，可以通过设定Deployment spec中的progressDeadlineSeconds来指定，默认是600s。将来，一旦实现了自动回滚，Deployment 控制器将在探测到这样的条件时立即回滚 Deployment。目前还没实现。
 
 取消出错版本的滚动升级就只能通过rollout undo命令进行回滚了。
 ```bash
