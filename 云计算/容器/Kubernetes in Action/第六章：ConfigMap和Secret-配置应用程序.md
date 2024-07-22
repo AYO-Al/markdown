@@ -309,8 +309,8 @@ spec:
   - image: image
     volumeMounts:
     - name: html
-      mountPath: /usr/share/nginx/html.someconfig.conf # 挂载到某一文件
-      subPath: myconfig.conf  # 仅挂载指定的条目，而非完整的卷
+      mountPath: /usr/share/nginx/html.someconfig.conf # 挂载到容器某一文件
+      subPath: myconfig.conf  # 仅挂载卷中指定的条目，而非完整的卷
 ```
 挂载任一种卷时均可以使用subPath属性。可以选择挂载部分卷而不是挂载完整的卷。不过这种独立文件的挂载方式会带来文件更新上的缺陷，在后面会了解到。
 
