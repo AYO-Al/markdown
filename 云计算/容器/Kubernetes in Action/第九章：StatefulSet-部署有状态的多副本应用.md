@@ -208,7 +208,13 @@ spec:
 ```
 这个StatefulSet和之前创建的ReplicaSet和Deployment的声明文件并没有多大的区别，这里使用了一个`volumeClaimTemplates`卷申领模板，只定义了一个叫data的卷申领模板，StatefulSet会根据这个模板为每个pod都创建一个持久卷申领。
 
-创建好StatefulSet之后，会发现StatefulSet只创建了一个pod，而我们声明文件中的期望副本数是两个pod，这是为什么？这是StatefulSet创建pod是按顺序创建的，等等第一个pod运行并处于就绪状态的时候，第二个pod就会开始创建了。StatefulSet这样做是因为状态明确的集群应用对同时有两个集群成员启动引起的竞争情况是十分敏感的。所以依次启动每个成员是比较安全可靠的。
+创建好StatefulSet之后，会发现StatefulSet只创建了一个pod，而我们声明文件中的期望副本数是两个pod，**这是为什么？这是StatefulSet创建pod是按顺序创建的，等第一个pod运行并处于就绪状态的时候，第二个pod就会开始创建了。** StatefulSet这样做是因为状态明确的集群应用对同时有两个集群成员启动引起的竞争情况是十分敏感的。所以依次启动每个成员是比较安全可靠的。
+
+**与其他资源不同的是，删除一个StatefulSet，不能保证pod全部被删除，为了实现StatefulSet中的pod可以有序且体面的终止，可以在删除之前将StatefulSet缩容到0。**
+> `--cascade` 选项用于指定删除资源时的级联删除策略：
+> - `background`：默认策略，立即删除资源对象，依赖资源在后台异步删除。
+> - `foreground`：先删除所有依赖资源，然后再删除资源对象，删除过程是同步的。
+> - `orphan`：只删除资源对象，不删除其依赖资源，依赖资源将被孤立。
 
 
 
