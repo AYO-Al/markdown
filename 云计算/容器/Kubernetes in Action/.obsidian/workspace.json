@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "第九章：StatefulSet-部署有状态的多副本应用.md"
+                "file": "第二章：pod-运行于kubernetes中的容器.md"
               }
             }
           }
@@ -148,12 +148,14 @@
   },
   "active": "159d14bee7f637ef",
   "lastOpenFiles": [
+    "第九章：StatefulSet-部署有状态的多副本应用.md",
+    "第二章：pod-运行于kubernetes中的容器.md",
+    "第六章：ConfigMap和Secret-配置应用程序.md",
+    "第四章：服务-让客户端发现pod并与之通信.md",
+    "第七章：从应用访问pod元数据及其他资源.md",
     "第三章：副本机制和控制器.md",
     "第五章：卷-将磁盘挂载到容器.md",
-    "第九章：StatefulSet-部署有状态的多副本应用.md",
     "第八章：Deployment-声明式的升级应用.md",
-    "第七章：从应用访问pod元数据及其他资源.md",
-    "第六章：ConfigMap和Secret-配置应用程序.md",
     "未命名.md",
     "image/git_time_13.png",
     "image/git_time_12.png",

@@ -250,7 +250,7 @@ kubectl edit statefulset kubia
 更新退出之后，就可以看到修改的内容已经开始被更新了。新创建的pod会使用更新的镜像，而老的pod则不会更新，这个因为StatefulSet的行为更像ReplicaSet，而不是Deployment。
 > 从Kubernetes 1.7版本开始，StatefulSet支持与Deployment和DaemonSet一样的滚动升级。通过设置updateStrategy相关文档来获取更多信息。
 
-## StatefulSet如何处理节点失效
+## 4.2 StatefulSet如何处理节点失效
 
 在前面我们知道Kubernetes必须完全保证，一个有状态pod在创建它的代替者之前已经不再运行，当一个节点突然失效，Kubernetes并不知道节点或者它上面pod的状态。它并不知道这些pod是否还在运行，或者它们是否还存在，甚至是否还能被客户端访问到，或者仅仅是kubelet停止向主节点上报节点状态。
 
@@ -287,6 +287,10 @@ kubectl返回说这个pod已经被删除了，但在控制节点查看运行的p
 kubectl delete po kubia-0 --force --grace-period 0
 ```
 这样就能把pod强制删除了，这是你就会发现一个新的pod被创建出来了。
+## 驱逐策略
 
-
+可以通过设置`kube-controller-manager`的`--pod-eviction-timeout`来设置驱逐时间，默认是5分钟。
+```bash
+kube-controller-manager --pod-eviction-timeout=5m
+```
 
