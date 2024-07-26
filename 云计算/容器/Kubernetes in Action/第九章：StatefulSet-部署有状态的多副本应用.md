@@ -287,7 +287,7 @@ kubectl返回说这个pod已经被删除了，但在控制节点查看运行的p
 kubectl delete po kubia-0 --force --grace-period 0
 ```
 这样就能把pod强制删除了，这是你就会发现一个新的pod被创建出来了。
-## 驱逐策略
+## 4.3 驱逐策略
 
 可以通过设置`kube-controller-manager`的`--pod-eviction-timeout`来设置驱逐时间，默认是5分钟。
 ```bash

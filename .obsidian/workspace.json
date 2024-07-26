@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+                "file": "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md"
+                "file": "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md"
               }
             }
           }
@@ -148,18 +148,19 @@
   },
   "active": "05dc4b1ae909aa7b",
   "lastOpenFiles": [
+    "云计算/容器/Kubernetes in Action/第七章：从应用访问pod元数据及其他资源.md",
     "云计算/容器/Kubernetes in Action/第六章：ConfigMap和Secret-配置应用程序.md",
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第五章：卷-将磁盘挂载到容器.md",
     "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
-    "云计算/容器/Kubernetes in Action/第七章：从应用访问pod元数据及其他资源.md",
+    "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
+    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
     "云计算/容器/Kubernetes in Action/image/第八章：Deployment-声明式的升级应用_time_1.png",
-    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/Kubernetes in Action/image/第七章：从应用访问pod元数据及其他资源_time_2.png",
     "云计算/容器/Kubernetes in Action/image/第七章：从应用访问pod元数据及其他资源_time_1.png",
-    "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/image/第五章：卷-将磁盘挂载到容器_time_2.png",
     "云计算/容器/Kubernetes in Action/image/第五章：卷-将磁盘挂载到容器_time_1.png",
     "分布式版本控制系统/git.md",
