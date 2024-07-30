@@ -476,14 +476,82 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 安装一个CNI插件并不难，只需要部署一个包含DaemonSet以及其他支持资源的YAML。
 # 服务是如何实现的
 
+在前面学习过service，service允许长时间对外暴露一系列pod、稳定的IP地址以及端口。但在前面只是聚焦于如何使用service，并没有深究作用原理。
+## 引入kube-proxy
 
+和service相关的任何事情都是由每个节点上运行的kube-proxy进程处理。开始的时候，kube-proxy等待连接，对每个进来的连接，连接到一个pod。这称为userspace(用户空间)代理模式。后来性能更好的iptables模式取代了它。iptables代理模式是目前默认的模式。
 
+之前了解过，service有其自己稳定的IP地址和端口。客户端通过连接该IP和端口使用服务。IP地址是虚拟的，没有被分配给任何网络接口，当数据包离开节点时也不会列为数据包的源或目的IP地址。Service的一个关键细节是，它们包含一个IP、端口对，所以服务IP本身并不代表什么，这就是为什么不能ping它们的原因。
+## kube-proxy如何使用iptables
 
+当在API服务器中创建一个服务时，虚拟IP地址立刻就会分配给它。之后很短时间内，API服务器会通知所有运行在工作节点上的kube-proxy客户端有一个新服务已经被创建了。如何每个kube-proxy都会让该服务在自己的运行节点上可寻址。原理是建立一些iptables规则，确保每个目的地为服务的IP/端口对的数据包被解析，目的地址被修改，这样数据包就会被重定向到支持服务的一个pod。
 
+除了监控API对Service的更改，kube-proxy也监控对Endpoint对象的更改。
+![kube-proxy工作原理](image/第十章：了解Kubernetes机制_time_5.png)
+# 运行高可用集群
 
+在kubernetes上运行应用的一个理由就是，保证运行不被中断，或者说尽量少的人工介入基础设置导致的宕机。为了能够不中断的运行服务，不仅应用要一直运行，kubernetes控制平面组件也要不间断运行。
+## 让kubernetes控制平面变得高可用
 
+为了使kubernetes高可用，需要运行多个主节点，即运行下述组件的多个实例：
+- etcd分布式数据存储
+- API服务器
+- 控制器管理器
+- 调度器
+![](image/第十章：了解Kubernetes机制_time_6.png)
 
+**运行etcd集群**
 
+因为etcd被设计为一个分布式系统，其核心特性之一就是可以运行多个etcd实例，所以它做到高可用并非难事。要做的就是将其运行在合适数量的机器上，使得它们能够互相感知。实现方式通过在每个实例的配置中包含其他实例的列表。
+
+etcd会跨实例复制数据，所以三节点中其中一个宕机并不会影响处理读写操作。
+
+**运行多实例API服务器**
+
+保证API服务高可用甚至更简单，因为API服务器时无状态的，需要运行多少API服务就能运行多少，它们不需要感知对方的存在。通常，一个API服务器会和每个etcd实例搭配。这样做，etcd实例之前就不需要任何负载均衡器，因为每个API服务器只和本地etcd通信。但是API服务器需要一个负载均衡器，这样客户端才能一直连接到健康的API服务器。
+
+**确保控制器和调度器的高可用性**
+
+相比于上面两个组件，运行控制器管理器或者调度器的多实例情况就没那么简单了。因为调度器和控制器管理器都会积极的监听集群状态，发生变更时作为相应操作，可能还会修改集群状态。例如，当ReplicaSet上期望的复制集增加1时，ReplicaSet控制器会额外创建一个pod，多实例运行这些组件会导致它们执行同一个操作，会导致产生竞争状态，从而造成非预期影响。
+
+由于这个原因，当运行这些组件的多个实例时，给定时间内只有一个实例有效。这些工作组件都遵循领导选举模式，只有领导组件才有效(--leader-elect控制选项)。
+
+**控制平面组件使用的领导选举机制**
+
+这些组件所使用的领导选举机制不需要相互通信。领导选举机制的实现方式是在API服务器中创建一个资源，而且Endpoint资源(或者其他)就能用来达到目的。
+
+以调度器举例。所有的调度器实例都会尝试创建一个pod资源，称为kube-scheduler。
+```
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: kube-controller-manager 
+  namespace: kube-system 
+spec: 
+  containers: 
+  - name: kube-controller-manager 
+    image: k8s.gcr.io/kube-controller-manager:v1.21.0 
+    command: 
+      - kube-controller-manager 
+      - --leader-elect=true 
+      - --leader-elect-lease-duration=15s 
+      - --leader-elect-renew-deadline=10s 
+      - --leader-elect-retry-period=2s 
+      - --kubeconfig=/etc/kubernetes/controller-manager.conf 
+      - --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf 
+      - --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf         
+    volumeMounts: 
+      - mountPath: /etc/kubernetes 
+        name: kubeconfig 
+        readOnly: true 
+  volumes: 
+  - name: kubeconfig 
+    hostPath: 
+      path: /etc/kubernetes
+```
+`--leader-elect=true` 参数启用了领导选举，其他参数则配置了租约的相关时间参数：
+- `--leader-elect-lease-duration`：租约的生存时间。
+- `--leader-elect-renew-deadline`：领导者必须在这个时间内成功续约，否则会失去领导者身份。
 
 
 
