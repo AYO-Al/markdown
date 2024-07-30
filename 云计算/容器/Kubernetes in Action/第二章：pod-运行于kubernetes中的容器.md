@@ -333,7 +333,6 @@ Events:
 ## 使用回调函数
 
 ```yaml
-```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -353,4 +352,97 @@ spec:
         exec:
           command: ["/bin/sh","-c","nginx -s quit; while killall -0 nginx; do sleep 1; done"]
 ```
+# init容器
+
+Init 容器是一种特殊容器，在 Pod 内的应用容器启动之前运行。Init 容器可以包括一些应用镜像中不存在的实用工具和安装脚本。
+
+每个pod中可以包含多个容器，应用运行在这些容器里面，同时Pod可以有一个或多个先于应用容器启动的Init容器。
+
+Init容器与应用容器非常像，除了以下两点：
+- 它们总是运行到完成。
+- 每个都必须在下一个启动之前成功完成。
+如果 Pod 的 Init 容器失败，kubelet 会不断地重启该 Init 容器直到该容器成功为止。 然而，如果 Pod 对应的 `restartPolicy` 值为 "Never"，并且 Pod 的 Init 容器失败， 则 Kubernetes 会将整个 Pod 状态设置为失败。
+
+Init 容器支持应用容器的全部字段和特性，包括资源限制、 数据卷和安全设置。 然而，Init 容器对资源请求和限制的处理稍有不同，常规的 Init 容器（即不包括边车容器）不支持 `lifecycle`、`livenessProbe`、`readinessProbe` 或 `startupProbe` 字段。Init 容器必须在 Pod 准备就绪之前完成运行；而边车容器在 Pod 的生命周期内继续运行， 它支持一些探针。
+
+如果为一个 Pod 指定了多个 Init 容器，这些容器会按顺序逐个运行。 每个 Init 容器必须运行成功，下一个才能够运行。当所有的 Init 容器运行完成时， Kubernetes 才会为 Pod 初始化应用容器并像平常一样运行。
+## 使用Init容器
+
+ Init 容器具有与应用容器分离的单独镜像，其启动相关代码具有如下优势：
+ - Init 容器可以包含一些安装过程中应用容器中不存在的实用工具或个性化代码。 例如，没有必要仅为了在安装过程中使用类似 `sed`、`awk`、`python` 或 `dig` 这样的工具而去 `FROM` 一个镜像来生成一个新的镜像。
+ - 应用镜像的创建者和部署者可以各自独立工作，而没有必要联合构建一个单独的应用镜像。
+- 与同一 Pod 中的多个应用容器相比，Init 容器能以不同的文件系统视图运行，Init 容器的文件系统不会与应用容器共享，除非显式地通过卷（Volumes）进行共享。。因此，Init 容器可以被赋予访问应用容器不能访问的 Secret的权限。
+- 由于 Init 容器必须在应用容器启动之前运行完成，因此 Init 容器提供了一种机制来阻塞或延迟应用容器的启动，直到满足了一组先决条件。 一旦前置条件满足，Pod 内的所有的应用容器会并行启动。
+- Init 容器可以安全地运行实用程序或自定义代码，而在其他方式下运行这些实用程序或自定义代码可能会降低应用容器镜像的安全性。 通过将不必要的工具分开，你可以限制应用容器镜像的被攻击范围。
+
+**使用Init容器示例**
+以下是一些如何使用Init容器的想法：
+- 等待一个 Service 完成创建，通过类似如下 Shell 命令：
+```bash
+for i in {1..100}; do sleep 1; if nslookup myservice; then exit 0; fi; done; exit 1
 ```
+- 注册这个 Pod 到远程服务器，通过在命令中调用 API，类似如下：
+```bash
+curl -X POST http://$MANAGEMENT_SERVICE_HOST:$MANAGEMENT_SERVICE_PORT/register -d 'instance=$(<POD_NAME>)&ip=$(<POD_IP>)'
+```
+- 在启动应用容器之前等一段时间，使用类似命令：
+```bash
+sleep 60
+```
+- 克隆git仓库到卷中。
+- 将配置值放到配置文件中，运行模板工具为主应用容器动态地生成配置文件。 例如，在配置文件中存放 `POD_IP` 值，并使用 Jinja 生成主应用配置文件。
+
+**使用init容器**
+
+下面的例子定义了一个具有 2 个 Init 容器的简单 Pod。 第一个等待 `myservice` 启动， 第二个等待 `mydb` 启动。 一旦这两个 Init 容器都启动完成，Pod 将启动 `spec` 节中的应用容器。
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app.kubernetes.io/name: MyApp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+  - name: init-mydb
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup mydb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
+```
+
+**具体行为**
+
+在 Pod 启动过程中，每个 Init 容器会在网络和数据卷初始化之后按顺序启动。 kubelet 运行依据 Init 容器在 Pod 规约中的出现顺序依次运行之。
+
+每个 Init 容器成功退出后才会启动下一个 Init 容器。 如果某容器因为容器运行时的原因无法启动，或以错误状态退出，kubelet 会根据 Pod 的 `restartPolicy` 策略进行重试。 然而，如果 Pod 的 `restartPolicy` 设置为 "Always"，Init 容器失败时会使用 `restartPolicy` 的 "OnFailure" 策略。
+
+在所有的 Init 容器没有成功之前，Pod 将不会变成 `Ready` 状态。 Init 容器的端口将不会在 Service 中进行聚集。正在初始化中的 Pod 处于 `Pending` 状态， 但会将状况 `Initializing` 设置为 false。
+
+如果 Pod 重启，所有 Init 容器必须重新执行。
+
+对 Init 容器规约的修改仅限于容器的 `image` 字段。 更改 Init 容器的 `image` 字段，等同于重启该 Pod。**Pod一旦被创建，spec就不能修改了。**
+
+因为 Init 容器可能会被重启、重试或者重新执行，所以 Init 容器的代码应该是幂等的。 特别地，基于 `emptyDirs` 写文件的代码，应该对输出文件可能已经存在做好准备。
+
+Init 容器具有应用容器的所有字段。然而 Kubernetes 禁止使用 `readinessProbe`， 因为 Init 容器不能定义不同于完成态（Completion）的就绪态（Readiness）。 Kubernetes 会在校验时强制执行此检查。
+
+在 Pod 上使用 `activeDeadlineSeconds` 和在容器上使用 `livenessProbe` 可以避免 Init 容器一直重复失败。 `activeDeadlineSeconds` 时间包含了 Init 容器启动的时间。 但建议仅在团队将其应用程序部署为 Job 时才使用 `activeDeadlineSeconds`， 因为 `activeDeadlineSeconds` 在 Init 容器结束后仍有效果。 如果你设置了 `activeDeadlineSeconds`，已经在正常运行的 Pod 会被杀死。
+
+在 Pod 中的每个应用容器和 Init 容器的名称必须唯一； 与任何其它容器共享同一个名称，会在校验时抛出错误。
+
+**容器内的资源共享**
+
+在给定的 Init、边车和应用容器执行顺序下，资源使用适用于如下规则：
+
+- 所有 Init 容器上定义的任何特定资源的 limit 或 request 的最大值，作为 Pod **有效初始 request/limit**。 如果任何资源没有指定资源限制，这被视为最高限制。
+- Pod 对资源的 **有效 limit/request** 是如下两者中的较大者：
+    - 所有应用容器对某个资源的 limit/request 之和
+    - 对某个资源的有效初始 limit/request
+- 基于有效 limit/request 完成调度，这意味着 Init 容器能够为初始化过程预留资源， 这些资源在 Pod 生命周期过程中并没有被使用。
+- Pod 的 **有效 QoS 层**，与 Init 容器和应用容器的一样。
