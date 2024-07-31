@@ -241,7 +241,7 @@ spec:
 - 通过删除命名空间来删除pod：`kubectl delete ns ns_name`
 - 删除命名空间下所有pod/资源：`kubectl delete po/all --all`
   - 有些资源并不包括在all中，需要明确指定出来，如srcret
-# 容器生命周期回调
+# 3 容器生命周期回调
 
 kubernetes为容器提供了生命周期回调。回调使容器能够了解和管理生命周期中的事件，并在执行相应的生命周期回调时运行在处理程序中实现的代码。
 
@@ -266,7 +266,7 @@ spec:
         image: nginx
 ```
 
-## pod的终止
+## 3.1 pod的终止
 
 由于pod所代表的是在集群上节点运行的进程，当不再需要这些进程时允许其体面的终止是很重要的。一般不应该用`KILL`信号终止它们，导致这些进程没有机会完成清理操作。
 
@@ -289,7 +289,7 @@ pod终止流程如下：
 ```bash
 kubectl delete po/poname --force --grace-period 0
 ```
-## pod垃圾回收
+## 3.2 pod垃圾回收
 
 对于已经失败(failed)和成功(succeeded)的pod，对应的API对象仍然会保留在集群的API服务器上，直到用户或控制器进程显式的将其删除。
 
@@ -299,7 +299,7 @@ pod的垃圾回收器(PodGC)是控制平台的控制器，它会为pod个数超�
 
 1. 孤儿 Pod - 绑定到不再存在的节点
 2. 计划外终止的 Pod
-## 回调处理程序的实现
+## 3.3 回调处理程序的实现
 
 容器可以通过实现和注册回调的处理程序来访问该回调。目前支持三种类型的回调处理程序：
 - Exec：在容器执行特定的命令，命令所消耗的资源计入容器的资源消耗。
@@ -313,7 +313,7 @@ pod的垃圾回收器(PodGC)是控制平台的控制器，它会为pod个数超�
 `PreStop` 回调并不会与停止容器的信号处理程序异步执行；回调必须在可以发送信号之前完成执行。 如果 `PreStop` 回调在执行期间停滞不前，Pod 的阶段会变成 `Terminating`并且一直处于该状态， 直到其 `terminationGracePeriodSeconds` 耗尽为止，这时 Pod 会被杀死。 这一宽限期是针对 `PreStop` 回调的执行时间及容器正常停止时间的总和而言的。 例如，如果 `terminationGracePeriodSeconds` 是 60，回调函数花了 55 秒钟完成执行， 而容器在收到信号之后花了 10 秒钟来正常结束，那么容器会在其能够正常结束之前即被杀死， 因为 `terminationGracePeriodSeconds` 的值小于后面两件事情所花费的总时间（55+10）。
 
 如果 `PostStart` 或 `PreStop` 回调失败，它会杀死容器。
-## 回调处理
+## 3.4 回调处理
 
 Hook 处理程序的日志不会在 Pod 事件中公开。如果处理程序由于某种原因失败，它会广播事件。对于`PostStart`，这是`FailedPostStartHook`事件，对于`PreStop`，这是`FailedPreStopHook`事件。
 ```
@@ -330,7 +330,7 @@ Events:
   Normal   Pulled               4s               kubelet            Successfully pulled image "nginx" in 215.66395ms
   Warning  BackOff              2s (x2 over 3s)  kubelet            Back-off restarting failed container
 ```
-## 使用回调函数
+## 3.5 使用回调函数
 
 ```yaml
 apiVersion: v1
@@ -352,7 +352,7 @@ spec:
         exec:
           command: ["/bin/sh","-c","nginx -s quit; while killall -0 nginx; do sleep 1; done"]
 ```
-# init容器
+# 4 init容器
 
 Init 容器是一种特殊容器，在 Pod 内的应用容器启动之前运行。Init 容器可以包括一些应用镜像中不存在的实用工具和安装脚本。
 
@@ -366,7 +366,7 @@ Init容器与应用容器非常像，除了以下两点：
 Init 容器支持应用容器的全部字段和特性，包括资源限制、 数据卷和安全设置。 然而，Init 容器对资源请求和限制的处理稍有不同，常规的 Init 容器（即不包括边车容器）不支持 `lifecycle`、`livenessProbe`、`readinessProbe` 或 `startupProbe` 字段。Init 容器必须在 Pod 准备就绪之前完成运行；而边车容器在 Pod 的生命周期内继续运行， 它支持一些探针。
 
 如果为一个 Pod 指定了多个 Init 容器，这些容器会按顺序逐个运行。 每个 Init 容器必须运行成功，下一个才能够运行。当所有的 Init 容器运行完成时， Kubernetes 才会为 Pod 初始化应用容器并像平常一样运行。
-## 使用Init容器
+## 4.1 使用Init容器
 
  Init 容器具有与应用容器分离的单独镜像，其启动相关代码具有如下优势：
  - Init 容器可以包含一些安装过程中应用容器中不存在的实用工具或个性化代码。 例如，没有必要仅为了在安装过程中使用类似 `sed`、`awk`、`python` 或 `dig` 这样的工具而去 `FROM` 一个镜像来生成一个新的镜像。

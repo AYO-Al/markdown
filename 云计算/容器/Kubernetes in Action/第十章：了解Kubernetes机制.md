@@ -7,7 +7,7 @@
 > - Kubernetes服务如何工作
 > - 如何保证高可用性
 
-# 了解架构
+# 1 了解架构
 
 Kubernetes集群分为两部分：
 - Kubernetes控制平面
@@ -37,7 +37,7 @@ Kubernetes集群分为两部分：
 - metrics-server(容器集群监控)
 - 集群层面日志
 - 容器网络接口插件
-## kubernetes组件的分布式特性
+## 1.1 kubernetes组件的分布式特性
 
 下图展示了kubernetes各个组件及它们之间的依赖关系。
 ![组件依赖关系](image/第十章：了解Kubernetes机制_time_1.png)
@@ -79,7 +79,7 @@ kube-apiserver                            <none>
 
 上面展示了一些控制平面的组件都在主节点上作为pod运行。
 > 可以使用custom-columns选择展示的列并使用`--sort-by`最资源列表进行排序。
-## kubernetes如何使用etcd
+## 1.2 kubernetes如何使用etcd
 
 前面我们创建的所有对象---pod、ReplicaSet、服务和私密凭证等，需要以持久化的方式存储到某个地方，这样它们的manifest在API服务器重启和失败的时候才不会丢失。为此，kubernetes使用了etcd。etcd是一个响应快/分布式/一致的key-value存储。因为它是分布式的，所以可以运行多个etcd实例来获取高可用性和更好的性能。
 
@@ -150,7 +150,7 @@ etcd通常部署奇数个实例。这是因为etcd的选举机制遵循半数原
 虽然奇数节点配置可以最大限度地减少平票的可能性，但在某些极端情况下（例如网络分区），仍可能出现平票。Raft 算法通过随机化选举超时时间来减少平票的发生概率。每个节点在选举超时后会随机等待一段时间，然后发起选举请求，这样可以避免多个节点同时发起选举请求导致平票。可以配置相关参数进一步优化：
 - 选举超时：调整选举超时参数（`election-timeout`）以适应网络延迟和节点性能。默认值通常是 1000 毫秒，可以根据需要进行调整。
 - 心跳间隔：调整心跳间隔参数（`heartbeat-interval`）以确保领导者节点能够及时检测到追随者节点的状态。默认值通常是 100 毫秒。
-## API服务器做了什么
+## 1.3 API服务器做了什么
 
 kubernetes API服务器作为中心组件，其他组件或客户端都会去调用它。以RESTful API的形式提供了可查询、修改集群状态的CRUD接口。它将状态存储到etcd中。
 
@@ -206,7 +206,7 @@ Kubernetes 使用 `resourceVersion` 字段来实现乐观并发控制。`resourc
 - **对象的最新状态**：包括所有字段和最新的 `resourceVersion`。
 - **HTTP 状态码**：表示操作的结果，例如 200 OK、201 Created 等。
 - **元数据**：如 `metadata` 字段中的 `uid`、`creationTimestamp` 等。
-## API服务器如何通知客户端资源变更
+## 1.4 API服务器如何通知客户端资源变更
 
 除了前面讨论的，API服务器没有做其他额外的工作。例如，当你插件一个replicaset资源时，它不会去创建pod，同时它不会去管理服务的端点，那是控制器管理器的工作。
 
@@ -216,7 +216,7 @@ API服务器甚至也没有告诉这些控制器去做什么。它做的时，�
 ![API服务器订阅消息](image/第十章：了解Kubernetes机制_time_3.png)
 
 kubectl工具作为API服务器的客户端之一，也支持监听资源。例如，当部署pod时，不需要重复执行`kubectl get po`来定期查询pod列表。可以使用`--watch`标志，每当创建、修改、删除pod时都会通知你。
-## 了解调度器
+## 1.5 了解调度器
 
 前面已经学习过，我们通常不会指定pod应该运行在哪个集群节点上，这项工作交给调度器。宏观来看，调度器的操作比较简单，就是利用API服务器的监听机制等待新创建的pod，给每个新的、没有节点集的pod分配节点。
 
@@ -273,7 +273,7 @@ Kubernetes 调度器支持插件机制，允许用户自定义调度逻辑。常
 可以在集群中运行多个调度器而非单个。然后对每一个pod，可以通过在pod特性中设置`schedulerName`属性指定调度器来调度特定的pod。也可以使用自己实现的调度器。
 
 未设置该属性的pod由默认调度器调度，因此其`schedulerName`被设置为`default-scheduler`。其他设置了该属性的pod会被默认调度器忽略掉。
-## 控制器管理器
+## 1.6 控制器管理器
 
 API服务器只做了存储资源到etcd和通知客户端有变更的工作。调度器则只是给pod分配节点，所以需要有活跃的组件确保系统真实状态朝API服务器定义的期望状态收敛。这个工作由控制器管理器里的控制器实现。
 
@@ -339,17 +339,17 @@ Node控制器不是唯一对Node对象做更改的组件，kubelet也可以做�
 
 当Service使用LoadBalancer类型时，从基础设施服务请求一个负载均衡器使得服务外部可以用。Service控制器就是用来在LoadBalancer类型服务被创建或删除时，从基础设施服务请求、释放负载均衡器的。
 
-## Endpoint控制器
+## 1.7 Endpoint控制器
 
 Service不是直接连接到pod，而是包含一个端点列表，列表要么是手动的，要么是根据Service定义的pod选择器自动创建的、更新。Endpoint控制器作为活动的组件，定期根据匹配标签选择器的pod的IP、端口更新端点列表。
 
 控制器同时监听了Service和pod。当Service被添加、修改，或者pod被添加、修改或删除时，控制器会选中匹配Service的pod选择器的pod，将其IP和端口添加到Endpoint资源中。Endpoint对象是个独立的对象，所以当需要的时候控制器会创建它。同样的，删除Service时，Endpoint对象也会被删除。
 
-## Namespace控制器
+## 1.8 Namespace控制器
 
 当删除一个Namespace资源时，该命名空间里所有资源都会被删除。这就是Namespace控制器做的事情。当收到删除Namespace对象的通知时，控制器通过API服务器删除所有归属该命名空间的资源。
 
-## PersistentVolume控制器
+## 1.9 PersistentVolume控制器
 
 前面学习过了持久卷和持久卷申领。一旦用户创建了一个持久卷申领，kubernetes必须找到一个合适的持久卷同时将其和申领绑定。这些由持久卷控制器实现。
 
@@ -358,17 +358,17 @@ Service不是直接连接到pod，而是包含一个端点列表，列表要么�
 **唤醒控制器**
 
 现在总体来说知道了控制器是怎么一回事了，也大概知道了控制器是怎么进行工作的。所有这些控制器都是通过API服务器来操作API对象的。它们不会直接和kubelet通信挥着发送任何类型的指令。实际上，它们不知道kubelet的存在。控制器更新API服务器的一个资源后，kubelet和kubernetes Service proxy(也不知道控制器的存在)会做它们的工作，例如启动pod容器、加载网络存储或者就服务而言，创建跨pod的负载均衡。
-## kubelet做了什么
+## 1.10 kubelet做了什么
 
 所有的kubernets控制平面的控制器都运行在主节点上，而kubelet以及service proxy都运行在工作节点上。
-## 了解kubelet的工作内容
+## 1.11 了解kubelet的工作内容
 
 简单来说，kubelet就是负责所有运行在工作节点上内容的组件。它第一个任务就是在API服务器中创建一个Node资源来注册该节点。然后需要持续监控API服务器是否把该节点分配给pod，然后启动pod容器。具体实现方式是告知配置好的容器运行时(Docker\RKt)来从特定容器镜像运行容器。kubelet随后持续监控运行的容器，向API服务器报告它们的状态、事件和资源消耗。
 
 kubelet也是运行容器存活探针的组件，当探针报错时它重启容器。当pod从API服务器删除时，kubelet终止容器，并通知服务器pod已经被终止。
 
 可以抛开API服务器使用本地的manifest运行静态pod，不过不推荐这样做。
-## kubenetes Service Proxy作用
+## 1.12 kubenetes Service Proxy作用
 
 除了kubelet，每个工作节点还会运行kube-proxy，用于确保客户端可以通过kubernetes API连接到你定义的服务。kube-proxy确保对服务IP和端口的连接最终能到达支持服务的某个pod上。如果由多个pod支持服务，那么代理会发挥对pod的负载均衡作用。
 
@@ -377,7 +377,7 @@ kubelet也是运行容器存活探针的组件，当探针报错时它重启容�
 kube-proxy最初实现为`userspace`代理。利用实际的服务器集成接收连接，同时代理给pod。为了拦截发往服务IP的连接，代理配置了iptables规则，重定向连接到代理服务器。
 
 kube-proxy之所以叫这个名字是因为它确实是一个代理器，不过当前性能更好的实现方式仅仅通过iptables规则重定向数据包到一个随机选择的后端pod，而不会传递给一个实际的代理服务器。这个模式称为iptables代理模式。
-## 介绍kubernetes插件
+## 1.13 介绍kubernetes插件
 
 **如何部署插件**
 
@@ -395,11 +395,11 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 
 尽管Ingress资源的定义指向一个Service，Ingress控制器会直接把流量转到服务的Pod而不经过服务IP。当外部客户端通过Ingress控制器连接时，会对客户端IP进行保存，这使得在某些用例中，控制器比ingress更受欢迎。
 
-# 控制器如何协作
+# 2 控制器如何协作
 
 为了强化为kubernetes工作方式的理解，让我们看一下当一个pod被创建时会发生什么。因为一般都不会直接创建pod，所以创建deployment资源作为代替，如何观察启动pod的容器会发生什么。
 
-## 事件链
+## 2.1 事件链
 
 准备包含deployment清单的yaml文件，通过kubectl提交到kubernetes。kubectl通过HTTPS POST请求发送清单到kubernetes API服务器。API服务器检查Deployment定义，存储到etcd，返回响应给kubectl。
 ![API事件链](image/第十章：了解Kubernetes机制_time_4.png)
@@ -421,12 +421,12 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 目前，工作节点还没有做任何事情，pod容器还没有被启动起来，pod容器的镜像还没下载。
 
 随着pod分配给了特定的节点，节点上的kubelet终于可以开始工作了。kubelet通过API服务器监听pod变更，发现有新的pod分配到本节点后，就回去检查pod定义，然后命令Docker或者使用的容器运行时来启动pod容器。
-## 观察集群事件
+## 2.2 观察集群事件
 
 控制平面组件和kubelet执行动作时，都会发送事件给API服务器。发送事件时通过创建事件资源来实现的，事件资源和其他的kubernetes资源类似。每次使用`kubectl describe`来检查资源的时候，都能看到资源相关的事件，也可以直接使用`kubectl get events`获取事件。
 
 使用`kubectl describe`检查事件比较痛苦，因为不是以合适的时间顺序显示的。当一个事件发生了多次，该事件只会被显示一次，显示首次出现事件、最后一次出现时间以及发生次数。可以使用`kubectl get events`加上监听选项`--watch`可以更直观的查看事件。默认事件只保存一个小时。
-# 了解运行中的pod是什么
+# 3 了解运行中的pod是什么
 
 当你使用`kubectl run nginx --image=nginx`创建一个容器时，你会发现这个命令创建了两个容器。可以使用`docker ps`查看，会发现除了一个nginx容器外，还有一个pause容器。
 
@@ -435,14 +435,14 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 被暂停的容器将一个pod所有的容器收纳到一起。还记得一个pod的所有容器是如何共享一个网络和Linux命名空间的吗？暂停的容器是一个基础容器，它的唯一目的就是保存所有的命名空间。所有pod的其他用户定义容器使用pod的该基础容器的命名空间。
 
 实际的应用容器可能会挂掉并重启。当容器重启时，容器需要处于与之前相同的Linux命名空间内。基础容器使这成为可能，因为基础容器的生命周期与pod绑定。
-# 跨pod网络
+# 4 跨pod网络
 
 每个pod有自己唯一的IP地址，可以通过一个扁平的、非NAT网络和其他pod通信。kubernetes是如何做到这一点的呢？简单来说，kubernetes不负责网络管理，网络是由系统管理员或者Container Network Interface(CNI)插件建立的，而非kubernetes本身。
 
 当pod A连接到pod B时，pod B获取到的源IP地址必须和pod A自己认为的IP一致。期间没有网络地址转换(NAT)操作。pod A发送到 pod B的包必须保持源和目的地址不变。
 
 这很重要，保证pod内部的应用网络的简洁性，就像运行在同一网关机上一样。构建一个像样的kubernetes集群按照这些要求建立网络。
-## 深入了解网络工作原理
+## 4.1 深入了解网络工作原理
 
 在前面我们看到了创建pod的IP地址和网络命名空间，由基础容器来保存这些信息，然后pod容器就可以使用网络命名空间了。pod网络接口就是生成在基础设施容器的一些东西。让我们看下接口是如何被创建的，以及如何连接到其他pod的接口。
 
@@ -463,7 +463,7 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 当两个节点的网桥连接起来时，当一个报文从一个节点上容器发送到其他节点上的容器，报文先通过veth pair，通过网桥到节点物理适配器，然后通过网线传到其他节点的物理适配器，再通过其他节点的网桥，最终经过veth pair到达目标容器。
 
 仅当节点连接到相同网关，且之间没有任何路由器上述方案才有效，因为pod的地址是私有地址，所有路由器会丢包。当然，也可以配置路由使其在节点间能够路由报文，但是随着节点的增加，配置会变得困难，也容易出错。因此，使用SDN(软件定义网络)技术可以简化问题，SDN可以让节点忽略底层网络拓扑，无论多复杂，就像连接到同一个网关上。从pod发出的报文会被封装，通过网络发送给运行其他pod的网络，然后被解封装，以原始格式传递给pod。
-## 引入容器网络接口
+## 4.2 引入容器网络接口
 
 为了让连接容器到网络更加方便，启动一个容器网络接口。CNI允许kubernetes可配置使用任何CNI插件。这些插件包括：
 - Calico
@@ -474,24 +474,24 @@ DNS服务器pod通过kube-dns服务对外暴露，使得该pod能够像其他pod
 想了解更多，可以参考[安装扩展](https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/addons/)
 
 安装一个CNI插件并不难，只需要部署一个包含DaemonSet以及其他支持资源的YAML。
-# 服务是如何实现的
+# 5 服务是如何实现的
 
 在前面学习过service，service允许长时间对外暴露一系列pod、稳定的IP地址以及端口。但在前面只是聚焦于如何使用service，并没有深究作用原理。
-## 引入kube-proxy
+## 5.1 引入kube-proxy
 
 和service相关的任何事情都是由每个节点上运行的kube-proxy进程处理。开始的时候，kube-proxy等待连接，对每个进来的连接，连接到一个pod。这称为userspace(用户空间)代理模式。后来性能更好的iptables模式取代了它。iptables代理模式是目前默认的模式。
 
 之前了解过，service有其自己稳定的IP地址和端口。客户端通过连接该IP和端口使用服务。IP地址是虚拟的，没有被分配给任何网络接口，当数据包离开节点时也不会列为数据包的源或目的IP地址。Service的一个关键细节是，它们包含一个IP、端口对，所以服务IP本身并不代表什么，这就是为什么不能ping它们的原因。
-## kube-proxy如何使用iptables
+## 5.2 kube-proxy如何使用iptables
 
 当在API服务器中创建一个服务时，虚拟IP地址立刻就会分配给它。之后很短时间内，API服务器会通知所有运行在工作节点上的kube-proxy客户端有一个新服务已经被创建了。如何每个kube-proxy都会让该服务在自己的运行节点上可寻址。原理是建立一些iptables规则，确保每个目的地为服务的IP/端口对的数据包被解析，目的地址被修改，这样数据包就会被重定向到支持服务的一个pod。
 
 除了监控API对Service的更改，kube-proxy也监控对Endpoint对象的更改。
 ![kube-proxy工作原理](image/第十章：了解Kubernetes机制_time_5.png)
-# 运行高可用集群
+# 6 运行高可用集群
 
 在kubernetes上运行应用的一个理由就是，保证运行不被中断，或者说尽量少的人工介入基础设置导致的宕机。为了能够不中断的运行服务，不仅应用要一直运行，kubernetes控制平面组件也要不间断运行。
-## 让kubernetes控制平面变得高可用
+## 6.1 让kubernetes控制平面变得高可用
 
 为了使kubernetes高可用，需要运行多个主节点，即运行下述组件的多个实例：
 - etcd分布式数据存储
