@@ -205,7 +205,6 @@ kubectl describe pod my-pod # 查看
 kubectl annotate pod my-pod my-annotation=new-value --overwrite # 修改
 kubectl annotate pod my-pod my-annotation- # 删除
 ```
-
 ## 2.6 命名空间
 前面我们介绍过标签，标签可以给资源分组，但如果没有明确对标签进行选择，那么我们还是默认可以看到所有资源的，如果想将资源分为完全独立且不重叠的组时，可以使用命名空间，在不同的命名空间内，我们可以使用相同的资源名称。资源名称只需要在命名空间内保持唯一即可。
 ### 2.6.1 为什么需要命名空间

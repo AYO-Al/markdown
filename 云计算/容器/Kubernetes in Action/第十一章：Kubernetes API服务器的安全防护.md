@@ -5,7 +5,7 @@
 > - 使用角色和角色绑定
 > - 使用集群角色和集群角色绑定
 > - 了解默认角色及其绑定
-# 了解认证机制
+# 1 了解认证机制
 
 在前面的内容中，我们说到API服务器可以配置一个到多个认证的插件(授权插件同样可以)。API服务器接收到的请求会经过一个认证插件的列表，列表中的每个插件都可以检查这个请求和尝试确定谁在发送这个请求。列表中的第一个插件可以提取请求中客户端的用户名、用户ID和组信息，并返回给API服务器。API服务器会停止调用剩余的认证插件并直接进入授权阶段。
 
@@ -15,7 +15,7 @@
 - 基础的HTTP认证
 - 其他
 启动API服务器时，通过命令行选项可以开启认证插件。
-## 用户和组
+## 1.1 用户和组
 
 认证插件会返回已经认证过用户的用户名和用户组。kubernetes不会在任何地方存储这些信息，这些信息被用来验证用户是否被授权执行某个操作。
 
@@ -35,7 +35,7 @@ kubernetes区分了两种连接到API服务器的客户端：
 - system:authenticated 组会⾃动分配给⼀个成功通过认证的⽤户。
 - system:serviceaccounts 组包含所有在系统中的ServiceAccount。
 - system:serviceaccounts 组包含所有在系统中的ServiceAccount。
-## ServiceAccount介绍
+## 1.2 ServiceAccount介绍
 
 现在已经了解到了API服务器要求客户端在服务器上执行操作之前对自己进行身份验证，了 解 了 是 怎 么 通 过 发 送pod/var/run/secrets/kubernetes.io/serviceaccount/token ⽂件内容来进⾏⾝份认证的。这个⽂件通过加密卷挂载进每个容器的⽂件系统中。
 
@@ -63,7 +63,7 @@ default   1         1d
 在pod的manifest文件中，可以用指定账户名称的方式指定一个ServiceAccount。如果不显式的指定，pod会使用命名空间中默认的ServiceAccount。`spec.serviceAccountName: default`。
 
 可以通过将不同的ServiceAccount赋值给pod来控制每个pod可以访问的资源。当API服务器接收到一个带有认证token的请求时，服务器会用这个token来验证发送请求的客户端所关联的Service Account是否允许执行请求的操作。API服务器通过管理员配置好的系统级别认证插件来获取这些信息。其中一个现成的授权插件是基于角色控制的插件(RBAC)。
-## 创建ServiceAccount
+## 1.3 创建ServiceAccount
 
 我们已经知道了可以自定义ServiceAccount，但是为什么要自定义呢，使用默认的不就好了吗？其中一个显而易见的原因就是集群安全性。不需要读取任何集群元数据的pod应该运行在一个受限制的账户下，这个账户不允许它们检索或修改部署在集群中的任何资源。需要检索元数据的pod应该运行在只允许读取这些对象元数据的ServiceAccount下。反之，需要修改这些对象的pod应该在它们自己的ServiceAccount下运行，这些Service Account允许修改API对象。
 
@@ -133,14 +133,14 @@ ServiceAccount的镜像拉取密钥和它的可挂载密钥表现有些轻微不
 **请注意：如果没有设置RBAC授权插件的话，默认给了ServiceAccount全部的权限。**
 
 如果集群没有使⽤合适的授权，创建和使⽤额外的ServiceAccount并没有多⼤意义，因为即使默认的ServiceAccount也允许执⾏任何操作。在这种情况下，使⽤ServiceAccount的唯⼀原因就是前⾯讲过的加强可挂载密钥，或者通过ServiceAccount提供镜像拉取密钥。如果使⽤RBAC授权插件，创建额外的ServiceAccount实际上是必要的，我们会在后⾯讨论RBAC授权插件的使⽤。
-# 通过基于角色的权限控制加强集群安全
+# 2 通过基于角色的权限控制加强集群安全
 
 从1.6版本开始，集群安全性显著提高。在早期版本中，如果你设法从集群中的⼀个pod获得了⾝份认证token，就可以使⽤这个token在集群中执⾏任何你想要的操作。如果在⾕歌上搜索，可以找到演⽰如何使⽤ pathtraversal（或者directory traversal）攻击的例⼦（客户端可以检索位于We b服务器的We b根⽬录之外的⽂件）。通过这种⽅式可以获取token，并⽤这个token在不安全的 Kubernetes集群中运⾏恶意的pod。
 
 但是在1.8版本中，RBAC授权插件升级为GA(通用可用性)，并且默认在集群上开启。RBAC会阻止未授权的用户查看和修改集群状态。除非授予默认的ServiceAccount额外的特权，否则默认的ServiceAccount不允许查看集群状态，更不用说以任何方式取修改集群状态。
 > 注意 除了RBAC插件，Kubernetes也包含其他的授权插件，⽐如基于属性的访问控制插件（ABAC）、WebHook插件和⾃定义插件实现。但是，RBAC插件是标准的。
 
-## 介绍RBAC授权插件
+## 2.1 介绍RBAC授权插件
 
 Kubernetes API服务器可以配置使用一个授权插件来检查是否允许用户请求的动作执行。因为API服务器对外暴露了REST接口，用户可以通过向服务器发送HTTP请求来执行动作，通过在请求汇总包含认证凭证来进行认证(认证token、用户名和密码或者客户端证书)。
 
@@ -169,7 +169,7 @@ Kubernetes API服务器可以配置使用一个授权插件来检查是否允许
 顾名思义，RBAC授权插件将用户角色作为决定用户能否执行操作的关键因素。主体(一个人、一个Service或一组用户或ServiceAccount)和一个或多个角色相关联，每个角色被允许在特定的资源上执行特定的动词。
 
 通过RBAC插件管理授权是简单的，这⼀切都是通过创建四种RBAC特定的Kubernetes资源来完成的，我们会在下⾯学习这个过程。
-## 介绍RBAC资源
+## 2.2 介绍RBAC资源
 
 Role（⾓⾊）和ClusterRole（集群⾓⾊），它们指定了在资源上可以执⾏哪些动词。RoleBinding （ ⾓ ⾊ 绑 定 ） 和 ClusterRoleBinding （ 集群 ⾓ ⾊ 绑定），它们将上述⾓⾊绑定到特定的⽤户、组或ServiceAccounts上。⾓⾊定义了可以做什么操作，⽽绑定定义了谁可以做这些操作。
 ![](image/第十一章：Kubernetes%20API服务器的安全防护_time_1.png)
@@ -179,7 +179,7 @@ Role（⾓⾊）和ClusterRole（集群⾓⾊），它们指定了在资源上�
 从图中可以看到，多个⾓⾊绑定可以存在于单个命名空间中（对于⾓⾊也是如此）。同样地，可以创建多个集群绑定和集群⾓⾊。图中显⽰的另外⼀件事情是，尽管⾓⾊绑定是在命名空间下的，但它们也可以引⽤不在命名空间下的集群⾓⾊，但不可用绑定其他命名空间下的角色。
 ![](image/第十一章：Kubernetes%20API服务器的安全防护_time_2.png)
 可以在APIServer启动选项中使用`--authorization-mode=RBAC,Node`开启RABC及node授权插件，node授权插件专门为Kubernetes节点设计的授权机制，确保节点只能访问和修改与其自身相关的资源。
-## 使用Role和RoleBinding
+## 2.3 使用Role和RoleBinding
 
 Role资源定义了哪些操作可以在哪些资源上执行。下⾯的代码清单定义了⼀个Role，它允许⽤户获取并列出foo命名空间中的服务。
 ```yaml
@@ -215,7 +215,7 @@ roleRef:
     name: sa2 
     namespace: default
 ```
-## 使用ClusterRole和ClusterRoleBinding
+## 2.4 使用ClusterRole和ClusterRoleBinding
 
 除了这些命名空间⾥的资源，还存在两个集群级别的RBAC资源：ClusterRole和ClusterRoleBinding，它们不在命名空间⾥。让我们看看为什么需要它们。
 
@@ -303,7 +303,7 @@ subjects:
   kind: Group
   name: system:authenticated   # 绑定到认证用户，说明认证过后的用户都能访问
 ```
-## 使用ClusterRole来授权访问指定命名空间中的资源
+## 2.5 使用ClusterRole来授权访问指定命名空间中的资源
 
 ClusterRole不是必须⼀直和集群级别的ClusterRoleBinding捆绑使⽤。它们也可以和常规的有命名空间的RoleBinding进⾏捆绑。
 ```yaml
@@ -323,12 +323,12 @@ rules:
 
 **使用RoleBinding**
 ![](image/第十一章：Kubernetes%20API服务器的安全防护_time_5.png)
-## 总结Role、ClusterRole、Rolebinding和ClusterRoleBinding的组合
+## 2.6 总结Role、ClusterRole、Rolebinding和ClusterRoleBinding的组合
 
 我们已经介绍了许多不同的组合，可能很难记住何时去使⽤对应的每个组合。下面这张图可能会帮助你更好的记忆。
 ![](image/第十一章：Kubernetes%20API服务器的安全防护_time_6.png)
 
-## 了解默认的ClusterRole和ClusterRoleBinding
+## 2.7 了解默认的ClusterRole和ClusterRoleBinding
 
 Kubernetes提供了⼀组默认的ClusterRole和ClusterRoleBinding，每次API服务器启动时都会更新它们。这保证了在你错误地删除⾓⾊和绑定，或者Kubernetes的新版本使⽤了不同的集群⾓⾊和绑定配置时，所有的默认⾓⾊和绑定都会被重新创建。
 ![](image/第十一章：Kubernetes%20API服务器的安全防护_time_7.png)
@@ -360,7 +360,7 @@ edit ClusterRole，它允许你修改⼀个命名空间中的资源，同时允�
 虽然Controller Manager作为⼀个独⽴的pod来运⾏，但是在其中运⾏的每个控制器都可以使⽤单独的ClusterRole和ClusterRoleBinding（它们以system：Controller：为前缀）。
 
 这些系统的每个ClusterRole都有⼀个匹配的ClusterRoleBinding，它会 绑 定 到 系 统 组 件 ⽤ 来 ⾝ 份认 证 的 ⽤ 户 上 。 例 如 ， system:kube-schedulerClusterRoleBinding 将 名 称 相 同 的 ClusterRole 分 配 给system:kube-scheduler⽤户，它是调度器作为⾝份认证的⽤户名。
-## 理性地授予授权权限
+## 2.8 理性地授予授权权限
 
 在默认情况下，命名空间中的默认ServiceAccount除了未经⾝份验证 的 ⽤ 户 没 有 其 他 权 限 （ 你 可 能 记 得 前 ⾯ 的⽰ 例 之 ⼀ ，system:discovery ClusterRole和相关联的绑定 允许任何⼈对⼀些⾮资源型的URL发送GET请求）。因此，在默认情况下，pod甚⾄不能查看集群状态。应该授予它们适当的权限来做这些操作。
 
