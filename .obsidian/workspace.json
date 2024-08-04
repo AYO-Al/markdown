@@ -4,28 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "c21a23f9b88d7e1c",
+        "id": "fcaebec4f49d80cd",
         "type": "tabs",
         "children": [
           {
-            "id": "05dc4b1ae909aa7b",
+            "id": "587a0a70a208a015",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "2b6fcceb3661723e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
+                "file": "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
                 "mode": "source",
                 "source": false
               }
@@ -81,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5,
-    "collapsed": true
+    "width": 337.5
   },
   "right": {
     "id": "a689601275098279",
@@ -98,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md",
+                "file": "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md",
+                "file": "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md"
+                "file": "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md"
               }
             }
           }
@@ -147,7 +134,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -159,28 +147,32 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "05dc4b1ae909aa7b",
+  "active": "587a0a70a208a015",
   "lastOpenFiles": [
+    "计算机基础/操作系统/Linux性能优化/image/CPU利用率100%该怎么办_time_1.png",
+    "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
+    "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
+    "计算机基础/操作系统/Linux性能优化/image",
+    "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md",
+    "云计算/容器/Kubernetes in Action/第十一章：Kubernetes API服务器的安全防护.md",
+    "计算机基础/操作系统/Linux性能优化.md",
+    "计算机基础/操作系统/Linux性能优化",
+    "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
+    "计算机基础/操作系统",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_9.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_8.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_6.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_7.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_5.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_4.png",
-    "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
-    "云计算/容器/Kubernetes in Action/第十二章：保障集群内节点和⽹络安全.md",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_3.png",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_2.png",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/Kubernetes in Action/image/第十二章：保障集群内节点和⽹络安全_time_1.png",
-    "云计算/容器/Kubernetes in Action/第十一章：Kubernetes API服务器的安全防护.md",
     "云计算/容器/云原生/Docker.md",
     "云计算/容器/云原生/容器实现技术.md",
-    "云计算/容器/云原生/image/Docker_time_14.png",
-    "云计算/容器/Kubernetes in Action/image/第十一章：Kubernetes API服务器的安全防护_time_7.png",
     "云计算/容器/Kubernetes in Action/第七章：从应用访问pod元数据及其他资源.md",
     "云计算/容器/Kubernetes in Action/第六章：ConfigMap和Secret-配置应用程序.md",
-    "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
     "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
     "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
     "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
@@ -195,7 +187,6 @@
     "疑惑.md",
     "git.md",
     "image/git",
-    "tmp1718440101571_Git_time_7.md",
-    "Git.md"
+    "tmp1718440101571_Git_time_7.md"
   ]
 }
