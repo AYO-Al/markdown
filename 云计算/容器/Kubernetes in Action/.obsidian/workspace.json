@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "第十章：了解Kubernetes机制.md",
+                "file": "第五章：卷-将磁盘挂载到容器.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "第十章：了解Kubernetes机制.md",
+                "file": "第五章：卷-将磁盘挂载到容器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "第十章：了解Kubernetes机制.md",
+                "file": "第五章：卷-将磁盘挂载到容器.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "第十章：了解Kubernetes机制.md"
+                "file": "第五章：卷-将磁盘挂载到容器.md"
               }
             }
           }
@@ -148,11 +148,11 @@
   },
   "active": "159d14bee7f637ef",
   "lastOpenFiles": [
+    "第十章：了解Kubernetes机制.md",
     "image/第十章：了解Kubernetes机制_time_6.png",
     "image/第十章：了解Kubernetes机制_time_5.png",
     "第二章：pod-运行于kubernetes中的容器.md",
     "第三章：副本机制和控制器.md",
-    "第十章：了解Kubernetes机制.md",
     "image/第十章：了解Kubernetes机制_time_4.png",
     "第六章：ConfigMap和Secret-配置应用程序.md",
     "第七章：从应用访问pod元数据及其他资源.md",
@@ -168,7 +168,6 @@
     "image/git_time_13.png",
     "image/git_time_12.png",
     "image/git_time_11.png",
-    "image/git_time_10.png",
     "疑惑.md",
     "git.md",
     "image/git",
