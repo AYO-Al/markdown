@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md"
+                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md"
               }
             }
           }
@@ -135,8 +135,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -150,19 +149,20 @@
   },
   "active": "587a0a70a208a015",
   "lastOpenFiles": [
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_6.png",
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_5.png",
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_4.png",
-    "云计算/容器/Kubernetes in Action/image/Pasted image 20240728152225.png",
-    "云计算/容器/Kubernetes in Action/image/Pasted image 20240702222453.png",
-    "云计算/容器/Kubernetes in Action/image/tmp1722864116467_第十四章：自动横向伸缩pod与集群节点_time_4.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_12.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_11.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_10.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_9.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_8.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_7.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_6.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_5.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_4.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_3.png",
+    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_2.png",
     "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_3.png",
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_2.png",
-    "云计算/容器/Kubernetes in Action/image/第十四章：自动横向伸缩pod与集群节点_time_1.png",
+    "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
-    "云计算/容器/Kubernetes in Action/image/第十三章：计算资源管理_time_16.png",
-    "云计算/容器/Kubernetes in Action/image/第十三章：计算资源管理_time_15.png",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
     "计算机基础/操作系统/Linux性能优化/image",
@@ -188,7 +188,6 @@
     "云计算/容器/云原生/Kubernetes.md",
     "云计算/容器/云原生/云原生.md",
     "云计算/容器/容器网络/kubernetes网络.md",
-    "疑惑.md",
     "image/git"
   ]
 }
