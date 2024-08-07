@@ -13,7 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
+                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "2adbae8dfd238c33",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
+                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
+                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十五章：高级调度.md"
+                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md"
               }
             }
           }
@@ -135,8 +147,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -150,19 +161,21 @@
   },
   "active": "587a0a70a208a015",
   "lastOpenFiles": [
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_12.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_11.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_10.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_9.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_8.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_7.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_6.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_5.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_4.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_3.png",
-    "云计算/容器/Kubernetes in Action/image/第十五章：高级调度_time_2.png",
-    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_11.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_10.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_9.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_8.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_7.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_6.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_5.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_4.png",
+    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+    "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_3.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_2.png",
+    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_1.png",
+    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
@@ -173,7 +186,6 @@
     "计算机基础/操作系统/Linux性能优化",
     "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
     "计算机基础/操作系统",
-    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/云原生/Docker.md",
     "云计算/容器/云原生/容器实现技术.md",
     "云计算/容器/Kubernetes in Action/第七章：从应用访问pod元数据及其他资源.md",
@@ -188,7 +200,6 @@
     "云计算/容器/云原生/k8s极速版.md",
     "云计算/容器/云原生/Kubernetes.md",
     "云计算/容器/云原生/云原生.md",
-    "云计算/容器/容器网络/kubernetes网络.md",
     "image/git"
   ]
 }
