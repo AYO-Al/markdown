@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
+                "file": "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
+                "file": "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
+                "file": "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md"
+                "file": "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md"
               }
             }
           }
@@ -147,7 +147,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 511.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -161,20 +162,23 @@
   },
   "active": "587a0a70a208a015",
   "lastOpenFiles": [
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_11.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_10.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_9.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_8.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_7.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_6.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_5.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_4.png",
-    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_22.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_21.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_20.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_19.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_18.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_17.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_16.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_15.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_14.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_13.png",
+    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_12.png",
     "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
+    "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
+    "go/基础/golang.md",
+    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_3.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_2.png",
-    "云计算/容器/Kubernetes in Action/image/第十六章：开发应用的最佳实践_time_1.png",
     "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
@@ -192,14 +196,11 @@
     "云计算/容器/Kubernetes in Action/第六章：ConfigMap和Secret-配置应用程序.md",
     "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
     "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第五章：卷-将磁盘挂载到容器.md",
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
     "分布式版本控制系统/git.md",
-    "go/基础/golang.md",
     "云计算/容器/云原生/k8s极速版.md",
     "云计算/容器/云原生/Kubernetes.md",
-    "云计算/容器/云原生/云原生.md",
     "image/git"
   ]
 }
