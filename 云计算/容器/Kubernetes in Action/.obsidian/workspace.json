@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "第十五章：高级调度.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "第十五章：高级调度.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "第十五章：高级调度.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "第十五章：高级调度.md"
+                "file": "第二章：pod-运行于kubernetes中的容器.md"
               }
             }
           }
@@ -148,6 +149,7 @@
   },
   "active": "b2d6bba9eb11e88c",
   "lastOpenFiles": [
+    "第十五章：高级调度.md",
     "第五章：卷-将磁盘挂载到容器.md",
     "第十章：了解Kubernetes机制.md",
     "image/第十章：了解Kubernetes机制_time_6.png",

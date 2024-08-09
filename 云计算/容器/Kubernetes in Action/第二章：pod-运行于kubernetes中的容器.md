@@ -445,3 +445,105 @@ Init 容器具有应用容器的所有字段。然而 Kubernetes 禁止使用 `
     - 对某个资源的有效初始 limit/request
 - 基于有效 limit/request 完成调度，这意味着 Init 容器能够为初始化过程预留资源， 这些资源在 Pod 生命周期过程中并没有被使用。
 - Pod 的 **有效 QoS 层**，与 Init 容器和应用容器的一样。
+# sidecar
+
+边车容器是与**主应用容器**在同一个 Pod中运行的辅助容器。 这些容器通过提供额外的服务或功能（如日志记录、监控、安全性或数据同步）来增强或扩展主应用容器的功能， 而无需直接修改主应用代码。
+
+通常，一个 Pod 中只有一个应用程序容器。 例如，如果你有一个需要本地 Web 服务器的 Web 应用程序， 则本地 Web 服务器以边车容器形式运行，而 Web 应用本身以应用容器形式运行。
+
+在1.29之前，边车容器指的是在pod中运行两个容器，让其中一个容器来为另一个容器提供服务。除非开启`SidecarContainers`特性门控，让init容器可以指定`restartPolicy`。但在1.29之后，Kubernetes 将边车容器作为 Init 容器的一个特例来实现， Pod 启动后，边车容器仍保持运行状态。`SidecarContainers`特性门控默认开启。 
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: alpine:latest
+          command: ['sh', '-c', 'echo "logging" > /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+      initContainers:
+        - name: logshipper
+          image: alpine:latest
+          restartPolicy: Always
+          command: ['sh', '-c', 'tail /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+  volumes:
+    - name: data
+      emptyDir: {}
+```
+## 生命周期
+
+如果创建 Init 容器时将 `restartPolicy` 设置为 `Always`， 则它将在整个 Pod 的生命周期内启动并持续运行。这对于运行与主应用容器分离的支持服务非常有帮助。
+
+如果为此 Init 容器指定了 `readinessProbe`，其结果将用于确定 Pod 的 `ready` 状态。
+
+由于这些容器被定义为 Init 容器，所以它们享有与其他 Init 容器相同的顺序和按序执行保证， 从而允许将边车容器与常规 Init 容器混合使用，支持复杂的 Pod 初始化流程。
+## 带边车容器的job
+
+如果你定义 Job 时使用基于 Kubernetes 风格 Init 容器的边车容器， 各个 Pod 中的边车容器不会阻止 Job 在主容器结束后进入完成状态。
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  template:
+    spec:
+      containers:
+        - name: myjob
+          image: alpine:latest
+          command: ['sh', '-c', 'echo "logging" > /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+      initContainers:
+        - name: logshipper
+          image: alpine:latest
+          restartPolicy: Always
+          command: ['sh', '-c', 'tail /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+      restartPolicy: Never
+      volumes:
+        - name: data
+          emptyDir: {}
+```
+## 与init容器的区别
+
+边车容器与主容器并行工作，扩展其功能并提供附加服务。
+
+边车容器与主应用容器同时运行。它们在整个 Pod 的生命周期中都处于活动状态，并且可以独立于主容器启动和停止。 与 Init 容器不同， 边车容器支持探针来控制其生命周期。
+
+边车容器可以直接与主应用容器交互，因为与 Init 容器一样， 它们总是与应用容器共享相同的网络，并且还可以选择共享卷（文件系统）。
+
+Init 容器在主容器启动之前停止，因此 Init 容器无法与 Pod 中的应用程序容器交换消息。 所有数据传递都是单向的（例如，Init 容器可以将信息放入 `emptyDir` 卷中）。
+## 容器内资源共享
+
+假如执行顺序为 Init 容器、边车容器和应用容器，则关于资源用量适用以下规则：
+
+- 所有 Init 容器上定义的任何特定资源的 limit 或 request 的最大值，作为 Pod **有效初始 request/limit**。 如果任何资源没有指定资源限制，则被视为最高限制。
+- Pod 对资源的 **有效 limit/request** 是如下两者中的较大者：
+    - 所有应用容器对某个资源的 limit/request 之和
+    - Init 容器中对某个资源的有效 limit/request
+- 系统基于有效的 limit/request 完成调度，这意味着 Init 容器能够为初始化过程预留资源， 而这些资源在 Pod 的生命周期中不再被使用。
+- Pod 的 **有效 QoS 级别**，对于 Init 容器和应用容器而言是相同的。
+
+配额和限制适用于 Pod 的有效请求和限制值
