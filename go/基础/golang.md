@@ -200,8 +200,20 @@ Go 也有基于架构的类型，例如：int、uint 和 uintptr。
 |3|**uint**  <br>32 或 64 位|
 |4|**int**  <br>与 uint 一样大小|
 |5|**uintptr**  <br>无符号整型，用于存放一个指针|
+# Go变量
 
+变量来源于数学，是计算机语言中能储存计算结果或能表示值抽象概念。
 
+变量可以通过变量名访问。
 
+Go 语言变量名由字母、数字、下划线组成，其中首个字符不能为数字。
+
+声明变量的一般形式是使用 var 关键字：
+```go
+var identifier type
+
+# 可以一次性声明多个变量
+var identifier1, identifier12 type
+```
 
 
