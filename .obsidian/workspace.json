@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/golang.md"
+                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md"
               }
             }
           }
@@ -162,6 +162,9 @@
   },
   "active": "587a0a70a208a015",
   "lastOpenFiles": [
+    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+    "go/基础/golang.md",
     "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_22.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_21.png",
@@ -174,12 +177,9 @@
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_14.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_13.png",
     "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
-    "go/基础/golang.md",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
-    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
-    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
     "计算机基础/操作系统/Linux性能优化/image",

@@ -17,8 +17,11 @@
 ## 1.1 了解自动伸缩过程
 
 自动伸缩的过程可以分为三个步骤：
-- 获取被伸缩资源对象所管理的所有pod度量。
+- 间歇获取被伸缩资源对象所管理的所有pod度量。间隔由 `kube-controller-manager` 的 `--horizontal-pod-autoscaler-sync-period` 参数设置（默认间隔为 15 秒）。
 - 计算使度量数值达到(或接近)所指定目标数值所需的pod数量。
+```
+期望副本数 = ceil[当前副本数 * (当前指标 / 期望指标)]
+```
 - 更新被伸缩资源的replicas字段。
 
 **获取pod度量**
@@ -116,7 +119,7 @@ spec:
 这会帮你创建HPA对象，并将叫作kubia的Deployment设置为伸缩⽬标。你还设置了pod的⽬标CPU使⽤率为30%，指定了副本的最⼩和最⼤数量。Autoscaler会持续调整副本的数量以使CPU使⽤率接近30%，但它永远不会调整到少于1个或者多于5个。
 
 cAdvisor获取CPU度量与Heapster收集这些度量都需要⼀阵⼦，之后Autoscaler才能采取⾏动。在这段时间⾥，如果⽤kubectl get显⽰HPA资源，TARGETS列就会显⽰<unknown\>：
-![](image/第十四章：自动横向伸缩pod与集群节点_time_4.png)
+![](image/第十四章：自动横向伸缩pod与集群节点_time_1.png)
 因为在运⾏三个空⽆⼀请求的pod，它们的CPU使⽤率应该接近 0，应该预期Autoscaler将它们收缩到1个pod，因为即便只有⼀个pod,CPU使⽤率仍然会低于30%的⽬标值。
 
 记住，Autoscaler只会在Deployment上调节预期的副本数量。接下来由Deployment控制器负责更新ReplicaSet对象上的副本数量，从⽽使ReplicaSet控制器删除多余的两个pod⽽留下⼀个。
@@ -318,7 +321,7 @@ Cluster Autoscaler负责在由于节点资源不⾜，⽽⽆法调度某pod到�
 Cluster Autoscaler通过检查可⽤的节点分组来确定是否有⾄少⼀种节点类型能容纳未被调度的od。如果只存在唯⼀⼀个此种节点分组，ClusterAutoscaler就可以增加节点分组的⼤⼩，让云服务提供商给分组中增加⼀个节点。但如果存在多个满⾜条件的节点分组，ClusterAutoscaler就必须挑⼀个最合适的。这⾥“最合适”的精确含义显然必须是可配置的。在最坏的情况下，它会随机挑选⼀个。
 
 新节点启动后，其上运⾏的Kubelet会联系API服务器，创建⼀个 Node资源以注册该节点。从这⼀刻起，该节点即成为Kubernetes集群的⼀部分，可以调度pod于其上了。
-![](image/第十四章：自动横向伸缩pod与集群节点_time_5.png)
+![](image/第十四章：自动横向伸缩pod与集群节点_time_2.png)
 
 当节点利⽤率不⾜时，Cluster Autoscaler也需要能够减少节点的数⽬。Cluster Autoscaler通过监控所有节点上请求的CPU与内存来实现这⼀点。如果某个节点上所有pod请求的CPU、内存都不到50%，该节点即被认定为不再需要。
 
@@ -335,6 +338,6 @@ Cluster Autoscaler通过检查可⽤的节点分组来确定是否有⾄少⼀�
 ⼀些服务要求⾄少保持⼀定数量的pod持续运⾏，对基于quorum的集群应⽤⽽⾔尤其如此。为此，Kubernetes可以指定下线等操作时需要保持的最少pod数量，我们通过创建⼀个podDisruptionBudget资源的⽅式来利⽤这⼀特性。
 
 尽管这个资源的名称听起来挺复杂的，实际上它是最简单的Kubernetes资源之⼀。它只包含⼀个pod标签选择器和⼀个数字，指定最少需要维持运⾏的pod数量，从Kubernetes 1.7开始，还有最⼤可以接收的不可⽤pod数量。
-![](image/第十四章：自动横向伸缩pod与集群节点_time_6.png)
+![](image/第十四章：自动横向伸缩pod与集群节点_time_3.png)
 也可以⽤⼀个百分⽐⽽⾮绝对数值来写minAvailable字段。⽐⽅说，可以指定60%带app=kubia标签的pod应当时刻保持运⾏。
 
