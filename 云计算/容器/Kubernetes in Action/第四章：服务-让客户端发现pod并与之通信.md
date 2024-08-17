@@ -358,8 +358,10 @@ ingress的作用原理大概是这样：
 1. 客户端首先对域名执行DNS查询，DNS服务器返回了ingress控制器的IP；
 2. 客户端向Ingress控制器发送Http请求，并在Host头部指定域名；
 3. 控制器从该头部确定客户端尝试访问哪个服务，通过该服务关联的Endpoint对象查看pod IP；
-4. 最后将客户端的请求转发给其中一个pod。
+4. 最后service将客户端的请求转发给其中一个pod。
 ![](image/第四章：服务-让客户端发现pod并与之通信_time_3.png)
+由于Ingress API建立在Service抽象之上，Ingress控制器可以选择通过Service转发流量或直接将其发送到Pod上。大多数Ingress控制器选择了后者。除了验证Ingress资源中引用的Service是否存在外，它们并不使用Service资源。当涉及路由时，大多数控制器将流量转发到相应Endpoints对象中列出的Pod IP地址。将流量直接路由到Pod，可以绕过Service层，从而减少延迟并增加不同的负载均衡策略。
+详细可以查看这篇关于`nginx ingress`源码分析：[源码分析 kubernetes ingress nginx controller 控制器的实现原理](https://xiaorui.cc/archives/7340)
 ### 5.3.3 ingress暴露多个服务
 
 在ingress的配置文件中，rules字段和paths字段都是数组，因此可以包含多个条目。一个ingress可以将多个主机和路径映射到多个服务。
