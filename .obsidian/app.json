@@ -4,5 +4,7 @@
   "attachmentFolderPath": "./image",
   "alwaysUpdateLinks": true,
   "useMarkdownLinks": true,
-  "promptDelete": false
+  "promptDelete": false,
+  "showRibbon": true,
+  "useTab": false
 }

@@ -4,28 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "fcaebec4f49d80cd",
+        "id": "4f2c9381b6419417",
         "type": "tabs",
         "children": [
           {
-            "id": "587a0a70a208a015",
+            "id": "952fe600ce60275a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/golang.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "2adbae8dfd238c33",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+                "file": "云计算/shell编程/shell.md",
                 "mode": "source",
                 "source": false
               }
@@ -81,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5,
-    "collapsed": true
+    "width": 337.5
   },
   "right": {
     "id": "a689601275098279",
@@ -98,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/shell编程/shell.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/基础/golang.md",
+                "file": "云计算/shell编程/shell.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,16 +125,24 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/golang.md"
+                "file": "云计算/shell编程/shell.md"
               }
+            }
+          },
+          {
+            "id": "f8ff6670aa343c1e",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 487.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -159,10 +154,13 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "587a0a70a208a015",
+  "active": "f8ff6670aa343c1e",
   "lastOpenFiles": [
     "云计算/容器/Kubernetes in Action/第四章：服务-让客户端发现pod并与之通信.md",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
+    "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_3.png",
+    "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_2.png",
+    "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_1.png",
     "go/基础/golang.md",
     "go/基础/image/golang_time_1.png",
     "go/基础/image",
@@ -175,9 +173,6 @@
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_19.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_18.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_17.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_16.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_15.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_14.png",
     "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
     "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
