@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "第四章：服务-让客户端发现pod并与之通信.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "第四章：服务-让客户端发现pod并与之通信.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "第四章：服务-让客户端发现pod并与之通信.md",
+                "file": "第二章：pod-运行于kubernetes中的容器.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "第四章：服务-让客户端发现pod并与之通信.md"
+                "file": "第二章：pod-运行于kubernetes中的容器.md"
               }
             }
           }
@@ -148,6 +148,7 @@
   },
   "active": "b2d6bba9eb11e88c",
   "lastOpenFiles": [
+    "第四章：服务-让客户端发现pod并与之通信.md",
     "第二章：pod-运行于kubernetes中的容器.md",
     "第十五章：高级调度.md",
     "第五章：卷-将磁盘挂载到容器.md",
@@ -158,7 +159,6 @@
     "image/第十章：了解Kubernetes机制_time_4.png",
     "第六章：ConfigMap和Secret-配置应用程序.md",
     "第七章：从应用访问pod元数据及其他资源.md",
-    "第四章：服务-让客户端发现pod并与之通信.md",
     "image/第十章：了解Kubernetes机制_time_3.png",
     "image/Pasted image 20240728152225.png",
     "image/第十章：了解Kubernetes机制_time_2.png",
