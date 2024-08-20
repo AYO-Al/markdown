@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
+                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
+                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
+                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/操作系统/Linux性能优化/理解平均负载.md"
+                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md"
               }
             }
           },
@@ -155,10 +155,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "f8ff6670aa343c1e",
+  "active": "952fe600ce60275a",
   "lastOpenFiles": [
-    "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
+    "计算机基础/操作系统/Linux性能优化/什么是CPU的上下文切换.md",
     "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
+    "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "go/基础/golang.md",
     "云计算/容器/深入剖析kubernetes",
     "云计算/中间件/RabbitMQ.md",
@@ -197,7 +198,6 @@
     "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
     "云计算/容器/Kubernetes in Action/第五章：卷-将磁盘挂载到容器.md",
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
-    "分布式版本控制系统/git.md",
     "image/git"
   ]
 }
