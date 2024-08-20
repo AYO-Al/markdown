@@ -13,7 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+                "file": "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "76873f1555202972",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+                "file": "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+                "file": "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md"
+                "file": "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md"
               }
             }
           },
@@ -143,7 +155,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 487.5
+    "width": 262.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -155,10 +167,16 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "952fe600ce60275a",
+  "active": "f8ff6670aa343c1e",
   "lastOpenFiles": [
+    "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
+    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
+    "云计算/容器/深入剖析kubernetes/image/01-容器基础：从进程说起_time_1.png",
+    "云计算/容器/深入剖析kubernetes/image",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "计算机基础/操作系统/Linux性能优化/什么是CPU的上下文切换.md",
     "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
+    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "go/基础/golang.md",
     "云计算/容器/深入剖析kubernetes",
@@ -172,16 +190,13 @@
     "go/基础/image/golang_time_1.png",
     "go/基础/image",
     "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
-    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_22.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_21.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_20.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_19.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_18.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_17.png",
     "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
     "计算机基础/操作系统/Linux性能优化/image",
@@ -196,8 +211,6 @@
     "云计算/容器/Kubernetes in Action/第六章：ConfigMap和Secret-配置应用程序.md",
     "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
     "云计算/容器/Kubernetes in Action/第三章：副本机制和控制器.md",
-    "云计算/容器/Kubernetes in Action/第五章：卷-将磁盘挂载到容器.md",
-    "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
     "image/git"
   ]
 }
