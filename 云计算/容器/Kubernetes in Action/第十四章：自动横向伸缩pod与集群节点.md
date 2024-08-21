@@ -70,6 +70,13 @@ Autoscaler控制器通过Scale⼦资源来修改被伸缩资源的 replicas 字�
 你可能还记得，上⼀章中提到容器中的进程被保证能够使⽤该容器资源请求中所请求的CPU资源数。但在没有其他进程需要CPU时，进程就能使⽤节点上所有可⽤的CPU资源。如果有⼈说“这个pod⽤了80%的CPU”​，我们并不清楚对⽅的意思是80%的节点CPU，还是80%的guaranteed CPU（资源请求量）​，还是⽤资源限额给pod配置的硬上限的80%。
 
 就Autoscaler⽽⾔，只有pod的保证CPU⽤量（CPU请求）才与确认 pod的CPU使⽤有关。Autoscaler对⽐pod的实际CPU使⽤与它的请求，这意味着你需要给被伸缩的pod设置CPU请求，不管是直接设置还是通过LimitRange对象间接设置，这样Autoscaler才能确定CPU使⽤率。
+1. **资源调度**：
+    - Kubernetes的调度器需要知道每个Pod需要多少资源（CPU和内存），以便将Pod调度到有足够资源的节点上。资源请求（requests）定义了Pod在调度时所需的最小资源量。
+2. **资源保障**：
+    - 资源请求（requests）是Kubernetes用来保证Pod在运行时至少能获得的资源量。这对于确保应用程序的性能和稳定性非常重要，特别是在资源紧张的环境中。
+3. **HPA的决策依据**：
+    - HPA根据Pod的资源使用情况（如CPU和内存使用率）来决定是否需要扩展或缩减Pod的数量。没有资源请求（requests），HPA无法准确评估当前资源使用情况，因为它没有基准来判断资源使用率。
+    - 例如，如果没有设置CPU请求，HPA无法计算当前CPU使用率，因为使用率是基于实际使用量与请求量的比值。
 
 我们先创建一个deployment对象。
 ```yaml
@@ -106,7 +113,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: kubia
-  minReplicas: 1   # 不允许为0
+  minReplicas: 1   # 不允许为0，在1.18之后允许
   maxReplicas: 5
   metrics:
   - type: Resource
