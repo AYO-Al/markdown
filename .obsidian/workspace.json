@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
                 "mode": "source",
                 "source": false
               }
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -116,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+                "file": "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,7 +139,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md"
+                "file": "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md"
               }
             }
           },
@@ -170,11 +170,18 @@
   },
   "active": "76873f1555202972",
   "lastOpenFiles": [
+    "云计算/容器/深入剖析kubernetes/image/03-容器基础：深入理解容器镜像_time_1.png",
+    "web/JWT.md",
+    "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
+    "web/image/JWT_time_2.png",
+    "web/image/JWT_time_1.png",
+    "web/image",
+    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
+    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
     "计算机基础/操作系统/Linux性能优化/相关命令.md",
     "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "计算机基础/操作系统/Linux性能优化/image/CPU利用率100%该怎么办_time_1.png",
     "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
-    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
     "云计算/容器/深入剖析kubernetes/image/01-容器基础：从进程说起_time_1.png",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
@@ -192,12 +199,9 @@
     "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_1.png",
     "go/基础/image/golang_time_1.png",
     "go/基础/image",
-    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
     "云计算/容器/Kubernetes in Action/第十七章：kubernetes应用扩展.md",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_22.png",
     "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_21.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_20.png",
-    "云计算/容器/Kubernetes in Action/image/第十七章：kubernetes应用扩展_time_19.png",
     "云计算/容器/Kubernetes in Action/第十六章：开发应用的最佳实践.md",
     "云计算/容器/Kubernetes in Action/第十五章：高级调度.md",
     "云计算/容器/Kubernetes in Action/第八章：Deployment-声明式的升级应用.md",
@@ -209,9 +213,6 @@
     "计算机基础/操作系统",
     "云计算/容器/云原生/Docker.md",
     "云计算/容器/云原生/容器实现技术.md",
-    "云计算/容器/Kubernetes in Action/第七章：从应用访问pod元数据及其他资源.md",
-    "云计算/容器/Kubernetes in Action/第六章：ConfigMap和Secret-配置应用程序.md",
-    "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
     "image/git"
   ]
 }
