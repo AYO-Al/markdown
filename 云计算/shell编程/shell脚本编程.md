@@ -15,7 +15,7 @@
 
 > 变量测试
 
-![image-20230308162532755](./image/qvqpaj-0-1718115904809-31.png)
+![image-20230308162532755](image/shell脚本编程_time_1.png)
 
 
 
@@ -48,7 +48,7 @@ expr match $string substr # substr必须从头开始匹配，不然匹配不了
 
 > 抽取子串
 
-![image-20230308163504414](./image/r1hi7n-0.png)
+![image-20230308163504414](image/shell脚本编程_time_2.png)
 
 > 如果使用expr方式，则索引从1开始
 
@@ -103,9 +103,9 @@ fi
 - declare命令和typeset命令是等价的
 - 都是用来定义变量类型的
 
-![image-20230308224820492](./image/11778k3-0.png)
+![image-20230308224820492](image/shell脚本编程_time_3.png)
 
-![image-20230611132622416](./image/lxonlg-0-1718115904810-32.png)
+![image-20230611132622416](image/shell脚本编程_time_4.png)
 
 - 定义数组
   - declare -a 数组名
@@ -163,11 +163,11 @@ fi
 | 方法一 | expr $num1 operator $num2 |
 | 方法二 | $(($num1 operator $num2)) |
 
-![image-20230308231411980](./image/129s1mh-0.png)
+![image-20230308231411980](image/shell脚本编程_time_5.png)
 
-![image-20230308231455002](./image/12a110a-0.png)
+![image-20230308231455002](image/shell脚本编程_time_6.png)
 
-![image-20230308231517582](./image/12ae9hv-0.png)
+![image-20230308231517582](image/shell脚本编程_time_7.png)
 
 > 当进行数值比较时，推荐使用expr，进行数值运算的时候用$(())。都只能进行整数运算
 >
@@ -181,9 +181,9 @@ fi
 - bc时bash内建的运算器，支持浮点数运算
 - 内建变量scale可以设置，默认为0
 
-![image-20230308233159954](./image/12key61-0.png)
+![image-20230308233159954](image/shell脚本编程_time_8.png)
 
-![image-20230308233208472](./image/12kgryj-0.png)
+![image-20230308233208472](image/shell脚本编程_time_9.png)
 
 > bc是交互性运算器，若想直接在脚本中使用，则`echo "12+23" | bc`通过管道符传输
 
@@ -297,7 +297,7 @@ fi
 
 ## 1.9.eval命令
 
-![image-20230611132729320](./image/ly8xtc-0-1718115904810-33.png)
+![image-20230611132729320](image/shell脚本编程_time_10.png)
 
 
 
@@ -317,7 +317,7 @@ fi
 
 `install` 命令用于将文件从一个位置安装到另一个位置，也可以用于创建目标文件和目录以及设置它们的权限。
 
-![image-20230611134530174](./image/m91aqz-0.png)
+![image-20230611134530174](image/shell脚本编程_time_11.png)
 
 - `OPTION` 是可选参数，可以用于设置安装过程的不同选项。
 - `SOURCE` 是指定要安装的一个或多个源文件，可以是文件或目录。
@@ -340,17 +340,17 @@ fi
 
 expect是由Don Libes基于Tcl语言开发的，主要应用于自动化交互式操作的场景，借助expect处理交互的命令，可以将交互过程如：ssh登录，ftp登录等写在一个脚本上，使之自动化完成。尤其适用于需要对多态服务器执行相同操作的环境中，可以大大提高系统管理人员的工作效率
 
-![image-20230611135021807](./image/mbwjah-0-1718115904810-34.png)
+![image-20230611135021807](image/shell脚本编程_time_12.png)
 
-![image-20230611135353859](./image/mdvlk3-0-1718115904810-35.png)
+![image-20230611135353859](image/shell脚本编程_time_13.png)
 
-![image-20230611135445183](./image/mehdwz-0.png)
+![image-20230611135445183](image/shell脚本编程_time_14.png)
 
-![image-20230611135641845](./image/mfnrh6-0.png)
+![image-20230611135641845](image/shell脚本编程_time_15.png)
 
-![image-20230611135800215](./image/mgj9o7-0.png)
+![image-20230611135800215](image/shell脚本编程_time_16.png)
 
-![image-20230611135937868](./image/mhcrka-0-1718115904810-36.png)
+![image-20230611135937868](image/shell脚本编程_time_17.png)
 
 
 
@@ -367,9 +367,9 @@ expect是由Don Libes基于Tcl语言开发的，主要应用于自动化交互�
 
 > 函数定义
 
-![image-20230309212128232](./image/z30h5m-0-1718115904793-28.png)
+![image-20230309212128232](image/shell脚本编程_time_18.png)
 
-![image-20230309212159695](./image/z3e7d5-0-1718115904793-29.png)
+![image-20230309212159695](image/shell脚本编程_time_19.png)
 
 
 
@@ -410,7 +410,7 @@ check
 
 ## 2.3.函数返回值
 
-![image-20230309214330074](./image/zg2s2x-0-1718115904794-30.png)
+![image-20230309214330074](image/shell脚本编程_time_20.png)
 
 > 使用return
 
@@ -471,7 +471,7 @@ add 1 2
 
 ## 2.6.信号捕捉
 
-![image-20230611130438172](./image/lkprap-0-1718115904810-37.png)
+![image-20230611130438172](image/shell脚本编程_time_21.png)
 
 ```bash
 #!/bin/bash
@@ -503,7 +503,7 @@ press ctrl+c
 
 ## 2.7.创建临时文件
 
-![image-20230611134351868](./image/m87pvh-0.png)
+![image-20230611134351868](image/shell脚本编程_time_22.png)
 
 
 
@@ -523,15 +523,15 @@ press ctrl+c
 | -group         | 根据文件属组查找           |
 | -mtime -n \|+n | 根据文件更改时间查找       |
 
-![image-20230310142459411](./image/nkgdon-0.png)
+![image-20230310142459411](image/shell脚本编程_time_23.png)
 
-![image-20230310143156080](./image/nobnin-0.png)
+![image-20230310143156080](image/shell脚本编程_time_24.png)
 
-![image-20230310143143153](./image/no8u0e-0.png)
+![image-20230310143143153](image/shell脚本编程_time_25.png)
 
-![image-20230310143410195](./image/nptzvc-0.png)
+![image-20230310143410195](image/shell脚本编程_time_26.png)
 
-![image-20230310144310716](./image/nv796o-0.png)
+![image-20230310144310716](image/shell脚本编程_time_27.png)
 
 
 
@@ -549,15 +549,15 @@ press ctrl+c
 
 > whereis
 
-![image-20230310145813573](./image/o45710-0.png)
+![image-20230310145813573](image/shell脚本编程_time_28.png)
 
 > which
 
-![image-20230310145917084](./image/o4rdbn-0.png)
+![image-20230310145917084](image/shell脚本编程_time_29.png)
 
 > 总结
 
-![image-20230310145953509](./image/o4z2ie-0.png)
+![image-20230310145953509](image/shell脚本编程_time_30.png)
 
 
 
@@ -566,9 +566,9 @@ press ctrl+c
 - 第一种形式：grep [option] [pattern] [file1,file2...]
 - 第二种形式：command|grep [option] [pattern]
 
-![image-20230310152120919](./image/p5p7xc-0.png)
+![image-20230310152120919](image/shell脚本编程_time_31.png)
 
-![image-20230310152345676](./image/p714qm-0.png)
+![image-20230310152345676](image/shell脚本编程_time_32.png)
 
 > egrep与grep -E等价
 >
@@ -599,7 +599,7 @@ sed(Stream Editor)，流编辑器，对标准输出或文件逐行进行处理
 
 ## 5.2.sed的选项
 
-![image-20230310155509432](./image/ppvda7-0.png)
+![image-20230310155509432](image/shell脚本编程_time_33.png)
 
 ```bash
 sed -n -e '/python/p' -e '/PYTHON/p' sed.txt # 匹配多个模式
@@ -611,17 +611,17 @@ sed -n "/python\|PYTHON/p" sed.txt # 等价
 
 ## 5.3.sed中的pattern
 
-![image-20230310161058216](./image/qmwprh-0.png)
+![image-20230310161058216](image/shell脚本编程_time_34.png)
 
 
 
 ## 5.4.sed中的编辑命令
 
-![image-20230310164525336](./image/r7jroc-0.png)
+![image-20230310164525336](image/shell脚本编程_time_35.png)
 
-![image-20230310164557539](./image/r7qoyu-0.png)
+![image-20230310164557539](image/shell脚本编程_time_36.png)
 
-![image-20230310211551821](./image/yzjhyx-0.png)
+![image-20230310211551821](image/shell脚本编程_time_37.png)
 
 > **Warring：2g是替换从第二个到最后的所有字符**
 >
@@ -703,7 +703,7 @@ awk 'BEGIN{ commands } pattern{ commands } END{ commands }' file_name
 standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 ```
 
-![img](./image/nmbti1-0-1718115904811-38.png)
+![img](image/shell脚本编程_time_38.png)
 
 1. 通过关键字BEGIN执行BEGIN块内容
 2. 完成BEGIN块的执行，开始执行BODY块
@@ -727,9 +727,9 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 
 ## 6.2.awk的内置变量
 
-![image-20230311144614613](./image/nx0czx-0.png)
+![image-20230311144614613](image/shell脚本编程_time_39.png)
 
-![image-20230311151835869](./image/p40287-0.png)
+![image-20230311151835869](image/shell脚本编程_time_40.png)
 
 
 
@@ -737,9 +737,9 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 
 > printf的格式说明符
 
-![image-20230311152600845](./image/p8jzky-0-1718115904811-39.png)
+![image-20230311152600845](image/shell脚本编程_time_41.png)
 
-![image-20230311152633009](./image/p8qyjs-0-1718115904811-40.png)
+![image-20230311152633009](image/shell脚本编程_time_42.png)
 
 > 使用print默认换行符为分隔符；使用printf不使用任何分隔符，需自己指定
 >
@@ -753,7 +753,7 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 
 > 实例
 
-![image-20230311160147417](./image/qhhh4k-0.png)
+![image-20230311160147417](image/shell脚本编程_time_43.png)
 
 
 
@@ -790,15 +790,15 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
    awk '/a/, $2 == 30 {print $0}' data.txt
    ```
 
-![image-20230311161853581](./image/qrn7q5-0.png)
+![image-20230311161853581](image/shell脚本编程_time_44.png)
 
-![image-20230311162016824](./image/qsm9gr-0.png)
+![image-20230311162016824](image/shell脚本编程_time_45.png)
 
 
 
 ## 6.5.awk中表达式的用法
 
-![image-20230311162231078](./image/qtw4db-0-1718115904811-41.png)
+![image-20230311162231078](image/shell脚本编程_time_46.png)
 
 > 实例
 
@@ -812,27 +812,27 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 
 ## 6.6.awk动作中的条件及循环语句
 
-![image-20230311164031156](./image/r4lx8s-0.png)
+![image-20230311164031156](image/shell脚本编程_time_47.png)
 
-![image-20230311164449587](./image/r73f3q-0.png)
+![image-20230311164449587](image/shell脚本编程_time_48.png)
 
 
 
 > 分别用三种循环写1加到100
 
- ![image-20230311171400623](./image/sch8uu-0.png)
+ ![image-20230311171400623](image/shell脚本编程_time_49.png)
 
- ![image-20230311171531138](./image/sd9eh6-0.png)
+ ![image-20230311171531138](image/shell脚本编程_time_50.png)
 
- ![image-20230311171601081](./image/sdodnn-0.png)
+ ![image-20230311171601081](image/shell脚本编程_time_51.png)
 
 
 
 ## 6.7.awk中的字符串函数
 
-![image-20230311172506374](./image/sj2ldv-0.png)
+![image-20230311172506374](image/shell脚本编程_time_52.png)
 
-![image-20230311172618086](./image/sjqclg-0.png)
+![image-20230311172618086](image/shell脚本编程_time_53.png)
 
 - split返回的列表的值从下标1开始
 - 字符串函数的参数和返回值都是字符串类型，如果需要数值类型，要用+0转换
@@ -844,7 +844,7 @@ standard output | awk 'BEGIN{ commands } pattern{ commands } END{ commands }'
 
 ## 6.8.常用选项
 
-![image-20230312105219498](./image/hei92n-0.png)
+![image-20230312105219498](image/shell脚本编程_time_54.png)
 
 > 在awk脚本中以换行符分隔
 >
@@ -948,9 +948,9 @@ The sum of row 3 is 24
 
 # 7.shell脚本操作数据库
 
-![image-20230312173308855](./image/snuy9w-0.png)
+![image-20230312173308855](image/shell脚本编程_time_55.png)
 
-![image-20230312194226585](./image/w4dfvg-0.png)
+![image-20230312194226585](image/shell脚本编程_time_56.png)
 
 
 

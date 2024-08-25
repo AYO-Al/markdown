@@ -204,7 +204,7 @@ ii=1
 
 在Shell中可以直接使用`declare`和`typeset`命令来声明变量和设置变量属性，且这两个命令是等价的。
 
-![image-20230611132622416](./image/lxonlg-0.png)
+![image-20230611132622416](image/shell_time_1.png)
 
 ## 2.系统环境变量
 
@@ -361,7 +361,7 @@ echo $IP
 
 > 变量测试
 
-![image-20230308162532755](./image/qvqpaj-0.png)
+![image-20230308162532755](image/shell_time_2.png)
 
 ## 8.字符串处理
 
@@ -628,9 +628,9 @@ echo "数组的下标为：${!host_array[@]}"
 
 > 函数定义
 
-![image-20230309212128232](./image/z30h5m-0.png)
+![image-20230309212128232](image/shell_time_3.png)
 
-![image-20230309212159695](./image/z3e7d5-0.png)
+![image-20230309212159695](image/shell_time_4.png)
 
 
 
@@ -657,7 +657,7 @@ check
 
 ## 1.函数返回值
 
-![image-20230309214330074](./image/zg2s2x-0.png)
+![image-20230309214330074](image/shell_time_5.png)
 
 > 使用retuen
 
@@ -723,7 +723,7 @@ add 1 2
 
 # 9.eval命令
 
-![image-20230611132729320](./image/ly8xtc-0.png)
+![image-20230611132729320](image/shell_time_6.png)
 
 
 
@@ -731,17 +731,17 @@ add 1 2
 
 expect是由Don Libes基于Tcl语言开发的，主要应用于自动化交互式操作的场景，借助expect处理交互的命令，可以将交互过程如：ssh登录，ftp登录等写在一个脚本上，使之自动化完成。尤其适用于需要对多态服务器执行相同操作的环境中，可以大大提高系统管理人员的工作效率
 
-![image-20230611135021807](./image/mbwjah-0.png)
+![image-20230611135021807](image/shell_time_7.png)
 
-![image-20230611135353859](./image/mdvlk3-0.png)
+![image-20230611135353859](image/shell_time_8.png)
 
-![image-20230611135937868](./image/mhcrka-0.png)
+![image-20230611135937868](image/shell_time_9.png)
 
 
 
 # 11.trap命令：信号捕捉
 
-![image-20230611130438172](./image/lkprap-0.png)
+![image-20230611130438172](image/shell_time_10.png)
 
 ```bash
 #!/bin/bash
@@ -988,7 +988,7 @@ AWK的工作流程可以分为三个部分：
 - 主体块：对于每一个输入的行都会执行一次主体块的代码，可以指定匹配模式或条件，也可以省略，默认匹配所有行
 - END块：在读取输入文件之后执行的代码段，只执行一次，一般用于输出最终结果或清理工作
 
-![](./image/nmbti1-0.png)
+![](image/shell_time_11.png)
 
 1. 通过关键字BEGIN执行BEGIN块内容
 2. 完成BEGIN块的执行，开始执行BODY块
@@ -1013,9 +1013,9 @@ AWK的工作流程可以分为三个部分：
 
 > printf的格式化说明符
 
-![](./image/p8jzky-0.png)
+![](image/shell_time_12.png)
 
-![](./image/p8qyjs-0.png)
+![](image/shell_time_13.png)
 
 > 使用print默认换行符为分隔符；使用printf不使用任何分隔符，需自己指定
 >
@@ -1057,7 +1057,7 @@ awk -F: '$1=="root"' /etc/passwd
 
 - 运算
 
-![](./image/qtw4db-0.png)
+![](image/shell_time_14.png)
 
 ```bash
 awk -F: '{if($3*10>50000){print $0} else{print $3}}' /etc/passwd
