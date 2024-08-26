@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
+                "file": "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md"
+                "file": "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md"
               }
             }
           },
@@ -104,7 +104,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
+                "file": "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,7 +121,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
+                "file": "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -157,6 +157,16 @@
   },
   "active": "f8ff6670aa343c1e",
   "lastOpenFiles": [
+    "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
+    "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_2.png",
+    "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_1.png",
+    "计算机基础/操作系统/Linux性能优化/03-CPU利用率100%该怎么办.md",
+    "计算机基础/操作系统/Linux性能优化/01-理解平均负载.md",
+    "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
+    "计算机基础/操作系统/Linux性能优化/相关命令.md",
+    "计算机基础/操作系统/Linux性能优化/未命名.md",
+    "云计算/容器/深入剖析kubernetes/07.md",
+    "云计算/shell编程/命令/命令.md",
     "云计算/容器/深入剖析kubernetes/06-Kubernetes：Kubeadm一键部署.md",
     "云计算/容器/深入剖析kubernetes/05-从容器到容器云：谈谈Kubernetes的本质.md",
     "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
@@ -180,22 +190,12 @@
     "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
     "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
     "云计算/容器/深入剖析kubernetes/image/03-容器基础：深入理解容器镜像_time_1.png",
-    "web/JWT.md",
     "web/image/JWT_time_2.png",
     "web/image/JWT_time_1.png",
     "web/image",
-    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
-    "计算机基础/操作系统/Linux性能优化/相关命令.md",
-    "计算机基础/操作系统/Linux性能优化/CPU利用率100%该怎么办.md",
     "计算机基础/操作系统/Linux性能优化/image/CPU利用率100%该怎么办_time_1.png",
-    "云计算/容器/深入剖析kubernetes/image/01-容器基础：从进程说起_time_1.png",
     "云计算/容器/深入剖析kubernetes/image",
-    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
-    "计算机基础/操作系统/Linux性能优化/什么是CPU的上下文切换.md",
-    "计算机基础/操作系统/Linux性能优化/理解平均负载.md",
-    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "云计算/容器/深入剖析kubernetes",
-    "云计算/容器/Kubernetes in Action/image/第四章：服务-让客户端发现pod并与之通信_time_3.png",
     "go/基础/image",
     "计算机基础/操作系统/Linux性能优化/image",
     "计算机基础/操作系统/Linux性能优化",
