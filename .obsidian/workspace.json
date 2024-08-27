@@ -138,7 +138,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -154,7 +155,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "2da1e9d6a5ad3761",
+  "active": "f8ff6670aa343c1e",
   "lastOpenFiles": [
     "云计算/容器/深入剖析kubernetes/08.md",
     "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
