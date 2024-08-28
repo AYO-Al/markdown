@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5
+    "width": 337.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -87,6 +88,14 @@
               "state": {
                 "file": "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md"
               }
+            }
+          },
+          {
+            "id": "fa67bdd24346a170",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
             }
           },
           {
@@ -128,17 +137,9 @@
                 "unlinkedCollapsed": true
               }
             }
-          },
-          {
-            "id": "fa67bdd24346a170",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {}
-            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -156,6 +157,7 @@
   },
   "active": "2da1e9d6a5ad3761",
   "lastOpenFiles": [
+    "云计算/容器/深入剖析kubernetes/image/07-为什么我们需要pod_time_1.png",
     "云计算/容器/深入剖析kubernetes/08.md",
     "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
@@ -188,7 +190,6 @@
     "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_1.png",
     "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
-    "云计算/容器/深入剖析kubernetes/03-容器基础：深入理解容器镜像.md",
     "云计算/容器/深入剖析kubernetes/image/03-容器基础：深入理解容器镜像_time_1.png",
     "web/image/JWT_time_2.png",
     "web/image/JWT_time_1.png",
