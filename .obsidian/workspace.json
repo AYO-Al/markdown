@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
+                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md"
+                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md"
               }
             }
           },
@@ -115,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
+                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
+                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -157,9 +157,15 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "云计算/容器/深入剖析kubernetes/09-进阶使用Pod对象.md",
+    "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
     "云计算/容器/深入剖析kubernetes/08-深入解析pod对象.md",
-    "未命名.md",
     "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
+    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
+    "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
+    "云计算/容器/Kubernetes in Action/第十一章：Kubernetes API服务器的安全防护.md",
+    "未命名.md",
     "云计算/容器/深入剖析kubernetes/image/07-为什么我们需要pod_time_1.png",
     "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
@@ -183,14 +189,8 @@
     "云计算/Linux/文件系统与磁盘.md",
     "数据库/mysql/数据库优化/数据库优化.md",
     "数据库/mysql/三高数据库.md",
-    "数据库/mysql/mysql.md",
-    "数据库/mysql/MySQL常用参数与变量.md",
-    "数据库/mysql/MySQL8.0.md",
-    "云计算/容器/深入剖析kubernetes/04-容器基础：重新认识Docker容器.md",
-    "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
     "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_1.png",
-    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
     "云计算/容器/深入剖析kubernetes/image/03-容器基础：深入理解容器镜像_time_1.png",
     "web/image/JWT_time_2.png",
     "web/image",
