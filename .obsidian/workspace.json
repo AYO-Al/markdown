@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
+                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5
+    "width": 337.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -85,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md"
+                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md"
               }
             }
           },
@@ -114,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
+                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
+                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -154,10 +155,15 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "2da1e9d6a5ad3761",
   "lastOpenFiles": [
-    "云计算/容器/深入剖析kubernetes/09-进阶使用Pod对象.md",
+    "云计算/容器/深入剖析kubernetes/11-作业副本与水平扩展.md",
+    "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
+    "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_2.png",
+    "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_1.png",
     "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
+    "云计算/容器/深入剖析kubernetes/image/10-编排思想：控制器模型_time_1.png",
+    "云计算/容器/深入剖析kubernetes/09-进阶使用Pod对象.md",
     "云计算/容器/深入剖析kubernetes/08-深入解析pod对象.md",
     "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
@@ -186,12 +192,7 @@
     "云计算/shell编程/shell脚本编程.md",
     "云计算/shell编程/shell高级编程.md",
     "云计算/Linux/文件系统与磁盘.md",
-    "数据库/mysql/数据库优化/数据库优化.md",
-    "数据库/mysql/三高数据库.md",
     "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_2.png",
-    "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_1.png",
-    "云计算/容器/深入剖析kubernetes/image/03-容器基础：深入理解容器镜像_time_1.png",
-    "web/image/JWT_time_2.png",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",
