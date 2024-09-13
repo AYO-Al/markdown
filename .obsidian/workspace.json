@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "4f2c9381b6419417",
+        "id": "d8988730e8c7a737",
         "type": "tabs",
         "children": [
           {
-            "id": "2da1e9d6a5ad3761",
+            "id": "a9754d3c9c98c2e4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
+                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md"
+                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md"
               }
             }
           },
@@ -115,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
+                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,14 +132,13 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
+                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -155,13 +154,19 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "2da1e9d6a5ad3761",
+  "active": "a9754d3c9c98c2e4",
   "lastOpenFiles": [
-    "云计算/容器/深入剖析kubernetes/11-作业副本与水平扩展.md",
+    "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+    "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
+    "云计算/容器/深入剖析kubernetes/14-StatefulSet：有状态应用实践.md",
+    "云计算/容器/深入剖析kubernetes/image/14-StatefulSet：有状态应用实践_time_1.png",
+    "云计算/容器/深入剖析kubernetes/13-StatefulSet存储状态.md",
+    "云计算/容器/Kubernetes in Action/第五章：卷-将磁盘挂载到容器.md",
     "云计算/容器/深入剖析kubernetes/12-StatefulSet的拓扑状态.md",
+    "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
+    "云计算/容器/深入剖析kubernetes/11-作业副本与水平扩展.md",
     "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_1.png",
-    "云计算/容器/深入剖析kubernetes/10-编排思想：控制器模型.md",
     "云计算/容器/深入剖析kubernetes/image/10-编排思想：控制器模型_time_1.png",
     "云计算/容器/深入剖析kubernetes/09-进阶使用Pod对象.md",
     "云计算/容器/深入剖析kubernetes/08-深入解析pod对象.md",
@@ -187,12 +192,6 @@
     "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_1.png",
     "云计算/自动化运维/ansible.md",
-    "云计算/Nginx/Nginx-all.md",
-    "云计算/shell编程/shell.md",
-    "云计算/shell编程/shell脚本编程.md",
-    "云计算/shell编程/shell高级编程.md",
-    "云计算/Linux/文件系统与磁盘.md",
-    "云计算/容器/深入剖析kubernetes/image/04-容器基础：重新认识Docker容器_time_2.png",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",
