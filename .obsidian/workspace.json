@@ -138,7 +138,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -154,7 +155,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "a9754d3c9c98c2e4",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
     "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
