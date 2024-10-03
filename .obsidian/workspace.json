@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
+                "file": "go/基础/go基础.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5
+    "width": 337.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -85,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md"
+                "file": "go/基础/go基础.md"
               }
             }
           },
@@ -114,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
+                "file": "go/基础/go基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
+                "file": "go/基础/go基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -154,10 +155,13 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "a9754d3c9c98c2e4",
   "lastOpenFiles": [
-    "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
+    "go/基础/golang.md",
+    "go/基础/go基础.md",
+    "计算机基础/网络/公钥和私钥.md",
     "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
+    "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
     "云计算/容器/深入剖析kubernetes/14-StatefulSet：有状态应用实践.md",
     "云计算/容器/深入剖析kubernetes/image/14-StatefulSet：有状态应用实践_time_1.png",
     "云计算/容器/深入剖析kubernetes/13-StatefulSet存储状态.md",
@@ -187,11 +191,8 @@
     "计算机基础/操作系统/Linux性能优化/未命名.md",
     "云计算/shell编程/命令/命令.md",
     "云计算/容器/深入剖析kubernetes/06-Kubernetes：Kubeadm一键部署.md",
-    "云计算/容器/深入剖析kubernetes/05-从容器到容器云：谈谈Kubernetes的本质.md",
-    "云计算/容器/Kubernetes in Action/第二章：pod-运行于kubernetes中的容器.md",
     "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_1.png",
-    "云计算/自动化运维/ansible.md",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",
