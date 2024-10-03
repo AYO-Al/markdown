@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "a9754d3c9c98c2e4",
+            "id": "02e27462865bc4cb",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,7 +20,7 @@
             }
           },
           {
-            "id": "02e27462865bc4cb",
+            "id": "4bf104d127331271",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -31,7 +31,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -98,7 +99,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md"
+                "file": "go/基础/golang.md"
               }
             }
           },
@@ -127,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/基础/golang.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -144,7 +145,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/基础/golang.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -155,7 +156,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -167,10 +169,10 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "4bf104d127331271",
   "lastOpenFiles": [
-    "go/基础/golang.md",
     "go/基础/go基础.md",
+    "go/基础/golang.md",
     "计算机基础/网络/公钥和私钥.md",
     "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
