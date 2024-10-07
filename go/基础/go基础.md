@@ -1786,14 +1786,16 @@ func add(x ...int) int {
 ```go
 
 // 函数作为另一个函数的参数
-func main(){  
-   /* 声明函数变量 */  
-   getSquareRoot := func(x float64) float64 {  
-      return math.Sqrt(x)  
-   }  
+func operat(a, b int, fun func(x ...int) int) {  
+    res := fun(a, b)  
+    fmt.Println(res)  
+}  
   
-   /* 使用函数 */  
-   fmt.Println(getSquareRoot(9))  
+func main() {  
+    /* 使用函数 */  
+   // 外面使用函数作为参数的是高级函数
+   // 被调用的函数被叫做回调函数
+    operat(1, 2, add)  
   
 }
 
@@ -1856,4 +1858,168 @@ func fact(n int) int {
 
 defer用于资源的释放，会在函数返回之前进行调用。
 
+需要注意的是，延迟函数是延迟函数被执行，而不是延迟函数被调用，所以在运行到函数被调用时参数已经传递过去了，只不过要到最后才执行。
+
 如果有多个defer表达式，调用顺序类似于栈，越后面的defer表达式越先被调用。
+
+```go
+func f() (r int) {
+     t := 5
+     defer func() {
+       t = t + 5
+     }()
+     return t
+}  // 返回值为5
+```
+
+为什么这个例子里面的返回值不是10呢？
+
+defer是在return之前执行的。这个在 [官方文档](http://golang.org/ref/spec#defer_statements)中是明确说明了的。要使用defer时不踩坑，最重要的一点就是要明白，**return xxx这一条语句并不是一条原子指令!**
+
+函数返回的过程是这样的：先给返回值赋值，然后调用defer表达式，最后才是返回到调用函数中。
+
+所以如果改写成下面这样就不会有疑惑为什么返回值不是10了。
+
+```go
+func f() (r int) {
+     t := 5
+     r = t //赋值指令
+     func() {        //defer被插入到赋值与返回之间执行，这个例子中返回值r没被修改过
+         t = t + 5
+     }
+     return        //空的return指令
+}
+```
+## 匿名函数
+
+匿名函数就是没有名字的函数。由于没有名字，匿名函数往往只能使用一次，除非将这个匿名函数赋值给一个变量。
+
+```go
+t := func(a,b int) int {  
+    fmt.Println("匿名函数")  
+    return a+b
+}(3,4)
+
+s :=func() {  
+    fmt.Println("匿名函数")  
+}
+```
+# Go 语言指针
+
+Go 语言中指针是很容易学习的，Go 语言中使用指针可以更简单的执行一些任务。
+
+我们都知道，变量是一种使用方便的占位符，用于引用计算机内存地址。
+
+Go 语言的取地址符是 &，放到一个变量前使用就会返回相应变量的内存地址。
+
+```go
+以下实例演示了变量在内存中地址：
+
+package main  
+  
+import "fmt"  
+  
+func main() {  
+   var a int = 10    
+  
+   fmt.Printf("变量的地址: %x\n", &a  )  
+}  
+
+执行以上代码输出结果为：
+
+变量的地址: 20818a220
+```
+## 什么是指针
+
+一个指针变量指向了一个值的内存地址。
+
+类似于变量和常量，在使用指针前你需要声明指针。指针声明格式如下：
+
+```go
+var var_name *var-type
+```
+
+var-type 为指针类型，var_name 为指针变量名，* 号用于指定变量是作为一个指针。以下是有效的指针声明：
+```go
+var ip *int        /* 指向整型*/
+var fp *float32    /* 指向浮点型 */
+```
+
+## 如何使用指针
+
+指针使用流程：
+
+- 定义指针变量。
+- 为指针变量赋值。
+- 访问指针变量中指向地址的值。
+
+在指针类型前面加上 * 号（前缀）来获取指针所指向的内容。
+`
+```go
+package main  
+  
+import "fmt"  
+  
+func main() {  
+   var a int= 20   /* 声明实际变量 */  
+   var ip *int        /* 声明指针变量 */  
+  
+   ip = &a  /* 指针变量的存储地址 */  
+  
+   fmt.Printf("a 变量的地址是: %x\n", &a  )  
+  
+   /* 指针变量的存储地址 */  
+   fmt.Printf("ip 变量储存的指针地址: %x\n", ip )  
+  
+   /* 使用指针访问值 */  
+   fmt.Printf("*ip 变量的值: %d\n", *ip )  
+}  
+
+以上实例执行输出结果为：
+
+a 变量的地址是: 20818a220
+ip 变量储存的指针地址: 2081`8a220
+*ip 变量的值: 20
+```
+
+## Go 空指针
+
+当一个指针被定义后没有分配到任何变量时，它的值为 nil。
+
+nil 指针也称为空指针。
+
+nil在概念上和其它语言的null、None、nil、NULL一样，都指代零值或空值。
+
+一个指针变量通常缩写为 ptr。
+
+查看以下实例：
+```go
+package main  
+  
+import "fmt"  
+  
+func main() {  
+   var  ptr *int  
+  
+   fmt.Printf("ptr 的值为 : %x\n", ptr  )  
+}  
+
+以上实例输出结果为：
+
+ptr 的值为 : 0
+
+空指针判断：
+
+if(ptr != nil)     /* ptr 不是空指针 */
+if(ptr == nil)    /* ptr 是空指针 */
+```
+
+## Go指针更多内容
+
+接下来我们将为大家介绍Go语言中更多的指针应用：
+
+| 内容                                                                              | 描述                     |
+| ------------------------------------------------------------------------------- | ---------------------- |
+| [Go 指针数组](https://www.runoob.com/go/go-array-of-pointers.html)                  | 你可以定义一个指针数组来存储地址       |
+| [Go 指向指针的指针](https://www.runoob.com/go/go-pointer-to-pointer.html)              | Go 支持指向指针的指针           |
+| [Go 向函数传递指针参数](https://www.runoob.com/go/go-passing-pointers-to-functions.html) | 通过引用或地址传参，在函数调用时可以改变其值 |
