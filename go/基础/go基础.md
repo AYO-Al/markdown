@@ -1904,6 +1904,59 @@ s :=func() {
     fmt.Println("匿名函数")  
 }
 ```
+## 方法
+
+Go语言中同时有函数和方法，一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体的一个值或者是一个指针。所有给定类型的方法属于该类型的方法集。
+
+方法只是一个函数，它带有一个特殊的接收器类型，它是在func关键字和方法名之间编写的，接收器可以是struct类型或者非struct类型。接收方可以在方法内部访问。
+
+方法名可以相同，只要调用者不同即可。
+
+```go
+// 定义
+func (t type) methodName(parameter list)(return list){}
+
+func main() {  
+    s := struct {  
+       name string  
+       age  int  
+    }{  
+       name: "wang",  
+       age:  20,  
+    }  
+  
+    t := student{  
+       name: "jack",  
+       books: book{  
+          name:  "price",  
+          price: 10,  
+       },  
+    }  
+  
+    t.printStu()  
+      
+    fmt.Printf("%s\n%T\n", s, s)  
+}  
+  
+type book struct {  
+    name  string  
+    price int  
+}  
+  
+type student struct {  
+    name  string  
+    books book  
+}  
+  
+func (t student) printStu() {  
+    fmt.Println(t.name, "在学习。。。")  
+}
+
+func (b book) printBook() {
+    fmt.Println("如果是匿名字段实现的方法即可调用")
+} // 如果student使用的是book匿名字段，则student类型接收方可以直接调用这个方法
+```
+
 # Go 语言指针
 
 Go 语言中指针是很容易学习的，Go 语言中使用指针可以更简单的执行一些任务。
@@ -2369,7 +2422,9 @@ type book struct {
   
 type student struct {  
     name  string  
-    books book  
+    books book  // 如果结构体中的匿名字段是另一个结构体，这个字段被称为提升字段，可以省略字段名直接访问另一个结构体的字段
+    // student.name指的是book结构里的字段
+    // 如果有同名的，只能使用匿名结构体中的
 }  
   
 t := student{  
@@ -2379,5 +2434,5 @@ t := student{
        price: 10,  
     },  
 }  
-fmt.Println(t)
+fmt.Println(t.boos.name)
 ```
