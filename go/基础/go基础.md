@@ -1982,6 +1982,30 @@ ip 变量储存的指针地址: 2081`8a220
 *ip 变量的值: 20
 ```
 
+## NEW函数
+
+在 Go 语言中，`new` 是一个内置函数，用于分配内存并返回指向该内存的指针。与 `make` 不同，`new` 只分配内存，不初始化内存。`new` 函数适用于值类型（如数组、结构体等），而 `make` 函数则用于分配和初始化引用类型（如切片、映射和通道）。
+- **`new`**：用于分配内存并返回指向该内存的指针。适用于值类型，如数组、结构体等。分配的内存会被初始化为零值。
+- **`make`**：用于分配和初始化引用类型，如切片、映射和通道。返回的是初始化后的引用类型，而不是指针。
+```go
+func main() {
+    // 使用 make 分配和初始化切片
+    s := make([]int, 5)
+    fmt.Printf("Type: %T, Value: %v\n", s, s)
+    // 输出: Type: []int, Value: [0 0 0 0 0]
+
+    // 使用 make 分配和初始化映射
+    m := make(map[string]int)
+    fmt.Printf("Type: %T, Value: %v\n", m, m)
+    // 输出: Type: map[string]int, Value: map[]
+
+    // 使用 make 分配和初始化通道
+    c := make(chan int, 5)
+    fmt.Printf("Type: %T, Value: %v\n", c, c)
+    // 输出: Type: chan int, Value: 0xc0000b2000
+}
+```
+
 ## Go 空指针
 
 当一个指针被定义后没有分配到任何变量时，它的值为 nil。
@@ -2023,3 +2047,337 @@ if(ptr == nil)    /* ptr 是空指针 */
 | [Go 指针数组](https://www.runoob.com/go/go-array-of-pointers.html)                  | 你可以定义一个指针数组来存储地址       |
 | [Go 指向指针的指针](https://www.runoob.com/go/go-pointer-to-pointer.html)              | Go 支持指向指针的指针           |
 | [Go 向函数传递指针参数](https://www.runoob.com/go/go-passing-pointers-to-functions.html) | 通过引用或地址传参，在函数调用时可以改变其值 |
+```go
+// 数组指针
+func main() {  
+    arr := [4]int{1, 2, 3, 4}  
+    var p1 *[4]int  // 数组指针
+    p1 = &arr  
+    fmt.Printf("%T\n", p1)  
+  
+    p1[1] = 100    
+    (*p1)[2] = 200  // 等价，修改数组内容 
+    fmt.Println(arr)  
+}
+
+// 指针数组
+a := 1  
+b := 2  
+arr2 := [2]int{a, b}  
+p2 := [2]*int{&a, &b}   // 指针数组
+fmt.Println(arr2, p2)
+
+// 指向指针的指针
+func main() {
+
+   var a int
+   var ptr *int
+   var pptr **int
+
+   a = 3000
+
+   /* 指针 ptr 地址 */
+   ptr = &a
+
+   /* 指向指针 ptr 地址 */
+   pptr = &ptr
+
+   /* 获取 pptr 的值 */
+   fmt.Printf("变量 a = %d\n", a )
+   fmt.Printf("指针变量 *ptr = %d\n", *ptr )
+   fmt.Printf("指向指针的指针变量 **pptr = %d\n", **pptr)
+}
+```
+# Go 语言结构体
+
+Go 语言中数组可以存储同一类型的数据，但在结构体中我们可以为不同项定义不同的数据类型。
+
+结构体是由一系列具有相同类型或不同类型的数据构成的数据集合。
+
+结构体表示一项记录，比如保存图书馆的书籍记录，每本书有以下属性：
+
+- Title ：标题
+- Author ： 作者
+- Subject：学科
+- ID：书籍ID
+
+## 定义结构体
+
+结构体定义需要使用 type 和 struct 语句。struct 语句定义一个新的数据类型，结构体中有一个或多个成员。type 语句设定了结构体的名称。结构体的格式如下：
+```go
+type struct_variable_type struct {
+   member definition
+   member definition
+   ...
+   member definition
+}
+```
+
+一旦定义了结构体类型，它就能用于变量的声明，语法格式如下：
+```go
+variable_name := structure_variable_type {value1, value2...valuen}
+或
+variable_name := structure_variable_type { key1: value1, key2: value2..., keyn: valuen}
+```
+
+实例如下：
+```go
+package main  
+  
+import "fmt"  
+  
+type Books struct {  
+   title string  
+   author string  
+   subject string  
+   book_id int  
+}  
+  
+  
+func main() {  
+  
+    // 创建一个新的结构体  
+    fmt.Println(Books{"Go 语言", "www.runoob.com", "Go 语言教程", 6495407})  
+  
+    // 也可以使用 key => value 格式  
+    fmt.Println(Books{title: "Go 语言", author: "www.runoob.com", subject: "Go 语言教程", book_id: 6495407})  
+  
+    // 忽略的字段为 0 或 空  
+   fmt.Println(Books{title: "Go 语言", author: "www.runoob.com"})  
+}  
+
+输出结果为：
+
+{Go 语言 www.runoob.com Go 语言教程 6495407}
+{Go 语言 www.runoob.com Go 语言教程 6495407}
+{Go 语言 www.runoob.com  0}
+```
+
+## 访问结构体成员
+
+如果要访问结构体成员，需要使用点号 . 操作符，格式为：
+
+结构体.成员名
+
+结构体类型变量使用 struct 关键字定义，实例如下：
+```go
+package main  
+  
+import "fmt"  
+  
+type Books struct {  
+   title string  
+   author string  
+   subject string  
+   book_id int  
+}  
+  
+func main() {  
+   var Book1 Books        /* 声明 Book1 为 Books 类型 */  
+   var Book2 Books        /* 声明 Book2 为 Books 类型 */  
+  
+   /* book 1 描述 */  
+   Book1.title = "Go 语言"  
+   Book1.author = "www.runoob.com"  
+   Book1.subject = "Go 语言教程"  
+   Book1.book_id = 6495407  
+  
+   /* book 2 描述 */  
+   Book2.title = "Python 教程"  
+   Book2.author = "www.runoob.com"  
+   Book2.subject = "Python 语言教程"  
+   Book2.book_id = 6495700  
+  
+   /* 打印 Book1 信息 */  
+   fmt.Printf( "Book 1 title : %s\n", Book1.title)  
+   fmt.Printf( "Book 1 author : %s\n", Book1.author)  
+   fmt.Printf( "Book 1 subject : %s\n", Book1.subject)  
+   fmt.Printf( "Book 1 book_id : %d\n", Book1.book_id)  
+  
+   /* 打印 Book2 信息 */  
+   fmt.Printf( "Book 2 title : %s\n", Book2.title)  
+   fmt.Printf( "Book 2 author : %s\n", Book2.author)  
+   fmt.Printf( "Book 2 subject : %s\n", Book2.subject)  
+   fmt.Printf( "Book 2 book_id : %d\n", Book2.book_id)  
+}  
+
+以上实例执行运行结果为：
+
+Book 1 title : Go 语言
+Book 1 author : www.runoob.com
+Book 1 subject : Go 语言教程
+Book 1 book_id : 6495407
+Book 2 title : Python 教程
+Book 2 author : www.runoob.com
+Book 2 subject : Python 语言教程
+Book 2 book_id : 6495700
+```
+
+## 结构体作为函数参数
+
+你可以像其他数据类型一样将结构体类型作为参数传递给函数。并以以上实例的方式访问结构体变量：
+```go
+package main  
+  
+import "fmt"  
+  
+type Books struct {  
+   title string  
+   author string  
+   subject string  
+   book_id int  
+}  
+  
+func main() {  
+   var Book1 Books        /* 声明 Book1 为 Books 类型 */  
+   var Book2 Books        /* 声明 Book2 为 Books 类型 */  
+  
+   /* book 1 描述 */  
+   Book1.title = "Go 语言"  
+   Book1.author = "www.runoob.com"  
+   Book1.subject = "Go 语言教程"  
+   Book1.book_id = 6495407  
+  
+   /* book 2 描述 */  
+   Book2.title = "Python 教程"  
+   Book2.author = "www.runoob.com"  
+   Book2.subject = "Python 语言教程"  
+   Book2.book_id = 6495700  
+  
+   /* 打印 Book1 信息 */  
+   printBook(Book1)  
+  
+   /* 打印 Book2 信息 */  
+   printBook(Book2)  
+}  
+  
+func printBook( book Books ) {  
+   fmt.Printf( "Book title : %s\n", book.title)  
+   fmt.Printf( "Book author : %s\n", book.author)  
+   fmt.Printf( "Book subject : %s\n", book.subject)  
+   fmt.Printf( "Book book_id : %d\n", book.book_id)  
+}  
+
+以上实例执行运行结果为：
+
+Book title : Go 语言
+Book author : www.runoob.com
+Book subject : Go 语言教程
+Book book_id : 6495407
+Book title : Python 教程
+Book author : www.runoob.com
+Book subject : Python 语言教程
+Book book_id : 6495700
+```
+
+## 结构体指针
+
+你可以定义指向结构体的指针类似于其他指针变量，格式如下：
+
+```go
+var struct_pointer *Books
+```
+
+以上定义的指针变量可以存储结构体变量的地址。查看结构体变量地址，可以将 & 符号放置于结构体变量前：
+
+```go
+struct_pointer = &Book1
+```
+
+使用结构体指针访问结构体成员，使用 "." 操作符：
+
+```go
+struct_pointer.title
+```
+
+接下来让我们使用结构体指针重写以上实例，代码如下：
+```go
+package main  
+  
+import "fmt"  
+  
+type Books struct {  
+   title string  
+   author string  
+   subject string  
+   book_id int  
+}  
+  
+func main() {  
+   var Book1 Books        /* 声明 Book1 为 Books 类型 */  
+   var Book2 Books        /* 声明 Book2 为 Books 类型 */  
+  
+   /* book 1 描述 */  
+   Book1.title = "Go 语言"  
+   Book1.author = "www.runoob.com"  
+   Book1.subject = "Go 语言教程"  
+   Book1.book_id = 6495407  
+  
+   /* book 2 描述 */  
+   Book2.title = "Python 教程"  
+   Book2.author = "www.runoob.com"  
+   Book2.subject = "Python 语言教程"  
+   Book2.book_id = 6495700  
+  
+   /* 打印 Book1 信息 */  
+   printBook(&Book1)  
+  
+   /* 打印 Book2 信息 */  
+   printBook(&Book2)  
+}  
+func printBook( book *Books ) {  
+   fmt.Printf( "Book title : %s\n", book.title)  
+   fmt.Printf( "Book author : %s\n", book.author)  
+   fmt.Printf( "Book subject : %s\n", book.subject)  
+   fmt.Printf( "Book book_id : %d\n", book.book_id)  
+}  
+
+以上实例执行运行结果为：
+
+Book title : Go 语言
+Book author : www.runoob.com
+Book subject : Go 语言教程
+Book book_id : 6495407
+Book title : Python 教程
+Book author : www.runoob.com
+Book subject : Python 语言教程
+Book book_id : 6495700
+```
+## 匿名结构体
+
+匿名结构体跟匿名函数一样就是没有名字的结构体。
+```go
+func main() {  
+    s := struct {  
+       name string   // 可以省略字段名，会自动用数据类型作为字段名
+       age  int  
+    }{  
+       name: "wang",  
+       age:  20,  
+    }  
+    fmt.Printf("%s\n%T\n", s, s)  
+}
+```
+## 结构体嵌套
+
+结构体嵌套就是在一个结构体的字段设置为另一个结构体。
+```go
+type book struct {  
+    name  string  
+    price int  
+}  
+  
+type student struct {  
+    name  string  
+    books book  
+}  
+  
+t := student{  
+    name: "jack",  
+    books: book{  
+       name:  "price",  
+       price: 10,  
+    },  
+}  
+fmt.Println(t)
+```
