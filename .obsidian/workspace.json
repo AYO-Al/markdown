@@ -4,28 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "d8988730e8c7a737",
+        "id": "9b478ca5ff870ec8",
         "type": "tabs",
         "children": [
           {
-            "id": "02e27462865bc4cb",
+            "id": "f31425ec10a6c189",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "go/基础/go基础.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "4bf104d127331271",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/基础/golang.md",
                 "mode": "source",
                 "source": false
               }
@@ -81,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 337.5,
-    "collapsed": true
+    "width": 337.5
   },
   "right": {
     "id": "a689601275098279",
@@ -170,8 +157,14 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/基础/golang.md",
+    "go/包",
+    "go/基础/image/go基础_time_3.png",
+    "云计算/Linux/Linux网络基础.md",
     "go/基础/go基础.md",
+    "go/基础/golang.md",
+    "云计算/Linux/文件系统与磁盘.md",
+    "go/基础/image/go基础_time_2.png",
+    "go/基础/image/go基础_time_1.png",
     "计算机基础/网络/公钥和私钥.md",
     "云计算/容器/深入剖析kubernetes/15-DaemonSet：容器化守护进程的意义.md",
     "云计算/容器/Kubernetes in Action/第九章：StatefulSet-部署有状态的多副本应用.md",
@@ -197,15 +190,9 @@
     "计算机基础/操作系统/Linux性能优化/02-什么是CPU的上下文切换.md",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_2.png",
-    "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_1.png",
     "计算机基础/操作系统/Linux性能优化/03-CPU利用率100%该怎么办.md",
     "计算机基础/操作系统/Linux性能优化/01-理解平均负载.md",
     "计算机基础/操作系统/Linux性能优化/相关命令.md",
-    "计算机基础/操作系统/Linux性能优化/未命名.md",
-    "云计算/shell编程/命令/命令.md",
-    "云计算/容器/深入剖析kubernetes/06-Kubernetes：Kubeadm一键部署.md",
-    "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_2.png",
-    "云计算/容器/深入剖析kubernetes/image/05-从容器到容器云：谈谈Kubernetes的本质_time_1.png",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",

@@ -1270,7 +1270,6 @@ s :=make(\[]int,len,cap)
 
 通过内置函数 **make()** 初始化切片**s**，**\[]int** 标识为其元素类型为 int 的切片。
 
----
 
 ## 13.2 len() 和 cap() 函数
 
@@ -1305,8 +1304,6 @@ len=3 cap=5 slice=[0 0 0]
 ## 13.4 空(nil)切片
 
 一个切片在未初始化之前默认为 nil，长度为 0，实例如下：
-
-## 13.5 实例
 
 ```go
 package main  
@@ -2822,3 +2819,1391 @@ Go中引入了两个内置函数panic和recover来触发和终止异常处理流
     - 内建函数
     - 用来控制panicking行为，捕获panic，从而恢复正常代码的执行。
     - 可以获取通过panic传递的error。
+# 包
+
+Go语言使用包(package)这种语法来组织源码，所有语法可见性均定义在package这个级别。
+
+## main包
+
+Go语言的入口main()函数所在的包叫main，main包想要引用别的代码，需要import导入。
+
+## package
+
+同一个目录下的所有.go文件的第一行添加包定义，以标记该文件归属的包
+```go
+package 包名
+```
+包需要满足：
+- 一个目录下的同级文件归属一个包，也就是说，在同一个包下面的所有文件的package名都是一样的。
+- 在同一个包下面的文件`package`名都建议设为该目录名，但也可以不是。
+- 包名为main的包为应用程序的入口包，其他包不能使用。
+
+```go
+ts
+├── go.mod
+├── main.go
+└── mytest
+    └── t.go
+
+// t.go定义
+package ts
+
+import "fmt"
+
+func Tts(){  // 只有首字母大写才能被外包导出
+        fmt.Println("这是调用函数")
+}
+
+// main函数引用
+package main
+
+import (
+        "fmt"
+        my "ts/mytest"  // 使用绝对路径引用
+        // 只有不同的包之间需要导入，同一个包下可以直接使用
+)
+
+func main(){
+        fmt.Println("这是main函数")
+        my.Tts()
+}
+```
+## init函数
+
+init函数式go语言中的保留函数。我们可以在源码中，定义init()函数。此函数会在包被导入时执行，例如在main中导入包，包中存在init()，那么init函数中的代码会在main函数执行前执行，用于初始化包所需要的特定资料。
+
+init函数跟main函数类似，不能有参数和返回值。只能被go自动调用，不能引用。可以应用于任意包中，且可以定义多个。
+
+在同一个文件中，init函数的顺序是从上到下的。对于一个package中存在的多个init函数，按照文件名字符串从小到大排序执行。对 于不同的package，如果不存在引用关系的话，按照import导入顺序执行。如果有引用关系，先执行引用的最后一个层级的包。就算一个包被重复引用，但不能存在循环导入，但也只会被初始化一次。
+# time包
+
+`time`包提供了丰富的功能来处理和计算时间。示例：
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "time")  
+  
+func main() {  
+    // 获取当前时间  
+    t1 := time.Now()  
+    fmt.Println(t1)  
+  
+    // 获取指定时间  
+    t2 := time.Date(2008, 1, 2, 14, 30, 28, 0, time.Local)  
+    fmt.Println(t2)  
+  
+    // time->string类型转换  
+    s1 := t1.Format("2006-1-2 15:04:05")  
+    fmt.Println(s1)  
+  
+    // string-》time  
+    // 时间模板必须一样  
+    s2 := "2009-01-02"  
+    t3, error := time.Parse("2006-1-2", s2)  
+    if error == nil {  
+       fmt.Println(t3)  
+    }  
+  
+    // 根据时间获取对应的值  
+    year, month, day := t1.Date()  
+    fmt.Println(year, month, day)  
+  
+    hour, min, second := t1.Clock()  
+    fmt.Println(hour, min, second)  
+  
+    fmt.Println(t1.Year())  
+    fmt.Println(t1.YearDay()) // 今年过去的时间  
+    fmt.Println(t1.Month())  
+    fmt.Println(t1.Day())  
+    fmt.Println(t1.Unix()) // 获取距离1970-1-1的时间  
+  
+    // 计算时间  
+    t4 := t1.Add(time.Hour) // 加一个小时  
+    fmt.Println(t4)  
+  
+    t5 := t1.AddDate(1, 0, 0) // 根据年月日进行计算  
+    fmt.Println(t5)  
+  
+    t6 := t1.Add(-time.Hour) // 减去时间  
+    fmt.Println(t6)  
+  
+    // 计算差值  
+    t7 := t6.Sub(t1)  
+    fmt.Println(t7)  
+  
+    time.Sleep(time.Minute) // 让程序睡眠一分钟  
+}
+```
+# 文件操作
+
+文件操作一般包含在os包内。
+```go
+func ManFile() {  
+    // 路径  
+    filename1 := "/Users/ayohuang/Documents/gotest/a.txt"  
+    filename2 := "a.txt"  
+  
+    fmt.Println(filepath.IsAbs(filename1)) // 判断是否是绝对路径  
+    fmt.Println(filepath.IsAbs(filename2))  
+  
+    fmt.Println(filepath.Abs(filename1)) // 获取绝对路径  
+    fmt.Println(filepath.Abs(filename2))  
+  
+    fmt.Println(path.Join(filename1, "..")) // 获取父目录  
+  
+    // 目录  
+    err := os.Mkdir("/Users/ayohuang/Documents/gotest/aa", os.ModePerm) // 创建单个目录  
+    if err != nil {  
+       fmt.Println(err)  
+    } else {  
+       fmt.Println("创建目录成功！！！")  
+    }  
+  
+    // 创建多级目录  
+    err = os.MkdirAll("/Users/ayohuang/Documents/gotest/aa/bb/cc", os.ModePerm)  
+    if err != nil {  
+       fmt.Println(err)  
+       return  
+    } else {  
+       fmt.Println("创建目录成功！！！")  
+    }  
+      
+    // 删除多级目录  
+    err = os.RemoveAll("/Users/ayohuang/Documents/gotest/aa/bb/cc")  
+    if err != nil {  
+       fmt.Println(err)  
+       return  
+    } else {  
+       fmt.Println("删除目录成功！！！")  
+    }  
+}
+
+```
+
+## 文件操作
+
+文件打开模式：
+```go
+const (
+    O_RDONLY int = syscall.O_RDONLY // 只读模式打开文件
+    O_WRONLY int = syscall.O_WRONLY // 只写模式打开文件
+    O_RDWR   int = syscall.O_RDWR   // 读写模式打开文件
+    O_APPEND int = syscall.O_APPEND // 写操作时将数据附加到文件尾部
+    O_CREATE int = syscall.O_CREAT  // 如果不存在将创建一个新文件
+    O_EXCL   int = syscall.O_EXCL   // 和O_CREATE配合使用，文件必须不存在
+    O_SYNC   int = syscall.O_SYNC   // 打开文件用于同步I/O
+    O_TRUNC  int = syscall.O_TRUNC  // 如果可能，打开时清空文件
+)
+```
+
+```go
+type File
+//File代表一个打开的文件对象。
+
+func Create(name string) (file *File, err error)
+//Create采用模式0666（任何人都可读写，不可执行）创建一个名为name的文件，如果文件已存在会截断它（为空文件）。如果成功，返回的文件对象可用于I/O；对应的文件描述符具有O_RDWR模式。如果出错，错误底层类型是*PathError。
+
+func Open(name string) (file *File, err error)
+//Open打开一个文件用于读取。如果操作成功，返回的文件对象的方法可用于读取数据；对应的文件描述符具有O_RDONLY模式。如果出错，错误底层类型是*PathError。
+
+func OpenFile(name string, flag int, perm FileMode) (file *File, err error)
+//OpenFile是一个更一般性的文件打开函数，大多数调用者都应用Open或Create代替本函数。它会使用指定的选项（如O_RDONLY等）、指定的模式（如0666等）打开指定名称的文件。如果操作成功，返回的文件对象可用于I/O。如果出错，错误底层类型是*PathError。perm FileMode指定失败后创建目录的模式
+
+func NewFile(fd uintptr, name string) *File
+//NewFile使用给出的Unix文件描述符和名称创建一个文件。
+
+func Pipe() (r *File, w *File, err error)
+//Pipe返回一对关联的文件对象。从r的读取将返回写入w的数据。本函数会返回两个文件对象和可能的错误。
+
+func (f *File) Name() string
+//Name方法返回（提供给Open/Create等方法的）文件名称。
+
+func (f *File) Stat() (fi FileInfo, err error)
+//Stat返回描述文件f的FileInfo类型值。如果出错，错误底层类型是*PathError。
+
+func (f *File) Fd() uintptr
+//Fd返回与文件f对应的整数类型的Unix文件描述符。
+
+func (f *File) Chdir() error
+//Chdir将当前工作目录修改为f，f必须是一个目录。如果出错，错误底层类型是*PathError。
+
+func (f *File) Chmod(mode FileMode) error
+//Chmod修改文件的模式。如果出错，错误底层类型是*PathError。
+
+func (f *File) Chown(uid, gid int) error
+//Chown修改文件的用户ID和组ID。如果出错，错误底层类型是*PathError。
+
+func (f *File) Close() error
+//Close关闭文件f，使文件不能用于读写。它返回可能出现的错误。
+```
+
+## 文件读取
+```go
+func (f *File) Readdir(n int) (fi []FileInfo, err error)
+//Readdir读取目录f的内容，返回一个有n个成员的[]FileInfo，这些FileInfo是被Lstat返回的，采用目录顺序。对本函数的下一次调用会返回上一次调用剩余未读取的内容的信息。如果n&gt;0，Readdir函数会返回一个最多n个成员的切片。这时，如果Readdir返回一个空切片，它会返回一个非nil的错误说明原因。如果到达了目录f的结尾，返回值err会是io.EOF。如果n&lt;=0，Readdir函数返回目录中剩余所有文件对象的FileInfo构成的切片。此时，如果Readdir调用成功（读取所有内容直到结尾），它会返回该切片和nil的错误值。如果在到达结尾前遇到错误，会返回之前成功读取的FileInfo构成的切片和该错误。
+
+func (f *File) Readdirnames(n int) (names []string, err error)
+//Readdir读取目录f的内容，返回一个有n个成员的[]string，切片成员为目录中文件对象的名字，采用目录顺序。对本函数的下一次调用会返回上一次调用剩余未读取的内容的信息。如果n&gt;0，Readdir函数会返回一个最多n个成员的切片。这时，如果Readdir返回一个空切片，它会返回一个非nil的错误说明原因。如果到达了目录f的结尾，返回值err会是io.EOF。如果n&lt;=0，Readdir函数返回目录中剩余所有文件对象的名字构成的切片。此时，如果Readdir调用成功（读取所有内容直到结尾），它会返回该切片和nil的错误值。如果在到达结尾前遇到错误，会返回之前成功读取的名字构成的切片和该错误。
+
+func (f *File) Truncate(size int64) error
+//Truncate改变文件的大小，它不会改变I/O的当前位置。 如果截断文件，多出的部分就会被丢弃。如果出错，错误底层类型是*PathError。
+
+func (f *File) Read(b []byte) (n int, err error)
+//Read方法从f中读取最多len(b)字节数据并写入b。它返回读取的字节数和可能遇到的任何错误。文件终止标志是读取0个字节且返回值err为io.EOF。
+
+func (f *File) ReadAt(b []byte, off int64) (n int, err error)
+//ReadAt从指定的位置（相对于文件开始位置）读取len(b)字节数据并写入b。它返回读取的字节数和可能遇到的任何错误。当n&lt;len(b)时，本方法总是会返回错误；如果是因为到达文件结尾，返回值err会是io.EOF。
+
+func (f *File) Write(b []byte) (n int, err error)
+//Write向文件中写入len(b)字节数据。它返回写入的字节数和可能遇到的任何错误。如果返回值n!=len(b)，本方法会返回一个非nil的错误。
+
+func (f *File) WriteString(s string) (ret int, err error)
+//WriteString类似Write，但接受一个字符串参数。
+
+func (f *File) WriteAt(b []byte, off int64) (n int, err error)
+//WriteAt在指定的位置（相对于文件开始位置）写入len(b)字节数据。它返回写入的字节数和可能遇到的任何错误。如果返回值n!=len(b)，本方法会返回一个非nil的错误。
+
+func (f *File) Seek(offset int64, whence int) (ret int64, err error)
+//Seek设置下一次读/写的位置。offset为相对偏移量，而whence决定相对位置：0为相对文件开头，1为相对当前位置，2为相对文件结尾。它返回新的偏移量（相对开头）和可能的错误。
+
+func (f *File) Sync() (err error)
+//Sync递交文件的当前内容进行稳定的存储。一般来说，这表示将文件系统的最近写入的数据在内存中的拷贝刷新到硬盘中稳定保存。
+```
+# io包
+
+io读操作：
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+func main() {
+	filename := "/Users/ayohuang/Documents/gotest/a.txt"
+	b := make([]byte, 4, 4)
+
+	f, err := os.Open(filename)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	n := -1
+	for {
+		n, err = f.Read(b)
+		if n == 0 && err == io.EOF {
+			fmt.Println("已读到文件结尾了！！！")
+			break
+		} else {
+			fmt.Println(string(b[:n]), n)
+		}
+	}
+
+	// 第一次读取
+	//n, err := f.Read(b)
+	//fmt.Println(n) // 4
+	//fmt.Println(err) // nil
+	//fmt.Println(string(b)) // abcd
+	//defer f.Close()
+	// 第二次读取
+	//n, err = f.Read(b)
+	//fmt.Println(n)  // 3
+	//fmt.Println(err) // nil
+	//fmt.Println(string(b)) // efgd
+	// 第三次读取
+	//n, err = f.Read(b)
+	//fmt.Println(n) // 0
+	//fmt.Println(err) // EOF
+	//fmt.Println(string(b)) // efgd
+}
+
+```
+
+io写操作：
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+func main() {
+	filename := "/Users/ayohuang/Documents/gotest/a.txt"
+	f, err := os.OpenFile(filename, os.O_CREATE|os.O_RDWR, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	p := []byte{97, 98, 99, 100}
+	n, err := f.Write(p) // 每次都是从文件开头写，也就是覆盖模式
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+
+	b := make([]byte, 4, 4)
+	n = 0
+	for {
+		n, err = f.ReadAt(b, int64(n)) // 指定文件读取位置，否则写的时候已经到了文件末尾
+		if n == 0 && err == io.EOF {
+			fmt.Println("文件已经读到结尾！！")
+			break
+		} else {
+			fmt.Println(n, "\t", string(b))
+		}
+	}
+
+}
+
+```
+
+复制文件操作：
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+func main() {
+	//// 方法1:使用Read方法和Write方法
+	//src_filename := "/Users/ayohuang/Documents/gotest/a.txt"
+	//des_filename := "/Users/ayohuang/Documents/gotest/b.txt"
+	//src, err := os.Open(src_filename)
+	//Handleerr(err)
+	//des, err := os.OpenFile(des_filename, os.O_CREATE|os.O_RDWR, os.ModePerm)
+	//Handleerr(err)
+	//defer des.Close()
+	//defer src.Close()
+	//
+	//b := make([]byte, 1024, 1024)
+	//b, total := ReadSrc(b, src)
+	//WriteDes(b, des, total)
+
+	// 方法2:使用io包的copy方法
+	src_filename := "/Users/ayohuang/Documents/gotest/a.txt"
+	des_filename := "/Users/ayohuang/Documents/gotest/b.txt"
+	src, err := os.Open(src_filename)
+	Handleerr(err)
+	des, err := os.OpenFile(des_filename, os.O_CREATE|os.O_RDWR, os.ModePerm)
+	Handleerr(err)
+	defer src.Close()
+	defer des.Close()
+	wrilen, err := io.Copy(des, src)
+	if err != nil {
+		fmt.Println(wrilen)
+	} else {
+		return
+	}
+}
+
+func WriteDes(b []byte, f *os.File, total int) {
+
+	n, err := f.WriteString(string(b[:total]))
+	Handleerr(err)
+	if n != 0 {
+		fmt.Println("文件写入成功！！！", n)
+	} else {
+		fmt.Println("文件写入失败！！！", n)
+	}
+}
+
+func ReadSrc(b []byte, f *os.File) ([]byte, int) {
+	total := 0
+	for {
+		n, err := f.Read(b)
+		if n == 0 && err == io.EOF {
+			fmt.Println("已经读到文件结尾！！！")
+			break
+		} else {
+			total += n
+		}
+	}
+	fmt.Printf("total:=%d\n", total)
+	return b, total
+}
+
+func Handleerr(err error) {
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+}
+
+
+```
+## 扩展
+
+在io包内，除了Copy方法外，还提供了CopyN和CopyBuffer方法。
+```go
+Copy(dst,src)   为复制src全部到dst中
+CopyN(dst,src,n)  为复制src中n个字节到dst
+CopyBuffer(dst,src,buf) 为指定一个buf缓冲区，以这个大小完全复制，类似于第一种方法中指定的切片大小
+```
+
+他们的关系如下
+![](image/go基础_time_1.png)
+事实上，Copy和CopyN方法都是调用的CopyBuffer方法，不指定大小则会创建一个默认的缓冲区大小为`size := 32 * 1024`
+## 断点续传
+```go
+Seek(offset int64, whence int) (int64, error)
+设置指针光标的位置
+SeekStart means relative to the start of the file, SeekCurrent means relative to the current offset, and SeekEnd means relative to the end
+
+  
+const (  
+    SeekStart   = 0 // seek relative to the origin of the file  
+    SeekCurrent = 1 // seek relative to the current offset  
+    SeekEnd     = 2 // seek relative to the end  
+)
+```
+
+断点续传的思路其实就是记录下已经传递数据的位置，然后使用Seek方法从已经传递数据的位置上继续。
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+func main() {
+	filename := "/Users/ayohuang/Documents/gotest/a.txt"
+	f, err := os.Open(filename)
+	Handleer(err)
+	b := []byte{0}
+	n, err := f.Read(b)
+	Handleer(err)
+	if n != 0 {
+		fmt.Println(string(b))
+	}
+	f.Seek(3, io.SeekStart) // 把光标设置离文件开始1个位置
+	n, err = f.Read(b)
+	Handleer(err)
+	if n != 0 {
+		fmt.Println(string(b))
+	}
+}
+func Handleer(err error) {
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+}
+
+```
+# bufio
+
+bufio是通过缓冲来提高效率。
+
+io操作本身的效率并不低，低的是频繁的访问本地磁盘的文件。所以bufio就提供了缓冲区(分配一块内存)，读和写都先在缓冲区中，最后再读写文件，来降低访问本地磁盘的次数，从而提高效率。
+
+简单来说就是，把文件读取进缓冲之后再读取的时候就可以避免文件系统的IO从而提高速度。同理，在进行写操作时，先把文件写入缓冲，然后由缓冲写入文件系统。
+![](image/go基础_time_2.png)
+bufio.Read(p \[\]byte)相当于读取大小len(p)的内容，思路如下：
+1. 当缓存区有内容时，将缓存区内容全部填入p并清空缓存区
+2. 当缓存区没有内容的时候且len(p)>len(buf)，即要读取的内容比缓存区还要大，直接去文件读取即可
+3. 当缓存区没有内容的时候且len(p)<len(buf)，即要读取的内容比缓存区小，缓存区从文件读取内容充满缓存区，并将p填满
+4. 以后再次读取时缓存区有内容，将缓存区内容全部填入p并清空缓存区
+# 并发编程
+
+Go是并发语言，而不是并行语言。
+## 进程/线程/协程
+
+**进程(Process)，线程(Thread)，协程(Coroutine，也叫轻量级线程)**
+
+进程 进程是一个程序在一个数据集中的一次动态执行过程，可以简单理解为“正在执行的程序”，它是CPU资源分配和调度的独立单位。 进程一般由程序、数据集、进程控制块三部分组成。我们编写的程序用来描述进程要完成哪些功能以及如何完成；数据集则是程序在执行过程中所需要使用的资源；进程控制块用来记录进程的外部特征，描述进程的执行变化过程，系统可以利用它来控制和管理进程，它是系统感知进程存在的唯一标志。 **进程的局限是创建、撤销和切换的开销比较大。**
+
+线程 线程是在进程之后发展出来的概念。 线程也叫轻量级进程，它是一个基本的CPU执行单元，也是程序执行过程中的最小单元，由线程ID、程序计数器、寄存器集合和堆栈共同组成。一个进程可以包含多个线程。 线程的优点是减小了程序并发执行时的开销，提高了操作系统的并发性能，缺点是线程没有自己的系统资源，只拥有在运行时必不可少的资源，但同一进程的各线程可以共享进程所拥有的系统资源，如果把进程比作一个车间，那么线程就好比是车间里面的工人。不过对于某些独占性资源存在锁机制，处理不当可能会产生“死锁”。
+
+协程 协程是一种用户态的轻量级线程，又称微线程，英文名Coroutine，协程的调度完全由用户控制。人们通常将协程和子程序（函数）比较着理解。 子程序调用总是一个入口，一次返回，一旦退出即完成了子程序的执行。
+
+**与传统的系统级线程和进程相比，协程的最大优势在于其"轻量级"，可以轻松创建上百万个而不会导致系统资源衰竭，而线程和进程通常最多也不能超过1万的。这也是协程也叫轻量级线程的原因。**
+
+> 协程与多线程相比，其优势体现在：协程的执行效率极高。因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销，和多线程比，线程数量越多，协程的性能优势就越明显。
+
+**Go语言对于并发的实现是靠协程，Goroutine**
+## Goroutine
+
+Goroutine是Go语言特有的名词。区别于进程Process，线程Thread，协程Coroutine，因为Go语言的创造者们觉得和他们是有所区别的，所以专门创造了Goroutine。
+
+Goroutine是与其他函数或方法同时运行的函数或方法。Goroutines可以被认为是轻量级的线程。与线程相比，创建Goroutine的成本很小，它就是一段代码，一个函数入口。以及在堆上为其分配的一个堆栈（初始大小为4K，会随着程序的执行自动增长删除）。因此它非常廉价，Go应用程序可以并发运行数千个Goroutines。
+
+>Goroutines在线程上的优势。 
+>1. 与线程相比，Goroutines非常便宜。它们只是堆栈大小的几个kb，堆栈可以根据应用程序的需要增长和收缩，而在线程的情况下，堆栈大小必须指定并且是固定的 
+>2. Goroutines被多路复用到较少的OS线程。在一个程序中可能只有一个线程与数千个Goroutines。如果线程中的任何Goroutine都表示等待用户输入，则会创建另一个OS线程，剩下的Goroutines被转移到新的OS线程。所有这些都由运行时进行处理，我们作为程序员从这些复杂的细节中抽象出来，并得到了一个与并发工作相关的干净的API。 
+>3. 当使用Goroutines访问共享内存时，通过设计的通道可以防止竞态条件发生。通道可以被认为是Goroutines通信的管道。
+
+### 主Goroutine
+
+封装main函数的goroutine称为主goroutine。
+
+主goroutine所做的事情并不是执行main函数那么简单。它首先要做的是：设定每一个goroutine所能申请的栈空间的最大尺寸。在32位的计算机系统中此最大尺寸为250MB，而在64位的计算机系统中此尺寸为1GB。如果有某个goroutine的栈空间尺寸大于这个限制，那么运行时系统就会引发一个栈溢出(stack overflow)的运行时恐慌。随后，这个go程序的运行也会终止。
+
+此后，主goroutine会进行一系列的初始化工作，涉及的工作内容大致如下：
+
+1. 创建一个特殊的defer语句，用于在主goroutine退出时做必要的善后处理。因为主goroutine也可能非正常的结束
+    
+2. 启动专用于在后台清扫内存垃圾的goroutine，并设置GC可用的标识
+    
+3. 执行mian包中的init函数
+    
+4. 执行main函数
+    
+    执行完main函数后，它还会检查主goroutine是否引发了运行时恐慌，并进行必要的处理。最后主goroutine会结束自己以及当前进程的运行。
+### 使用Goroutine
+
+在函数或方法调用前面加上关键字go，您将会同时运行一个新的Goroutine。
+```go
+package main  
+  
+import "fmt"  
+  
+func hello() {  
+    fmt.Println("hello main")  
+}  
+  
+func main() {  
+    go hello()  
+    fmt.Println("yes")  
+}
+// 输出yes
+```
+
+了解Goroutine的规则
+1. 当新的Goroutine开始时，Goroutine调用立即返回。与函数不同，go不等待Goroutine执行结束。当Goroutine调用，并且Goroutine的任何返回值被忽略之后，go立即执行到下一行代码。
+2. main的Goroutine应该为其他的Goroutines执行。如果main的Goroutine终止了，程序将被终止，而其他Goroutine将不会运行。
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "time")  
+  
+func hello() {  
+    fmt.Println("hello main")  
+}  
+  
+func main() {  
+    go hello()  
+    time.Sleep(1 * time.Second)  
+    fmt.Println("yes")  
+}
+// 这样信息就会被全部输出了
+```
+## runtime包
+
+包含与 Go 运行时系统交互的操作，例如用于控制 goroutine 的函数。它还包含 reflect 包使用的低级类型信息
+
+**`runtime` 调度器是个非常有用的东西，关于 `runtime` 包几个方法:**
+
+- **NumCPU**：返回当前系统的 `CPU` 核数量
+    
+- **GOMAXPROCS**：设置最大的可同时使用的 `CPU` 核数
+    
+    通过runtime.GOMAXPROCS函数，应用程序何以在运行期间设置运行时系统中得P最大数量。但这会引起“Stop the World”。所以，应在应用程序最早的调用。并且最好是在运行Go程序之前设置好操作程序的环境变量GOMAXPROCS，而不是在程序中调用runtime.GOMAXPROCS函数。
+    
+    无论我们传递给函数的整数值是什么值，运行时系统的P最大值总会在1~256之间。
+    
+
+> go1.8后，默认让程序运行在多个核上,可以不用设置了 > go1.8前，还是要设置一下，可以更高效的利益cpu
+
+- **Gosched**：让当前线程让出 `cpu` 以让其它线程运行,它不会挂起当前线程，因此当前线程未来会继续执行
+    
+    这个函数的作用是让当前 `goroutine` 让出 `CPU`，当一个 `goroutine` 发生阻塞，`Go` 会自动地把与该 `goroutine` 处于同一系统线程的其他 `goroutine` 转移到另一个系统线程上去，以使这些 `goroutine` 不阻塞。
+    
+- **Goexit**：退出当前 `goroutine`(但是`defer`语句会照常执行)
+    
+- **NumGoroutine**：返回正在执行和排队的任务总数
+    
+    runtime.NumGoroutine函数在被调用后，会返回系统中的处于特定状态的Goroutine的数量。这里的特指是指Grunnable\Gruning\Gsyscall\Gwaition。处于这些状态的Groutine即被看做是活跃的或者说正在被调度。
+    
+    注意：垃圾回收所在Groutine的状态也处于这个范围内的话，也会被纳入该计数器。
+    
+- **GOOS**：目标操作系统，常量。
+    
+- **runtime.GC**:会让运行时系统进行一次强制性的垃圾收集
+    
+    1. 强制的垃圾回收：不管怎样，都要进行的垃圾回收。
+    2. 非强制的垃圾回收：只会在一定条件下进行的垃圾回收（即运行时，系统自上次垃圾回收之后新申请的堆内存的单元（也成为单元增量）达到指定的数值）。
+- **GOROOT** :获取goroot目录
+## 临界资源安全问题
+
+**临界资源:** 指并发环境中多个进程/线程/协程共享的资源。
+
+但是在并发编程中对临界资源的处理不当， 往往会导致数据不一致的问题。
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main()  {
+	a := 1
+	go func() {
+		a = 2
+		fmt.Println("子goroutine。。",a)
+	}()
+	a = 3
+	time.Sleep(1)
+	fmt.Println("main goroutine。。",a)
+}
+
+% go run --race main.go
+==================
+main goroutine。。 3
+子goroutine。。 2
+Found 1 data race(s)
+exit status 66
+
+```
+
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "math/rand"    "time")  
+  
+var ticket int = 5  
+  
+func main() {  
+    go ticket_shell("a")  
+    go ticket_shell("b")  
+    go ticket_shell("c")  
+    go ticket_shell("d")  
+    time.Sleep(5 * time.Second)  
+}  
+  
+func ticket_shell(name string) {  
+    r := rand.New(rand.NewSource(time.Now().UnixNano()))  
+    for {  
+       if ticket > 0 {  
+          time.Sleep(time.Duration(r.Int()) * time.Millisecond)  
+          fmt.Println(name, ticket)  
+          ticket--  
+       } else {  
+          fmt.Println("售罄：", ticket)  
+          break  
+       }  
+    }  
+}
+
+============
+d 5
+d 4
+a 5
+a 2
+c 5
+售罄： 0
+b 5
+售罄： -1
+```
+### 互斥锁
+
+什么是锁呢？就是某个协程（线程）在访问某个资源时先锁住，防止其它协程的访问，等访问完毕解锁后其他协程再来加锁进行访问。一般用于处理并发中的临界资源问题。
+
+Go语言包中的 sync 包提供了两种锁类型：sync.Mutex 和 sync.RWMutex。
+
+Mutex 是最简单的一种锁类型，互斥锁，同时也比较暴力，当一个 goroutine 获得了 Mutex 后，其他 goroutine 就只能乖乖等到这个 goroutine 释放该 Mutex。
+
+每个资源都对应于一个可称为 “互斥锁” 的标记，这个标记用来保证在任意时刻，只能有一个协程（线程）访问该资源。其它的协程只能等待。
+
+互斥锁是传统并发编程对共享资源进行访问控制的主要手段，它由标准库sync中的Mutex结构体类型表示。sync.Mutex类型只有两个公开的指针方法，Lock和Unlock。Lock锁定当前的共享资源，Unlock进行解锁。
+
+在使用互斥锁时，一定要注意：对资源操作完成后，一定要解锁，否则会出现流程执行异常，死锁等问题。通常借助defer。锁定后，立即使用defer语句保证互斥锁及时解锁。
+
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "math/rand"    
+    "sync"    
+    "time"
+    )  
+  
+var ticket int = 5  
+  
+var w sync.WaitGroup  // 创建同步等待组
+var l sync.Mutex   // 创建互斥锁
+  
+func main() {  
+    w.Add(4)  // waitGroup中加4
+    go ticket_shell("a")  
+    go ticket_shell("b")  
+    go ticket_shell("c")  
+    go ticket_shell("d")  
+    w.Wait()  // 等待w中的计数变为0
+    //time.Sleep(5 * time.Second)  
+}  
+  
+func ticket_shell(name string) {  
+    r := rand.New(rand.NewSource(300))  
+    defer w.Done()  // 执行完之后给w减一
+    for {  
+       l.Lock()  // 加锁
+       if ticket > 0 {  
+          time.Sleep(time.Duration(r.Int()) * time.Millisecond)  
+          fmt.Println(name, ticket)  
+          ticket--  
+       } else {  
+          l.Unlock()  // 释放锁
+          fmt.Println("售罄：", ticket)  
+          break  
+       }  
+       l.Unlock()  // 释放锁
+    }  
+}
+/*
+通过使用sync包中的WaitGroup和Mutex对goroutine执行进行等待和对临界资源进行加锁的方式避免临界资源数据不一致问题
+*/
+```
+### 读写锁
+
+我们怎么理解读写锁呢？当有一个 goroutine 获得写锁定，其它无论是读锁定还是写锁定都将阻塞直到写解锁；当有一个 goroutine 获得读锁定，其它读锁定仍然可以继续；当有一个或任意多个读锁定，写锁定将等待所有读锁定解锁之后才能够进行写锁定。所以说这里的读锁定（RLock）目的其实是告诉写锁定：有很多人正在读取数据，你给我站一边去，等它们读（读解锁）完你再来写（写锁定）。我们可以将其总结为如下三条：
+
+1. 同时只能有一个 goroutine 能够获得写锁定。
+2. 同时可以有任意多个 gorouinte 获得读锁定。
+3. 同时只能存在写锁定或读锁定（读和写互斥）。
+
+所以，RWMutex这个读写锁，该锁可以加多个读锁或者一个写锁，其经常用于读次数远远多于写次数的场景。
+
+读写锁的写锁只能锁定一次，解锁前不能多次锁定，读锁可以多次，但读解锁次数最多只能比读锁次数多一次，一般情况下我们不建议读解锁次数多余读锁次数。
+
+基本遵循两大原则：
+
+​ 1、可以随便读，多个goroutine同时读。
+
+​ 2、写的时候，啥也不能干。不能读也不能写。
+
+读写锁即是针对于读写操作的互斥锁。它与普通的互斥锁最大的不同就是，它可以分别针对读操作和写操作进行锁定和解锁操作。读写锁遵循的访问控制规则与互斥锁有所不同。在读写锁管辖的范围内，它允许任意个读操作的同时进行。但是在同一时刻，它只允许有一个写操作在进行。
+
+并且在某一个写操作被进行的过程中，读操作的进行也是不被允许的。也就是说读写锁控制下的多个写操作之间都是互斥的，并且写操作与读操作之间也都是互斥的。但是，多个读操作之间却不存在互斥关系。
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "sync"    "time")  
+  
+var rwmetux *sync.RWMutex  
+var wg sync.WaitGroup  
+  
+func main() {  
+    rwmetux = new(sync.RWMutex)  
+    wg.Add(3)  
+    go Wdata(1)  
+    go Rdata(2)  
+    go Rdata(3)  
+    wg.Wait()  
+}  
+  
+func Rdata(i int) {  
+    defer wg.Done()  
+    fmt.Println(i, "开始读取数据。。。")  
+    rwmetux.RLock()  // 加读锁
+    fmt.Println(i, "正在读取数据。。。。")  
+    time.Sleep(3 * time.Second)  
+    fmt.Println(i, "结束读取数据。。。")  
+    rwmetux.RUnlock()  // 解读锁
+}  
+  
+func Wdata(i int) {  
+    defer wg.Done()  
+    fmt.Println(i, "开始写数据。。。")  
+    rwmetux.Lock()  // 加写锁
+    fmt.Println(i, "正在写数据。。。。")  
+    time.Sleep(3 * time.Second)  
+    fmt.Println(i, "结束写数据。。。")  
+    rwmetux.Unlock()  // 解开写锁
+}
+```
+
+在Go的并发编程中有一句很经典的话：**不要以共享内存的方式去通信，而要以通信的方式去共享内存。**
+
+在Go语言中并不鼓励用锁保护共享状态的方式在不同的Goroutine中分享信息(以共享内存的方式去通信)。而是鼓励通过**channel**将共享状态或共享状态的变化在各个Goroutine之间传递（以通信的方式去共享内存），这样同样能像用锁一样保证在同一的时间只有一个Goroutine访问共享状态。
+
+当然，在主流的编程语言中为了保证多线程之间共享数据安全性和一致性，都会提供一套基本的同步工具集，如锁，条件变量，原子操作等等。Go语言标准库也毫不意外的提供了这些同步机制，使用方式也和其他语言也差不多。
+# 通道
+
+通道可以被认为是Goroutines通信的管道。类似于管道中的水从一端到另一端的流动，数据可以从一端发送到另一端，通过通道接收。
+
+Go语言中，要传递某个数据给另一个goroutine(协程)，可以把这个数据封装成一个对象，然后把这个对象的指针传入某个channel中，另外一个goroutine从这个channel中读出这个指针，并处理其指向的内存对象。Go从语言层面保证同一个时间只有一个goroutine能够访问channel里面的数据，为开发者提供了一种优雅简单的工具，所以Go的做法就是使用channel来通信，通过通信来传递内存数据，使得内存数据在不同的goroutine中传递，而不是使用共享内存来通信。
+## 通道使用
+
+通道是什么，通道就是goroutine之间的通道。它可以让goroutine之间相互通信。
+
+每个通道都有与其相关的类型。该类型是通道允许传输的数据类型。(通道的零值为nil。nil通道没有任何用处，因此通道必须使用类似于map和切片的方法来定义。)
+```go
+var 数据名 chan 数据类型
+数据名 := make(chan 数据类型[,capacity]) //可以选择创建缓冲通道
+```
+
+channel是引用类型的数据，在作为参数传递的时候，传递的是内存地址。
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch1 := make(chan int)
+	fmt.Printf("%T,%p\n",ch1,ch1)
+
+	test1(ch1)
+
+}
+
+func test1(ch chan int){
+	fmt.Printf("%T,%p\n",ch,ch)
+}
+
+```
+
+Channel通道在使用的时候，有以下几个注意点：
+
+- 1.用于goroutine，传递消息的。
+
+- 2.通道，每个都有相关联的数据类型, nil chan，不能使用，类似于nil map，不能直接存储键值对
+
+- 3.使用通道传递数据：chan <- data,发送数据到通道。data <- chan,从通道中获取数据。
+
+- 4.阻塞： 发送数据：chan <- data,阻塞的，直到另一条goroutine，读取数据来解除阻塞 读取数据：data <- chan,也是阻塞的。直到另一条goroutine，写出数据解除阻塞。
+
+- 5.本身channel就是同步的，意味着同一时间，只能有一条goroutine来操作。
+
+最后：通道是goroutine之间的连接，所以通道的发送和接收必须处在不同的goroutine中。
+## 关闭通道和范围循环
+
+
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int)
+	go sendate(ch)
+	//for {
+	//	time.Sleep(1 * time.Second)
+	//	v, ok := <-ch   // 如果ok为
+	//	if !ok {
+	//		fmt.Println("通道已经关闭！", ok, v)
+	//		break
+	//	}
+	//}
+	for v := range ch { // 使用range循环读取通道内的值，直到通道关闭
+		fmt.Println(v)
+	}
+}
+
+func sendate(ch chan int) {
+	for i := 0; i < 10; i++ {
+		ch <- i
+	}
+	close(ch) // 关闭通道
+}
+
+```
+## 缓冲通道
+
+缓冲通道就是指一个通道，带有一个缓冲区。发送到一个缓冲通道只有在缓冲区满时才被阻塞。类似地，从缓冲通道接收的信息只有在缓冲区为空时才会被阻塞。
+
+可以通过将额外的容量参数传递给make函数来创建缓冲通道，该函数指定缓冲区的大小。
+
+带缓冲的通道是可以看作一个队列，读取数据和写入数据按照先入先出的规则。
+
+语法：
+
+```go
+ch := make(chan type, capacity)  
+```
+
+上述语法的容量应该大于0，以便通道具有缓冲区。默认情况下，无缓冲通道的容量为0，因此在之前创建通道时省略了容量参数。
+## 单向通道
+
+通道，channel，是用于实现goroutine之间的通信的。一个goroutine可以向通道中发送数据，另一条goroutine可以从该通道中获取数据。把这种通道叫做双向通道。
+
+单向通道，也就是定向通道。也就是只能写或者只能读的一种通道。
+```go
+func sendate(ch chan <-int) { // 只写  
+    for i := 0; i < 10; i++ {  
+       ch <- i  
+    }  
+    close(ch)  
+}
+```
+
+一般来说，创建通道的时候都创建双向通道，然后在函数中进行读或写的限制。
+## select语句
+
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "time")  
+  
+func main() {  
+    ch1 := make(chan int)  
+    ch2 := make(chan int)  
+  
+    go func() {  
+       ch1 <- 1  
+    }()  
+  
+    time.Sleep(1 * time.Second)  
+    select {  
+    case num1 := <-ch1:  
+       fmt.Println("num1:", num1)  
+    case num2 := <-ch2:  
+       fmt.Println("num2", num2)  
+    default:  
+       fmt.Println("default")  
+    }  
+}
+```
+# 反射
+
+不同语言的反射模型不尽相同，有些语言还不支持反射。《Go 语言圣经》中是这样定义反射的：
+
+> Go 语言提供了一种机制在运行时更新变量和检查它们的值、调用它们的方法，但是在编译时并不知道这些变量的具体类型，这称为反射机制。
+
+为什么要用反射?
+
+需要反射的 2 个常见场景：
+
+1. 有时你需要编写一个函数，但是并不知道传给你的参数类型是什么，可能是没约定好；也可能是传入的类型很多，这些类型并不能统一表示。这时反射就会用的上了。
+2. 有时候需要根据某些条件决定调用哪个函数，比如根据用户的输入来决定。这时就需要对函数和函数的参数进行反射，在运行期间动态地执行函数。
+
+但是对于反射，还是有几点不太建议使用反射的理由：
+
+1. 与反射相关的代码，经常是难以阅读的。在软件工程中，代码可读性也是一个非常重要的指标。
+2. Go 语言作为一门静态语言，编码过程中，编译器能提前发现一些类型错误，但是对于反射代码是无能为力的。所以包含反射相关的代码，很可能会运行很久，才会出错，这时候经常是直接 panic，可能会造成严重的后果。
+3. 反射对性能影响还是比较大的，比正常代码运行速度慢一到两个数量级。所以，对于一个项目中处于运行效率关键位置的代码，尽量避免使用反射特性。
+
+## 基础
+
+反射是如何实现的？我们以前学习过 interface，它是 Go 语言实现抽象的一个非常强大的工具。当向接口变量赋予一个实体类型的时候，接口会存储实体的类型信息，反射就是通过接口的类型信息实现的，反射建立在类型的基础上。
+
+Go 语言在 reflect 包里定义了各种类型，实现了反射的各种函数，通过它们可以在运行时检测类型的信息、改变类型的值。在进行更加详细的了解之前，我们需要重新温习一下Go语言相关的一些特性，所谓温故知新，从这些特性中了解其反射机制是如何使用的。
+
+|特点|说明|
+|---|---|
+|go语言是静态类型语言。|编译时类型已经确定，比如对已基本数据类型的再定义后的类型，反射时候需要确认返回的是何种类型。|
+|空接口interface{}|go的反射机制是要通过接口来进行的，而类似于Java的Object的空接口可以和任何类型进行交互，因此对基本数据类型等的反射也直接利用了这一特点|
+|Go语言的类型：||
+
+- 变量包括（type, value）两部分
+    
+    ​ 理解这一点就知道为什么nil != nil了
+    
+- type 包括 static type和concrete type. 简单来说 static type是你在编码是看见的类型(如int、string)，concrete type是runtime系统看见的类型
+    
+- 类型断言能否成功，取决于变量的concrete type，而不是static type。因此，一个 reader变量如果它的concrete type也实现了write方法的话，它也可以被类型断言为writer。
+    
+
+Go语言的反射就是建立在类型之上的，Golang的指定类型的变量的类型是静态的（也就是指定int、string这些的变量，它的type是static type），在创建变量的时候就已经确定，反射主要与Golang的interface类型相关（它的type是concrete type），只有interface类型才有反射一说。
+
+在Golang的实现中，每个interface变量都有一个对应pair，pair中记录了实际变量的值和类型:
+
+```
+(value, type)
+```
+
+value是实际变量值，type是实际变量的类型。一个interface{}类型的变量包含了2个指针，一个指针指向值的类型【对应concrete type】，另外一个指针指向实际的值【对应value】。
+
+例如，创建类型为*os.File的变量，然后将其赋给一个接口变量r：
+
+```
+tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0)
+
+var r io.Reader
+r = tty
+```
+
+接口变量r的pair中将记录如下信息：(tty, *os.File)，这个pair在接口变量的连续赋值过程中是不变的，将接口变量r赋给另一个接口变量w:
+
+```
+var w io.Writer
+w = r.(io.Writer)
+```
+
+接口变量w的pair与r的pair相同，都是:(tty, *os.File)，即使w是空接口类型，pair也是不变的。
+
+interface及其pair的存在，是Golang中实现反射的前提，理解了pair，就更容易理解反射。反射就是用来检测存储在接口变量内部(值value；类型concrete type) pair对的一种机制。
+
+所以我们要理解两个基本概念 Type 和 Value，它们也是 Go语言包中 reflect 空间里最重要的两个类型。
+
+Go语言中的反射使用的是reflect包。
+
+既然反射就是用来检测存储在接口变量内部(值value；类型concrete type) pair对的一种机制。那么在Golang的reflect反射包中有什么样的方式可以让我们直接获取到变量内部的信息呢？ 它提供了两种类型（或者说两个方法）让我们可以很容易的访问接口变量内容，分别是reflect.ValueOf() 和 reflect.TypeOf()，看看官方的解释
+
+```
+// ValueOf returns a new Value initialized to the concrete value
+// stored in the interface i.  ValueOf(nil) returns the zero 
+func ValueOf(i interface{}) Value {...}
+
+翻译一下：ValueOf用来获取输入参数接口中的数据的值，如果接口为空则返回0
+
+
+// TypeOf returns the reflection Type that represents the dynamic type of i.
+// If i is a nil interface value, TypeOf returns nil.
+func TypeOf(i interface{}) Type {...}
+
+翻译一下：TypeOf用来动态获取输入参数接口中的值的类型，如果接口为空则返回nil
+
+```
+
+reflect.TypeOf()是获取pair中的type，reflect.ValueOf()获取pair中的value。
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+func main() {
+	var s int = 3
+	rt := reflect.TypeOf(s)
+	rv := reflect.ValueOf(s)
+
+	fmt.Printf("rt:%T,%v\n", rv, rv)
+	fmt.Printf("rt:%T,%v\n", rt, rt)
+
+	fmt.Println("value kind is int:", rv.Kind() == reflect.Int)
+	fmt.Println("value type:", rv.Type())
+	fmt.Println("value:", rv.Int())
+}
+```
+## 转换
+
+其实反射的操作步骤非常的简单，就是通过实体对象获取反射对象(Value、Type)，然后操作相应的方法即可。
+
+下图描述了实例、Value、Type 三者之间的转换关系：
+![](image/go基础_time_3.png)
+
+反射 API 的分类总结如下：
+
+**1) 从实例到 Value**
+
+通过实例获取 Value 对象，直接使用 reflect.ValueOf() 函数。例如：
+
+```
+func ValueOf(i interface {}) Value
+```
+
+**2) 从实例到 Type**
+
+通过实例获取反射对象的 Type，直接使用 reflect.TypeOf() 函数。例如：
+
+```
+func TypeOf(i interface{}) Type
+```
+
+**3) 从 Type 到 Value**
+
+Type 里面只有类型信息，所以直接从一个 Type 接口变量里面是无法获得实例的 Value 的，但可以通过该 Type 构建一个新实例的 Value。reflect 包提供了两种方法，示例如下：
+
+```
+//New 返回的是一个 Value，该 Value 的 type 为 PtrTo(typ)，即 Value 的 Type 是指定 typ 的指针类型
+func New(typ Type) Value
+//Zero 返回的是一个 typ 类型的零佳，注意返回的 Value 不能寻址，位不可改变
+func Zero(typ Type) Value
+```
+
+如果知道一个类型值的底层存放地址，则还有一个函数是可以依据 type 和该地址值恢复出 Value 的。例如：
+
+```
+func NewAt(typ Type, p unsafe.Pointer) Value
+```
+
+**4) 从 Value 到 Type**
+
+从反射对象 Value 到 Type 可以直接调用 Value 的方法，因为 Value 内部存放着到 Type 类型的指针。例如：
+
+```
+func (v Value) Type() Type
+```
+
+**5) 从 Value 到实例**
+
+Value 本身就包含类型和值信息，reflect 提供了丰富的方法来实现从 Value 到实例的转换。例如：
+
+```
+//该方法最通用，用来将 Value 转换为空接口，该空接口内部存放具体类型实例
+//可以使用接口类型查询去还原为具体的类型
+func (v Value) Interface() （i interface{})
+
+//Value 自身也提供丰富的方法，直接将 Value 转换为简单类型实例，如果类型不匹配，则直接引起 panic
+func (v Value) Bool () bool
+func (v Value) Float() float64
+func (v Value) Int() int64
+func (v Value) Uint() uint64
+```
+
+**6) 从 Value 的指针到值**
+
+从一个指针类型的 Value 获得值类型 Value 有两种方法，示例如下。
+
+```
+//如果 v 类型是接口，则 Elem() 返回接口绑定的实例的 Value，如采 v 类型是指针，则返回指针值的 Value，否则引起 panic
+func (v Value) Elem() Value
+//如果 v 是指针，则返回指针值的 Value，否则返回 v 自身，该函数不会引起 panic
+func Indirect(v Value) Value
+```
+
+**7) Type 指针和值的相互转换**
+
+指针类型 Type 到值类型 Type。例如：
+
+```
+//t 必须是 Array、Chan、Map、Ptr、Slice，否则会引起 panic
+//Elem 返回的是其内部元素的 Type
+t.Elem() Type
+```
+
+值类型 Type 到指针类型 Type。例如：
+
+```
+//PtrTo 返回的是指向 t 的指针型 Type
+func PtrTo(t Type) Type
+```
+
+**8) Value 值的可修改性**
+
+Value 值的修改涉及如下两个方法：
+
+```
+//通过 CanSet 判断是否能修改
+func (v Value ) CanSet() bool
+//通过 Set 进行修改
+func (v Value ) Set(x Value)
+```
+
+Value 值在什么情况下可以修改？我们知道实例对象传递给接口的是一个完全的值拷贝，如果调用反射的方法 reflect.ValueOf() 传进去的是一个值类型变量， 则获得的 Value 实际上是原对象的一个副本，这个 Value 是无论如何也不能被修改的。
+
+**根据 Go 官方关于反射的博客，反射有三大定律：**
+
+> 1. Reflection goes from interface value to reflection object. > 2. Reflection goes from reflection object to interface value. > 3. To modify a reflection object, the value must be settable.
+
+第一条是最基本的：反射可以从接口值得到反射对象。
+
+​ 反射是一种检测存储在 interface中的类型和值机制。这可以通过 TypeOf函数和 ValueOf函数得到。
+
+第二条实际上和第一条是相反的机制，反射可以从反射对象获得接口值。
+
+​ 它将 ValueOf的返回值通过 Interface()函数反向转变成 interface变量。
+
+前两条就是说 接口型变量和 反射类型对象可以相互转化，反射类型对象实际上就是指的前面说的 reflect.Type和 reflect.Value。
+
+第三条不太好懂：如果需要操作一个反射变量，则其值必须可以修改。
+
+​ 反射变量可设置的本质是它存储了原变量本身，这样对反射变量的操作，就会反映到原变量本身；反之，如果反射变量不能代表原变量，那么操作了反射变量，不会对原变量产生任何影响，这会给使用者带来疑惑。所以第二种情况在语言层面是不被允许的。
+
+
+- 已知类型转换
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+func main() {
+	var s float32
+
+	// 接口类型变量转换为反射类型对象
+	rv := reflect.ValueOf(s)
+
+	// 反射类型对象转换为接口类型变量，类型必须一致，否则panic
+	convertValue := rv.Interface().(float32)
+	fmt.Printf("convertValue:%T\t%v\n", convertValue, convertValue)
+	fmt.Printf("convertValue:%T\t%v\n", rv.Float(), convertValue)
+}
+```
+
+- 未知类型转换
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type Person struct {
+	Name string
+	Age  int
+	Sex  string
+}
+
+func (p Person) Say(msg string) {
+	fmt.Println("hello,", msg)
+}
+
+func (p Person) Printinfo() {
+	fmt.Printf("name:%s\tage:%d\tsex:%s\t\n")
+}
+
+func main() {
+	p := Person{
+		Name: "王二狗",
+		Age:  10,
+		Sex:  "男",
+	}
+	Getmesg(p)
+}
+
+func Getmesg(input interface{}) {
+	rt := reflect.TypeOf(input)
+	rv := reflect.ValueOf(input)
+
+	fmt.Println("input Type:", rt.Name()) // Peerson
+	fmt.Println("input kind:", rt.Kind()) // struct
+
+	for i := 0; i < rt.NumField(); i++ {
+		filed := rt.Field(i)
+		value := rv.Field(i).Interface()
+		fmt.Printf("name:%s\ttype:%s\tvalue:%v\n", filed.Name, filed.Type, value)
+	}
+
+	for i := 0; i < rt.NumMethod(); i++ {
+		method := rt.Method(i)
+		fmt.Printf("method name:%s\t method type : %s\n", method.Name, method.Type)
+	}
+
+}
+
+/*
+input Type: Person
+input kind: struct
+name:Name       type:string     value:王二狗
+name:Age        type:int        value:10
+name:Sex        type:string     value:男
+method name:Printinfo    method type : func(main.Person)
+method name:Say  method type : func(main.Person, string)
+
+*/
+
+```
+## 修改值
+
+reflect.Value是通过reflect.ValueOf(X)获得的，只有当X是指针的时候，才可以通过reflect.Value修改实际变量X的值，即：要修改反射类型的对象就一定要保证其值是“addressable”的。
+
+也就是说：要想修改一个变量的值，那么必须通过该变量的指针地址，取消指针的引用。通过refptrVal:=reflect.ValueOf(&val)的方式获取指针类型，使用refptrVal.elem().set(一个新的reflect.value)来进行更改，传递给set()的值也必须是一个reflect.value
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+func main() {
+	var p int = 32
+
+	pt := reflect.ValueOf(&p) // 必须传递指针，否则修改时会panic
+	NewValue := pt.Elem()
+	fmt.Println("类型为：", NewValue.Type())
+	fmt.Println("是否可以修改：", NewValue.CanSet())
+
+	NewValue.SetInt(44) // set函数不能直接使用
+	fmt.Println(p)      // 44
+}
+
+```
+## 函数/方法调用
+
+- 方法调用
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type Person struct {
+	Name string
+	Age  int
+	Sex  string
+}
+
+func (p Person) Say(msg string) {
+	fmt.Println("hello,", msg)
+}
+
+func (p Person) Printinfo() {
+	fmt.Printf("name:%s\tage:%d\tsex:%s\t\n", p.Name, p.Age, p.Sex)
+}
+
+func main() {
+	p := Person{
+		Name: "王二狗",
+		Age:  10,
+		Sex:  "男",
+	}
+	rv := reflect.ValueOf(p)
+	methodValue := rv.MethodByName("Printinfo")
+	fmt.Printf("kind:%v\ttype:%v\n", methodValue.Kind(), methodValue.Type()) //kind:func       type:func()
+	methodValue.Call(nil)                                                    // 没有参数,可以直接传递nil
+	arg1 := make([]reflect.Value, 0)
+	methodValue.Call(arg1)
+	
+	arg2 := []reflect.Value{reflect.ValueOf("反射")}
+	methodValue = rv.MethodByName("Say")
+	methodValue.Call(arg2)
+}
+```
+
+- 函数调用
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+func test1(i int) {
+	fmt.Println(i)
+}
+
+func test2() (i int) {
+	fmt.Println("test2....")
+	return 1
+}
+
+func main() {
+	t1 := reflect.ValueOf(test1)
+	t1.Call([]reflect.Value{reflect.ValueOf(32)}) // 函数调用
+
+	t2 := reflect.ValueOf(test2)
+	rvalue := t2.Call(nil)  // 返回的是[]Value
+	fmt.Println(len(rvalue))
+	fmt.Println(rvalue[0].Kind(), rvalue[0].Type())
+	fmt.Println(rvalue[0].Interface())
+}
+
+```
