@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "9b478ca5ff870ec8",
+        "id": "71780f1d2224ad4d",
         "type": "tabs",
         "children": [
           {
-            "id": "f31425ec10a6c189",
+            "id": "b4d0c99b8b21665e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "计算机基础/网络/ping命令工作流程.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "go基础"
-            }
-          },
-          {
-            "id": "d292634d33abcd25",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/框架/Cobra-命令行框架.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cobra-命令行框架"
+              "title": "ping命令工作流程"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -108,10 +93,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/Cobra-命令行框架.md"
+                "file": "计算机基础/网络/ping命令工作流程.md"
               },
               "icon": "lucide-list",
-              "title": "Cobra-命令行框架 的大纲"
+              "title": "ping命令工作流程 的大纲"
             }
           },
           {
@@ -143,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/框架/Cobra-命令行框架.md",
+                "file": "计算机基础/网络/ping命令工作流程.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +138,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Cobra-命令行框架 的反向链接列表"
+              "title": "ping命令工作流程 的反向链接列表"
             }
           },
           {
@@ -162,12 +147,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/框架/Cobra-命令行框架.md",
+                "file": "计算机基础/网络/ping命令工作流程.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Cobra-命令行框架 的出链列表"
+              "title": "ping命令工作流程 的出链列表"
             }
           }
         ],
@@ -188,9 +173,11 @@
       "obsidian-local-images-plus:Local Images Plus  0.15.9\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "b4d0c99b8b21665e",
   "lastOpenFiles": [
+    "go/包/log.md",
     "go/框架/Cobra-命令行框架.md",
+    "go/框架/image",
     "go/框架",
     "go/未命名.md",
     "go/包",
@@ -227,14 +214,12 @@
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_2.png",
     "计算机基础/操作系统/Linux性能优化/03-CPU利用率100%该怎么办.md",
-    "计算机基础/操作系统/Linux性能优化/01-理解平均负载.md",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",
     "go/基础/image",
     "计算机基础/操作系统/Linux性能优化/image",
     "计算机基础/操作系统/Linux性能优化",
-    "计算机基础/操作系统",
-    "image/git"
+    "计算机基础/操作系统"
   ]
 }
