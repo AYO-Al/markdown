@@ -174,8 +174,9 @@
   },
   "active": "b4d0c99b8b21665e",
   "lastOpenFiles": [
-    "go/包/log.md",
+    "go/基础/go基础.md",
     "go/包/文本处理.md",
+    "go/包/log.md",
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/ping命令工作流程.md",
     "计算机基础/网络/图解",
@@ -186,7 +187,6 @@
     "go/包",
     "go/基础/image/go基础_time_3.png",
     "云计算/Linux/Linux网络基础.md",
-    "go/基础/go基础.md",
     "go/基础/golang.md",
     "云计算/Linux/文件系统与磁盘.md",
     "go/基础/image/go基础_time_2.png",
