@@ -155,7 +155,8 @@
               "title": "文本处理 的出链列表"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -172,7 +173,7 @@
       "obsidian-local-images-plus:Local Images Plus  0.15.9\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "b4d0c99b8b21665e",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "go/基础/go基础.md",
     "go/包/文本处理.md",
