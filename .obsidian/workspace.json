@@ -155,8 +155,7 @@
               "title": "测试 的出链列表"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -173,11 +172,11 @@
       "obsidian-local-images-plus:Local Images Plus  0.15.9\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
-    "go/包/文本处理.md",
-    "go/基础/测试.md",
     "go/包/log.md",
+    "go/基础/测试.md",
+    "go/包/文本处理.md",
     "go/基础/go基础.md",
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/ping命令工作流程.md",
