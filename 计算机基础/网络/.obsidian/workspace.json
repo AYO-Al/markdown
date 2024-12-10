@@ -1,0 +1,168 @@
+{
+  "main": {
+    "id": "048acf6eac25de99",
+    "type": "split",
+    "children": [
+      {
+        "id": "0ba30ae2036001f1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "159d14bee7f637ef",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "公钥和私钥.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6f7f47ab284ac448",
+    "type": "split",
+    "children": [
+      {
+        "id": "bfd1998d4eb68d1a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4f0f2ca6323c33fe",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ff0141aac6aabeb4",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "943e8e2ffccda74f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a689601275098279",
+    "type": "split",
+    "children": [
+      {
+        "id": "93fe5a4b68d4d3aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0d64ace92237c3dc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "公钥和私钥.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "079d57d0612ac669",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "公钥和私钥.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "307df7045b48c172",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "874645832d36bcee",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "公钥和私钥.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "159d14bee7f637ef",
+  "lastOpenFiles": [
+    "image/git_time_13.png",
+    "image/git_time_12.png",
+    "image/git_time_11.png",
+    "image/git_time_10.png",
+    "疑惑.md",
+    "git.md",
+    "image/tmp1718531027949_git_time_10.png",
+    "image/git_time_10.png",
+    "image/git_time_9.png",
+    "image/git_time_11.png",
+    "image/git_time_12.png",
+    "image/git/image-20240616172630262.png",
+    "image/git",
+    "image/git_time_7.png",
+    "tmp1718440101571_Git_time_7.md",
+    "Git.md"
+  ]
+}
