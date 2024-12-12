@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "71780f1d2224ad4d",
+        "id": "ad454a6d09c690bb",
         "type": "tabs",
         "children": [
           {
-            "id": "b4d0c99b8b21665e",
+            "id": "727d7fb1abe03ffb",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -77,7 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 205.5
+    "width": 351.5
   },
   "right": {
     "id": "a689601275098279",
@@ -155,7 +155,8 @@
               "title": "测试 的出链列表"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -172,12 +173,17 @@
       "obsidian-local-images-plus:Local Images Plus  0.15.9\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "d5362f416d5b8f9a",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/包/log.md",
-    "go/基础/测试.md",
-    "go/包/文本处理.md",
+    "go/项目/mydocker/未命名.md",
     "go/基础/go基础.md",
+    "go/项目/mydocker",
+    "go/项目",
+    "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
+    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
+    "go/基础/测试.md",
+    "go/包/log.md",
+    "go/包/文本处理.md",
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/ping命令工作流程.md",
     "计算机基础/网络/图解",
@@ -208,17 +214,12 @@
     "云计算/容器/深入剖析kubernetes/09-进阶使用Pod对象.md",
     "云计算/容器/深入剖析kubernetes/08-深入解析pod对象.md",
     "云计算/容器/深入剖析kubernetes/07-为什么我们需要pod.md",
-    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
-    "云计算/容器/Kubernetes in Action/第十四章：自动横向伸缩pod与集群节点.md",
-    "云计算/容器/Kubernetes in Action/第十章：了解Kubernetes机制.md",
     "云计算/容器/深入剖析kubernetes/image/07-为什么我们需要pod_time_1.png",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png",
     "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_2.png",
     "web/image",
     "云计算/容器/深入剖析kubernetes/image",
     "云计算/容器/深入剖析kubernetes",
-    "go/基础/image",
-    "计算机基础/操作系统/Linux性能优化/image",
-    "计算机基础/操作系统/Linux性能优化"
+    "go/基础/image"
   ]
 }
