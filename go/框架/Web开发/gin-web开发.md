@@ -134,6 +134,15 @@ gin/
 
 ```go
     // usl?userid=ks&username=k
+    /*
+        context.DefaultQuery("id","123")  
+
+        ?id=1,2,3
+        context.QueryArray("id")
+
+        ?name[1]=ha&name[2]=he
+        context.QueryMap("name") map[1:ha 2:he]
+    */
 	r.GET("/user/info", func(context *gin.Context) {
 		uid := context.Query("userid")
 		username := context.Query("username")
@@ -144,6 +153,7 @@ gin/
 	})
 
 	//  /user/info/ks/k
+	// 占位符可以使用*，这样可以在不完全匹配情况下请求到该路由
 	r.GET("/users/info/:userid/:username", func(context *gin.Context) {
 		userid := context.Param("userid")
 		username := context.Param("username")
@@ -168,9 +178,15 @@ gin/
 
 	// 处理表单
 	/*
+	context.DefaultPostForm("age","18")  
+    context.PostFormArray("name")  // 多选框返回列表
+    context.PostFormMap("password") // input name属性写成map形即可
+	*/
+	/*
     <form action="/user/add" method="post">  
         <p>username: <input type="text" name="username"></p>  
-        <p>userword: <input type="text" name="password"></p>  
+        <p>userword1: <input type="text" name="password[1]"></p>  
+        <p>userword2: <input type="text" name="password[2]"></p>  
         <button type="submit">提交</button>  
     </form>
 	*/
