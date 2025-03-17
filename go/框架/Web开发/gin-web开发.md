@@ -130,6 +130,57 @@ gin/
 		context.HTML(http.StatusNotFound, "404.html", "")
 	})
 ```
+
+# 参数渲染
+
+在后端中可以给前端传递各种类型的参数
+
+```go
+// string渲染
+func RenderStr(context *gin.Context) {
+	context.HTML(http.StatusOK, "user/user.html", "user string")
+}
+
+/*
+stuct渲染：
+type H map[string]any
+使用gin.H{}是一样的使用方法
+*/
+func RenderStruct(context *gin.Context) {
+	userinfo := UserInfo{UserID: 1, UserName: "ky"}
+	context.HTML(http.StatusOK, "user/struct.html", userinfo)
+}
+
+// 数组渲染
+func RenderArray(context *gin.Context) {
+	userarr := []int{1, 2, 3}
+	context.HTML(http.StatusOK, "user/array.html", userarr)
+}
+
+
+// 前端文件
+<!-- 字符串渲染 -->  
+<H1>{{.}}</H1>
+
+<!-- 结构体渲染 --> 
+<h1>UserID:{{.UserID}}</h1>  
+<h1>UserName:{{.UserName}}</h1>
+
+<!-- 数组渲染 --> 
+{{/*第一种方式*/}}  
+{{range $i,$v := .}}  
+  {{$i}}  
+  {{$v}}  
+<br>  
+{{end}}  
+  
+<br>  
+{{/*第二种方式*/}}  
+{{range .}}  
+    {{.}}  
+{{end}}
+```
+
 # 5. 获取请求参数
 
 ```go
@@ -180,7 +231,7 @@ gin/
 	/*
 	context.DefaultPostForm("age","18")  
     context.PostFormArray("name")  // 多选框返回列表
-    context.PostFormMap("password") // input name属性写成map形即可
+    context.PostFormMap("password") // input name属性写成map形式即可
 	*/
 	/*
     <form action="/user/add" method="post">  
@@ -197,6 +248,39 @@ gin/
 		})
 	})
 ```
+# 参数绑定
+
+```go
+<form action="/user/add" method="post">  
+    <p>用户名: <input type="text" name="username"></p>  
+    <p>密码: <input type="text" name="password"></p>  
+    <p>地址: <input type="text" name="addr"></p>  
+    <button type="submit">提交</button>  
+</form>
+
+// 参数绑定
+type User struct {
+	// 参数绑定需要结构体名和表单控件名一致，不一致可以使用form/json结构体标签进行绑定
+	// json:"username
+	Username string `form:"username"`
+	Password int    `form:"password"`
+	Addr     string `form:"addr"`
+}
+
+func UserAdd(context *gin.Context) {
+	context.HTML(http.StatusOK, "user/user_add.html", "")
+}
+
+func UserToAdd(context *gin.Context) {
+	var user User
+	// 将参数绑定到结构体
+	err := context.ShouldBind(&user)
+	fmt.Println(err)
+	fmt.Println(user)
+	context.String(http.StatusOK, "user")
+}
+```
+
 # 6. 路由组
 
 ```go
