@@ -280,7 +280,6 @@ func UserToAdd(context *gin.Context) {
 	context.String(http.StatusOK, "user")
 }
 ```
-
 # 6. 路由组
 
 ```go
@@ -337,4 +336,246 @@ func main(){
 	// 运行
 	h.Run()
 }
+```
+# 模板语法
+
+**统一使用{{和}}作为左右标签**
+```go
+// 后端给前端传递的数据
+func UserTemplate(contest *gin.Context) {  
+  
+    arr := []int{1, 2, 3, 4}  
+    maps := map[string]interface{}{  
+       "one":   "one",  
+       "tow":   "2",  
+       "three": 3,  
+    }  
+    names := Person{  
+       Name: "k",  
+       Age:  18,  
+       Addr: "beijin",  
+    }  
+  
+    contest.HTML(http.StatusOK, "user/user_template.html", gin.H{  
+       "string": "string message",  
+       "arr":    arr,  
+       "map":    maps,  
+       "struct": names,  
+       "funcname": SubStr,
+    })  
+}
+
+func SubStr(str string, l int) string {  
+    ret := str[0:l]  
+    return (ret + "...")  
+}
+```
+## 上下文
+
+- `.`：访问当前位置的上下文
+- `$`：引用当前模板根级的上下文
+- `$.`：引用模板中的根级上下文
+## 去除空格
+
+- `{{-` ：去除前空格
+- `-}}`：去除后空格
+
+## 支持go语言的符号
+
+1. 字符串：{{"zhaoli"}}
+2. 原始字符串：{{\`yes\`}}
+3. 字节类型：{{'a'}} ->97字符编码号
+4. nil类型：{{print nil}}
+    - {{nil}}只有nil会报错：nil is not a command
+## 定义变量
+
+1. 定义：
+```go
+{{$username := "xxxx"}}
+```
+2. 使用
+```go
+{{$username}}
+```
+**注意：只能在当前模板使用**
+## pipline
+
+可以是上下文的变量输出，也可以是函数通过管道传递的返回值
+- {{.Name}}是上下文的变量输出，是个pipline
+- {{"h"|len}}是函数通过管道传递的返回值，是个pipline
+## 流程控制-if
+
+1. if...else...
+```go
+{{ if .string1 }}  
+    {{.string}}  
+{{ else }}  
+    {{ print "else" }}  
+{{end}}
+```
+2. if嵌套
+```go
+{{ if .string1 }}  
+    {{.string}}  
+{{ else if .string1 }}  
+    {{ print "no" }}  
+{{ else }}  
+    {{ print "else" }}  
+{{end}}
+```
+## 循环range
+
+```go
+{{ range.map }}  
+    {{.}} 
+    <br>  
+{{end}}
+
+{{ range $v := .map }}   
+    {{$v}}  
+    <br>  
+{{end}}
+
+{{ range $i,$v := .map }}  
+    {{$i}}  
+    {{$v}}  
+    <br>  
+{{end}}
+
+// 支持else，长度为0的时候执行else
+{{ range $i,$v := .map1 }}  
+    {{$i}}  
+    {{$v}}  
+    <br>  
+{{else}}  
+    {{ 0 }}  
+{{end}}
+```
+## with伴随
+
+- 作用：**用于重定向pipline**
+```go
+// 不用每个字段前都加struct了
+{{with .struct}}  
+    {{.Name}}  
+    {{.Age}}  
+    {{.Addr}}  
+{{else}} // 逻辑跟range一样
+    {{0}}
+{{end}}
+```
+## template
+
+- 作用：导入其他的模板
+
+```go
+{{/*调用子模板并传递参数*/}}
+{{template "user/base.html" .}}
+```
+
+- 导入的模板文件也要使用define包含
+- 如果想在引用的模板中获取动态数据，必须使用.访问当前位置的上下文
+- 引入的作用位置跟 `template`使用的位置有关
+## 模板函数
+
+- print
+    - print：fmt.Sprint
+    - printf：fmt.Sprintf
+    - println：fmt.Sprintln
+
+|格  式|描  述|
+|---|---|
+|%v|按值的本来值输出|
+|%+v|在 %v 基础上，对结构体字段名和值进行展开|
+|%#v|输出 Go 语言语法格式的值|
+|%T|输出 Go 语言语法格式的类型和值|
+|\%\%|输出 % 本体|
+|%b|整型以二进制方式显示|
+|%o|整型以八进制方式显示|
+|%d|整型以十进制方式显示|
+|%x|整型以十六进制方式显示|
+|%X|整型以十六进制、字母大写方式显示|
+|%U|Unicode 字符|
+|%f|浮点数|
+|%p|指针，十六进制方式显示|
+```go
+{{print "hello" "world"}}  
+{{printf "name:%s name:%s" "k" "s"}}
+```
+
+- 括号：设置优先级
+```go
+{{printf "name:%s name:%s" "k" (printf "%s-%s" "1" "2")}}
+```
+
+- and：只要有一个为空，则整体为空，如果都不为空，则返回最后一个
+```go
+{{and .arr $.name}}
+```
+
+- or：只要有有一个不为空，则返回第一个不为空的，否则返回空
+
+- call：是一个**动态调用其他函数或方法**的工具，主要用于在模板中灵活执行传入的函数或方法。
+```go
+{{$funcname := .funcname }}  
+{{ call $funcname "yes" 2}}
+```
+
+- index：读取指定类型对于下标的值
+    - 支持map/array/slice/string
+```go
+{{index .arr 1}}
+```
+
+- len：返回指定类型的长度
+```go
+{{len .arr}}
+```
+
+- not：返回输入参数的否定值，布尔类型
+
+- urlquery： 有些符号在URL中是不能直接传递的，如果要在URL中传递这些特殊符号，那么就要使用该符号的编码
+```go
+{{urlquery "http://www.baidu.com"}}
+{{/*
+http%3A%2F%2Fwww.baidu.com
+%后面的就是自负的16进制字符码
+*/}}
+ 
+```
+
+- 判断符，返回布尔值
+    - eq：等于,可以用于字符串判断
+        - 支持多个参数，只要有一个与第一个值相等就返回true
+    - ne：不等于
+    - lt：大于
+    - le：大于等于
+    - gt：小于
+    - ge：小于等于
+
+- Format：实现时间的格式化，返回字符串。也可以在后端转换在前端使用。
+    - {{.time_data.Format "2006/01/02 15:04:05"}}
+
+- html：转义文本中的html标签
+
+- js：返回用JavaScript的escape处理后的文本
+    - escape函数可以对字符串进行编码，这样就可以在所有的计算机上读取该字符串，可以使用unescape解码
+### 自定义模板函数
+
+1. 定义函数
+```go
+func SubStr(str string, l int) string {  
+    ret := str[0:l]  
+    return (ret + "...")  
+}
+```
+2. 注册函数：注册函数要在控制器加载静态文件之前
+```go
+router.SetFuncMap(template.FuncMap{  
+    "SubStr": user.SubStr, // 字符串为前端使用的名称  
+})
+```
+3. 使用函数
+```go
+{{SubStr "yes" 2}}
 ```

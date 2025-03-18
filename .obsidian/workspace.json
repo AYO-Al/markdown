@@ -25,13 +25,14 @@
             "id": "634bc889b8f728ca",
             "type": "leaf",
             "state": {
-              "type": "diff-view",
+              "type": "markdown",
               "state": {
                 "file": "go/框架/Web开发/gin-web开发.md",
-                "staged": true
+                "mode": "source",
+                "source": false
               },
-              "icon": "git-pull-request",
-              "title": "Diff View (gin-web开发)"
+              "icon": "lucide-file",
+              "title": "gin-web开发"
             }
           }
         ],
@@ -109,12 +110,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "go/框架/Web开发/gin-web开发.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "大纲"
+              "title": "gin-web开发 的大纲"
             }
           },
           {
@@ -191,8 +193,10 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "634bc889b8f728ca",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/基础/go基础.md",
+    "go/基础/golang.md",
     "go/框架/Web开发/gin-web开发.md",
     "Excalidraw/Gorm.excalidraw.md",
     "云计算/shell编程/搭建文件下载站.md",
@@ -201,7 +205,6 @@
     "go/项目/mydocker/image",
     "go/项目/MyGin/MyGin.md",
     "go/项目/MyGin",
-    "go/基础/go基础.md",
     "go/框架/数据库操作/GORM-数据库操作.md",
     "README.md",
     "未命名.md",
@@ -220,7 +223,6 @@
     "python/模块/pillow模块.md",
     "go/包/sync.md",
     "go/FQA",
-    "go/基础/golang.md",
     "go/包/文本处理.md",
     "go/包/正则：regexp.md",
     "go/项目/mydocker/mydocker.md",
