@@ -195,6 +195,9 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/框架/Web开发/image/gin-web开发_time_2.png",
+    "go/框架/Web开发/image/gin-web开发_time_1.png",
+    "go/框架/Web开发/image",
     "go/基础/go基础.md",
     "go/基础/golang.md",
     "go/框架/Web开发/gin-web开发.md",
@@ -229,9 +232,7 @@
     "go/项目/小项目/diff命令详解.md",
     "go/项目/小项目",
     "go/项目/mydocker",
-    "go/项目",
     "云计算/容器/Kubernetes in Action/第一章：Kubernetes介绍.md",
-    "云计算/容器/深入剖析kubernetes/02-容器基础：隔离与限制.md",
     "go/基础/image/go基础_time_3.png",
     "go/基础/image/go基础_time_2.png",
     "go/基础/image/go基础_time_1.png",
@@ -239,7 +240,6 @@
     "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_2.png",
     "云计算/容器/深入剖析kubernetes/image/11-作业副本与水平扩展_time_1.png",
     "云计算/容器/深入剖析kubernetes/image/10-编排思想：控制器模型_time_1.png",
-    "云计算/容器/深入剖析kubernetes/image/07-为什么我们需要pod_time_1.png",
-    "计算机基础/操作系统/Linux性能优化/image/02-什么是CPU的上下文切换_time_3.png"
+    "云计算/容器/深入剖析kubernetes/image/07-为什么我们需要pod_time_1.png"
   ]
 }

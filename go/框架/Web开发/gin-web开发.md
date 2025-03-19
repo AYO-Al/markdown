@@ -1,4 +1,4 @@
-# 1. gin介绍
+# 1 gin介绍
 Gin 是一个用 Golang编写的 高性能的web 框架, 由于http路由的优化，速度提高了近 40 倍。 Gin的特点就是封装优雅、API友好。
 
 Gin的一些特性：
@@ -24,7 +24,7 @@ Gin的一些特性：
 ```go
 go get -u github.com/gin-gonic/gin
 ```
-# 2. 创建一个简单的服务
+# 2 创建一个简单的服务
 
 ```go
 package main
@@ -50,7 +50,7 @@ func main() {
 	r.Run(":8080") // 监听并在 0.0.0.0:8080 上启动服务
 }
 ```
-# 3. 设置图标
+# 3 设置图标
 
 ```go
 import "github.com/thinkerou/favicon"
@@ -71,7 +71,7 @@ func New(path string) gin.HandlerFunc
 */ 
 r.Use(favicon.New("./favicon/18.ico"))
 ```
-# 4. 创建路由
+# 4 创建路由
 
 ```go
 /*
@@ -131,7 +131,7 @@ gin/
 	})
 ```
 
-# 参数渲染
+# 5 参数渲染
 
 在后端中可以给前端传递各种类型的参数
 
@@ -181,7 +181,7 @@ func RenderArray(context *gin.Context) {
 {{end}}
 ```
 
-# 5. 获取请求参数
+# 6 获取请求参数
 
 ```go
     // usl?userid=ks&username=k
@@ -248,7 +248,19 @@ func RenderArray(context *gin.Context) {
 		})
 	})
 ```
-# 参数绑定
+# 7 数据绑定
+
+Gin提供了两类绑定方法：
+- `Must bind`
+    - Bind、BindJSON、BindXML、BindQuery、BindYAML
+    - 这些方法属于`MustBindWith`的具体调用。如果发生绑定错误，则请求终止，并触发 `c.AbortWithError(http.StatusBadRequest, err).SetType(ErrorTypeBind)`
+    - 响应码被设置为400并且 `Content-Type`被设置为 `text/plain；charset-utf-8`
+    - 只能把响应码设置为400-422之间
+-  `Should bind`
+    - ShouldBind、ShouldBindJSON、ShouldBindXML、ShouldBindQuery、ShouldBindYAML
+    - 这些方法都属于 `ShouldBindWith`调用。如果发生绑定错误，Gin会返回错误并由开发者处理错误和请求。
+- 使用 Bind 方法时，Gin 会尝试根据 Content-Type 推断如何绑定。 如果你明确知道要绑定什么，可以使用 `MustBindWith` 或 `ShouldBindWith`。
+- 你也可以指定必须绑定的字段。 如果一个字段的 tag 加上了 `binding:"required"`，但绑定时是空值, Gin 会报错。
 
 ```go
 <form action="/user/add" method="post">  
@@ -259,28 +271,334 @@ func RenderArray(context *gin.Context) {
 </form>
 
 // 参数绑定
-type User struct {
-	// 参数绑定需要结构体名和表单控件名一致，不一致可以使用form/json结构体标签进行绑定
-	// json:"username
-	Username string `form:"username"`
-	Password int    `form:"password"`
-	Addr     string `form:"addr"`
+type Users struct {  
+    Name string `form:"name" uri:"name" json:"name"`  
+    Pass string `form:"password" uri:"password" json:"password"`  
+    Addr string `form:"addr" uri:"addr" json:"addr"`  
+}  
+  
+func BindHtml(context *gin.Context) {  
+    context.HTML(http.StatusOK, "user/bind_form.html", "")  
+}  
+  
+func BindForm(context *gin.Context) {  
+    var users Users  
+    // 绑定表单
+    _ = context.ShouldBind(&users)  
+    context.JSON(http.StatusOK, users)  
+}  
+  
+func BindQuery(context *gin.Context) {  
+    var users Users  
+    // 绑定查询参数  
+    // http://127.0.0.1:8080/bindquery?name=123&age=18&addr=asdasd  
+    context.ShouldBindQuery(&users)  
+    context.JSON(http.StatusOK, users)  
+}  
+  
+func BindUri(context *gin.Context) {  
+    var users Users  
+    // http://127.0.0.1:8080/binduri/123/123/123  
+    context.ShouldBindUri(&users)  
+    context.JSON(http.StatusOK, users)  
 }
 
-func UserAdd(context *gin.Context) {
-	context.HTML(http.StatusOK, "user/user_add.html", "")
+// 绑定 JSON
+type Login struct {
+	User     string `form:"user" json:"user" xml:"user"  binding:"required"`
+	Password string `form:"password" json:"password" xml:"password" binding:"required"`
 }
 
-func UserToAdd(context *gin.Context) {
-	var user User
-	// 将参数绑定到结构体
-	err := context.ShouldBind(&user)
-	fmt.Println(err)
-	fmt.Println(user)
-	context.String(http.StatusOK, "user")
+func main() {
+	router := gin.Default()
+
+	// 绑定 JSON ({"user": "manu", "password": "123"})
+	router.POST("/loginJSON", func(c *gin.Context) {
+		var json Login
+		if err := c.ShouldBindJSON(&json); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		if json.User != "manu" || json.Password != "123" {
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+			return
+		} 
+		
+		c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+	})
+
+	// 绑定 XML (
+	//	<?xml version="1.0" encoding="UTF-8"?>
+	//	<root>
+	//		<user>manu</user>
+	//		<password>123</password>
+	//	</root>)
+	router.POST("/loginXML", func(c *gin.Context) {
+		var xml Login
+		if err := c.ShouldBindXML(&xml); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		if xml.User != "manu" || xml.Password != "123" {
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+			return
+		} 
+		
+		c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+	})
+
+	// 监听并在 0.0.0.0:8080 上启动服务
+	router.Run(":8080")
+}
+
+/*
+$ curl -v -X POST \
+  http://localhost:8080/loginJSON \
+  -H 'content-type: application/json' \
+  -d '{ "user": "manu" }'
+*/
+```
+## 7.1 数据验证
+
+Gin使用 [**go-playground/validator/v10**](https://github.com/go-playground/validator) 进行验证。 查看标签用法的全部[文档](https://pkg.go.dev/github.com/go-playground/validator/v10#hdr-Baked_In_Validators_and_Tags).
+不满足校验会报错：`Error:Field validation for 'Desc' failed on the 'required' tag`
+
+如果有多个验证字段，按顺序进行验证，如果前面验证不通过不会对后面的进行验证：
+- - ：忽略字段
+- required：不为空校验，binding:"required"
+- min：最小长度，binding:"min=1"
+- max：最大长度
+- |：或
+- structonly：如果有嵌套可以决定只验证结构体上的
+- Exists
+- omitempty：省略空，如果为空，则不会继续校验该字段其他的规则，只有不为空才会继续验证其他的
+- dive：嵌套验证
+```go
+Name [][]int `binding:"min=10,dive,max=20,deive required"`
+// min=10针对第一个[]
+// max=20针对第二个[]
+// required针对Name
+```
+- len：长度
+- eq/ne/gte/ge/lt/lte：gt、gte、lt、lte等都可以用于时间的比较，后面可以不跟值，表示大于当前utc时间
+- eqfield：等于其他字段的值
+- nefield：不等于其他字段的值
+- eqcsfield：类似eqfield，它会验证相对于顶层结构提供的字段
+```go
+eqcsfield = InnerStructField.Fiedl
+```
+- nqcsfield
+- gtfield：大于其他字段的值
+- gtefield
+- gtcsfield
+- gtecsfield
+- alpha：字符串仅包含字母字符
+- alphanum：仅包含字母数字字符
+- numeric：字符串包含基本数字值。不包含指数等
+- hexadecimal：字符串包含有效的十六进程
+- hexcolor：字符串值包含有效的十六进程颜色，包括#
+- rgb：包含有效的rgb颜色
+- rgba
+- email：包含有效的电子邮件
+- url：包含有效的网址，必须包含http://等
+- uri：包含有效的uri。将接受golang请求uri接受的任何uri
+- contains：包含子字符串
+- excludes：排除
+- uuid
+- ip
+## 7.2 自定义验证器
+
+1. 安装包
+```go
+go   get github.com/go-playground/validator/v10
+```
+2. 定义验证器
+```go
+// 必须是validator.Func 类型  
+var Len6Valid validator.Func = func(fl validator.FieldLevel) bool {  
+    data := fl.Field().Interface().(string)  
+    if len(data) > 6 {  
+       fmt.Println("false")  
+       return false  
+    } else {  
+       fmt.Println("true")  
+       return true  
+    }  
 }
 ```
-# 6. 路由组
+3. 注册验证器
+```go
+// 在路由匹配前，main中即可  
+if v, ok := binding.Validator.Engine().(*validator.Validate); ok {  
+    v.RegisterValidation("len_valid", user.Len6Valid)  
+}
+```
+4. 使用验证器
+```go
+type Article struct {  
+    Id      int    `form:"Id" binding:"required"`  
+    Title   string `form:"title" binding:"required,len_valid"`  
+    Content string `form:"content" binding:"required"`  
+    Desc    string `form:"desc" binding:"required"`  
+}
+```
+## 7.3 beego验证器
+
+1. 下载包
+```go
+go get github.com/astaxie/beego/validation
+```
+2. 常用验证器
+![](image/gin-web开发_time_1.png)
+3. 使用
+```go
+/*
+- 验证函数写在"valid"tag标签里
+- 各个验证规则使用；分割
+- 参数使用括号包裹，多个参数使用，分割
+- 正则函数匹配模式用//括起来
+- 各个函数的key值为字段名.验证函数名
+*/
+type Article struct {  
+    Id      int    `valid:"Required"`  
+}
+// 初始化验证器
+var article Article
+valid := validation.Validation{}
+b,err := valid.Valid(&article) // ->bool,err
+if !b{
+    for _,err1 := range valid.Errors{
+        fmt.Println(err1.Key)
+        fmt.Println(err1.Message)
+    }
+}
+```
+4. 自定义错误信息
+    1. #TODO:如何使用beego自定义验证器
+```go
+var MessageTmpls = map[string]string{  
+    "Required":     "Can not be empty",  
+    "Min":          "Minimum is %d",  
+    "Max":          "Maximum is %d",  
+    "Range":        "Range is %d to %d",
+    }
+validation.SetDefaultMessage(MessageTmpls)
+```
+# 8 文件上传
+
+```go
+  
+// 方式一：表单单文件  
+/*  
+curl -X POST http://localhost:8080/upload \  
+  -F "file=@/Users/appleboy/test.zip" \  -H "Content-Type: multipart/form-data"*/  
+func FormSingleFile(context *gin.Context) {  
+    file, _ := context.FormFile("file")  
+    log.Println(file.Filename)  
+  
+    // 这个路径是从项目根目录开始  
+    // 会自动创建目录  
+    dst := "./files/" + file.Filename  
+    // 上传文件至指定的完整文件路径  
+    // 会覆盖同名文件  
+    context.SaveUploadedFile(file, dst)  
+  
+    context.String(http.StatusOK, fmt.Sprintf("'%s' uploaded!", file.Filename))  
+}  
+  
+// 方式二：表单多文件  
+/*  
+curl -X POST http://localhost:8080/upload \  
+  -F "upload[]=@/Users/appleboy/test1.zip" \  -F "upload[]=@/Users/appleboy/test2.zip" \  -H "Content-Type: multipart/form-data"*/  
+func FormManyFile(context *gin.Context) {  
+    file, _ := context.MultipartForm()  
+    files := file.File["file"]  
+  
+    dst := "./files/"  
+    for _, f := range files {  
+       log.Println(f.Filename)  
+       context.SaveUploadedFile(f, dst+f.Filename)  
+    }  
+    context.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))  
+}
+```
+# 9 响应数据类型
+
+```go
+func OutJson(context *gin.Context) {  
+    context.JSON(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+// 生成具有转义的非ASCLL字符的ASCLL-only JSON  
+func OutAscJson(context *gin.Context) {  
+    context.AsciiJSON(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+// 使用JSONP向不同域的服务器请求数据。如果查询参数存在回调，则将回调添加到响应体中  
+func OutJsonp(context *gin.Context) {  
+    context.JSONP(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+/*  
+c.JSON()：默认会转义 HTML 敏感字符，以确保安全性。  
+c.PureJSON()：直接输出原始字符，保持 JSON 数据的原貌。  
+*/  
+func OutPureJson(context *gin.Context) {  
+    context.PureJSON(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+// 使用SecureJSON防止json劫持。如果给定的结构是数组值，则默认预置“while(1)”到响应体  
+// json劫持：利用网站的cookie未过期，如何访问攻击者的虚假页面，该页面就可以拿到json形式的用户敏感信息  
+func OutSecureJson(context *gin.Context) {  
+    context.SecureJSON(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+func OutXml(context *gin.Context) {  
+    context.XML(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}  
+  
+func OutYaml(context *gin.Context) {  
+    context.YAML(http.StatusOK, gin.H{  
+       "code": 200,  
+       "tag":  "<br>",  
+       "msg":  "提交成功",  
+       "html": "<b>Hello,world!</b>",  
+    })  
+}
+```
+# 10 路由组
 
 ```go
     // 路由组
@@ -293,7 +611,7 @@ func UserToAdd(context *gin.Context) {
 	}
 	// 子路由组/user/yes
 	yes := userGroup.Group("/yes")
-	yes.GET("1", myHandler(), func(context *gin.Context) {
+	yes.GET("/1", myHandler(), func(context *gin.Context) {
 		handler := context.MustGet("Handler").(string)
 		context.JSON(http.StatusOK, gin.H{
 			"子路由组":    "/user/yes/1",
@@ -301,12 +619,22 @@ func UserToAdd(context *gin.Context) {
 		})
 	})
 ```
-# 7. 自定义中间件
+# 11 中间件
 
+- 什么是中间件
+    - 开发者自定义的钩子函数
+- 中间件的作用
+    - 中间件适合处理一些公共的业务逻辑，比如登陆认证、权限校验、数据分页、记录日志、耗时统计等
+    - 需要对某一类的函数进行通用的前置或后置处理
+- 中间件的回调要先于用户定义的路由处理函数
+- Use是追加中间件，会按照顺序调用中间件
+- 常用中间件
+![](image/gin-web开发_time_2.png)
+## 11.1 自定义中间件
 ```go
   
-// 自定义中间件  
-func myHandler() gin.HandlerFunc {  
+// 自定义中间件第一种方式
+func MyHandler() gin.HandlerFunc {  
     return func(context *gin.Context) {  
        // 后续所有处理都能拿到这里的参数  
        // 设置上下文中的键值对
@@ -322,12 +650,17 @@ func myHandler() gin.HandlerFunc {
     }  
 }
 
+// 自定义中间件第二种方式
+func MiddleWarel(context *gin.Context) {  
+    fmt.Println("这是中间件定义的第二种方式")  
+}
 
 func main(){
     h := gin.New()
 
     // 注册自定义中间件
-	h.Use(myHandler())
+    // 如果在路由组之后再使用中间件，会对前面的路由组无效
+	h.Use(MyHandler())
 
 	h.GET("/test", func(context *gin.Context) {
 		context.String(200, "yes")
@@ -337,7 +670,120 @@ func main(){
 	h.Run()
 }
 ```
-# 模板语法
+## 11.2 Next和Abort
+
+ - Next
+     - 在定义的众多中间件会形成一条中间件链，而通过Next函数来对后面的中间件进行执行
+     - 当遇到c.Netx()函数时，它取出所有的没有被执行过的注册函数都执行一边，然后再回到本函数中
+     - Next函数是在请求前执行，而Next函数后是在请求后执行
+         - **`c.Next()` 之前的代码**会在**请求处理前（Pre-Request）​** 执行。
+        - ​**`c.Next()` 之后的代码**会在**请求处理后（Post-Request）​** 执行（即响应已生成，但尚未发送给客户端）。
+     - 可以用在token校验，把用户id存起来给功能性函数使用
+ - Abort
+     - 终止调用整个链条,但只是不会调用此函数所有中间件的后面中间件，本中间件和之前的中间件会调用完毕
+     - 比如token认证没有通过，不能直接使用return返回，而是使用Abort来终止
+```go
+func MiddleWare1(context *gin.Context) {  
+    fmt.Println("中间件一开始")  
+    context.Next()  
+    fmt.Println("中间件一结束")  
+}  
+  
+func MiddleWare2() gin.HandlerFunc {  
+    return func(context *gin.Context) {  
+       fmt.Println("中间件二开始")  
+       context.Next()  
+       fmt.Println("中间件二结束")  
+    }  
+}
+
+/*
+中间件一开始
+中间件二开始
+中间件二结束
+中间件一结束
+*/
+```
+## 11.3 利用Next计算请求时间
+
+```go
+func MiddleWare1(context *gin.Context) {  
+    start_time := time.Now()  
+  
+    fmt.Println("中间件一开始")  
+    context.Next()  
+  
+    fmt.Println(time.Since(start_time))  
+    fmt.Println("中间件一结束")  
+}  
+  
+func MiddleWare2() gin.HandlerFunc {  
+    return func(context *gin.Context) {  
+       fmt.Println("中间件二开始")  
+       time.Sleep(time.Second * 3)  
+       fmt.Println("中间件二结束")  
+    }  
+}  
+func MiddleWare3(context *gin.Context) {  
+    fmt.Println("中间件三开始")  
+    context.Next()  
+    time.Sleep(time.Second * 3)  
+    fmt.Println("中间件三结束")  
+}
+// 请注意设置的HTTP超时时间
+```
+## 11.4 中间件作用域
+
+- 全局中间件：直接在创建出来的路由引擎中使用
+```go
+router := gin.Default()  
+  
+router.Use(middle.MiddleWare1, middle.MiddleWare2(), middle.MiddleWare3)
+```
+
+- 路由组中间件：在创建出来的路由组直接使用，该路由组下的所有路由都将使用该中间件
+```go
+userGroup := r.Group("/user")
+userGroup.Use(middle.MiddleWare1, middle.MiddleWare2(), middle.MiddleWare3)
+```
+
+- 局部中间件：直接在路由上使用
+```go
+yes.GET("/1", myHandler(), func(context *gin.Context) {
+		handler := context.MustGet("Handler").(string)
+		context.JSON(http.StatusOK, gin.H{
+			"子路由组":    "/user/yes/1",
+			"handler": handler,
+		})
+	})
+```
+## 11.5 gin.BasicAuth()中间件
+
+```go
+router.Use(gin.BasicAuth(gin.Accounts{  
+    "zs": "123",  
+}))
+```
+## 11.6 WrapH和WrapF
+
+```go
+func WrapFTest(w http.ResponseWriter, r *http.Request) {  
+  
+}
+router.GET("/middle", gin.WrapF(middle.WrapFTest), middle.MiddleAuth)
+
+/*
+WrapH和WrapF区别：
+- 需要自己去定义struct实现这个Handler接口
+*/
+type Test struct {  
+}  
+  
+func (test *Test) TestH(w http.ResponseWriter,r *http.Request){  
+      
+} 
+```
+# 12 模板语法
 
 **统一使用{{和}}作为左右标签**
 ```go
@@ -370,24 +816,24 @@ func SubStr(str string, l int) string {
     return (ret + "...")  
 }
 ```
-## 上下文
+## 12.1 上下文
 
 - `.`：访问当前位置的上下文
 - `$`：引用当前模板根级的上下文
 - `$.`：引用模板中的根级上下文
-## 去除空格
+## 12.2 去除空格
 
 - `{{-` ：去除前空格
 - `-}}`：去除后空格
 
-## 支持go语言的符号
+## 12.3 支持go语言的符号
 
 1. 字符串：{{"zhaoli"}}
 2. 原始字符串：{{\`yes\`}}
 3. 字节类型：{{'a'}} ->97字符编码号
 4. nil类型：{{print nil}}
     - {{nil}}只有nil会报错：nil is not a command
-## 定义变量
+## 12.4 定义变量
 
 1. 定义：
 ```go
@@ -398,12 +844,12 @@ func SubStr(str string, l int) string {
 {{$username}}
 ```
 **注意：只能在当前模板使用**
-## pipline
+## 12.5 pipline
 
 可以是上下文的变量输出，也可以是函数通过管道传递的返回值
 - {{.Name}}是上下文的变量输出，是个pipline
 - {{"h"|len}}是函数通过管道传递的返回值，是个pipline
-## 流程控制-if
+## 12.6 流程控制-if
 
 1. if...else...
 ```go
@@ -423,7 +869,7 @@ func SubStr(str string, l int) string {
     {{ print "else" }}  
 {{end}}
 ```
-## 循环range
+## 12.7 循环range
 
 ```go
 {{ range.map }}  
@@ -451,7 +897,7 @@ func SubStr(str string, l int) string {
     {{ 0 }}  
 {{end}}
 ```
-## with伴随
+## 12.8 with伴随
 
 - 作用：**用于重定向pipline**
 ```go
@@ -464,7 +910,7 @@ func SubStr(str string, l int) string {
     {{0}}
 {{end}}
 ```
-## template
+## 12.9 template
 
 - 作用：导入其他的模板
 
@@ -476,7 +922,7 @@ func SubStr(str string, l int) string {
 - 导入的模板文件也要使用define包含
 - 如果想在引用的模板中获取动态数据，必须使用.访问当前位置的上下文
 - 引入的作用位置跟 `template`使用的位置有关
-## 模板函数
+## 12.10 模板函数
 
 - print
     - print：fmt.Sprint
@@ -560,7 +1006,7 @@ http%3A%2F%2Fwww.baidu.com
 
 - js：返回用JavaScript的escape处理后的文本
     - escape函数可以对字符串进行编码，这样就可以在所有的计算机上读取该字符串，可以使用unescape解码
-### 自定义模板函数
+### 12.10.1 自定义模板函数
 
 1. 定义函数
 ```go
