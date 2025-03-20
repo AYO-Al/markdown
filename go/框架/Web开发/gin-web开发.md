@@ -1025,3 +1025,169 @@ router.SetFuncMap(template.FuncMap{
 ```go
 {{SubStr "yes" 2}}
 ```
+# 日志
+
+## 基于gin的日志中间件
+
+- 使用日志文件
+
+```go
+// 创建日志文件  
+f, _ := os.Create("gin.log")  
+  
+// 重新赋值DefaultWriter  
+gin.DefaultWriter = io.MultiWriter(f)  
+  
+// 同时在控制台打印信息  
+gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+```
+## logrus
+#TODO:logrus
+
+- 下载包
+```go
+go get github.com/sirupsen/logrus
+```
+
+- 定义logrus配置文件
+```json
+{  
+  "log_dir": "logs/gin_project.log",  
+  "log_level": "info"  
+}
+```
+
+- 设置logrus
+```go
+type Conf struct {  
+    LogDir   string `json:"log_dir"`  
+    LogLevel string `json:"log_level"`  
+}  
+  
+func Load_conf() *Conf {  
+    var config = new(Conf)  
+    f, _ := os.Open("conf/log_conf.json")  
+    defer f.Close()  
+    conf, _ := io.ReadAll(f)  
+    json.Unmarshal(conf, config)  
+    fmt.Println(config)  
+    return config  
+}
+
+// 创建一个日志实例  
+var Log = logrus.New()  
+  
+func init() {  
+    logConf := Load_conf()  
+  
+    // 设置日志输出文件  
+    f, err := os.OpenFile(logConf.LogDir, os.O_APPEND|os.O_WRONLY, os.ModeAppend)  
+    if err != nil {  
+       panic(err)  
+    }  
+  
+    Log.Out = f  
+  
+    // 设置日志级别  
+    level_map := map[string]logrus.Level{  
+       "error": logrus.ErrorLevel,  
+       "info":  logrus.InfoLevel,  
+       "debug": logrus.DebugLevel,  
+    }  
+  
+    Log.SetLevel(level_map[logConf.LogLevel])  
+  
+    // 日志格式化  
+    // JSONFormatter  
+    Log.SetFormatter(&logrus.TextFormatter{})  
+}
+```
+
+- logrus使用
+```go
+r.GET("/json", func(context *gin.Context) {  
+    // 返回一个JSON数据  
+    f := logrus.Fields{  
+       "name": "k",  
+       "age":  12,  
+    }  
+    // WithFields在日志输出中增加字段
+    logs_source.Log.WithFields(f).Info("这是info级别")  
+    context.JSON(http.StatusOK, gin.H{"JSON": "YES"})  
+})
+
+/*
+time="2025-03-20T19:57:07+08:00" level=info msg="这是info级别"  
+time="2025-03-20T20:07:03+08:00" level=info msg="这是info级别" age=12 name=k
+*/
+```
+# cookie和session
+
+- 什么是session
+    - Session是在无状态的http协议下，服务端记录用户状态时用于标识具体用户的机制
+    - 它是在服务端保存的用来跟踪用户状态的数据结构，可以保存在文件、数据库或者集群中
+    - 在浏览器关闭后这次的Session就消失了，下次打开就不再拥有这个Session。其实并不是Session消失了，而是Session ID变了。
+
+- 什么是Cookie
+    - Cookie是客户端保存用户信息的一种机制，用来记录用户的一些信息
+    - 每次HTTP请求时，客户端都会发送相应的Cookie信息到服务端。它的过期时间可以任意设置，如果不主动清除它，很长一段时间都可以保留
+
+- session和cookie
+    - Cookie在客户端，Session在服务器端
+    - Cookie安全性一般，他人可以通过分析存放在本地的Cookie并进行Cookie欺骗。在安全性第一的前提下，选择Session更优。重要的交互信息比如权限等放在Session中，一般的信息记录放在Cookie
+    - 单个Cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个Cookie
+    - Session可以放在文件、数据库或内存中
+    - 用户验证这种场合一般会用到Session。因此维持一个会话的核心就是客户端的唯一标识，即Session ID
+    - Session的运行依赖Session ID，而Session ID是存在Cookie中的，也就是说，如果浏览器禁用了Cookie，Session也会失效（但是可以通过其他方式实现，比如在url中传递SessionID）
+## 使用Session和Cookie
+#TODO ：怎么发送session并认证
+- 下载包
+```go
+go get github.com/gin-contrib/sessions
+```
+
+- 基于Cookie存储引擎使用
+```go
+// 加密的盐  
+store := cookie.NewStore([]byte("kelly"))  
+  
+// 使用session中间件  
+r.Use(sessions.Sessions("gin_session", store))
+
+r.GET("/json", func(context *gin.Context) {  
+  
+    // 初始化session对象  
+    session := sessions.Default(context)  
+  
+    // 设置session  
+    session.Set("name", "kelly")  
+  
+    // 获取session  
+    name := session.Get("name")  
+    fmt.Println("==========_____++++++++")  
+    fmt.Println(name) // kelly  
+  
+    // 删除指定session  
+    session.Delete("name")  
+  
+    // 清除所有的session  
+    session.Clear()  
+  
+    // 保存session  
+    session.Save()  
+  
+    // 返回一个JSON数据  
+    context.JSON(http.StatusOK, gin.H{"JSON": "YES"})  
+})
+```
+
+- 基于redis存储引擎
+```go
+// 下载
+go get github.com/gin-contrib/sessions/redis
+
+//参数从左到右依次为：redis最大空闲连接数，通信协议，redis地址，redis密码，加密密钥  
+store, err := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))  
+fmt.Println(err)  
+r.Use(sessions.Sessions("session_test", store))
+```
