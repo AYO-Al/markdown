@@ -1025,9 +1025,9 @@ router.SetFuncMap(template.FuncMap{
 ```go
 {{SubStr "yes" 2}}
 ```
-# 日志
+# 13 日志
 
-## 基于gin的日志中间件
+## 13.1 基于gin的日志中间件
 
 - 使用日志文件
 
@@ -1041,7 +1041,7 @@ gin.DefaultWriter = io.MultiWriter(f)
 // 同时在控制台打印信息  
 gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 ```
-## logrus
+## 13.2 logrus
 #TODO:logrus
 
 - 下载包
@@ -1121,7 +1121,7 @@ time="2025-03-20T19:57:07+08:00" level=info msg="这是info级别"
 time="2025-03-20T20:07:03+08:00" level=info msg="这是info级别" age=12 name=k
 */
 ```
-# cookie和session
+# 14 cookie和session
 
 - 什么是session
     - Session是在无状态的http协议下，服务端记录用户状态时用于标识具体用户的机制
@@ -1139,7 +1139,7 @@ time="2025-03-20T20:07:03+08:00" level=info msg="这是info级别" age=12 name=k
     - Session可以放在文件、数据库或内存中
     - 用户验证这种场合一般会用到Session。因此维持一个会话的核心就是客户端的唯一标识，即Session ID
     - Session的运行依赖Session ID，而Session ID是存在Cookie中的，也就是说，如果浏览器禁用了Cookie，Session也会失效（但是可以通过其他方式实现，比如在url中传递SessionID）
-## 使用Session和Cookie
+## 14.1 使用Session和Cookie
 #TODO ：怎么发送session并认证
 - 下载包
 ```go

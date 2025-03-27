@@ -3690,8 +3690,6 @@ Channel通道在使用的时候，有以下几个注意点：
 最后：通道是goroutine之间的连接，所以通道的发送和接收必须处在不同的goroutine中。
 ## 关闭通道和范围循环
 
-
-
 ```go
 package main
 

@@ -1,5 +1,6 @@
 # 1 基础设置
 GROM官方文档：https://gorm.io/zh_CN/
+- 下载：go get -u gorm.io/gorm
 ## 1.1 连接Mysql数据库
 
 ```go
