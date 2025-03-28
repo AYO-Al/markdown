@@ -77,10 +77,15 @@ conf/
 var SupportedExts = []string{"json", "toml", "yaml", "yml", "properties", "props", "prop", "hcl", "tfvars", "dotenv", "env", "ini"}
 
 viper.SetConfigName("mysql")  
-viper.SetConfigType("yaml")  // 如果不设置扩展名，会读取json
+viper.SetConfigType("yaml") 
 viper.AddConfigPath("conf")
 
-// 这样做会读取不到配置文件
+/* 
+SetConfigType只是设置配置文件解析格式，并不会去读取指定后缀的配置文件
+- 文件无后缀
+- 从io流中读取配置
+- 从远程读取配置时使用
+*/
 ```
 
 在加载配置文件出错时，你可以像下面这样处理找不到配置文件的特定情况：

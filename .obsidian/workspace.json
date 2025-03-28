@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/配置文件/Viper.md",
+                "file": "go/包/http.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Viper"
+              "title": "http"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.5
+    "width": 351.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -94,13 +95,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/配置文件/Viper.md",
+                "file": "go/包/http.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Viper 的大纲"
+              "title": "http 的大纲"
             }
           },
           {
@@ -159,8 +160,7 @@
               "title": "测试 的出链列表"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -177,12 +177,16 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "24bf72aa794ef372",
   "lastOpenFiles": [
+    "go/基础/go基础.md",
+    "go/包/http.md",
+    "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
+    "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
+    "云计算/容器/云原生/Kubernetes.md",
     "go/框架/配置文件/Viper.md",
     "go/框架/配置文件",
     "Excalidraw/Gorm.excalidraw.md",
-    "go/基础/go基础.md",
     "go/框架/数据库操作/GORM-数据库操作.md",
     "go/框架/Web开发/gin-web开发.md",
     "web/vue/vue(粗).md",
@@ -213,10 +217,6 @@
     "go/框架/命令行/Cobra-命令行框架.md",
     "云计算/容器/云原生/Docker.md",
     "go/基础/测试.md",
-    "go/包/Context.md",
-    "python/模块/pygame模块.md",
-    "python/模块/pyautogui模块.md",
-    "python/模块/pillow模块.md",
     "go/FQA",
     "go/基础/image/go基础_time_3.png",
     "go/基础/image/go基础_time_2.png",
