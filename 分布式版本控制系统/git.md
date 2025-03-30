@@ -1,8 +1,8 @@
-# 1. 简介
+# 1 简介
 - git官方网站：[Git (git-scm.com)](https://git-scm.com/)
 
-# 2.Git入门
-## 2.1.Git介绍
+# 2 2.Git入门
+## 2.1 2.1.Git介绍
 自诞生于2005年以来，Git日渐完善，它的速度很快，极其适合管理大型项目，它还有着令人难以置信的非线性分支管理系统，可以应付各种复杂的项目开发需求。
 - Git是一个版本控制软件，具有以下几点优点
 	- 本地建立版本库
@@ -16,7 +16,7 @@
 	- 速度极快
 - Github与GitLab都是用于管理版本的服务端软件
 - GitLab用于在企业内部管理Git版本库，功能上类似于GitHub
-## 2.2.Git工作模式
+## 2.2 2.2.Git工作模式
 - 版本库初始化
 	- 个人计算机从版本服务器同步
 - 操作
@@ -40,7 +40,7 @@
 - 本地版本库与服务器版本库
 	![](./image/git_time_5.png)
 
-## 2.3.Git常用命令
+## 2.3 2.3.Git常用命令
 - 获得版本库
 	- git init
 	- git clone
@@ -83,7 +83,7 @@
 - 参数设置：
 	- `git config core.igorecase false`：关闭忽略大小写
 
-## 2.4.gitignore
+## 2.4 2.4.gitignore
 在git中可以在.gitigore文件中编写一定的规则，让git管理时忽略一些文件。编写规则的语法如下：
 ```bash
 以#号开始的表示注释
@@ -95,7 +95,7 @@
 ```
 .gitigore的规则读取方式是采用从上往下的顺序，所以如果上面的规则范围比较大，下面范围较小的规则则不会生效。
 
-## 2.5.分支
+## 2.5 2.5.分支
 分支是git中一个非常重要的概念。分支其实就是一条commit对象链(一条工作记录线)
 ![](./image/git_time_6.png)
 有常见操作有以下几种：
@@ -120,7 +120,7 @@
 	- git reset --hard commit_id
 - 回退到某一个版本
 	- git reflog：查看历史操作记录，对于HEAD的任何修改都会该命令完整记录下来
-## 2.6.checkout进阶与stash
+## 2.6 2.6.checkout进阶与stash
 - `git checkout -- filename`：丢弃工作区的更改，保持与暂存区内容一致
 - `git check <commit id>`：切换HEAD位置
 	- 切换当前到任意历史节点上，但这次切换是游离的HEAD，意味着如果做了任何操作都需要提交才能切换回master上
@@ -130,7 +130,7 @@
 	- list：列出保存的列表
 	- pop/apply \<stash id>：将最新保存的工作回复并删除记录/不删除
 	- 使用apply后可以使用`git stash drop <stash id>`进行删除记录
-## 2.7.标签与diff
+## 2.7 2.7.标签与diff
 git中有两种标签，一种是轻量级标签(lightweight)与带有附注标签(annotated)
 - `git tag`:查看标签
 - `git tag -l 'patter'`:查找标签
@@ -154,7 +154,7 @@ index 0cfbf08..4792e70 100644
 +3 # 代表源文件加上这一行后会和目标文件一致
 ```
 也可以使用`git diff HEAD`比较最新提交内容与工作区的差异，或使用`git diff <commit id>`指定提交内容比较。或使用`git diff --cached commit_id`比较提交内容和暂存区的差异。
-## 2.8.远程仓库
+## 2.8 2.8.远程仓库
 使用远程仓库时有以下几个关键命令
 - push：推送
 	- -u origin \<branchname>:推送本地同名分支到远程分支，绑定后可以只执行`git push`推送
@@ -178,7 +178,7 @@ index 0cfbf08..4792e70 100644
 	3. master分支(生产发布分支，变化不频繁)
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
 
-### 2.8.1.远程分支&refspec
+### 2.8.1 2.8.1.远程分支&refspec
 当我们把本地的分支推送到远程仓库但远程仓库并没有跟本地分支同名的分支，这个时候就会报错，我们可以使用以下命令避免报错
 - `git push --set-upstream origin develop`:本地分支 `develop` 推送到远程仓库 `origin`，并设置远程分支与本地分支之间的上游跟踪关系。
 在其他协作者新建并上传新的分支后，在本地使用`git pull`会把这个新远程分支也拉取下来，跟`origin/main`一样，所以这个时候本地要基于这个远程分支创建一个本地分支与之对应`git checkout -b origin/develop`/`git checkout --track origin/develop`
@@ -210,7 +210,7 @@ $ git fetch origin master:refs/remotes/origin/mymaster
 2. git log remotes/origin/master
 3. git log refs/remotes/origin/master
 4. 前两种方式是第三种的简略方式
-## 2.9.Git协作
+## 2.9 2.9.Git协作
 当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，只有在有拉取和推送动作的时候，这个分支才会更新。可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
 ```bash
 Your branch is up to date with 'origin/main'. # 本地仓库和远程仓库状态一致
@@ -219,9 +219,9 @@ Your branch is ahead of 'origin/main' by 1 commit. # 你的本地仓库和远程
 当使用`git push`的时候，如果跟远程仓库执行的是快进合并的话，没有任何问题，但如果有合并冲突，则必须先执行一次`git pull`，在本地解决完冲突后再推送到远程仓库。
 
 
-## 2.10.git gc
+## 2.10 2.10.git gc
 
-## 2.11.git目录
+## 2.11 2.11.git目录
 - HEAD：文本文件，记录当前所在分支，可以手动修改，但不推荐
 ```
 ref: refs/heads/main
@@ -241,7 +241,7 @@ ref: refs/heads/main
 - hooks：目录，保存在执行git命令时触发的自定义hooks脚本
 - index：文件，用于追踪文件的更改
 - logs：目录，用于记录操作信息
-## 2.12.Git裸库与submodule
+## 2.12 2.12.Git裸库与submodule
 - 裸库：没有工作区的git仓库，仅仅用来存放和中转提交的代码和文件，一般在服务端使用，使用`git init --bare`
 - Git 的 Submodule 是一种在一个 Git 仓库中包含另一个 Git 仓库的方法。使用 submodule，可以将一个外部项目作为子项目嵌入到主项目中。这在项目依赖于其他项目或库时非常有用，因为它允许你在保持子项目独立的同时，也可以方便地进行版本管理。常用操作如下：
 	- 添加submodule：`git submodule add url path`。path事先不能存在否则报错。添加成功后会在仓库多出一个`.gitmodules`的文件记录子模块相关信息。
@@ -257,7 +257,7 @@ ref: refs/heads/main
 		- 删除子模块目录
 		- 在git缓存中移除子模块追踪：`git rm --cache path`
 		- 提交更改即可
-## 2.12.subtree
+## 2.13 2.12.subtree
 subtree和submodule要解决的问题是一样的，都是为了引用另外的仓库，但subtree可以双向修改，也就是可以在父仓库中修改子仓库的代码，推荐使用subtree。常用操作如下：
 - 添加子仓库：`git subtree add --prefix=subtree url branch <--squash>`。squash会把子仓库的所有提交合并成一个新的提交。当add的时候使用了squash，那么后续所有命令都要使用squash。
 - 拉取更新：`git subtree pull --prefix=<directory> <repository-url> <branch>`
@@ -265,13 +265,13 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 - 推送更改：`git subtree push --prefix=<directory> <repository-url> <branch>`
 - 合并subtree：`git subtree merge --prefix=<directory> <repository-url> <branch>
 - 将子目录内容分离成一个独立的仓库：`git subtree split --prefix=<directory> --branch=<new-branch>`
-## 2.13.cherry-pick
+## 2.14 2.13.cherry-pick
 `git cherry-pick` 是一个非常有用的 Git 命令，它允许你选择一个或多个特定的提交并将它们应用到当前分支。它在处理特定功能、错误修复或从一个分支提取特定更改时特别有用。常用操作如下：
 - `git cherry-pick <commit-hash>`：将提交转移到本分支中。
 - 如果有冲突，需执行以下流程：
 	- 手动编辑冲突文件，并执行`git add <conflicted-file>`
 	- 继续操作：`git cherry-pick --continue`
-## 2.14.rebase
+## 2.15 2.14.rebase
 - rebase：变基，即改变分支的根基
 `git rebase` 是 Git 中一个强大的命令，用于将一个分支上的提交重新应用到另一个基底提交之上。与 `git merge` 相比，`git rebase` 可以创建一个更直线化的提交历史。
 - merge作用如下图

@@ -20,8 +20,65 @@
               "icon": "lucide-file",
               "title": "http"
             }
+          },
+          {
+            "id": "539b21c9d4c21ce0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/包/Json处理.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Json处理"
+            }
+          },
+          {
+            "id": "1315dcfc966717cd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/框架/Web开发/gin-web开发.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "gin-web开发"
+            }
+          },
+          {
+            "id": "de5db3434a62a8ce",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/基础/测试.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "测试"
+            }
+          },
+          {
+            "id": "f69abb8fe5d3ed44",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/基础/go基础.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "go基础"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -78,8 +135,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.5,
-    "collapsed": true
+    "width": 351.5
   },
   "right": {
     "id": "a689601275098279",
@@ -95,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/包/http.md",
+                "file": "go/基础/go基础.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "http 的大纲"
+              "title": "go基础 的大纲"
             }
           },
           {
@@ -160,7 +216,8 @@
               "title": "测试 的出链列表"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -177,25 +234,28 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "24bf72aa794ef372",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/基础/go基础.md",
     "go/包/http.md",
+    "go/框架/Web开发/gin-web开发.md",
+    "分布式版本控制系统/git.md",
+    "go/项目/MyGin/MyGin.md",
+    "go/基础/测试.md",
+    "go/基础/go基础.md",
+    "go/包/Json处理.md",
+    "go/框架/配置文件/Viper.md",
+    "go/包/log.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
     "云计算/容器/云原生/Kubernetes.md",
-    "go/框架/配置文件/Viper.md",
     "go/框架/配置文件",
     "Excalidraw/Gorm.excalidraw.md",
     "go/框架/数据库操作/GORM-数据库操作.md",
-    "go/框架/Web开发/gin-web开发.md",
     "web/vue/vue(粗).md",
     "web/vue",
     "web/未命名.md",
     "go/FQA/make和new区别.md",
     "go/框架/Web开发/未命名.md",
-    "go/包/log.md",
-    "go/包/Json处理.md",
     "go/包/文本处理.md",
     "go/框架/Web开发/image/gin-web开发_time_2.png",
     "go/框架/Web开发/image/gin-web开发_time_1.png",
@@ -205,7 +265,6 @@
     "go/项目/mydocker/项目说明.md",
     "go/项目/mydocker/image/项目说明_time_1.png",
     "go/项目/mydocker/image",
-    "go/项目/MyGin/MyGin.md",
     "go/项目/MyGin",
     "README.md",
     "未命名.md",
@@ -215,8 +274,6 @@
     "go/框架/Web开发",
     "go/框架/命令行",
     "go/框架/命令行/Cobra-命令行框架.md",
-    "云计算/容器/云原生/Docker.md",
-    "go/基础/测试.md",
     "go/FQA",
     "go/基础/image/go基础_time_3.png",
     "go/基础/image/go基础_time_2.png",

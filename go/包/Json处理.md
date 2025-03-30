@@ -63,8 +63,15 @@ json.Unmarshal(b, &data)
 
 - 创建编码器，将数据直接写入 `io.Writer`（如 HTTP 响应或文件）。
     - **`json.NewEncoder(w io.Writer) *json.Encoder`**
+-  将 Go 数据结构（如结构体、切片、映射等）​**序列化为 JSON 格式**，并直接写入关联的 `io.Writer`（如文件、HTTP 响应、网络连接等）。
+    - func (enc \*Encoder) Encode(v any) error
+    - 将 `v` 编码为 JSON 并写入 `enc` 关联的 `io.Writer`
 - 创建解码器，从 `io.Reader`（如 HTTP 请求体或文件）读取并解析 JSON。
     - **`json.NewDecoder(r io.Reader) *json.Decoder`**
+- `Decoder`类型的`Decode`方法用于从输入流中解析JSON数据并将其解码到指定的Go变量中。
+    - func (dec \*Decoder) Decode(v any) error
+    - `dec` 是一个指向`json.Decoder`的指针，该解码器关联了一个输入流（如文件、网络连接等）。
+    - `v` 是目标变量的指针，用于存储解码后的数据。
 
 ```go
 package main
