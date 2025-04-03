@@ -4,81 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "83b599305d3c8c8b",
+        "id": "1a39f96351fb880b",
         "type": "tabs",
         "children": [
           {
-            "id": "24bf72aa794ef372",
+            "id": "97cd697f0ab23de9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/包/http.md",
+                "file": "分布式版本控制系统/git.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "http"
-            }
-          },
-          {
-            "id": "539b21c9d4c21ce0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/包/Json处理.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Json处理"
-            }
-          },
-          {
-            "id": "1315dcfc966717cd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/框架/Web开发/gin-web开发.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "gin-web开发"
-            }
-          },
-          {
-            "id": "de5db3434a62a8ce",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/基础/测试.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "测试"
-            }
-          },
-          {
-            "id": "f69abb8fe5d3ed44",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/基础/go基础.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "go基础"
+              "title": "git"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -151,13 +94,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "分布式版本控制系统/git.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "go基础 的大纲"
+              "title": "git 的大纲"
             }
           },
           {
@@ -215,6 +158,16 @@
               "icon": "links-going-out",
               "title": "测试 的出链列表"
             }
+          },
+          {
+            "id": "e7d2b08f6e2e3e5d",
+            "type": "leaf",
+            "state": {
+              "type": "copilot-chat-view",
+              "state": {},
+              "icon": "message-square",
+              "title": "Copilot"
+            }
           }
         ],
         "currentTab": 1
@@ -231,20 +184,23 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "obsidian-excalidraw-plugin:新建绘图文件": false
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "copilot:Open Copilot Chat": false
     }
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/包/http.md",
+    "go/框架/命令行/Cobra-命令行框架.md",
+    "go/包/正则：regexp.md",
     "go/框架/Web开发/gin-web开发.md",
+    "go/基础/go基础.md",
+    "go/包/log.md",
+    "go/包/http.md",
+    "go/包/Json处理.md",
+    "go/基础/测试.md",
     "分布式版本控制系统/git.md",
     "go/项目/MyGin/MyGin.md",
-    "go/基础/测试.md",
-    "go/基础/go基础.md",
-    "go/包/Json处理.md",
     "go/框架/配置文件/Viper.md",
-    "go/包/log.md",
     "云计算/容器/Kubernetes in Action/第十三章：计算资源管理.md",
     "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
     "云计算/容器/云原生/Kubernetes.md",
@@ -268,12 +224,10 @@
     "go/项目/MyGin",
     "README.md",
     "未命名.md",
-    "$a -lt 100.md",
     "Excalidraw",
     "go/框架/数据库操作",
     "go/框架/Web开发",
     "go/框架/命令行",
-    "go/框架/命令行/Cobra-命令行框架.md",
     "go/FQA",
     "go/基础/image/go基础_time_3.png",
     "go/基础/image/go基础_time_2.png",

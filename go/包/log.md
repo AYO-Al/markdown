@@ -1,4 +1,4 @@
-# 基础
+# 1 基础
 
 `log`是 Go 标准库提供的，不需要另外安装。可直接使用：
 ```go
@@ -19,7 +19,7 @@ func main() {
 - `Print/Printf/Println`：正常输出日志；
 - `Panic/Panicf/Panicln`：输出日志后，以拼装好的字符串为参数调用`panic`；
 - `Fatal/Fatalf/Fatalln`：输出日志后，调用`os.Exit(1)`退出程序。
-# 定制
+# 2 定制
 
 在log库中提供了这么一组常量。
 ```go
@@ -84,7 +84,7 @@ func main() {
 
 // NewLogger       20:14:43.363719 log.go:18:  NewLogger Test
 ```
-# 实现
+# 3 实现
 
 Log库提供的标准Loggeer对象也是使用New方法创建出来的。
 ```go

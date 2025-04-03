@@ -1768,10 +1768,10 @@ func swap(x, y string) (sum int) {
 
 调用函数，可以通过两种方式来传递参数：
 
-|传递类型|描述|
-|---|---|
-|[值传递](https://www.runoob.com/go/go-function-call-by-value.html)|值传递是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。|
-|[引用传递](https://www.runoob.com/go/go-function-call-by-reference.html)|引用传递是指在调用函数时将实际参数的地址传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。|
+| 传递类型                                                                 | 描述                                                     |
+| -------------------------------------------------------------------- | ------------------------------------------------------ |
+| [值传递](https://www.runoob.com/go/go-function-call-by-value.html)      | 值传递是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。 |
+| [引用传递](https://www.runoob.com/go/go-function-call-by-reference.html) | 引用传递是指在调用函数时将实际参数的地址传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。   |
 ```go
 // 值传递
 func swap(x, y int) int {

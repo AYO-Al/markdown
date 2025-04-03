@@ -4,7 +4,7 @@
 - **性能**：编译正则表达式是一个相对昂贵的操作，建议在初始化时编译正则表达式并复用 `Regexp` 对象。
 
 - **并发安全**：`Regexp` 对象是并发安全的，可以在多个 goroutine 中共享使用。
-# 常用函数
+# 1 常用函数
 
 `Regexp`包中常用函数有Match和MatchString，这两个函数逻辑都差不多，都是在字符串中查找对应正则，返回是否查找成功。
 
@@ -53,7 +53,7 @@ func match_string_find(p string, v string) bool {
 
 ```
 
-# Regexp对象
+# 2 Regexp对象
 
 Regexp是编译后的正则表达式的表示。
 
@@ -73,10 +73,10 @@ func MustCompilePOSIX(str string) *Regexp
 这四个函数都接受一个正则表达式字符串，`Compile`这两个函数如果匹配不到则返回error，`MustCompile`这两个函数则直接引发恐慌。
 
 `POSIX`这两个函数，使用 POSIX 兼容的正则表达式语法，使用最长匹配优先策略，可能稍慢一些。而其他两个函数使用 Perl 兼容的正则表达式语法，通常更快，使用贪婪匹配。
-## 匹配
+## 2.1 匹配
 
 `Regexp`对象也提供了Match和MatchString方法用来判断字符串是否匹配正则表达式。
-## 查找
+## 2.2 查找
 
 ```go
 // `FindString` 方法用于查找第一个匹配的字符串。
@@ -98,7 +98,7 @@ func (re *Regexp) FindStringSubmatch(s string) []string
 func (re *Regexp) FindAllStringSubmatch(s string, n int) [][]string
 
 ```
-## 替换
+## 2.3 替换
 
 ```go
 // `ReplaceAllString` 方法用于替换所有匹配的字符串。
@@ -130,7 +130,7 @@ func main() {
 // `ReplaceAllStringFunc` 方法用于替换所有匹配的字符串，并允许你通过一个自定义函数来决定如何替换每个匹配项。这个方法非常灵活，因为你可以在替换过程中执行复杂的逻辑。
 func (re *Regexp) ReplaceAllStringFunc(src string, repl func(string) string) string
 ```
-## 分割
+## 2.4 分割
 
 ```go
 // `Split` 方法用于根据正则表达式分割字符串，并返回一个字符串切片。可以指定返回的最大分割数，-1 表示返回所有分割项。
