@@ -44,7 +44,9 @@
 - 获得版本库
 	- git init
     	- git init -b branch:初始化仓库并新建分支
+
 	- git clone:用于将 ​**远程仓库完整复制到本地**，包含所有文件、分支（默认克隆所有分支，但只检出默认分支）和提交历史。克隆后，本地仓库会自动关联远程仓库（默认命名为 `origin`）。
+    	- **检出​**​ 是 Git 中的一个操作，表示 ​**​将某个分支（或提交）的代码版本加载到你的本地工作目录​**​，使你可以查看或修改这些文件。
     ```bash
 git clone <仓库地址> [目标目录名]
 
@@ -52,7 +54,8 @@ git clone -b <分支名> <仓库地址>
 
 git clone --depth 1 <仓库地址>  # 只克隆最新一次提交（减少数据量）
 
-# 你本地工作目录中看到的是默认分支（如 `main`）的代码，其他分支需要手动检出才能使用。
+#你本地工作目录中看到的是默认分支（如 `main`）的代码，其他分支需要手动检出才能使用。
+#手动检出：git switch feature
 git branch -a
 * master
   remotes/origin/HEAD -> origin/master
@@ -159,7 +162,6 @@ git push origin --delete <remote-branch>  # 删除远程分支
 
     git checkout --track origin/<remote-branch>  # 创建本地分支并关联远程分支
     git checkout -f <branch>  # 强制切换分支，丢弃所有未提交的修改（慎用！）
-    git checkout -f <branch>  # 强制切换分支，丢弃所有未提交的修改（慎用！）
 
     git checkout -- <file>   # 丢弃工作目录中文件的未提交修改
     git checkout <commit-hash> -- <file>  # 将文件恢复到指定提交的版本
@@ -178,6 +180,26 @@ git push origin --delete <remote-branch>  # 删除远程分支
     git merge --no-ff feature/login  # 禁用快进合并
 
     git merge --squash feature/login # 将待合并分支的所有提交压缩为单个提交，合并到目标分支。
+
+    git merge --abort # 工作目录和暂存区恢复到合并开始前的状态。在解决冲突提交前可以执行
+    ```
+
+    - git rebase：Git 中用于 ​**​重写提交历史​**​ 的核心命令，能够将分支的提交重新应用到另一个基点上，使历史记录保持线性。
+        - rebase不会删除提交，只是新建了提交，旧提交仍然在历史记录中
+    ```bash
+    git checkout feature
+    git rebase main   # 将 feature 分支的提交变基到 main 分支之后
+
+    # 冲突解决后继续变基：
+    git add <冲突文件>
+    git rebase --continue
+    git rebase --abort  # 放弃变基，恢复原状
+
+    git fetch origin
+    git rebase origin/main  # 将当前分支变基到远程 main 分支
+
+    git rebase -X theirs main  # 冲突时自动选择“对方”版本（慎用！）
+    git rebase -X ours main    # 冲突时自动选择“我方”版本
     ```
     
 - 查看信息
@@ -212,7 +234,7 @@ git cat-file -p <commit_hash> # 查看该提交的父节点
     ```
 
 	- git diff
-	- git status：查看当前工作区和暂存区状态
+	- git status：查看当前工作区和暂存区状态,还能查看与远处仓库的状态比较
 
 - 远程协作
     - git remote：Git 中用于 ​**管理远程仓库配置** 的核心命令，支持添加、删除、重命名远程仓库，以及查看远程仓库信息等操作。
@@ -243,9 +265,14 @@ git remote prune <name>  # 删除本地缓存中已不存在的远程分支
     ```bash
     git pull [远程仓库名] [远程分支名]:[本地分支名]
 
+    #如果远程分支和本地分支没有开发记录的分歧，则默认进行快进合并
+    #如果有分歧，要指定使用的合并方式，否则报错
+    #有分歧建议使用fetch再考虑使用rebase或merge
     git pull origin main --no-rebase  # 默认行为，拉取并合并远程分支
     git pull origin main --rebase  # 将本地提交变基到远程分支之后
     git pull origin main --ff-only  # 仅当可快进合并时执行，否则终止
+
+    git pull -p # 跟fetch -p效果一样
 
     # 默认使用合并（merge）
     git config --global pull.rebase false
@@ -271,6 +298,21 @@ git remote prune <name>  # 删除本地缓存中已不存在的远程分支
     git pull         # 拉取远程更新
     git stash pop    # 恢复本地修改并解决冲突
     ```
+
+    - git fetch：Git 中用于从远程仓库获取最新数据但不自动合并到本地分支的命令。
+        - - ​**​同步远程更新​**​：将远程仓库（如 `origin`）的最新提交、分支和标签下载到本地。
+        - ​**​非侵入式操作​**​：不会修改本地工作目录或当前分支的代码，仅更新远程跟踪分支（如 `origin/main`）。
+        - ​**​安全查看变更​**​：允许在合并前先审查远程更改，避免直接合并导致的问题。
+    ```bash
+    git fetch [远程仓库名] [分支名]
+
+    git fetch --all #查看所有远程仓库的更新
+
+    git fetch --prune/-p  # 清理远程已删除分支的本地缓存
+
+    git fetch --tags    # 获取所有远程标签
+    git fetch origin tag v1.0.0  # 获取特定标签
+    ```
     
 	- git push：Git 中用于 ​**将本地分支的提交推送到远程仓库** 的核心命令。它实现了本地仓库与远程仓库的同步
     	- **推送本地提交到远程仓库**：将本地分支的更新同步到远程分支。
@@ -284,12 +326,19 @@ git push #等同于上
 
 git push -u origin main  # 推送并设置本地 main 分支跟踪远程 origin/main
 
-git push origin --delete feature  # 删除远程 feature 分支
+git push origin --delete/-d feature  # 删除远程 feature 分支
 git push origin :feature          # 同上（旧语法）
 
 git push origin --tags  # 推送本地所有未同步的标签
 git push origin v1.0.0  # 推送标签 v1.0.0
+git push origin --delete <标签名> # 删除标签
 
+#如果设置的上游分支和本地分支名不一致，会导致推送错误
+# 设置 push.default 为 'simple'（推荐，默认行为）：仅当本地分支名与远程分支名 ​**​相同​**​ 时才推送，否则报错。
+git config --global push.default simple
+
+# 或设置为 'upstream'（推送时始终关联上游分支，即使名称不同）
+git config --global push.default upstream
 ```
 
 - 设置信息：
@@ -335,6 +384,14 @@ git push origin v1.0.0  # 推送标签 v1.0.0
 分支的信息保存在该目录下 `.git/refs/heads/`
 
 当你在一个分支修改了内容没有提交，并想切换到另一个与修改内容冲突的分支时，git会提示报错，除非你提交或使用 `stash`命令暂时把修改存储起来。
+
+当删除一个分支时，不会删除该分支的提交，这意味着想要再引用这些提交会变得很苦难，因为这些提交不再有分支引用他们，且不属于任何现有分支的开发历史的一部分。
+
+当你想删除一个分支的时候，你需要删除远程分支和远程跟踪分支以及本地分支
+```bash
+git push origin -d feature # 删除远程分支和远程跟踪分支
+git branch -d feature # 删除本地分支
+```
 ## 2.6 合并
 
 合并是将一个分支中的更改集成到另一个分支中的一种方法。在任何合并中，都有一个要合并的分支，称为源分支，还有一个要合并的分支，称为目标分支。源分支是包含要集成到目标分支中的更改的分支。目标分支是接收更改的分支，因此是在此操作中唯一更改的分支。
@@ -343,10 +400,16 @@ git push origin v1.0.0  # 推送标签 v1.0.0
 ![](./image/git_time_7.png)
 
 三方合并：master和分支都做了操作，如果有冲突需要手动解决冲突再合并。有冲突的文件会变成下面这样。git会把这两个冲突节点和他们共同的祖先节点一起合并，称之为三方合并。解决完冲突后使用`git add filename`标记解决冲突，再使用`git commit`提交合并。
-![](./image/git_time_8.png)
-![](./image/git_time_9.png)
+
+![](image/git_time_8.png)
+
+**等号上面的为目标分支，下面的为源分支内容**
+
+![](image/git_time_9.png)
 
 当源分支能通过提交历史回溯到目标分支的时候，这两个分支没有分叉可以使用快进式合并。如果有分叉则使用三方合并。
+
+在三方合并时，如果选择使用 `fetch`命令再 `merge`的话，会进入vim编辑器界面手动解决冲突信息。如果使用 `pull` 命令的话，需要自己在文件中解决冲突并使用 `add` 和 `commit`命令提示以及解决了冲突。
 
 如果可能的话，合并分支时Git会使用fast-forward模式，这种模式下，删除分支时会丢掉分支信息。可以在合并时加上`--no-ff`参数会禁用fast-forward，这样会多出一个`commit id`。
 由于Git其实就是由一条提交链组成的，所以我们可以回退到任意一个提交上。
@@ -356,6 +419,17 @@ git push origin v1.0.0  # 推送标签 v1.0.0
 	- git reset --hard commit_id
 - 回退到某一个版本
 	- git reflog：查看历史操作记录，对于HEAD的任何修改都会该命令完整记录下来
+
+还可以在三方合并时使用 `rebase` 命令，该命令有五个阶段，都是自动执行，只有在发生冲突的时候才需要介入：
+- 找到共同祖先：git将确认rebase的两个分支的共同祖先，你所在的分支和正在rebase的分支
+- 存储关于参与rebase的分支信息：git会将所在分支的每个提交信息存到临时区域
+![](image/git_time_10.png)
+- 重置HEAD：重置HEAD指向正在rebase的分支相同的提交
+- 应用和提交更改：依次应用每个提交中的更改，并在每个更改集后进行提交
+![](image/git_time_11.png)
+- 切换到重新定位的分支：将重置的分支指向重新应用到的最后一个提交，并检出该分支使HEAD指向它
+
+**rebase不应该将远程分支变基到本地分支，因为可以合作者已经基于这个分支创建了新分支**
 ## 2.7 checkout进阶与stash
 - `git checkout -- filename`：丢弃文件未提交的修改
 - `git checkout <commit id>`：切换HEAD位置
@@ -416,6 +490,8 @@ index 0cfbf08..4792e70 100644
 	2. test分支(供产品和测试等人员使用的分支，变化不是特别频繁)
 	3. master分支(生产发布分支，变化不频繁)
 	4. bugfix(hotfix)分支(生产系统当中出现了紧急bug，用于紧急修复的分支)
+	
+
 
 ### 2.9.1 远程分支&refspec
 
@@ -450,7 +526,7 @@ $ git fetch origin master:refs/remotes/origin/mymaster
 2. git log remotes/origin/master
 3. git log refs/remotes/origin/master
 4. 前两种方式是第三种的简略方式
-## 2.10 2.9.Git协作
+## 2.10 Git协作
 当设置了远程仓库后，在机器本地会维护一个`remotes/origin/main`分支，这个分支会记录远程仓库的最新提交，只有在有拉取和推送动作的时候，这个分支才会更新。可以使用`git branch -av`查看，且使用`git status`时，你可能会看到以下几种信息
 ```bash
 Your branch is up to date with 'origin/main'. # 本地仓库和远程仓库状态一致
@@ -515,7 +591,7 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 - rebase：变基，即改变分支的根基
 `git rebase` 是 Git 中一个强大的命令，用于将一个分支上的提交重新应用到另一个基底提交之上。与 `git merge` 相比，`git rebase` 可以创建一个更直线化的提交历史。
 - merge作用如下图
-![](./image/git_time_10.png)![](./image/git_time_11.png)
+![](image/git_time_12.png)![](image/tmp1743691673705_git_time_11.png)
 - rebase作用如下图
 	- 使用rebase合并后，会把c5、c6删除，导致仓库的提交变成一条直线，实际上是把另一条分支的提交作用到主分支上
 ![](image/git_time_12.png)
@@ -530,3 +606,5 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 	- 再使用`git rebase main`，如有冲突要解决完冲突
 	- 再切换到main分支，使用`git rebase bugfix`，使HEAD快进到变基后的bugfix节点
 ![](./image/git_time_13.png)
+
+#TODO:amend提交
