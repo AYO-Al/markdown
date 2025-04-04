@@ -39,7 +39,7 @@ db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{
   Logger: newLogger,
 })
 ```
-## 定义命名规则
+## 1.3 定义命名规则
 
 ```go
 db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{  
@@ -52,24 +52,24 @@ db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{
 })
 ```
 
-# 错误处理
+# 2 错误处理
 [错误处理](https://gorm.io/zh_CN/docs/error_handling.html)
 
-# save
+# 3 save
 在 GORM 中，`Save` 方法用于 ​**插入或更新记录**，其行为会根据记录是否存在（基于主键）自动判断是执行 `INSERT` 还是 `UPDATE`。以下是它的详细说明：
 
 ---
 
-### ​**1. `Save` 的核心功能**
+### 3.1.1 ​**1. `Save` 的核心功能**
 
 - ​**如果记录不存在**​（主键为零值，如 `ID=0`）：执行 `INSERT`，插入新记录。
 - ​**如果记录已存在**​（主键非零）：执行 `UPDATE`，更新所有字段（即使字段未修改）。
 
 ---
 
-### ​**2. 使用场景**
+### 3.1.2 ​**2. 使用场景**
 
-#### ​**(1) 插入新记录**
+#### 3.1.2.1 ​**(1) 插入新记录**
 
 当模型实例的主键字段（如 `ID`）为零值时，`Save` 会插入新记录：
 
@@ -81,7 +81,7 @@ result := db.Save(&user)  // 执行 INSERT
 fmt.Println(user.ID)      // 插入后自动填充主键（如自增 ID）
 ```
 
-#### ​**(2) 更新现有记录**
+#### 3.1.2.2 ​**(2) 更新现有记录**
 
 当模型实例的主键非零时，`Save` 会更新该记录的所有字段：
 
@@ -92,7 +92,7 @@ result := db.Save(&user)  // 执行 UPDATE，更新所有字段（即使 Age 未
 
 ---
 
-### ​**3. 与 `Create`/`Update` 的区别**
+### 3.1.3 ​**3. 与 `Create`/`Update` 的区别**
 
 | 方法       | 行为                                              |
 | -------- | ----------------------------------------------- |
@@ -100,9 +100,9 @@ result := db.Save(&user)  // 执行 UPDATE，更新所有字段（即使 Age 未
 | `Update` | 仅更新指定字段（需配合 `Where` 或模型主键），不自动判断插入/更新。          |
 | `Save`   | 根据主键自动判断插入或更新，且更新所有字段（包括零值）。如果更新的结构体中字段没有值会更新成空 |
 
-### ​**4. 注意事项**
+### 3.1.4 ​**4. 注意事项**
 
-#### ​**(1) 零值覆盖问题**
+#### 3.1.4.1 ​**(1) 零值覆盖问题**
 
 `Save` 会更新所有字段，包括零值（如 `0`、`""`、`false`），可能导致数据意外覆盖：
 
@@ -119,7 +119,7 @@ db.Save(&user)                 // Name 会被更新为空字符串！
     ```
 
 
-# `FirstOrInit`, 以及 `Attrs` 和 `Assign`
+# 4 `FirstOrInit`, 以及 `Attrs` 和 `Assign`
 
 GORM 的 `FirstOrInit` 方法用于获取与特定条件匹配的第一条记录，如果没有成功获取，就初始化一个新实例。
 ```go
@@ -149,7 +149,7 @@ db.Where(User{Name: "Jinzhu"}).Assign(User{Age: 20}).FirstOrInit(&user)
 // user -> User{ID: 111, Name: "Jinzhu", Age: 20} if found
 ```
 
-# Pluck
+# 5 Pluck
 
 GORM 中的 `Pluck` 方法用于从数据库中查询单列并扫描结果到片段（slice）。 当您需要从模型中检索特定字段时，此方法非常理想。
 
@@ -175,7 +175,7 @@ db.Select("name", "age").Scan(&users)
 db.Select("name", "age").Find(&users)
 
 ```
-## scope
+## 5.1 scope
 
 GORM中的 `Scopes` 是一个强大的特性，它允许您将常用的查询条件定义为可重用的方法。 这些作用域可以很容易地在查询中引用，从而使代码更加模块化和可读。
 
@@ -213,5 +213,5 @@ db.Scopes(AmountGreaterThan1000, OrderStatus([]string{"paid", "shipped"})).Find(
 
 ```
 
-# 思维导图
+# 6 思维导图
 ![[Gorm.excalidraw]]

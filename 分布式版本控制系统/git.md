@@ -346,6 +346,7 @@ git config --global push.default upstream
 		- 可以把`branch`替换成`!branch`这样执行的时候会把前面的git去掉，相当于执行Linux命令
 	- git config --global user.name "Your Name"
 	- git config --global user.email you@example.com
+	- 启用自动转换（提交时转 LF，检出时转 CRLF）： git config --global core.autocrlf true
 	> 可以在三个地方进行设置，在提交文件时需要进行设置
 	> 1. /etc/gitconfig(几乎不会使用) git config --system
 	> 2. ~/.gitconfig git config --global

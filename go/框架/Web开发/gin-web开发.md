@@ -368,6 +368,7 @@ Gin使用 [**go-playground/validator/v10**](https://github.com/go-playground/va
 如果有多个验证字段，按顺序进行验证，如果前面验证不通过不会对后面的进行验证：
 - - ：忽略字段
 - required：不为空校验，binding:"required"
+- regexp：正则表达式校验
 - min：最小长度，binding:"min=1"
 - max：最大长度
 - |：或
