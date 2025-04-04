@@ -73,7 +73,7 @@ git branch -a
 		- \*.js：添加所有js后缀文件
 	- git commit
 		- 会对提交内容使用sha1计算出一个commitid
-		- `git commit --amend -m 'mesge'`:修正上一条提交的信息
+		- `git commit --amend -m 'mesge'`:修正上一条提交的信息并合并到上一个提交
 		- `git commit -am`：直接把全部修改过文件添加到暂存区并提交，但新增的文件不能
 		- 执行命令时，git会创建一个commit对象，并且将这个commit对象的parent指针设置为HEAD所指向引用的SHA-1值
 		- 使用前七位的SHA-1值即可表示一个commit
