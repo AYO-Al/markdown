@@ -11,12 +11,14 @@
             "id": "97cd697f0ab23de9",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "Excalidraw/Gorm.excalidraw.md"
+                "file": "go/基础/go基础.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "excalidraw-icon",
-              "title": "Gorm.excalidraw"
+              "icon": "lucide-file",
+              "title": "go基础"
             }
           },
           {
@@ -76,7 +78,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -149,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "数据库/mysql/数据库优化/数据库优化.md",
+                "file": "go/框架/Web开发/gin-web开发.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "数据库优化 的大纲"
+              "title": "gin-web开发 的大纲"
             }
           },
           {
@@ -229,7 +231,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 283.5
+    "width": 297.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -247,9 +249,10 @@
   "lastOpenFiles": [
     "go/基础/go基础.md",
     "Excalidraw/Gorm.excalidraw.md",
+    "go/框架/配置文件/Viper.md",
+    "数据库/mysql/数据库优化/数据库优化.md",
     "go/框架/Web开发/gin-web开发.md",
     "go/包/正则：regexp.md",
-    "go/框架/配置文件/Viper.md",
     "分布式版本控制系统/git.md",
     "go/框架/数据库操作/GORM-数据库操作.md",
     "分布式版本控制系统/image/git_time_10.png",
