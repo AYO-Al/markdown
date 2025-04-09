@@ -169,8 +169,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -188,7 +187,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "4f0f2ca6323c33fe",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
     "conflict-files-obsidian-git.md",
     "分布式版本控制系统/git.md",

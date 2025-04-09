@@ -454,7 +454,6 @@ git config --global push.default simple
 git config --global push.default upstream
 ```
 
-<<<<<<< HEAD
 - git cherry-pick：Git 中用于 ​**将指定提交应用到当前分支** 的命令，适用于 ​**选择性合并某个提交的改动**，而无需合并整个分支。
 
 |​**参数**|​**作用**|
@@ -507,7 +506,7 @@ git cherry-pick --abort
 > 1. /etc/gitconfig(几乎不会使用) git config --system
 > 2. ~/.gitconfig git config --global
 > 3. 针对特定项目 .git/config git config --local
-=======
+
 - 设置信息：
 	- git config alias.br branch:给branch命令设置一个br的别名
 		- 可以把`branch`替换成`!branch`这样执行的时候会把前面的git去掉，相当于执行Linux命令
@@ -518,7 +517,6 @@ git cherry-pick --abort
 	> 1. /etc/gitconfig(几乎不会使用) git config --system
 	> 2. ~/.gitconfig git config --global
 	> 3. 针对特定项目 .git/config git config --local
->>>>>>> origin/main
 	
 - 参数设置：
 	- `git config core.igorecase false`：关闭忽略大小写
