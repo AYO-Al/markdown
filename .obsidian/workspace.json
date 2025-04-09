@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "分布式版本控制系统/git.md",
+                "file": "go/包/sync.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git"
+              "title": "sync"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.5
+    "width": 351.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -94,13 +95,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "分布式版本控制系统/git.md",
+                "file": "go/包/sync.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "git 的大纲"
+              "title": "sync 的大纲"
             }
           },
           {
@@ -169,8 +170,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -188,22 +188,23 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "97cd697f0ab23de9",
   "lastOpenFiles": [
+    "go/包/文本处理.md",
+    "go/包/正则：regexp.md",
+    "go/包/sync.md",
+    "分布式版本控制系统/git.md",
     "分布式版本控制系统/image/git_time_10.png",
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
     "分布式版本控制系统/image/tmp1743689270922_git_time_9.png",
     "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
     "分布式版本控制系统/image/tmp1743691699799_git_time_10.png",
     "分布式版本控制系统/image/git_time_12.png",
-    "分布式版本控制系统/git.md",
     "分布式版本控制系统/image/git_time_11.png",
     "分布式版本控制系统/image/git_time_8.png",
     "分布式版本控制系统/image/git_time_2.png",
     "分布式版本控制系统/image/git_time_3.png",
-    "分布式版本控制系统/image/git_time_4.png",
     "go/框架/命令行/Cobra-命令行框架.md",
-    "go/包/正则：regexp.md",
     "go/框架/Web开发/gin-web开发.md",
     "go/基础/go基础.md",
     "go/包/log.md",
@@ -223,7 +224,6 @@
     "web/未命名.md",
     "go/FQA/make和new区别.md",
     "go/框架/Web开发/未命名.md",
-    "go/包/文本处理.md",
     "go/框架/Web开发/image",
     "go/基础/golang.md",
     "云计算/shell编程/搭建文件下载站.md",
