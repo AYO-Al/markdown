@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.5,
-    "collapsed": true
+    "width": 351.5
   },
   "right": {
     "id": "a689601275098279",
@@ -189,12 +188,14 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "4f0f2ca6323c33fe",
   "lastOpenFiles": [
+    "conflict-files-obsidian-git.md",
+    "分布式版本控制系统/git.md",
+    "数据库/mysql/数据库优化/image/数据库优化_time_1.png",
     "go/包/sync.md",
     "go/包/文本处理.md",
     "go/包/正则：regexp.md",
-    "分布式版本控制系统/git.md",
     "分布式版本控制系统/image/git_time_10.png",
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
     "分布式版本控制系统/image/tmp1743689270922_git_time_9.png",
@@ -204,7 +205,6 @@
     "分布式版本控制系统/image/git_time_11.png",
     "分布式版本控制系统/image/git_time_8.png",
     "分布式版本控制系统/image/git_time_2.png",
-    "分布式版本控制系统/image/git_time_3.png",
     "go/框架/命令行/Cobra-命令行框架.md",
     "go/框架/Web开发/gin-web开发.md",
     "go/基础/go基础.md",
@@ -231,7 +231,6 @@
     "go/项目/mydocker/项目说明.md",
     "go/项目/mydocker/image",
     "go/项目/MyGin",
-    "README.md",
     "Excalidraw",
     "go/框架/数据库操作",
     "go/框架/Web开发",
