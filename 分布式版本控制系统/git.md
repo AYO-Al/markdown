@@ -41,11 +41,13 @@
 	![](./image/git_time_5.png)
 
 ## 2.3 Git常用命令
-- 获得版本库
-	- git init
-    	- git init -b branch:初始化仓库并新建分支
 
-	- git clone:用于将 ​**远程仓库完整复制到本地**，包含所有文件、分支（默认克隆所有分支，但只检出默认分支）和提交历史。克隆后，本地仓库会自动关联远程仓库（默认命名为 `origin`）。
+### 2.3.1 获得版本库
+
+- git init
+    - git init -b branch:初始化仓库并新建分支
+
+- git clone:用于将 ​**远程仓库完整复制到本地**，包含所有文件、分支（默认克隆所有分支，但只检出默认分支）和提交历史。克隆后，本地仓库会自动关联远程仓库（默认命名为 `origin`）。
     	- **检出​**​ 是 Git 中的一个操作，表示 ​**​将某个分支（或提交）的代码版本加载到你的本地工作目录​**​，使你可以查看或修改这些文件。
     ```bash
 git clone <仓库地址> [目标目录名]
@@ -63,28 +65,28 @@ git branch -a
   remotes/origin/master
     ```
 
-- 版本管理
-	- git add
-		- `.`:提交所有文件，但会检查gitignore
-		- `*`:提交所有文件，不会检查gitignore
-		- dirname/：暂存该目录下所有文件
-		- -u：暂存已追踪文件的修改
-		- -f：强制添加ignore忽略的文件
-		- \*.js：添加所有js后缀文件
-	- git commit
-		- 会对提交内容使用sha1计算出一个commitid
-		- `git commit --amend -m 'mesge'`:修正上一条提交的信息并合并到上一个提交
-		- `git commit -am`：直接把全部修改过文件添加到暂存区并提交，但新增的文件不能
-		- 执行命令时，git会创建一个commit对象，并且将这个commit对象的parent指针设置为HEAD所指向引用的SHA-1值
-		- 使用前七位的SHA-1值即可表示一个commit
-	- git rm：从版本中删除文件，本质和rm命令一致
-		- 使用`git rm`后不需要再使用`git add`命令将修改添加在暂存区，使用`rm`的话仍然需要使用使用`git add`命令将修改添加在暂存区
-		- 如果想将删除的文件恢复，可以使用`git reset HEAD filename`将文件从暂存区移除，再使用`git checkout -- fielname`将工作区中的修改丢弃
-		- `git rm --cached \<file\>...`:停止跟踪文件，但保留工作区的文件
-	- git mv
+### 2.3.2 版本管理
+- git add
+    - `.`:提交所有文件，但会检查gitignore
+    - `*`:提交所有文件，不会检查gitignore
+    - dirname/：暂存该目录下所有文件
+    - -u：暂存已追踪文件的修改
+    - -f：强制添加ignore忽略的文件
+    - \*.js：添加所有js后缀文件
+- git commit
+    - 会对提交内容使用sha1计算出一个commitid
+    - `git commit --amend -m 'mesge'`:修正上一条提交的信息并合并到上一个提交
+    - `git commit -am`：直接把全部修改过文件添加到暂存区并提交，但新增的文件不能
+    - 执行命令时，git会创建一个commit对象，并且将这个commit对象的parent指针设置为HEAD所指向引用的SHA-1值
+    - 使用前七位的SHA-1值即可表示一个commit
+- git rm：从版本中删除文件，本质和rm命令一致
+    - 使用`git rm`后不需要再使用`git add`命令将修改添加在暂存区，使用`rm`的话仍然需要使用使用`git add`命令将修改添加在暂存区
+    - 如果想将删除的文件恢复，可以使用`git reset HEAD filename`将文件从暂存区移除，再使用`git checkout -- fielname`将工作区中的修改丢弃
+    - `git rm --cached \<file\>...`:停止跟踪文件，但保留工作区的文件
+- git mv
 
-	- git branch：分支操作，不带参数则查看所有分支，带`*`为当前所在分支
-    ```bash
+- git branch：分支操作，不带参数则查看所有分支，带`*`为当前所在分支
+```bash
 git branch -r # 列出所有远程分支
 
 git branch -a # 列出所有本地和远程分支
@@ -111,10 +113,10 @@ git branch -u origin/<remote-branch>  # 为当前分支设置上游
 git branch --set-upstream-to=origin/<remote-branch>  # 同上
 
 git push origin --delete <remote-branch>  # 删除远程分支
-    ```
+```
     
-    - git switch：2.23 版本引入的 ​**分支管理命令**，旨在替代 `git checkout` 的部分功能，专注于 ​**分支切换** 和 ​**分支创建**，从而解决 `git checkout` 命令的 ​**多义性问题**
-    ```bash
+- git switch：2.23 版本引入的 ​**分支管理命令**，旨在替代 `git checkout` 的部分功能，专注于 ​**分支切换** 和 ​**分支创建**，从而解决 `git checkout` 命令的 ​**多义性问题**
+```bash
     git switch <branch-name> # 切换分支
     git switch - #快速切换到上一个分支
 
@@ -132,13 +134,13 @@ git push origin --delete <remote-branch>  # 删除远程分支
     git switch --merge <branch>  # 尝试将未提交的修改合并到目标分支
 
     git checkout -b <lost-branch> <commit-hash>  # 通过提交哈希重建已删除分支
-    ```
+```
 
-    - git restore：Git 2.23 版本引入的 ​**文件恢复命令**，旨在替代 `git checkout` 和 `git reset` 的部分功能，专注于 ​**恢复工作目录或暂存区的文件状态**。
-        - **恢复工作目录文件**：丢弃未暂存的修改。
-        - ​**恢复暂存区文件**：将已暂存的文件移出暂存区（保留工作目录修改）。
-        - ​**从历史提交恢复文件**：将文件恢复到指定提交的版本。
-    ```bash
+- git restore：Git 2.23 版本引入的 ​**文件恢复命令**，旨在替代 `git checkout` 和 `git reset` 的部分功能，专注于 ​**恢复工作目录或暂存区的文件状态**。
+    - **恢复工作目录文件**：丢弃未暂存的修改。
+    - ​**恢复暂存区文件**：将已暂存的文件移出暂存区（保留工作目录修改）。
+    - ​**从历史提交恢复文件**：将文件恢复到指定提交的版本。
+```bash
     git restore file.txt        # 恢复未暂存的修改（等效于 git checkout -- file.txt）
     git restore .              # 恢复当前目录下所有未暂存的修改
 
@@ -149,13 +151,13 @@ git push origin --delete <remote-branch>  # 删除远程分支
 
     git restore --source=HEAD~1 file.txt  # 恢复到上一个提交的版本（保留暂存区和工作目录）
     git restore --source=abc123 file.txt  # 恢复到特定提交的版本
-    ```
+```
 
-    - git checkout：主要用于 ​**切换分支** 和 ​**恢复文件**。随着 Git 2.23 版本引入 `git switch` 和 `git restore`，其职责被拆分。
-        - **切换分支**：切换到已有分支或新建分支。
-        - ​**恢复文件**：将文件从暂存区或提交历史恢复到工作目录。
-        - ​**分离头指针（Detached HEAD）​**：临时查看历史提交或实验性修改。
-    ```bash
+- git checkout：主要用于 ​**切换分支** 和 ​**恢复文件**。随着 Git 2.23 版本引入 `git switch` 和 `git restore`，其职责被拆分。
+    - **切换分支**：切换到已有分支或新建分支。
+    - ​**恢复文件**：将文件从暂存区或提交历史恢复到工作目录。
+    - ​**分离头指针（Detached HEAD）​**：临时查看历史提交或实验性修改。
+```bash
     git checkout <branch-name>      # 切换到现有分支
     git checkout -b <new-branch>    # 创建并切换到新分支（基于当前提交）
     git checkout -b <new-branch> <commit-hash>  # 基于指定提交创建分支
@@ -170,10 +172,10 @@ git push origin --delete <remote-branch>  # 删除远程分支
 
     # 保留当前分支/对方分支的修改（丢弃对方分支/当前分支的冲突部分）
     git restore --ours/--theirs conflicted-file.txt
-    ```
+```
     
-    - git merge：Git 中用于 ​**合并分支** 的核心命令，可将不同分支的修改内容整合到当前分支
-    ```bash
+- git merge：Git 中用于 ​**合并分支** 的核心命令，可将不同分支的修改内容整合到当前分支
+```bash
     git merge [options] <branch-name...> # 把branch-name合并到当前所在分支,可以一次性合并多个分支（仅限无冲突场景）
 
     # Fast-Forward Merge：当前分支没有提交，合并分支是该分支的直接后继，不会创建新提交而是直接把分支指针移动到合并分支所在位置
@@ -182,11 +184,11 @@ git push origin --delete <remote-branch>  # 删除远程分支
     git merge --squash feature/login # 将待合并分支的所有提交压缩为单个提交，合并到目标分支。
 
     git merge --abort # 工作目录和暂存区恢复到合并开始前的状态。在解决冲突提交前可以执行
-    ```
+```
 
-    - git rebase：Git 中用于 ​**​重写提交历史​**​ 的核心命令，能够将分支的提交重新应用到另一个基点上，使历史记录保持线性。
-        - rebase不会删除提交，只是新建了提交，旧提交仍然在历史记录中
-    ```bash
+- git rebase：Git 中用于 ​**​重写提交历史​**​ 的核心命令，能够将分支的提交重新应用到另一个基点上，使历史记录保持线性。
+    - rebase不会删除提交，只是新建了提交，旧提交仍然在历史记录中
+```bash
     git checkout feature
     git rebase main   # 将 feature 分支的提交变基到 main 分支之后
 
@@ -200,12 +202,80 @@ git push origin --delete <remote-branch>  # 删除远程分支
 
     git rebase -X theirs main  # 冲突时自动选择“对方”版本（慎用！）
     git rebase -X ours main    # 冲突时自动选择“我方”版本
-    ```
-    
-- 查看信息
-	- git help
-	- git log：查看提交历史(逆序显示)
-    ```bash
+```
+
+- git reset：Git 中用于 ​**重置当前分支状态** 的核心命令，能够移动分支指针（HEAD）并修改 ​**暂存区（Stage）​** 和 ​**工作目录（Working Directory）​** 的内容。
+
+|**参数**|​**作用**|​**影响范围**|
+|---|---|---|
+|​**`--soft`**|仅移动 ​**HEAD 指针**，不修改暂存区和工作目录。|提交历史回退，保留所有修改在 ​**暂存区**。|
+|​**`--mixed`**|移动 HEAD 指针并 ​**重置暂存区**​（默认参数），保留工作目录的修改。|提交历史回退，保留所有修改在 ​**工作目录**。|
+|​**`--hard`**|移动 HEAD 指针、重置暂存区 ​**并丢弃工作目录的所有修改**。|提交历史回退，​**彻底丢弃所有未提交的修改**。|
+|​**`--merge`**|类似 `--mixed`，但在合并冲突时保留未合并的修改。|用于取消合并（`git reset --merge`）。|
+|​**`--keep`**|移动 HEAD 指针，但保留工作目录和暂存区的修改（尝试保留未提交的更改）。|用于保留本地修改的同时回退提交。|
+
+```bash
+# 回退到上一个提交，保留修改到暂存区（适合修改后重新提交）
+git reset --soft HEAD~1
+
+# 回退到上一个提交，保留修改到工作目录（适合重新修改后提交）
+git reset --mixed HEAD~1  # 或省略 --mixed
+
+# 回退到上一个提交，丢弃所有未提交的修改（危险！）
+git reset --hard HEAD~1
+
+# 将指定文件移出暂存区（保留工作目录修改）
+git reset HEAD <file>
+
+# 将所有文件移出暂存区（保留工作目录修改）
+git reset
+
+# 回退到某个特定提交（如 commit-id 为 a1b2c3d）
+git reset --soft a1b2c3d  # 保留修改到暂存区
+git reset --hard a1b2c3d  # 彻底丢弃所有修改
+
+# 强制将本地分支与远程同步（丢弃所有本地修改）
+git fetch origin
+git reset --hard origin/main
+```
+
+- **`HEAD~n`**：向父提交回溯 `n` 步（如 `HEAD~2` 表示上上个提交）。
+- ​**`HEAD^`**：等效于 `HEAD~1`，多个 `^` 表示多步（如 `HEAD^^` = `HEAD~2`）。
+
+- git revert：Git 中用于 ​**安全撤销历史提交** 的核心命令，它通过创建新的提交来逆改指定提交的变更，​**不会重写提交历史**，适合用于公共分支（如 `main`）的修改撤销。
+
+|​**参数**|​**作用**|
+|---|---|
+|​**`<commit>`**|指定要撤销的提交哈希（必选）|
+|​**`-n`/`--no-commit`**|撤销更改但不自动提交，允许手动调整后提交|
+|​**`-m <parent-number>`**|撤销合并提交时指定主线分支（如 `-m 1` 表示保留第一条分支的改动）|
+|​**`--no-edit`**|跳过提交信息编辑（直接使用默认信息）|
+|​**`--continue`**|解决冲突后继续执行 `revert` 流程|
+|​**`--abort`**|取消 `revert` 操作，恢复至冲突前的状态|
+```bash
+# 撤销指定提交（如提交哈希为 a1b2c3d），并自动生成提交信息
+git revert a1b2c3d
+
+# 撤销后手动修改并提交（适合需要调整撤销内容）
+git revert -n a1b2c3d
+git add .
+git commit -m "revert: 手动调整撤销内容"
+
+# 示例：撤销从 a1b2c3d 到 d4e5f6g 的提交
+git revert a1b2c3d^..d4e5f6g
+
+# 合并提交（如哈希为 m1n2o3p）有两个父提交（主线分支为第一个父提交）
+git revert -m 1 m1n2o3p
+
+# 解决冲突后继续
+git add .
+git revert --continue
+```
+
+### 2.3.3 查看信息
+- git help
+- git log：查看提交历史(逆序显示)
+```bash
 git log --graph --oneline --decorate # 以 ASCII 图形展示分支和合并历史，适合查看多分支开发场景。
 
 #-p：展开显示每次提交的内容差异
@@ -231,14 +301,57 @@ git log --pretty=format:"%h - %an, %ar : %s"
 #- `%s`：提交消息
 
 git cat-file -p <commit_hash> # 查看该提交的父节点
-    ```
+```
 
-	- git diff
-	- git status：查看当前工作区和暂存区状态,还能查看与远处仓库的状态比较
+- git relog： Git 中用于 ​**追踪本地仓库操作历史** 的关键命令，记录了 HEAD 指针和分支的移动轨迹，能够帮助恢复误删的提交、分支或重置操作。
 
-- 远程协作
-    - git remote：Git 中用于 ​**管理远程仓库配置** 的核心命令，支持添加、删除、重命名远程仓库，以及查看远程仓库信息等操作。
-    ```bash
+|​**参数**|​**作用**|
+|---|---|
+|​**`--all`**|显示所有引用（分支、标签、HEAD 等）的操作历史|
+|​**`--date=<format>`**|按指定格式显示时间（如 `--date=iso`、`--date=relative`）|
+|​**`--since=<time>`**|显示指定时间后的记录（如 `--since="2 days ago"`）|
+|​**`--until=<time>`**|显示指定时间前的记录（如 `--until="2023-10-01"`）|
+|​**`-n`/`--no-abbrev`**|显示完整的提交哈希（默认显示缩写）|
+|​**`-g`/`--walk-reflogs`**|以图形化方式显示操作历史（类似 `git log --graph`）|
+
+```bash
+git reflog
+# 输出示例：
+# a1b2c3d (HEAD -> main) HEAD@{0}: commit: 更新用户登录逻辑
+# d4e5f6g HEAD@{1}: reset: moving to HEAD~1
+# e7f8h9i HEAD@{2}: merge feature/login: Fast-forward
+
+# 找到误删的提交哈希（如 e7f8h9i）
+git reflog
+# 创建新分支指向该提交
+git branch recovery-branch e7f8h9i
+# 或直接重置当前分支
+git reset --hard e7f8h9i
+
+# 找到分支删除前的操作记录
+git reflog --all
+# 示例输出：
+# e7f8h9i HEAD@{3}: checkout: moving from main to deleted-branch
+# 恢复分支
+git branch deleted-branch e7f8h9i
+
+
+git reflog show feature/login
+# 输出示例：
+# a1b2c3d feature/login@{0}: commit: 添加登录验证
+
+# 显示过去3天的操作历史
+git reflog --since="3 days ago"
+```
+- **仅限本地操作**：`reflog` 仅记录本地仓库的操作，不会同步到远程仓库。
+- ​**过期清理**：默认保留 ​**90天** 的记录（可通过 `git gc` 清理，`reflog expire` 调整期限）。
+
+- git diff
+- git status：查看当前工作区和暂存区状态,还能查看与远处仓库的状态比较
+
+### 2.3.4 远程协作
+- git remote：Git 中用于 ​**管理远程仓库配置** 的核心命令，支持添加、删除、重命名远程仓库，以及查看远程仓库信息等操作。
+```bash
 git remote      # 列出所有远程仓库名称
 git remote -v   # 显示详细信息（包括 URL）
 git remote show <name>  # 显示分支跟踪关系和提交状态
@@ -256,13 +369,13 @@ git remote update <name>  # 更新指定远程仓库的分支信息
 git remote update         # 更新所有远程仓库的分支信息
 
 git remote prune <name>  # 删除本地缓存中已不存在的远程分支
-    ```
+```
 
-	- git pull ：Git 中用于 ​**从远程仓库同步代码并合并到本地分支** 的核心命令，它将 `git fetch`（获取远程更新）和 `git merge`（合并到本地分支）组合成一步操作
-    	- ​**同步远程更新**：将远程仓库的最新提交拉取到本地。
-        - ​**合并代码**：将远程分支的修改合并到当前本地分支。
-        - ​**支持多种合并策略**：如快进合并（Fast-Forward）、普通合并（Merge）或变基（Rebase）。
-    ```bash
+- git pull ：Git 中用于 ​**从远程仓库同步代码并合并到本地分支** 的核心命令，它将 `git fetch`（获取远程更新）和 `git merge`（合并到本地分支）组合成一步操作
+    - ​**同步远程更新**：将远程仓库的最新提交拉取到本地。
+    - ​**合并代码**：将远程分支的修改合并到当前本地分支。
+    - ​**支持多种合并策略**：如快进合并（Fast-Forward）、普通合并（Merge）或变基（Rebase）。
+```bash
     git pull [远程仓库名] [远程分支名]:[本地分支名]
 
     #如果远程分支和本地分支没有开发记录的分歧，则默认进行快进合并
@@ -297,13 +410,13 @@ git remote prune <name>  # 删除本地缓存中已不存在的远程分支
     git stash        # 暂存本地修改
     git pull         # 拉取远程更新
     git stash pop    # 恢复本地修改并解决冲突
-    ```
+```
 
-    - git fetch：Git 中用于从远程仓库获取最新数据但不自动合并到本地分支的命令。
-        - - ​**​同步远程更新​**​：将远程仓库（如 `origin`）的最新提交、分支和标签下载到本地。
-        - ​**​非侵入式操作​**​：不会修改本地工作目录或当前分支的代码，仅更新远程跟踪分支（如 `origin/main`）。
-        - ​**​安全查看变更​**​：允许在合并前先审查远程更改，避免直接合并导致的问题。
-    ```bash
+- git fetch：Git 中用于从远程仓库获取最新数据但不自动合并到本地分支的命令。
+    - - ​**​同步远程更新​**​：将远程仓库（如 `origin`）的最新提交、分支和标签下载到本地。
+    - ​**​非侵入式操作​**​：不会修改本地工作目录或当前分支的代码，仅更新远程跟踪分支（如 `origin/main`）。
+    - ​**​安全查看变更​**​：允许在合并前先审查远程更改，避免直接合并导致的问题。
+```bash
     git fetch [远程仓库名] [分支名]
 
     git fetch --all #查看所有远程仓库的更新
@@ -312,12 +425,12 @@ git remote prune <name>  # 删除本地缓存中已不存在的远程分支
 
     git fetch --tags    # 获取所有远程标签
     git fetch origin tag v1.0.0  # 获取特定标签
-    ```
+```
     
-	- git push：Git 中用于 ​**将本地分支的提交推送到远程仓库** 的核心命令。它实现了本地仓库与远程仓库的同步
-    	- **推送本地提交到远程仓库**：将本地分支的更新同步到远程分支。
-        - ​**创建或删除远程分支**：通过推送空分支或指定参数管理远程分支。
-        - ​**同步标签（Tags）​**：将本地标签推送到远程仓库。
+- git push：Git 中用于 ​**将本地分支的提交推送到远程仓库** 的核心命令。它实现了本地仓库与远程仓库的同步
+    - **推送本地提交到远程仓库**：将本地分支的更新同步到远程分支。
+    - ​**创建或删除远程分支**：通过推送空分支或指定参数管理远程分支。
+    - ​**同步标签（Tags）​**：将本地标签推送到远程仓库。
 ```bash
 git push [远程仓库名] [本地分支名]:[远程分支名]
 git push origin main         # 将本地 main 分支推送到远程 origin/main
@@ -341,15 +454,58 @@ git config --global push.default simple
 git config --global push.default upstream
 ```
 
-- 设置信息：
-	- git config alias.br branch:给branch命令设置一个br的别名
-		- 可以把`branch`替换成`!branch`这样执行的时候会把前面的git去掉，相当于执行Linux命令
-	- git config --global user.name "Your Name"
-	- git config --global user.email you@example.com
-	> 可以在三个地方进行设置，在提交文件时需要进行设置
-	> 1. /etc/gitconfig(几乎不会使用) git config --system
-	> 2. ~/.gitconfig git config --global
-	> 3. 针对特定项目 .git/config git config --local
+- git cherry-pick：Git 中用于 ​**将指定提交应用到当前分支** 的命令，适用于 ​**选择性合并某个提交的改动**，而无需合并整个分支。
+
+|​**参数**|​**作用**|
+|---|---|
+|​**`<commit>`**|指定要应用的提交哈希（必选）|
+|​**`-n`/`--no-commit`**|应用更改但不自动提交，允许手动调整后提交|
+|​**`-e`/`--edit`**|提交前编辑提交信息（默认使用原提交信息）|
+|​**`-x`**|在提交信息中追加来源提交哈希（方便追溯）|
+|​**`-s`/`--signoff`**|在提交信息末尾添加签名（如 `Signed-off-by: User <user@email.com>`）|
+|​**`-m <parent-number>`**|指定合并提交的主线分支（类似 `git revert`，用于处理合并提交）|
+|​**`--continue`**|解决冲突后继续执行 `cherry-pick` 流程|
+|​**`--abort`**|取消 `cherry-pick` 操作，恢复至冲突前的状态|
+|​**`--skip`**|跳过当前提交（如无法解决冲突时放弃该提交）|
+```bash
+# 将提交 a1b2c3d 的改动应用到当前分支
+git cherry-pick a1b2c3d
+
+# 应用连续的多个提交（按提交顺序应用 commit1, commit2, commit3）
+git cherry-pick commit1^..commit3
+
+# 应用非连续的多个提交（按需指定多个哈希）
+git cherry-pick a1b2c3d d4e5f6g e7f8h9i
+
+# 应用合并提交 m1n2o3p 的改动（需指定主线分支）
+git cherry-pick -m 1 m1n2o3p
+
+# 应用提交但不自动提交（-n），调整后手动提交
+git cherry-pick -n a1b2c3d
+git add .
+git commit -m "手动调整后的提交"
+
+
+# 冲突后手动解决，标记为已解决并继续
+git add .
+git cherry-pick --continue
+
+# 放弃当前提交（跳过）
+git cherry-pick --skip
+
+# 取消整个操作（恢复原状）
+git cherry-pick --abort
+```
+
+### 2.3.5 设置信息
+- git config alias.br branch:给branch命令设置一个br的别名
+    - 可以把`branch`替换成`!branch`这样执行的时候会把前面的git去掉，相当于执行Linux命令
+- git config --global user.name "Your Name"
+- git config --global user.email you@example.com
+> 可以在三个地方进行设置，在提交文件时需要进行设置
+> 1. /etc/gitconfig(几乎不会使用) git config --system
+> 2. ~/.gitconfig git config --global
+> 3. 针对特定项目 .git/config git config --local
 	
 - 参数设置：
 	- `git config core.igorecase false`：关闭忽略大小写
