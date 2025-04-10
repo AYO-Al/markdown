@@ -69,7 +69,7 @@ func handleRequestWithUser(ctx context.Context) {
 }
 ```
 
-# 解决问题
+# 1 解决问题
 
 - 请求级别的数据传递
 
@@ -80,7 +80,7 @@ func handleRequestWithUser(ctx context.Context) {
 - 跨 API 边界的数据传递
 
 - goroutine 生命周期管理
-# 设计原理
+# 2 设计原理
 
 在 Goroutine 构成的树形结构中对信号进行同步以减少计算资源的浪费是 `context.Context` 的最大作用。Go 服务的每一个请求都是通过单独的 Goroutine 处理的，HTTP/RPC 请求的处理器会启动新的 Goroutine 访问数据库和其他服务。
 
@@ -113,8 +113,8 @@ main context deadline exceeded
 ```
 
 `context.Context` 的使用方法和设计原理 — 多个 Goroutine 同时订阅 `ctx.Done()` 管道中的消息，一旦接收到取消信号就立刻停止当前正在执行的工作。
-# 上下文使用
-## 默认上下文
+# 3 上下文使用
+## 3.1 默认上下文
 
 `context` 包中最常用的方法还是 `context.Background`、`context.TODO`，这两个方法都会返回预先初始化好的私有变量 `background` 和 `todo`，它们会在同一个 Go 程序中被复用：
 ```go
@@ -165,7 +165,7 @@ func (emptyCtx) Value(key any) any {
 - context.TODO 应该仅在不确定应该使用哪种上下文时使用；
 
 在多数情况下，如果当前函数没有上下文作为入参，我们都会使用 context.Background 作为起始的上下文向下传递。
-## 取消信号
+## 3.2 取消信号
 
 context.WithCancel 函数能够从 context.Context 中衍生出一个新的子上下文并返回用于取消该上下文的函数。一旦我们执行返回的取消函数，当前上下文以及它的子上下文都会被取消，所有的 Goroutine 都会同步收到这一取消信号。
 
@@ -305,7 +305,7 @@ func main() {
     time.Sleep(1 * time.Second)  
 }
 ```
-## 超时时间
+## 3.3 超时时间
 
 设置超时时间的ctx有两种`WithDeadline`和`WithTimeout`
 
@@ -316,7 +316,7 @@ func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
 ```
 
 这两个上下文的区别是一个设置的具体日期，一个设置持续时间。
-## 值传递
+## 3.4 值传递
 
 ```go
 package main
