@@ -786,7 +786,8 @@ func (test *Test) TestH(w http.ResponseWriter,r *http.Request){
 ```
 # 12 模板语法
 
-**统一使用{{和}}作为左右标签**
+**统一使用{{和}}作为左右标签，在该左右标签中的内容会被解析为Go代码逻辑（如变量、条件、循环等），在左右标签之外的内容原样输出。**
+
 ```go
 // 后端给前端传递的数据
 func UserTemplate(contest *gin.Context) {  
@@ -916,7 +917,7 @@ func SubStr(str string, l int) string {
 - 作用：导入其他的模板
 
 ```go
-{{/*调用子模板并传递参数*/}}
+{{/*调用子结构传递参数*/}}
 {{template "user/base.html" .}}
 ```
 
@@ -925,7 +926,7 @@ func SubStr(str string, l int) string {
 - 引入的作用位置跟 `template`使用的位置有关
 ## 12.10 模板函数
 
-- print
+- `print`
     - print：fmt.Sprint
     - printf：fmt.Sprintf
     - println：fmt.Sprintln
@@ -955,33 +956,33 @@ func SubStr(str string, l int) string {
 {{printf "name:%s name:%s" "k" (printf "%s-%s" "1" "2")}}
 ```
 
-- and：只要有一个为空，则整体为空，如果都不为空，则返回最后一个
+- `and`：只要有一个为空，则整体为空，如果都不为空，则返回最后一个
 ```go
 {{and .arr $.name}}
 ```
 
-- or：只要有有一个不为空，则返回第一个不为空的，否则返回空
+- `or`：只要有有一个不为空，则返回第一个不为空的，否则返回空
 
-- call：是一个**动态调用其他函数或方法**的工具，主要用于在模板中灵活执行传入的函数或方法。
+- `call`：是一个**动态调用其他函数或方法**的工具，主要用于在模板中灵活执行传入的函数或方法。
 ```go
 {{$funcname := .funcname }}  
 {{ call $funcname "yes" 2}}
 ```
 
-- index：读取指定类型对于下标的值
+- `index`：读取指定类型对于下标的值
     - 支持map/array/slice/string
 ```go
 {{index .arr 1}}
 ```
 
-- len：返回指定类型的长度
+- `len`：返回指定类型的长度
 ```go
 {{len .arr}}
 ```
 
-- not：返回输入参数的否定值，布尔类型
+- `not`：返回输入参数的否定值，布尔类型
 
-- urlquery： 有些符号在URL中是不能直接传递的，如果要在URL中传递这些特殊符号，那么就要使用该符号的编码
+- `urlquery`： 有些符号在URL中是不能直接传递的，如果要在URL中传递这些特殊符号，那么就要使用该符号的编码
 ```go
 {{urlquery "http://www.baidu.com"}}
 {{/*
@@ -1000,13 +1001,21 @@ http%3A%2F%2Fwww.baidu.com
     - gt：小于
     - ge：小于等于
 
-- Format：实现时间的格式化，返回字符串。也可以在后端转换在前端使用。
+- `Format`：实现时间的格式化，返回字符串。也可以在后端转换在前端使用。
     - {{.time_data.Format "2006/01/02 15:04:05"}}
 
-- html：转义文本中的html标签
+- `html`：转义文本中的html标签
 
-- js：返回用JavaScript的escape处理后的文本
+- `js`：返回用JavaScript的escape处理后的文本
     - escape函数可以对字符串进行编码，这样就可以在所有的计算机上读取该字符串，可以使用unescape解码
+
+- `slice`：对string/slice/array进行切片
+```go
+{{ slice "hello" 1 3 }} → "el"
+{{ slice .Items 0 2 }}  → 获取列表前两项
+```
+
+- 
 ### 12.10.1 自定义模板函数
 
 1. 定义函数

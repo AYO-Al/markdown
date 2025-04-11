@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/API接口文档/Swag.md",
+                "file": "go/包/template.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Swag"
+              "title": "template"
             }
           },
           {
@@ -108,13 +108,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/API接口文档/Swag.md",
+                "file": "go/包/template.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Swag 的大纲"
+              "title": "template 的大纲"
             }
           },
           {
@@ -146,7 +146,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/基础/测试.md",
+                "file": "go/包/template.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -156,7 +156,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "测试 的反向链接列表"
+              "title": "template 的反向链接列表"
             }
           },
           {
@@ -165,12 +165,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/基础/测试.md",
+                "file": "go/包/template.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "测试 的出链列表"
+              "title": "template 的出链列表"
             }
           },
           {
@@ -183,8 +183,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -202,11 +201,11 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "97cd697f0ab23de9",
   "lastOpenFiles": [
     "go/框架/Web开发/gin-web开发.md",
+    "go/包/template.md",
     "go/框架/API接口文档/Swag.md",
-    "go/包/未命名.md",
     "go/框架/API接口文档",
     "go/包/Context.md",
     "分布式版本控制系统/git.md",
