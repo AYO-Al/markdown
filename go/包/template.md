@@ -47,7 +47,7 @@ tpl := template.New("main") // 创建名为 "main" 的模板
 - **注意事项​**​：
     - 模板名需唯一，避免后续查找时冲突。
     - 空模板需通过 `Parse` 或 `ParseFiles` 加载内容后才能使用。
-#### 2.1.1.3 **`Parse(text string) (*Template, error)`​**
+#### 2.1.1.3 **`(t)Parse(text string) (*Template, error)`​**
 
 - 作用：解析字符串形式的模板内容（适用于硬编码或动态生成的模板文本）。
 
