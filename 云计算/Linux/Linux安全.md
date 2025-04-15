@@ -1,28 +1,28 @@
-# 1.安全防护
+# 1 1.安全防护
 
-![image-20230629160523826](./image/qjry4h-0.png)
+![image-20230629160523826](image/Linux安全_time_1.png)
 
-![image-20230629160857998](./image/qlpssq-0.png)
+![image-20230629160857998](image/Linux安全_time_2.png)
 
-![image-20230629170459889](./image/s76s3s-0.png)
+![image-20230629170459889](image/Linux安全_time_3.png)
 
-## 1.对称加密算法
+## 1.1 1.对称加密算法
 
-![image-20230630104936044](./image/hcw1vr-0.png)
+![image-20230630104936044](image/Linux安全_time_4.png)
 
-![image-20230630155515462](./image/ppwo1x-0.png)
+![image-20230630155515462](image/Linux安全_time_5.png)
 
 
 
-## 2.非对称加密算法
+## 1.2 2.非对称加密算法
 
-![image-20230630111419704](./image/ifdzq1-0.png)
+![image-20230630111419704](image/Linux安全_time_6.png)
 
-![image-20230630111624736](./image/igln2v-0.png)
+![image-20230630111624736](image/Linux安全_time_7.png)
 
-![image-20230630111733436](./image/ih8r56-0.png)
+![image-20230630111733436](image/Linux安全_time_8.png)
 
-![image-20230630111744730](./image/ihbbc9-0.png)
+![image-20230630111744730](image/Linux安全_time_9.png)
 
 > 非对称算法虽然安全性高，但是效率低下，比如：
 >
@@ -30,7 +30,7 @@
 >
 > RSA：1G 加密1m 解密64H
 
-![image-20230630113136794](./image/iplnwz-0.png)
+![image-20230630113136794](image/Linux安全_time_10.png)
 
 ```bash
 # 非对称算法实例
@@ -61,49 +61,49 @@ gpg -e -r magedu 1
 gpg -o 1 -d /data/1.gpg 
 ```
 
-![image-20230630165716693](./image/ren5ue-0.png)
+![image-20230630165716693](image/Linux安全_time_11.png)
 
-## 3.单向散列(哈希)
+## 1.3 3.单向散列(哈希)
 
-![image-20230630112329711](./image/iksung-0.png)
+![image-20230630112329711](image/Linux安全_time_12.png)
 
 > 综合使用
 
-![image-20230630113807044](./image/itlb1c-0.png)
+![image-20230630113807044](image/Linux安全_time_13.png)
 
 
 
-## 4.密钥交换
+## 1.4 4.密钥交换
 
-![image-20230630154730277](./image/plapin-0.png)
-
-
-
-# 2.证书
-
-![image-20230630170131981](./image/s4zqlc-0.png)
-
-![image-20230630193845272](./image/w2gptp-0.png)
-
-![image-20230630173200182](./image/sn9fox-0.png)
-
-![image-20230630193954477](./image/w2rlri-0.png)
-
-![image-20230630194831961](./image/w7zj6y-0.png)
-
-![image-20230630194924480](./image/w8jlpz-0.png)
-
-![image-20230630194954185](./image/w8q0pa-0.png)
-
-![image-20230630195149809](./image/w9vopc-0.png)
+![image-20230630154730277](image/Linux安全_time_14.png)
 
 
 
-## 1.OpenSSL
+# 2 2.证书
 
-![image-20230630195954726](./image/x2skgm-0.png)
+![image-20230630170131981](image/Linux安全_time_15.png)
 
-![image-20230630200926942](./image/x8a0ck-0.png)
+![image-20230630193845272](image/Linux安全_time_16.png)
+
+![image-20230630173200182](image/Linux安全_time_17.png)
+
+![image-20230630193954477](image/Linux安全_time_18.png)
+
+![image-20230630194831961](image/Linux安全_time_19.png)
+
+![image-20230630194924480](image/Linux安全_time_20.png)
+
+![image-20230630194954185](image/Linux安全_time_21.png)
+
+![image-20230630195149809](image/Linux安全_time_22.png)
+
+
+
+## 2.1 1.OpenSSL
+
+![image-20230630195954726](image/Linux安全_time_23.png)
+
+![image-20230630200926942](image/Linux安全_time_24.png)
 
 ```bash
 在 OpenSSL 中，-salt 选项用于对加密的数据添加一个随机生成的盐（salt）。盐是一个随机字符串，与待加密的数据一起参与加密运算，增加密码学的强度防止相同的明文密码产生相同的密文。
@@ -111,13 +111,13 @@ gpg -o 1 -d /data/1.gpg
 使用 -salt 选项，可以确保每次加密都会生成不同的密文，即使明文密码相同，因为每个加密操作都会使用独特的盐。
 ```
 
-![image-20230630202539251](./image/xhxzsf-0.png)
+![image-20230630202539251](image/Linux安全_time_25.png)
 
-![image-20230630202750687](./image/xj4xog-0.png)
+![image-20230630202750687](image/Linux安全_time_26.png)
 
-![image-20230630204157591](./image/xrtdx1-0.png)
+![image-20230630204157591](image/Linux安全_time_27.png)
 
-![image-20230630204436731](./image/xt6b4f-0.png)
+![image-20230630204436731](image/Linux安全_time_28.png)
 
 > `umask` 是一个 Unix/Linux 命令，用于设置文件创建的默认权限掩码（文件权限屏蔽值）。权限掩码决定了新创建文件的权限。具体来说，`umask` 命令用于从当前权限掩码中减去指定的权限位，来设置新创建文件的权限。
 >
@@ -129,15 +129,15 @@ gpg -o 1 -d /data/1.gpg
 
 
 
-## 2.建立私有CA
+## 2.2 2.建立私有CA
 
-![image-20230630210453199](./image/ytapfb-0.png)
+![image-20230630210453199](image/Linux安全_time_29.png)
 
-![image-20230630210959998](./image/yw8ycx-0.png)
+![image-20230630210959998](image/Linux安全_time_30.png)
 
-## 3.实验：建立一个私有CA，为用户颁发证书
+## 2.3 3.实验：建立一个私有CA，为用户颁发证书
 
-### 1.建立CA
+### 2.3.1 1.建立CA
 
 ```bash
 # 生成私钥
@@ -166,7 +166,7 @@ echo 0F > /etc/pki/CA/serial
 
 
 
-### 2.申请证书
+### 2.3.2 2.申请证书
 
 ```bash
 # 
@@ -179,40 +179,40 @@ scp app.csr root@192.168.19.136:/data
 
 
 
-### 3.颁发证书
+### 2.3.3 3.颁发证书
 
 ```bash
 #
 openssl ca -in /data/app.csr -out /etc/pki/CA/certs/app.crt -days 100
 ```
 
-![image-20230630220551529](./image/10hf5tj-0.png)
+![image-20230630220551529](image/Linux安全_time_31.png)
 
-![image-20230630220608796](./image/10hgjkt-0.png)
+![image-20230630220608796](image/Linux安全_time_32.png)
 
 > 如果想要不一致，请修改/etc/pki/tls/openssl.cnf文件中的策略
 >
 > 默认相同的请求文件是无法生成多个证书的，如果想生成多个证书，修改/etc/pki/CA/index.txt.attr中为no
 
-![image-20230630220634385](./image/10hlzoq-0.png)
+![image-20230630220634385](image/Linux安全_time_33.png)
 
 
 
-# 3.SSH
+# 3 3.SSH
 
-![image-20230701095542238](./image/ftccqf-0.png)
+![image-20230701095542238](image/Linux安全_time_34.png)
 
-![image-20230701101323996](./image/grdg7v-0.png)
+![image-20230701101323996](image/Linux安全_time_35.png)
 
-![image-20230701104333765](./image/h99fsa-0.png)
+![image-20230701104333765](image/Linux安全_time_36.png)
 
-![image-20230701104832183](./image/hc7uhv-0.png)
+![image-20230701104832183](image/Linux安全_time_37.png)
 
-![image-20230701104729307](./image/hbmcp4-0.png)
+![image-20230701104729307](image/Linux安全_time_38.png)
 
-![image-20230701104852615](./image/hcl4sm-0.png)
+![image-20230701104852615](image/Linux安全_time_39.png)
 
-![image-20230701145248857](./image/o14kop-0.png)
+![image-20230701145248857](image/Linux安全_time_40.png)
 
 > 如果想在第一次连接其他主机时不询问yes or no，去客户端配置文件把StrictHostKeyChecking的值改为no
 
@@ -223,17 +223,17 @@ openssl ca -in /data/app.csr -out /etc/pki/CA/certs/app.crt -days 100
 ssh -t 192.168.37.7 ssh -t 192.168.37.101 ssh 192.168.37.5
 ```
 
-![image-20230701153310599](./image/pct768-0.png)
+![image-20230701153310599](image/Linux安全_time_41.png)
 
-![image-20230701153447027](./image/pdxtp8-0.png)
+![image-20230701153447027](image/Linux安全_time_42.png)
 
-![image-20230701153529586](./image/pe4lj2-0.png)
+![image-20230701153529586](image/Linux安全_time_43.png)
 
-![image-20230701153607675](./image/pekfjk-0.png)
+![image-20230701153607675](image/Linux安全_time_44.png)
 
-![image-20230701154038762](./image/ph5p2r-0.png)
+![image-20230701154038762](image/Linux安全_time_45.png)
 
-![image-20230701154207436](./image/pi4u6n-0.png)
+![image-20230701154207436](image/Linux安全_time_46.png)
 
 ```bash
 [root@test ~]# ssh-keygen -t rsa
@@ -242,7 +242,7 @@ ssh -t 192.168.37.7 ssh -t 192.168.37.101 ssh 192.168.37.5
 
 
 
-## 1.ssh基于key的expect自动化脚本
+## 3.1 1.ssh基于key的expect自动化脚本
 
 ```bash
 #!/bin/bash
@@ -262,35 +262,35 @@ echo $IP is ready
 done < hosts.txt
 ```
 
-![image-20230702150628690](./image/oxjr6x-0.png)
+![image-20230702150628690](image/Linux安全_time_47.png)
 
-![image-20230702153123204](./image/pbr3o8-0.png)
+![image-20230702153123204](image/Linux安全_time_48.png)
 
-![image-20230702153209762](./image/pc77vf-0.png)
+![image-20230702153209762](image/Linux安全_time_49.png)
 
-![image-20230702154048674](./image/ph7nrp-0.png)
+![image-20230702154048674](image/Linux安全_time_50.png)
 
-![image-20230702154815728](./image/plrl3c-0.png)
-
-
-
-## 2.SSH端口转发
-
-![image-20230702155701762](./image/pr3nkp-0.png)
-
-![image-20230702161712250](./image/qqvk95-0.png)
-
-![image-20230702165124463](./image/rb73mv-0.png)
-
-![image-20230702170057083](./image/s4sgyk-0.png)
-
-![image-20230702175739186](./image/t2dyst-0.png)
+![image-20230702154815728](image/Linux安全_time_51.png)
 
 
 
-## 3.SSH安全配置
+## 3.2 2.SSH端口转发
 
-![image-20230702175858528](./image/t3cv1u-0.png)
+![image-20230702155701762](image/Linux安全_time_52.png)
+
+![image-20230702161712250](image/Linux安全_time_53.png)
+
+![image-20230702165124463](image/Linux安全_time_54.png)
+
+![image-20230702170057083](image/Linux安全_time_55.png)
+
+![image-20230702175739186](image/Linux安全_time_56.png)
+
+
+
+## 3.3 3.SSH安全配置
+
+![image-20230702175858528](image/Linux安全_time_57.png)
 
 > 1. `Port`：定义服务器监听的端口号，默认为 22。
 > 2. `ListenAddress`：指定服务器监听的 IP 地址。默认情况下，服务器会监听全部可用的地址。
@@ -313,7 +313,7 @@ done < hosts.txt
 > 19. `MaxStartups`：限制并发连接到服务器的数量。默认值为10:30:100。意思是超过30并发数就拒绝百分之30的连接，超过100就拒绝百分百
 > 20. `GatewayPorts`：控制 SSH 端口转发的目标。默认情况下，`GatewayPorts` 的值被设置为 `no`，这意味着 SSH 端口转发只会绑定到本地接口上（即 `localhost` 或 `127.0.0.1`）。这样，只有本地的用户可以访问被转发的端口。
 
-![image-20230702200808702](./image/x7msyk-0.png)
+![image-20230702200808702](image/Linux安全_time_58.png)
 
 ```bash
 lastb显示最近失败的登录尝试记录。该命令读取并解析 /var/log/btmp 文件，该文件记录了系统上失败的登录尝试。
@@ -327,20 +327,20 @@ lastb显示最近失败的登录尝试记录。该命令读取并解析 /var/log
 
 
 
-# 4.sudo
+# 4 4.sudo
 
-![](./image/xig2rr-0.png)
+![](image/Linux安全_time_59.png)
 
-![image-20230701203757926](./image/xpdr0a-0.png)
+![image-20230701203757926](image/Linux安全_time_60.png)
 
-![image-20230701202844020](./image/xjovut-0.png)
+![image-20230701202844020](image/Linux安全_time_61.png)
 
-![image-20230701203205801](./image/xluhwi-0.png)
+![image-20230701203205801](image/Linux安全_time_62.png)
 
-![image-20230701203229108](./image/xlzcub-0.png)
+![image-20230701203229108](image/Linux安全_time_63.png)
 
-![image-20230701203254268](./image/xm56ro-0.png)
+![image-20230701203254268](image/Linux安全_time_64.png)
 
-![image-20230701203330782](./image/xmlqie-0.png)
+![image-20230701203330782](image/Linux安全_time_65.png)
 
-![image-20230701203703941](./image/xovz09-0.png)
+![image-20230701203703941](image/Linux安全_time_66.png)
