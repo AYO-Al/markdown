@@ -1,4 +1,5 @@
-[Protobuf中文文档](https://protobuf.com.cn/)
+更多详细信息可以参考：[Protobuf中文文档](https://protobuf.com.cn/)
+
 # 1 下载protobuf
 
 protocol buffer 编译器 `protoc` 用于编译 `.proto` 文件，其中包含服务和消息定义。选择以下方法之一来安装 `protoc`。
@@ -155,13 +156,12 @@ protobuf wire 格式是精简的，并且没有提供一种方法来检测使用
 如果任何未来的开发人员尝试使用这些保留的字段编号，protoc 编译器将生成错误消息。
 ```protobuf
 message foo{
-    reserved 2,3,4,9 to 11
+    reserved 2,3,4,9 to 11,12 to max; // 不能在一个reserved语句中混用字段名称和数值
     reserved "foo", "bar";
 }
 ```
 
 稍后重用旧字段名称通常是安全的，除非在使用 TextProto 或 JSON 编码时，字段名称会被序列化。为避免此风险，你可以将删除的字段名称添加到 `reserved` 列表中。
-
 
 ## 3.6 嵌套消息
 
@@ -267,7 +267,7 @@ enum Corpus {
   CORPUS_IMAGES = 3;
   CORPUS_LOCAL = 4;
   CORPUS_NEWS = 5;
-  CORPUS_PRODUCTS = 6;
+  CORPUS_PRODUCTS = 6 [deprecated = true]; // 不再使用这个值
   CORPUS_VIDEO = 7;
 }
 
@@ -275,9 +275,174 @@ message SearchRequest {
   string query = 1;
   int32 page_number = 2;
   int32 results_per_page = 3;
-  Corpus corpus = 4;
+  Corpus corpus = 4;   
 }
 
 ```
 
 枚举器常量必须在 32 位整数的范围内。由于 `enum` 值在 wire 上使用[varint 编码](https://protobuf.com.cn/programming-guides/encoding)，因此负值效率低下，因此不建议使用。
+
+```protobuf
+message Venue {
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_CONCERT_HALL = 1;
+    KIND_STADIUM = 2;
+    KIND_BAR = 3;
+    KIND_OPEN_AIR_FESTIVAL = 4;
+  }
+  Kind kind = 1;
+  // ...
+}
+
+// 一个类型和一系列具有该类型的常量
+// 对于消息内的枚举（如上面的枚举），类型名称以消息名称开头
+// 包级枚举直接使用枚举名
+type Venue_Kind int32
+
+const (
+    Venue_KIND_UNSPECIFIED       Venue_Kind = 0
+    Venue_KIND_CONCERT_HALL      Venue_Kind = 1
+    Venue_KIND_STADIUM           Venue_Kind = 2
+    Venue_KIND_BAR               Venue_Kind = 3
+    Venue_KIND_OPEN_AIR_FESTIVAL Venue_Kind = 4
+)
+
+```
+## 3.12 导入定义
+
+可以通过_导入_来使用其他 `.proto` 文件中的定义。要导入另一个 `.proto` 文件的定义，请在文件顶部添加导入语句。
+
+```go
+import "myproject/other_protos.proto";
+```
+
+默认情况下，您只能使用直接导入的 `.proto` 文件中的定义。但是，有时您可能需要将 `.proto` 文件移动到新的位置。与其直接移动 `.proto` 文件并在一次更改中更新所有调用点，不如在旧位置放置一个占位符 `.proto` 文件，以使用 `import public` 概念将所有导入转发到新位置。
+
+**请注意，公共导入功能在 Java、Kotlin、TypeScript、JavaScript、GCL 以及使用 protobuf 静态反射的 C++ 目标中不可用。**
+
+| 特性            | 普通 `import` | `import public`              |
+| ------------- | ----------- | ---------------------------- |
+| ​**​依赖可见性​**​ | 仅当前文件可见     | 当前文件 ​**​及导入当前文件的其他文件​**​ 可见 |
+| ​**​传递性​**​   | ❌ 不可传递      | ✅ 可传递                        |
+| ​**​典型用途​**​  | 直接使用其他文件的定义 | 创建公共接口或聚合依赖                  |
+```go
+// new.proto
+// All definitions are moved here
+
+
+// old.proto
+// This is the proto that all clients are importing.
+import public "new.proto";
+import "other.proto";
+
+// client.proto
+import "old.proto";
+// You use definitions from old.proto and new.proto, but not other.proto
+
+```
+## 3.13 Oneof
+
+如果您有一个包含许多 singular 字段的消息，并且最多同时设置一个字段，则可以使用 oneof 功能来强制执行此行为并节省内存。
+
+Oneof 字段类似于可选字段，不同之处在于 oneof 中的所有字段共享内存，并且最多可以同时设置一个字段。设置 oneof 的任何成员都会自动清除所有其他成员。您可以使用特殊的 `case()` 或 `WhichOneof()` 方法（取决于您选择的语言）来检查 oneof 中设置了哪个值（如果有）。
+
+请注意，如果设置了多个值，则由 proto 中的顺序确定的最后一个设置值将覆盖所有先前的值。
+
+Oneof 字段的字段编号在封闭消息中必须是唯一的。
+
+```protobuf
+message SampleMessage {
+  oneof test_oneof {
+    string name = 4;
+    SubMessage sub_message = 9;
+  }
+}
+```
+
+然后，将您的 oneof 字段添加到 oneof 定义中。您可以添加任何类型的字段，除了 `map` 字段和 `repeated` 字段。如果需要向 oneof 添加重复字段，可以使用包含重复字段的消息，Oneof 不能是 `repeated`。
+
+```go
+  
+type HelloResponse struct {  
+    state       protoimpl.MessageState `protogen:"open.v1"`  
+    ResponseMsg string                 `protobuf:"bytes,1,opt,name=responseMsg,proto3" json:"responseMsg,omitempty"`  
+    // Types that are valid to be assigned to TestOneof:  
+    //    // *HelloResponse_One  
+    // *HelloResponse_Tow  
+    TestOneof     isHelloResponse_TestOneof `protobuf_oneof:"test_oneof"`  
+    unknownFields protoimpl.UnknownFields  
+    sizeCache     protoimpl.SizeCache  
+}
+
+  
+type isHelloResponse_TestOneof interface {  
+    isHelloResponse_TestOneof()  
+}  
+  
+type HelloResponse_One struct {  
+    One string `protobuf:"bytes,3,opt,name=one,proto3,oneof"`  
+}  
+  
+type HelloResponse_Tow struct {  
+    Tow string `protobuf:"bytes,4,opt,name=tow,proto3,oneof"`  
+}  
+  
+func (*HelloResponse_One) isHelloResponse_TestOneof() {}  
+  
+func (*HelloResponse_Tow) isHelloResponse_TestOneof() {}
+```
+### 3.13.1 使用oneof类型
+
+```go
+package account;
+message Profile {
+  oneof avatar {
+    string image_url = 1;
+    bytes image_data = 2;
+  }
+}
+
+
+type Profile struct {
+    // Types that are valid to be assigned to Avatar:
+    //  *Profile_ImageUrl
+    //  *Profile_ImageData
+    Avatar isProfile_Avatar `protobuf_oneof:"avatar"`
+}
+
+type Profile_ImageUrl struct {
+        ImageUrl string
+}
+type Profile_ImageData struct {
+        ImageData []byte
+}
+
+
+p1 := &account.Profile{
+  Avatar: &account.Profile_ImageUrl{ImageUrl: "http://example.com/image.png"},
+}
+
+// imageData is []byte
+imageData := getImageData()
+p2 := &account.Profile{
+  Avatar: &account.Profile_ImageData{ImageData: imageData},
+}
+
+
+switch x := m.Avatar.(type) {
+case *account.Profile_ImageUrl:
+    // Load profile image based on URL
+    // using x.ImageUrl
+case *account.Profile_ImageData:
+    // Load profile image based on bytes
+    // using x.ImageData
+case nil:
+    // The field is not set.
+default:
+    return fmt.Errorf("Profile.Avatar has unexpected type %T", x)
+}
+
+```
+
+编译器还会生成 get 方法 `func (m *Profile) GetImageUrl() string` 和 `func (m *Profile) GetImageData() []byte`。每个 get 函数都返回该字段的值，如果未设置，则返回零值。
