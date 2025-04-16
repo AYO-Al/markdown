@@ -446,3 +446,139 @@ default:
 ```
 
 编译器还会生成 get 方法 `func (m *Profile) GetImageUrl() string` 和 `func (m *Profile) GetImageData() []byte`。每个 get 函数都返回该字段的值，如果未设置，则返回零值。
+# 4 ProtoBuf限制
+
+## 4.1 字段数量
+
+仅包含奇异 proto 字段（例如 Boolean）的消息
+
+- ~2100 个字段 (proto2)
+- ~3100 (proto3，不使用可选字段)
+
+由奇异字段（例如 Boolean）扩展的空消息
+
+- ~4100 个字段 (proto2)
+
+proto3 中不支持扩展。
+
+要测试此限制，请创建一个字段数量超过上限的 proto 消息，并使用 Java proto 规则进行编译。此限制来自 JVM 规范。
+
+## 4.2 枚举中值的数量
+
+最低限制约为 1700 个值，在 Java 中。其他语言有不同的限制。
+
+## 4.3 消息总大小
+
+任何序列化形式的 proto 都必须 <2GiB，因为这是所有实现都支持的最大大小。建议限制请求和响应大小。
+
+## 4.4 Proto 反序列化的深度限制
+
+- Java: 100
+- C++: 100
+- Go: 10000（计划将其减少到 100）
+
+如果您尝试反序列化深度超过深度限制的嵌套消息，则反序列化将失败。
+# 5 语言风格
+
+## 5.1 标准文件格式
+
+- 保持行长为 80 个字符。
+- 使用 2 个空格的缩进。
+- 首选使用双引号表示字符串。
+
+## 5.2 文件结构
+
+文件应命名为 `lower_snake_case.proto`。
+
+所有文件应按以下顺序排列
+
+1. 许可证标头（如果适用）
+2. 文件概述
+3. 语法
+4. 包
+5. 导入（已排序）
+6. 文件选项
+7. 其他所有内容
+
+## 5.3 包
+
+使用点分隔的 lower_snake_case 名称作为包名称。
+
+多词包名称可以是 lower_snake_case 或点分隔的（点分隔的包名称在大多数语言中作为嵌套包/命名空间发出）。
+
+包名称应尝试成为基于项目名称的简短但唯一的名称。包名称不应是 Java 包（`com.x.y`）；而应使用 `x.y` 作为包，并根据需要使用 `java_package` 选项。
+
+## 5.4 消息名称
+
+对消息名称使用 TitleCase。
+
+```protobuf
+`message SongRequest { }`
+```
+
+## 5.5 字段名称
+
+对字段名称（包括扩展）使用 snake_case。
+
+对重复字段使用复数名称。
+
+```protobuf
+`string song_name = 1; repeated Song songs = 2;`
+```
+
+## 5.6 Oneof 名称
+
+对 oneof 名称使用 lower_snake_case。
+
+```protobuf
+`oneof song_id {   string song_human_readable_id = 1;  int64 song_machine_id = 2; }`
+
+```
+## 5.7 枚举
+
+对枚举类型名称使用 TitleCase。
+
+对枚举值名称使用 UPPER_SNAKE_CASE。
+
+```protobuf
+`enum FooBar {   FOO_BAR_UNSPECIFIED = 0;  FOO_BAR_FIRST_VALUE = 1;  FOO_BAR_SECOND_VALUE = 2; }`
+```
+
+第一个列出的值应为零值枚举，并带有 `_UNSPECIFIED` 或 `_UNKNOWN` 后缀。此值可用作未知/默认值，并且应与您期望显式设置的任何语义值不同。有关未指定的枚举值的更多信息，请参阅 [Proto 最佳实践页面](https://protobuf.com.cn/best-practices/dos-donts#unspecified-enum)。
+
+#### 5.7.1.1 枚举值前缀
+
+枚举值在语义上被认为不受其包含的枚举名称的范围限制，因此两个同级枚举中的相同名称是不允许的。例如，以下内容将被 protoc 拒绝，因为在两个枚举中定义的 `SET` 值被认为在同一范围内
+
+```protobuf
+`enum CollectionType {   
+COLLECTION_TYPE_UNSPECIFIED = 0;  
+SET = 1;  
+MAP = 2;  
+ARRAY = 3; } 
+
+enum TennisVictoryType {   
+TENNIS_VICTORY_TYPE_UNSPECIFIED = 0;  
+GAME = 1; 
+SET = 2; 
+MATCH = 3; }`
+```
+
+当枚举在文件的顶层定义时（未嵌套在消息定义内），名称冲突的风险很高；在这种情况下，同级包括在设置相同包的其他文件中定义的枚举，protoc 可能无法在代码生成时检测到冲突已发生。
+
+为了避免这些风险，强烈建议执行以下操作之一
+
+- 使用枚举名称（转换为 UPPER_SNAKE_CASE）作为每个值的前缀
+- 将枚举嵌套在包含消息中
+
+任一选项都足以减轻冲突风险，但首选带有前缀值的顶级枚举，而不是仅为减轻问题而创建消息。由于某些语言不支持在“struct”类型中定义枚举，因此首选前缀值可确保跨绑定语言的一致方法。
+
+## 5.8 服务
+
+对服务名称和方法名称使用 TitleCase。
+
+```protobuf
+`service FooService {   
+rpc GetSomething(GetSomethingRequest) returns (GetSomethingResponse);  
+rpc ListSomething(ListSomethingRequest) returns (ListSomethingResponse); }`
+```
