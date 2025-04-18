@@ -8,31 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "97cd697f0ab23de9",
+            "id": "3b8c31eccc0cf1c2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/RPC/Protobuf.md",
+                "file": "go/包/命令行/flag.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Protobuf"
-            }
-          },
-          {
-            "id": "ba6f8dceb932de75",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/框架/RPC/gRPC.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "gRPC"
+              "title": "flag"
             }
           },
           {
@@ -41,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
+                "file": "go/包/exec.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "命令"
+              "title": "exec"
             }
           },
           {
@@ -63,7 +49,8 @@
               "title": "公钥和私钥"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -120,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 351.5,
-    "collapsed": true
+    "width": 232.5
   },
   "right": {
     "id": "a689601275098279",
@@ -137,13 +123,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/RPC/Protobuf.md",
+                "file": "go/包/exec.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Protobuf 的大纲"
+              "title": "exec 的大纲"
             }
           },
           {
@@ -175,7 +161,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/框架/RPC/Protobuf.md",
+                "file": "go/包/exec.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -185,7 +171,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Protobuf 的反向链接列表"
+              "title": "exec 的反向链接列表"
             }
           },
           {
@@ -194,12 +180,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/框架/RPC/Protobuf.md",
+                "file": "go/包/exec.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               },
               "icon": "links-going-out",
-              "title": "Protobuf 的出链列表"
+              "title": "exec 的出链列表"
             }
           },
           {
@@ -212,8 +198,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -231,12 +216,27 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "4f025df8568e6bac",
   "lastOpenFiles": [
+    "go/包/命令行/flag.md",
+    "go/包/exec.md",
+    "云计算/shell编程/命令/命令.md",
+    "go/包/命令行",
+    "go/未命名",
+    "go/包/路径处理/filepath.md",
+    "go/包/io处理/io.md",
+    "go/包/文本处理.md",
+    "分布式版本控制系统/git.md",
+    "go/包/io处理",
+    "go/包/路径处理/path.md",
+    "go/基础/go基础.md",
+    "go/包/路径处理",
+    "云计算/监控/prometheus/Prometheus配置.md",
+    "云计算/监控/prometheus/Prometheus.md",
+    "云计算/监控/prometheus",
+    "云计算/监控/未命名.md",
     "go/框架/RPC/gRPC.md",
     "go/框架/RPC/Protobuf.md",
-    "分布式版本控制系统/git.md",
-    "云计算/shell编程/命令/命令.md",
     "go/框架/RPC/微服务.md",
     "计算机基础/网络/公钥和私钥.md",
     "web/vue/vue(粗).md",
@@ -254,14 +254,8 @@
     "go/包/template.md",
     "go/框架/Web开发/gin-web开发.md",
     "go/框架/RPC",
-    "go/包/Context.md",
-    "go/框架/API接口文档/Swag.md",
     "go/框架/API接口文档",
-    "conflict-files-obsidian-git.md",
     "数据库/mysql/数据库优化/image/数据库优化_time_1.png",
-    "go/包/sync.md",
-    "go/包/文本处理.md",
-    "go/包/正则：regexp.md",
     "分布式版本控制系统/image/git_time_10.png",
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
     "分布式版本控制系统/image/tmp1743689270922_git_time_9.png",
@@ -269,15 +263,6 @@
     "分布式版本控制系统/image/tmp1743691699799_git_time_10.png",
     "分布式版本控制系统/image/git_time_12.png",
     "分布式版本控制系统/image/git_time_11.png",
-    "go/框架/命令行/Cobra-命令行框架.md",
-    "go/基础/go基础.md",
-    "go/包/log.md",
-    "go/包/http.md",
-    "go/框架/配置文件",
-    "web/vue",
-    "go/框架/Web开发/image",
-    "go/项目/mydocker/image",
-    "go/项目/MyGin",
-    "Excalidraw"
+    "go/框架/配置文件"
   ]
 }

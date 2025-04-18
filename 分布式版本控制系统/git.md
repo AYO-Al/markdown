@@ -520,6 +520,7 @@ git cherry-pick --abort
 	
 - 参数设置：
 	- `git config core.igorecase false`：关闭忽略大小写
+	- `git config alias.st status`：设置别名
 
 ## 2.4 .gitignore
 在git中可以在.gitigore文件中编写一定的规则，让git管理时忽略一些文件。编写规则的语法如下：
