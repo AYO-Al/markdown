@@ -217,14 +217,20 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "965c1a68484d648e",
   "lastOpenFiles": [
+    "分布式版本控制系统/git.md",
+    "计算机基础/网络/网络架构.md",
+    "计算机基础/网络/计网.md",
+    "计算机基础/网络/公钥和私钥.md",
+    "计算机基础/网络/常用状态码.md",
+    "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
+    "README.md",
     "image/README_time_1.jpg",
     "image",
     "go/包/log.md",
     "go/包/Json处理.md",
     "go/包/http.md",
-    "README.md",
     "go/基础/golang.md",
     "go/基础/go基础.md",
     "云计算/监控/prometheus/PromQL.md",
@@ -245,14 +251,9 @@
     "go/包/路径处理/filepath.md",
     "go/包/io处理/io.md",
     "go/包/文本处理.md",
-    "分布式版本控制系统/git.md",
     "go/包/io处理",
-    "go/包/路径处理/path.md",
     "go/包/路径处理",
     "云计算/监控/prometheus",
-    "云计算/监控/未命名.md",
-    "go/框架/RPC/gRPC.md",
-    "go/框架/RPC/Protobuf.md",
     "go/框架/RPC/image/gRPC_time_2.png",
     "go/框架/RPC/image/hello.pb.go",
     "go/框架/RPC/image/gRPC_time_1.png",
@@ -263,7 +264,6 @@
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
     "分布式版本控制系统/image/tmp1743689270922_git_time_9.png",
     "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
-    "分布式版本控制系统/image/tmp1743691699799_git_time_10.png",
-    "分布式版本控制系统/image/git_time_12.png"
+    "分布式版本控制系统/image/tmp1743691699799_git_time_10.png"
   ]
 }
