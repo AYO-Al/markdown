@@ -27,17 +27,22 @@
 	- 查看版本历史等
 - 版本库同步
 	- 将本地修改推送到版本服务器
+
 	![](./image/git_time_1.png)
 - Git文件存储方式：以全量的方式管理文件，直接记录快照，而非差异比较
+
 	![](./image/git_time_2.png)
 - Git文件状态
 	- Git文件：已经被版本库管理的文件
 	- 已修改：在工作目录修改Git文件
 	- 已暂存：对已修改的文件执行Git暂存操作，将文件存入暂存区
 	- 已提交：将已暂存的文件执行Git提交操作，将文件存入版本库
+
 	![](./image/git_time_3.png)
+	
 	![](./image/git_time_4.png)
 - 本地版本库与服务器版本库
+
 	![](./image/git_time_5.png)
 
 ## 2.3 Git常用命令
@@ -537,6 +542,7 @@ git cherry-pick --abort
 ## 2.5 分支
 
 分支是git中一个非常重要的概念。分支其实就是一条commit对象链(一条工作记录线)
+
 ![](./image/git_time_6.png)
 有常见操作有以下几种：
 - git branch \[branchname]: 查看/创建分支，带\*的为当前所在分支。
@@ -565,6 +571,7 @@ git branch -d feature # 删除本地分支
 合并是将一个分支中的更改集成到另一个分支中的一种方法。在任何合并中，都有一个要合并的分支，称为源分支，还有一个要合并的分支，称为目标分支。源分支是包含要集成到目标分支中的更改的分支。目标分支是接收更改的分支，因此是在此操作中唯一更改的分支。
 
 快进合并：master没有做任何修改，直接就是把master指向最新的提交。
+
 ![](./image/git_time_7.png)
 
 三方合并：master和分支都做了操作，如果有冲突需要手动解决冲突再合并。有冲突的文件会变成下面这样。git会把这两个冲突节点和他们共同的祖先节点一起合并，称之为三方合并。解决完冲突后使用`git add filename`标记解决冲突，再使用`git commit`提交合并。
@@ -591,9 +598,11 @@ git branch -d feature # 删除本地分支
 还可以在三方合并时使用 `rebase` 命令，该命令有五个阶段，都是自动执行，只有在发生冲突的时候才需要介入：
 - 找到共同祖先：git将确认rebase的两个分支的共同祖先，你所在的分支和正在rebase的分支
 - 存储关于参与rebase的分支信息：git会将所在分支的每个提交信息存到临时区域
+
 ![](image/git_time_10.png)
 - 重置HEAD：重置HEAD指向正在rebase的分支相同的提交
 - 应用和提交更改：依次应用每个提交中的更改，并在每个更改集后进行提交
+
 ![](image/git_time_11.png)
 - 切换到重新定位的分支：将重置的分支指向重新应用到的最后一个提交，并检出该分支使HEAD指向它
 
@@ -759,9 +768,11 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 - rebase：变基，即改变分支的根基
 `git rebase` 是 Git 中一个强大的命令，用于将一个分支上的提交重新应用到另一个基底提交之上。与 `git merge` 相比，`git rebase` 可以创建一个更直线化的提交历史。
 - merge作用如下图
+
 ![](image/git_time_12.png)![](image/tmp1743691673705_git_time_11.png)
 - rebase作用如下图
 	- 使用rebase合并后，会把c5、c6删除，导致仓库的提交变成一条直线，实际上是把另一条分支的提交作用到主分支上
+
 ![](image/git_time_12.png)
 - 感觉上有点像`cherry-pick`命令，所以解决冲突的方式也和`cherry-pick`类似
 	- 把命令改为`git rebase --continue`
@@ -774,5 +785,3 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 	- 再使用`git rebase main`，如有冲突要解决完冲突
 	- 再切换到main分支，使用`git rebase bugfix`，使HEAD快进到变基后的bugfix节点
 ![](./image/git_time_13.png)
-
-#TODO:amend提交

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "分布式版本控制系统/git.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "git"
             }
           },
           {
@@ -219,13 +219,15 @@
   },
   "active": "965c1a68484d648e",
   "lastOpenFiles": [
+    "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
+    "分布式版本控制系统/image/tmp1743691699799_git_time_10.png",
     "分布式版本控制系统/git.md",
+    "README.md",
     "计算机基础/网络/网络架构.md",
     "计算机基础/网络/计网.md",
     "计算机基础/网络/公钥和私钥.md",
     "计算机基础/网络/常用状态码.md",
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
-    "README.md",
     "image/README_time_1.jpg",
     "image",
     "go/包/log.md",
@@ -250,7 +252,6 @@
     "go/未命名",
     "go/包/路径处理/filepath.md",
     "go/包/io处理/io.md",
-    "go/包/文本处理.md",
     "go/包/io处理",
     "go/包/路径处理",
     "云计算/监控/prometheus",
@@ -262,8 +263,6 @@
     "数据库/mysql/数据库优化/image/数据库优化_time_1.png",
     "分布式版本控制系统/image/git_time_10.png",
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
-    "分布式版本控制系统/image/tmp1743689270922_git_time_9.png",
-    "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
-    "分布式版本控制系统/image/tmp1743691699799_git_time_10.png"
+    "分布式版本控制系统/image/tmp1743689270922_git_time_9.png"
   ]
 }
