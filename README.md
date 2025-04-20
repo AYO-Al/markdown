@@ -1,4 +1,4 @@
-# 1 AYO-Site
+# AYO-Site
 
 欢迎来到AYO的个人博客网站。
 

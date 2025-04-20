@@ -1,4 +1,3 @@
-# 1 encoding/json
 
 `encoding/json`为官方自带JSON处理包。
 
