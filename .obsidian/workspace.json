@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/监控/prometheus/PromQL.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PromQL"
+              "title": "README"
             }
           },
           {
@@ -123,13 +123,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/PromQL.md",
+                "file": "README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "PromQL 的大纲"
+              "title": "README 的大纲"
             }
           },
           {
@@ -180,12 +180,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "云计算/监控/prometheus/PromQL.md",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": false
               },
               "icon": "links-going-out",
-              "title": "PromQL 的出链列表"
+              "title": "README 的出链列表"
             }
           },
           {
@@ -219,8 +219,16 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "云计算/监控/prometheus/架构说明.md",
+    "image/README_time_1.jpg",
+    "image",
+    "go/包/log.md",
+    "go/包/Json处理.md",
+    "go/包/http.md",
+    "README.md",
+    "go/基础/golang.md",
+    "go/基础/go基础.md",
     "云计算/监控/prometheus/PromQL.md",
+    "云计算/监控/prometheus/架构说明.md",
     "云计算/监控/prometheus/Prometheus配置.md",
     "云计算/监控/prometheus/软件安装.md",
     "云计算/监控/prometheus/image/架构说明_time_1.png",
@@ -230,7 +238,6 @@
     "云计算/shell编程/shell.md",
     "云计算/shell编程/shell脚本编程.md",
     "云计算/shell编程/shell高级编程.md",
-    "go/基础/go基础.md",
     "go/包/exec.md",
     "云计算/shell编程/命令/命令.md",
     "go/包/命令行",
@@ -246,18 +253,11 @@
     "云计算/监控/未命名.md",
     "go/框架/RPC/gRPC.md",
     "go/框架/RPC/Protobuf.md",
-    "go/框架/RPC/微服务.md",
-    "计算机基础/网络/公钥和私钥.md",
-    "web/vue/vue(粗).md",
-    "云计算/Linux/Linux安全.md",
-    "云计算/Linux/Linux命令.md",
-    "云计算/Linux/文件系统与磁盘.md",
     "go/框架/RPC/image/gRPC_time_2.png",
     "go/框架/RPC/image/hello.pb.go",
     "go/框架/RPC/image/gRPC_time_1.png",
     "go/框架/RPC/image",
     "go/框架/RPC",
-    "go/框架/API接口文档",
     "数据库/mysql/数据库优化/image/数据库优化_time_1.png",
     "分布式版本控制系统/image/git_time_10.png",
     "分布式版本控制系统/image/tmp1743689245657_git_time_8.png",
