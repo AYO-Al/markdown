@@ -544,7 +544,7 @@ method_code:http_errors:rate5m / ignoring(code) group_left method:http_requests:
 **PromQL ​​不支持多对多匹配​，需通过聚合或调整标签维度将问题转化为多对一或一对多模式。且group修饰符会默认保留多的一侧全部表情，可以通过group left(label)指定保留什么标签**
 ## 4.6 聚合操作
 
-Prometheus还提供了下列内置的聚合操作符，这些操作符作用域瞬时向量。可以将瞬时表达式返回的样本数据进行聚合，形成一个新的时间序列。
+Prometheus还提供了下列内置的聚合操作符，这些操作符作用于**瞬时向量**。可以将瞬时表达式返回的样本数据根据标签进行聚合，形成一个新的时间序列。
 
 | 操作符                | 描述                                      | 示例                                                                 |
 | ------------------ | --------------------------------------- | ------------------------------------------------------------------ |
@@ -574,20 +574,20 @@ without用于从计算结果中移除列举的标签，而保留其它标签。b
 
 想查看内置函数详细列表可以查看[内置函数](https://prometheus.io/docs/prometheus/latest/querying/functions/)。
 
-|函数名称|描述|示例|
-|---|---|---|
-|​**​`rate(v range-vector)`​**​|计算范围向量中​**​计数器（Counter）​**​的每秒平均增长率（自动处理计数器重置）。|`rate(http_requests_total[5m])`（过去5分钟的每秒请求速率）|
-|​**​`irate(v range-vector)`​**​|基于范围向量中​**​最后两个样本​**​计算瞬时速率（对短期波动敏感）。|`irate(node_network_receive_bytes_total[2m])`（当前网络接收速率）|
-|​**​`increase(v range-vector)`​**​|计算范围向量中的​**​绝对增量​**​（适用于计数器）。|`increase(http_errors_total[1h])`（过去1小时的总错误数）|
-|​**​`sum()`/`avg()`/`min()`/`max()`​**​|对向量求和、平均值、最小值、最大值。|`sum(rate(http_requests_total[5m])) by (service)`（按服务统计总请求速率）|
-|​**​`histogram_quantile(φ, v)`​**​|计算​**​直方图指标​**​的分位数（φ∈[0,1]，如0.9表示P90）。|`histogram_quantile(0.95, sum(rate(http_duration_bucket[5m])) by (le))`（全局P95延迟）|
-|​**​`predict_linear(v, t)`​**​|基于范围向量的线性回归，预测未来`t`秒后的值。|`predict_linear(node_filesystem_free_bytes[6h], 3600 * 4)`（预测4小时后磁盘剩余空间）|
-|​**​`label_replace(v, dst, repl, src, regex)`​**​|通过正则表达式修改标签（如提取子字符串）。|`label_replace(up, "ip", "$1", "instance", "([0-9.]+):.*")`（从`instance`标签提取IP地址）|
-|​**​`time()`​**​|返回当前时间的Unix时间戳（秒）。|`time() - process_start_time_seconds`（计算服务运行时长）|
-|​**​`absent()`​**​|检测指标是否不存在（用于监控数据缺失告警）。|`absent(up{job="api"})`（如果所有`api`实例宕机，返回1）|
-|​**​`resets()`​**​|统计计数器在时间范围内的重置次数。|`resets(http_requests_total[24h])`（过去24小时请求计数器的重置次数）|
-|​**​`clamp_min()`/`clamp_max()`​**​|限制指标值的下限或上限。|`clamp_min(node_memory_used_bytes, 1024^3)`（内存使用低于1GB时显示为1GB）|
-|​**​`scalar()`​**​|将单元素向量转换为标量。|`scalar(count(up))`（返回健康实例总数的标量值）|
+| 函数名称                                              | 描述                                              | 示例                                                                               |
+| ------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------- |
+| ​**​`rate(v range-vector)`​**​                    | 计算范围向量中​**​计数器（Counter）​**​的每秒平均增长率（自动处理计数器重置）。 | `rate(http_requests_total[5m])`（过去5分钟的每秒请求速率）                                    |
+| ​**​`irate(v range-vector)`​**​                   | 基于范围向量中​**​最后两个样本​**​计算瞬时速率（对短期波动敏感）。           | `irate(node_network_receive_bytes_total[2m])`（当前网络接收速率）                          |
+| ​**​`increase(v range-vector)`​**​                | 计算范围向量中的​**​绝对增量​**​（适用于计数器）。                   | `increase(http_errors_total[1h])`（过去1小时的总错误数）                                    |
+| ​**​`sum()`/`avg()`/`min()`/`max()`​**​           | 对向量求和、平均值、最小值、最大值。                              | `sum(rate(http_requests_total[5m])) by (service)`（按服务统计总请求速率）                    |
+| ​**​`histogram_quantile(φ, v)`​**​                | 计算​**​直方图指标​**​的分位数（φ∈[0,1]，如0.9表示P90）。         | `histogram_quantile(0.95, sum(rate(http_duration_bucket[5m])) by (le))`（全局P95延迟） |
+| ​**​`predict_linear(v, t)`​**​                    | 基于范围向量的线性回归，预测未来`t`秒后的值。                        | `predict_linear(node_filesystem_free_bytes[6h], 3600 * 4)`（预测4小时后磁盘剩余空间）         |
+| ​**​`label_replace(v, dst, repl, src, regex)`​**​ | 通过正则表达式修改标签（如提取子字符串）。                           | `label_replace(up, "ip", "$1", "instance", "([0-9.]+):.*")`（从`instance`标签提取IP地址） |
+| ​**​`time()`​**​                                  | 返回当前时间的Unix时间戳（秒）。                              | `time() - process_start_time_seconds`（计算服务运行时长）                                  |
+| ​**​`absent()`​**​                                | 检测指标是否不存在（用于监控数据缺失告警）。                          | `absent(up{job="api"})`（如果所有`api`实例宕机，返回1）                                       |
+| ​**​`resets()`​**​                                | 统计计数器在时间范围内的重置次数。                               | `resets(http_requests_total[24h])`（过去24小时请求计数器的重置次数）                             |
+| ​**​`clamp_min()`/`clamp_max()`​**​               | 限制指标值的下限或上限。                                    | `clamp_min(node_memory_used_bytes, 1024^3)`（内存使用低于1GB时显示为1GB）                    |
+| ​**​`scalar()`​**​                                | 将单元素向量转换为标量。                                    | `scalar(count(up))`（返回健康实例总数的标量值）                                                |
 ## 4.8 子查询
 
 子查询（Subquery）是 PromQL 中一种嵌套查询结构，允许在另一个查询内部对历史数据进行二次计算。它的核心目的是在单个查询中实现 ​**​多级时间窗口分析​**​ 或 ​**​动态时间范围统计​**​。
