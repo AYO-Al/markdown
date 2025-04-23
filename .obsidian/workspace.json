@@ -35,7 +35,8 @@
               "title": "2 Export编写指南"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -108,13 +109,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "README 的大纲"
+              "title": "2 Export编写指南 的大纲"
             }
           },
           {
@@ -183,8 +184,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -202,14 +202,14 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "469ea493abd89d98",
   "lastOpenFiles": [
-    "云计算/shell编程/shell.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
+    "README.md",
+    "云计算/shell编程/shell.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
     "云计算/监控/prometheus/架构说明.md",
-    "README.md",
     "云计算/监控/prometheus/自定义Exporter",
     "云计算/监控/prometheus/软件安装.md",
     "go/包/Json处理.md",
