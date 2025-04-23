@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2 Export编写指南"
+              "title": "4 prometheus包"
             }
           }
         ],
@@ -109,13 +109,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2 Export编写指南 的大纲"
+              "title": "4 prometheus包 的大纲"
             }
           },
           {
@@ -204,8 +204,10 @@
   },
   "active": "469ea493abd89d98",
   "lastOpenFiles": [
-    "云计算/监控/prometheus/PromQL.md",
+    "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
+    "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
+    "云计算/监控/prometheus/PromQL.md",
     "README.md",
     "云计算/shell编程/shell.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
@@ -235,10 +237,8 @@
     "云计算/shell编程/shell脚本编程.md",
     "云计算/shell编程/shell高级编程.md",
     "go/包/exec.md",
-    "云计算/shell编程/命令/命令.md",
     "go/包/命令行",
     "go/未命名",
-    "go/包/路径处理/filepath.md",
     "go/包/io处理",
     "go/包/路径处理",
     "云计算/监控/prometheus",

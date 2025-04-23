@@ -219,6 +219,12 @@ http_requests_total{instance="localhost:9090"}
 http_requests_total{instance!="localhost:9090"}
 ```
 
+多个匹配器可用于同一标签名称;它们都必须通过才能返回结果。
+
+```
+http_requests_total{replica!="rep-a",replica=~"rep.*"}
+```
+
 > 正则匹配模式
 
 除了使用完全匹配的方式对时间序列进行过滤以外，PromQL还可以支持使用正则表达式作为匹配条件，多个表达式之间使用`|`进行分离：
@@ -240,7 +246,6 @@ http_requests_total{environment=~"staging|testing|development",method!="GET"}
 
 ```
 http_requests_total{}[5m：] // 过去5min，步长默认等于全局 `evaluation_interval`（通常1m）。
-
 
 ```
 
