@@ -35,8 +35,7 @@
               "title": "4 prometheus包"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -109,13 +108,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+                "file": "云计算/监控/prometheus/PromQL.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "4 prometheus包 的大纲"
+              "title": "PromQL 的大纲"
             }
           },
           {
@@ -184,7 +183,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -202,18 +202,20 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "469ea493abd89d98",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
+    "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
-    "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
+    "云计算/监控/prometheus/架构说明.md",
+    "云计算/监控/prometheus/软件安装.md",
+    "云计算/监控/prometheus/Prometheus.md",
+    "云计算/监控/prometheus/Prometheus配置.md",
     "云计算/监控/prometheus/PromQL.md",
     "README.md",
     "云计算/shell编程/shell.md",
-    "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
-    "云计算/监控/prometheus/架构说明.md",
     "云计算/监控/prometheus/自定义Exporter",
-    "云计算/监控/prometheus/软件安装.md",
     "go/包/Json处理.md",
     "分布式版本控制系统/git.md",
     "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
@@ -229,10 +231,8 @@
     "go/包/http.md",
     "go/基础/golang.md",
     "go/基础/go基础.md",
-    "云计算/监控/prometheus/Prometheus配置.md",
     "云计算/监控/prometheus/image/架构说明_time_1.png",
     "云计算/监控/prometheus/image",
-    "云计算/监控/prometheus/Prometheus.md",
     "go/包/命令行/flag.md",
     "云计算/shell编程/shell脚本编程.md",
     "云计算/shell编程/shell高级编程.md",

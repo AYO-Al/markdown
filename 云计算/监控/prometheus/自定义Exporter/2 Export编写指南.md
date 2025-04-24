@@ -1,7 +1,7 @@
 详细内容可查看[官方文档](https://prometheus.io/docs/instrumenting/writing_clientlibs/)
 
 **注意：以下代码均非源码。只是为了理解的简化代码。**
-# 整体结构
+# 1 整体结构
 
 首先，Collector是核心类，有一个collect方法，用于返回指标及其样本。CollectorRegistry用来注册Collector，当有数据请求时，Registry会回调所有已注册的Collector的collect方法。用户常用的接口是Counter、Gauge、Summary和Histogram这些指标类型，它们本身也是Collector，覆盖大部分用例。高级场景可能需要自定义Collector，比如桥接其他监控系统。
 
@@ -241,7 +241,7 @@ func PrometheusBridge(metrics []Metric) string {
 }
 
 ```
-# 指标
+# 2 指标
 
 ****​1. 核心指标类型要求​**​
 
@@ -418,7 +418,7 @@ func NewHistogram(name string, buckets []float64, opts ...Option) *Histogram {
 	}
 }
 ```
-## Counter
+## 2.1 Counter
 
 1. ​**​严格单调递增​**​：值只能增加或重置为0，不允许减少
 
@@ -481,7 +481,7 @@ func WithExceptionCounting(c *Counter, fn func()) {
 	fn()
 }
 ```
-## Gauge
+## 2.2 Gauge
 
 1. ​**​基础功能​**​
     
@@ -642,7 +642,7 @@ func processBatch() {
 cpuTemp.SetToCurrentTime()
 */
 ```
-## Summary
+## 2.3 Summary
 
 **​Summary​**​ 用于统计观察值（如请求耗时）的分布特征，提供以下核心数据：
 
@@ -749,7 +749,7 @@ func (s *Summary) Quantile(q float64) float64 {
 	return s.samples[int(float64(len(s.samples)-1)*q)]
 }
 ```
-## Histogram
+## 2.4 Histogram
 
 **Histogram​**​ 用于统计可聚合的事件分布（如请求延迟），通过预定义桶（Bucket）统计样本分布，提供：
 
@@ -925,7 +925,7 @@ func main() {
 	*/
 }
 ```
-## 指标规范
+## 2.5 指标规范
 
 >  **1. 指标命名规则​**​
 
@@ -953,7 +953,7 @@ func main() {
     
 - ​**​顺序要求​**​：  
     鼓励对指标进行稳定排序（如按字母顺序），前提是不显著影响性能。
-### 指标命名规范
+### 2.5.1 指标命名规范
 
  > ** 命名规范​**​
 
@@ -1024,7 +1024,7 @@ func main() {
     # TYPE snmp_ifHCInOctets counter
     snmp_ifHCInOctets{ifIndex="1"} 123456
     ```
-## 标签
+## 2.6 标签
 
 > **1. 标签一致性要求​**​
 
@@ -1111,12 +1111,12 @@ func main() {
     
     - 当单一指标标签组合过多时，拆分为多个指标（如按操作类型拆分）。
     - 示例：`db_query_duration_seconds{operation="select"}`, `db_query_duration_seconds{operation="insert"}
-# 推送指标
+# 3 推送指标
 
 有时，需要监控无法抓取的组件。这 [Prometheus Pushgateway](https://github.com/prometheus/pushgateway) 允许将时间序列从[短期服务级别批处理作业](https://prometheus.io/docs/practices/pushing/)推送到 Prometheus 可以抓取的中间作业。结合 Prometheus 基于文本的简单公开格式，这使得在没有客户端库的情况下，甚至可以轻松插桩 shell 脚本。
 
 有关从 Go 中使用的信息，请参阅 [Push](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Push) 和 [Add](https://godoc.org/github.com/prometheus/client_golang/prometheus/push#Pusher.Add) 方法。
-# 配置规范
+# 4 配置规范
 
 > **1. 导出器设计原则​**​
 

@@ -19,5 +19,31 @@ Prometheus 的 `client_golang` 库中的 `prometheus` 包是用于实现监�
     允许用户实现自定义指标采集逻辑，适用于集成第三方系统或复杂指标生成场景。
 # 常用函数
 
-## **`NewCounter` / `NewCounterVec`**
+## NewCounter / NewCounterVec
 
+- 作用：创建计数器及其带标签的向量版本。
+
+```go
+// 创建普通计数器
+counter := prometheus.NewCounter(prometheus.CounterOpts{
+    Name: "http_requests_total",
+    Help: "Total HTTP requests",
+})
+
+// 创建带标签的计数器
+counterVec := prometheus.NewCounterVec(
+    prometheus.CounterOpts{
+        Name: "http_requests_by_method_total",
+        Help: "HTTP requests by method",
+    },
+    []string{"method"}, // 标签名列表
+)
+counterVec.WithLabelValues("GET").Inc() // 标签赋值
+```
+## NewGauge / NewGaugeVec
+
+- 作用：创建仪表盘及其向量版本，适用于可变的瞬时值。
+
+```go
+
+```
