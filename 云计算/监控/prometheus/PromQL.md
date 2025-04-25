@@ -432,9 +432,9 @@ node_cpu_seconds_total{cpu="0"} >= bool 6 # 生成布尔值丢弃原值
 | `and`    | 与   | `error_rate > 0.1 and request_rate > 100` |
 | `or`     | 或   | `cpu_temp > 80 or env_temp > 40`          |
 | `unless` | 排除  | `up unless up{env="test"}`（排除测试环境）        |
-- `vector1 and vector2`：保留 `vector1` 中与 `vector2` 标签匹配的元素。
-- `vector1 or vector2`：合并两个向量，重复标签取 `vector1` 的值。
-- `vector1 unless vector2`：保留 `vector1` 中不与 `vector2` 标签匹配的元素。
+- `vector1 and vector2`：返回 ​**​两个向量中标签完全匹配的时间序列​**​，且保留 ​**​左侧向量的值​**​（右侧向量的值被忽略）。
+- `vector1 or vector2`：返回 ​**​两个向量中所有时间序列的并集​**​，但若存在 ​**​标签完全相同的序列​**​，则仅保留 ​**​左侧向量​**​ 的值。
+- `vector1 unless vector2`：返回 ​**​左侧向量中存在，但右侧向量中不存在标签完全匹配项​**​ 的所有时间序列。
 ### 4.4.4 向量匹配运算符
 
 控制不同向量之间的标签匹配方式，解决多对多关联问题。
@@ -452,6 +452,10 @@ node_cpu_seconds_total{cpu="0"} >= bool 6 # 生成布尔值丢弃原值
 |---|---|
 |`group_left (labels)`|左侧向量标签多于右侧|
 |`group_right (labels)`|右侧向量标签多于左侧|
+在结果中保留左(右)侧的指定标签（即使这些标签未参与匹配）。保留的标签不能和on匹配一样。
+
+- `on(label3)` 要求该标签必须匹配，但 `group_left(label3)` 又试图将其视为左侧的额外标签保留。
+- Prometheus 禁止这种冲突，因为它无法确定标签 `label3` 的归属（是匹配标签还是保留标签）。
 ### 4.4.5 符号优先级
 
 PromQL 操作符按以下优先级从高到低执行（可使用括号改变顺序）：
@@ -533,7 +537,7 @@ method_code:http_errors:rate5m{code="500"} / ignoring(code) method:http_requests
 <vector expr> <bin-op> on(<label list>) group_right(<label list>) <vector expr>
 ```
 
-多对一和一对多两种模式一定是出现在操作符两侧表达式返回的向量标签不一致的情况。因此需要使用ignoring和on修饰符来排除或者限定匹配的标签列表。
+多对一和一对多两种模式一定是出现在操作符两侧表达式返回的向量标签不一致的情况。**因此需要使用ignoring和on修饰符来排除或者限定匹配的标签列表。**
 
 例如,使用表达式：
 
