@@ -4,25 +4,25 @@
     "type": "split",
     "children": [
       {
-        "id": "e7cff6e816f9a3f1",
+        "id": "58f1fd501a636ab6",
         "type": "tabs",
         "children": [
           {
-            "id": "d03fb4b974868809",
+            "id": "56d12862dba4c665",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/包/原子操作/atomic.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "atomic"
+              "title": "4 prometheus包"
             }
           },
           {
-            "id": "5e2f338555a2c38d",
+            "id": "f65c06b33747401d",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -34,9 +34,36 @@
               "icon": "lucide-file",
               "title": "PromQL"
             }
+          },
+          {
+            "id": "8a5ac7794da7ef78",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/监控/prometheus/Prometheus配置.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Prometheus配置"
+            }
+          },
+          {
+            "id": "ee11f9fa2d7e15bb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/监控/prometheus/软件安装.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "软件安装"
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -109,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/PromQL.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "PromQL 的大纲"
+              "title": "4 prometheus包 的大纲"
             }
           },
           {
@@ -202,19 +229,19 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "5e2f338555a2c38d",
+  "active": "56d12862dba4c665",
   "lastOpenFiles": [
-    "go/包/原子操作/atomic.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+    "云计算/监控/prometheus/软件安装.md",
+    "云计算/监控/prometheus/架构说明.md",
+    "云计算/监控/prometheus/Prometheus配置.md",
+    "go/包/原子操作/atomic.md",
     "go/包/原子操作",
     "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
-    "云计算/监控/prometheus/架构说明.md",
-    "云计算/监控/prometheus/软件安装.md",
     "云计算/监控/prometheus/Prometheus.md",
-    "云计算/监控/prometheus/Prometheus配置.md",
     "README.md",
     "云计算/shell编程/shell.md",
     "云计算/监控/prometheus/自定义Exporter",
