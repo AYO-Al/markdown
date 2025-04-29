@@ -119,7 +119,7 @@
   - Pod网络
   - Service网络
 
-![](./image/xvkp06-0.png)
+![](image/Kubernetes_time_1.png)
 
 - 核心组件
 
@@ -131,25 +131,25 @@
 
     - kube-apiserver服务
 
-     ![image-20230501203640947](./image/xogvh0-0.png)
+     ![image-20230501203640947](image/Kubernetes_time_2.png)
 
     - kube-controller-manager服务
 
-    ![image-20230501203743732](./image/xp1g0j-0.png)
+    ![image-20230501203743732](image/Kubernetes_time_3.png)
 
     - kube-scheduler服务
 
-     ![image-20230501203854799](./image/xpperx-0.png)
+     ![image-20230501203854799](image/Kubernetes_time_4.png)
 
   - 运算(node)节点
 
     - kubu-kubelet服务
 
-     ![image-20230501204144365](./image/xrfg9m-0.png)
+     ![image-20230501204144365](image/Kubernetes_time_5.png)
 
     - kubu-proxy服务
 
-    ![image-20230501204306437](./image/xse5t5-0.png)
+    ![image-20230501204306437](image/Kubernetes_time_6.png)
 
 - CLI客户端
 
@@ -162,7 +162,7 @@
   - 服务暴露用插件--->traefik
   - GUI管理插件--->Dashboard
 
-![image-20230501205500801](./image/xzi1b0-0.png)
+![image-20230501205500801](image/Kubernetes_time_7.png)
 
 
 
@@ -170,7 +170,7 @@
 
 # 3.K8S集群架构
 
-![image-20230502104836658](./image/hc7tf7-0.png)
+![image-20230502104836658](image/Kubernetes_time_8.png)
 
 
 
@@ -220,8 +220,6 @@
   
 
 ### 1.搭建DNS服务
-
-11
 
 - 安装bind服务
 

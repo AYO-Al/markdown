@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+                "file": "云计算/容器/云原生/Kubernetes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4 prometheus包"
+              "title": "Kubernetes"
             }
           },
           {
@@ -96,7 +96,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "lrzs",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -137,13 +137,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+                "file": "云计算/容器/云原生/Kubernetes.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "4 prometheus包 的大纲"
+              "title": "Kubernetes 的大纲"
             }
           },
           {
@@ -212,7 +212,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -230,12 +231,13 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "8a5ac7794da7ef78",
+  "active": "4f0f2ca6323c33fe",
   "lastOpenFiles": [
+    "云计算/shell编程/命令/命令.md",
+    "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "云计算/监控/prometheus/Prometheus配置.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
-    "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "go/FQA/值类型和指针类型接收者.md",
     "go/基础/go基础.md",
     "云计算/监控/prometheus/软件安装.md",
@@ -265,7 +267,6 @@
     "go/基础/golang.md",
     "云计算/监控/prometheus/image/架构说明_time_1.png",
     "云计算/监控/prometheus/image",
-    "go/包/命令行/flag.md",
     "go/包/命令行",
     "go/未命名",
     "go/包/io处理",
