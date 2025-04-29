@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/容器/云原生/Kubernetes.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Kubernetes"
+              "title": "6 promhttp包"
             }
           },
           {
@@ -63,8 +63,7 @@
               "title": "值类型和指针类型接收者"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -137,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/容器/云原生/Kubernetes.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Kubernetes 的大纲"
+              "title": "5 collectors包 的大纲"
             }
           },
           {
@@ -231,8 +230,10 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "4f0f2ca6323c33fe",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
+    "云计算/容器/云原生/Kubernetes.md",
     "云计算/shell编程/命令/命令.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "云计算/监控/prometheus/Prometheus配置.md",
@@ -263,8 +264,6 @@
     "image/README_time_1.jpg",
     "image",
     "go/包/log.md",
-    "go/包/http.md",
-    "go/基础/golang.md",
     "云计算/监控/prometheus/image/架构说明_time_1.png",
     "云计算/监控/prometheus/image",
     "go/包/命令行",
