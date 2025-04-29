@@ -766,7 +766,9 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 	- 手动编辑冲突文件，并执行`git add <conflicted-file>`
 	- 继续操作：`git cherry-pick --continue`
 ## 2.16 rebase
+
 - rebase：变基，即改变分支的根基
+
 `git rebase` 是 Git 中一个强大的命令，用于将一个分支上的提交重新应用到另一个基底提交之上。与 `git merge` 相比，`git rebase` 可以创建一个更直线化的提交历史。
 - merge作用如下图
 
