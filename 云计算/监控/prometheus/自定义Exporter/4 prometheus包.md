@@ -477,6 +477,7 @@ type Histogram interface {
     
 - 动态稀疏桶，解决传统 Histogram 需预定义桶的问题。
 - 启用方式：在 `HistogramOpts` 中配置 `NativeHistogramBucketFactor`。
+- 版本要求：Prometheus 服务端版本 ≥2.40。
 
 ```go
 import "github.com/prometheus/client_golang/prometheus"
@@ -541,6 +542,275 @@ latencyVec := prometheus.NewHistogramVec(
 
 // 记录 GET /api 的延迟
 latencyVec.WithLabelValues("GET", "/api").Observe(0.3)
+```
+## HistogramOpts
+
+- 类型定义：
+
+```go
+type HistogramOpts struct {
+	// Namespace, Subsystem, and Name are components of the fully-qualified
+	// name of the Histogram (created by joining these components with
+	// "_"). Only Name is mandatory, the others merely help structuring the
+	// name. Note that the fully-qualified name of the Histogram must be a
+	// valid Prometheus metric name.
+	Namespace string
+	Subsystem string
+	Name      string
+
+	// Help provides information about this Histogram.
+	//
+	// Metrics with the same fully-qualified name must have the same Help
+	// string.
+	Help string
+
+	// ConstLabels are used to attach fixed labels to this metric. Metrics
+	// with the same fully-qualified name must have the same label names in
+	// their ConstLabels.
+	//
+	// ConstLabels are only used rarely. In particular, do not use them to
+	// attach the same labels to all your metrics. Those use cases are
+	// better covered by target labels set by the scraping Prometheus
+	// server, or by one specific metric (e.g. a build_info or a
+	// machine_role metric). See also
+	// https://prometheus.io/docs/instrumenting/writing_exporters/#target-labels-not-static-scraped-labels
+	ConstLabels Labels
+
+	// Buckets defines the buckets into which observations are counted. Each
+	// element in the slice is the upper inclusive bound of a bucket. The
+	// values must be sorted in strictly increasing order. There is no need
+	// to add a highest bucket with +Inf bound, it will be added
+	// implicitly. If Buckets is left as nil or set to a slice of length
+	// zero, it is replaced by default buckets. The default buckets are
+	// DefBuckets if no buckets for a native histogram (see below) are used,
+	// otherwise the default is no buckets. (In other words, if you want to
+	// use both regular buckets and buckets for a native histogram, you have
+	// to define the regular buckets here explicitly.)
+	Buckets []float64
+
+	// If NativeHistogramBucketFactor is greater than one, so-called sparse
+	// buckets are used (in addition to the regular buckets, if defined
+	// above). A Histogram with sparse buckets will be ingested as a Native
+	// Histogram by a Prometheus server with that feature enabled (requires
+	// Prometheus v2.40+). Sparse buckets are exponential buckets covering
+	// the whole float64 range (with the exception of the “zero” bucket, see
+	// NativeHistogramZeroThreshold below). From any one bucket to the next,
+	// the width of the bucket grows by a constant
+	// factor. NativeHistogramBucketFactor provides an upper bound for this
+	// factor (exception see below). The smaller
+	// NativeHistogramBucketFactor, the more buckets will be used and thus
+	// the more costly the histogram will become. A generally good trade-off
+	// between cost and accuracy is a value of 1.1 (each bucket is at most
+	// 10% wider than the previous one), which will result in each power of
+	// two divided into 8 buckets (e.g. there will be 8 buckets between 1
+	// and 2, same as between 2 and 4, and 4 and 8, etc.).
+	//
+	// Details about the actually used factor: The factor is calculated as
+	// 2^(2^-n), where n is an integer number between (and including) -4 and
+	// 8. n is chosen so that the resulting factor is the largest that is
+	// still smaller or equal to NativeHistogramBucketFactor. Note that the
+	// smallest possible factor is therefore approx. 1.00271 (i.e. 2^(2^-8)
+	// ). If NativeHistogramBucketFactor is greater than 1 but smaller than
+	// 2^(2^-8), then the actually used factor is still 2^(2^-8) even though
+	// it is larger than the provided NativeHistogramBucketFactor.
+	//
+	// NOTE: Native Histograms are still an experimental feature. Their
+	// behavior might still change without a major version
+	// bump. Subsequently, all NativeHistogram... options here might still
+	// change their behavior or name (or might completely disappear) without
+	// a major version bump.
+	NativeHistogramBucketFactor float64
+	// All observations with an absolute value of less or equal
+	// NativeHistogramZeroThreshold are accumulated into a “zero” bucket.
+	// For best results, this should be close to a bucket boundary. This is
+	// usually the case if picking a power of two. If
+	// NativeHistogramZeroThreshold is left at zero,
+	// DefNativeHistogramZeroThreshold is used as the threshold. To
+	// configure a zero bucket with an actual threshold of zero (i.e. only
+	// observations of precisely zero will go into the zero bucket), set
+	// NativeHistogramZeroThreshold to the NativeHistogramZeroThresholdZero
+	// constant (or any negative float value).
+	NativeHistogramZeroThreshold float64
+
+	// The next three fields define a strategy to limit the number of
+	// populated sparse buckets. If NativeHistogramMaxBucketNumber is left
+	// at zero, the number of buckets is not limited. (Note that this might
+	// lead to unbounded memory consumption if the values observed by the
+	// Histogram are sufficiently wide-spread. In particular, this could be
+	// used as a DoS attack vector. Where the observed values depend on
+	// external inputs, it is highly recommended to set a
+	// NativeHistogramMaxBucketNumber.) Once the set
+	// NativeHistogramMaxBucketNumber is exceeded, the following strategy is
+	// enacted:
+	//  - First, if the last reset (or the creation) of the histogram is at
+	//    least NativeHistogramMinResetDuration ago, then the whole
+	//    histogram is reset to its initial state (including regular
+	//    buckets).
+	//  - If less time has passed, or if NativeHistogramMinResetDuration is
+	//    zero, no reset is performed. Instead, the zero threshold is
+	//    increased sufficiently to reduce the number of buckets to or below
+	//    NativeHistogramMaxBucketNumber, but not to more than
+	//    NativeHistogramMaxZeroThreshold. Thus, if
+	//    NativeHistogramMaxZeroThreshold is already at or below the current
+	//    zero threshold, nothing happens at this step.
+	//  - After that, if the number of buckets still exceeds
+	//    NativeHistogramMaxBucketNumber, the resolution of the histogram is
+	//    reduced by doubling the width of the sparse buckets (up to a
+	//    growth factor between one bucket to the next of 2^(2^4) = 65536,
+	//    see above).
+	//  - Any increased zero threshold or reduced resolution is reset back
+	//    to their original values once NativeHistogramMinResetDuration has
+	//    passed (since the last reset or the creation of the histogram).
+	NativeHistogramMaxBucketNumber  uint32
+	NativeHistogramMinResetDuration time.Duration
+	NativeHistogramMaxZeroThreshold float64
+
+	// NativeHistogramMaxExemplars limits the number of exemplars
+	// that are kept in memory for each native histogram. If you leave it at
+	// zero, a default value of 10 is used. If no exemplars should be kept specifically
+	// for native histograms, set it to a negative value. (Scrapers can
+	// still use the exemplars exposed for classic buckets, which are managed
+	// independently.)
+	NativeHistogramMaxExemplars int
+	// NativeHistogramExemplarTTL is only checked once
+	// NativeHistogramMaxExemplars is exceeded. In that case, the
+	// oldest exemplar is removed if it is older than NativeHistogramExemplarTTL.
+	// Otherwise, the older exemplar in the pair of exemplars that are closest
+	// together (on an exponential scale) is removed.
+	// If NativeHistogramExemplarTTL is left at its zero value, a default value of
+	// 5m is used. To always delete the oldest exemplar, set it to a negative value.
+	NativeHistogramExemplarTTL time.Duration
+	// contains filtered or unexported fields
+}
+```
+
+|字段名|类型|默认值|是否必填|描述|注意事项|
+|---|---|---|---|---|---|
+|​**​Namespace​**​|`string`|空字符串|否|指标命名空间，用于分类管理（如 `myapp`）|与 `Subsystem`、`Name` 组合成指标全名（格式：`Namespace_Subsystem_Name`）|
+|​**​Subsystem​**​|`string`|空字符串|否|指标子系统，进一步细分命名空间（如 `http`）|同上|
+|​**​Name​**​|`string`|无|​**​是​**​|指标名称（如 `request_duration_seconds`）|必须非空且符合 Prometheus 命名规则（仅允许 `[a-zA-Z0-9_]`）|
+|​**​Help​**​|`string`|空字符串|否|指标的帮助信息|相同名称的指标必须拥有相同的 `Help` 字符串|
+|​**​ConstLabels​**​|`Labels`|`nil`|否|固定标签（如 `{"env": "prod"}`）|避免高基数标签；禁止使用 `quantile`|
+|​**​Buckets​**​|`[]float64`|`DefBuckets`（预设桶列表）|否|定义直方图的桶边界（如 `[]float64{0.1, 0.5, 1}`）|桶值必须严格递增；若为空则使用默认桶（若启用原生直方图则默认桶为空）|
+|​**​NativeHistogramBucketFactor​**​|`float64`|1.0|否|稀疏桶的指数增长因子（≥1.0 启用原生直方图）|推荐值 `1.1`（平衡精度与性能）；仅 Prometheus ≥2.40 支持|
+|​**​NativeHistogramZeroThreshold​**​|`float64`|`DefNativeHistogramZeroThreshold`|否|绝对值小于此阈值的观测值计入“零桶”|建议设为 2 的幂次方（如 `0.001`）；设为负数时仅精确零值计入零桶|
+|​**​NativeHistogramMaxBucketNumber​**​|`uint32`|0|否|稀疏桶的最大数量限制（防止内存溢出）|生产环境建议设置合理值（如 `1000`）；设为 `0` 表示无限制|
+|​**​NativeHistogramMinResetDuration​**​|`time.Duration`|0|否|触发桶重置的最小时间间隔（超限时重置直方图）|若设为 `10m`，则每 10 分钟检查一次重置条件|
+|​**​NativeHistogramMaxZeroThreshold​**​|`float64`|0|否|自动调整零阈值的上限值|用于动态平衡桶数量；需配合 `MaxBucketNumber` 使用|
+|​**​NativeHistogramMaxExemplars​**​|`int`|10|否|原生直方图保留的样本（Exemplar）最大数量|设为 `-1` 禁用原生样本；样本用于关联跟踪数据（如 TraceID）|
+|​**​NativeHistogramExemplarTTL​**​|`time.Duration`|5 分钟|否|样本的存活时间（超时自动删除）|设为负值则优先删除最旧样本|
+
+
+ **关键字段详解​**​
+
+ 1. ​**​Buckets​**​
+
+- ​**​默认桶​**​：`DefBuckets = []float64{0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10}`
+- ​**​自定义示例​**​：
+    
+    ```go
+    Buckets: []float64{0.1, 0.5, 1, 2.5}  // 自定义延迟分布桶
+    ```
+    
+
+ 2. ​**​NativeHistogramBucketFactor​**​
+
+- ​**​稀疏桶特性​**​：
+    - 桶宽按指数增长，覆盖全范围浮点数（如 `1.1` 表示桶宽增长 10%）。
+    - ​**​适用场景​**​：高动态范围数据（如延迟从毫秒到小时）。
+
+ 3. ​**​NativeHistogramZeroThreshold​**​
+
+- ​**​示例​**​：
+    
+    ```go
+    NativeHistogramZeroThreshold: 0.001  // 绝对值 ≤0.001 的值计入零桶
+    ```
+    
+
+ 4. ​**​NativeHistogramMaxBucketNumber​**​
+
+- ​**​动态调整策略​**​：
+    1. 若桶数超限且超过 `MinResetDuration`，重置直方图。
+    2. 否则增大零阈值或降低分辨率（桶宽翻倍）。
+
+ 5. ​**​NativeHistogramExemplarTTL​**​
+
+- ​**​示例​**​：
+    
+    ```go
+    NativeHistogramExemplarTTL: 10 * time.Minute  // 样本保留 10 分钟
+    ```
+
+- 整体代码示例：
+
+```go
+opts := prometheus.HistogramOpts{
+    Name:      "http_request_duration_seconds",
+    Help:      "HTTP request latency distribution in seconds",
+    Namespace: "myapp",
+    Subsystem: "http",
+    Buckets:   []float64{0.1, 0.5, 1, 2.5},
+    ConstLabels: prometheus.Labels{
+        "env": "production",
+    },
+    NativeHistogramBucketFactor:     1.1,
+    NativeHistogramZeroThreshold:    0.001,
+    NativeHistogramMaxBucketNumber:  1000,
+    NativeHistogramMinResetDuration: 10 * time.Minute,
+    NativeHistogramMaxExemplars:     20,
+    NativeHistogramExemplarTTL:      5 * time.Minute,
+}
+```
+## \*Func
+
+`CounterFunc` 是 Prometheus 客户端库提供的一种特殊计数器类型，允许通过 ​**​回调函数​**​ 动态获取计数器的值。与普通 `Counter` 不同，`CounterFunc` 的值由用户定义的函数在每次指标被抓取时计算，无需手动调用 `Inc()` 或 `Add()`。
+
+| ​**​类型​**​    | ​**​语义​**​ | ​**​典型场景​**​     |
+| ------------- | ---------- | ---------------- |
+| `CounterFunc` | 单调递增的累计值   | 总任务处理量（需外部系统提供值） |
+| `GaugeFunc`   | 可任意变化的瞬时值  | 当前内存使用量、活跃连接数    |
+**注意事项：**
+
+1. ​**​单调性要求​**​：
+    
+    - `CounterFunc` 的值 ​**​理论上应单调递增​**​（符合计数器的语义）。
+    - 若值可能减少（如当前连接数），应改用 `GaugeFunc`。
+2. ​**​性能优化​**​：
+    
+    - 回调函数应 ​**​快速执行​**​，避免阻塞指标抓取。
+    - 复杂计算或 I/O 操作建议异步更新并缓存结果。
+3. ​**​错误处理​**​：
+    
+    - 回调函数中抛出 panic 会导致整个指标抓取失败，需自行处理异常。
+4. ​**​注册与注销​**​：
+    
+    - 使用 `MustRegister` 注册后，若回调函数依赖外部资源，需在资源释放后调用 `Unregister`。
+
+```go
+import (
+    "runtime"
+    "github.com/prometheus/client_golang/prometheus"
+)
+
+func main() {
+    // 定义 CounterFunc（注意：实际应使用 GaugeFunc！此处仅为示例）
+    goroutineCounter := prometheus.NewCounterFunc(
+        prometheus.CounterOpts{
+            Name: "app_goroutines_total",
+            Help: "Total number of goroutines (示例，实际应用不推荐).",
+        },
+        func() float64 {
+            return float64(runtime.NumGoroutine())
+        },
+    )
+
+    prometheus.MustRegister(goroutineCounter)
+
+    // 启动 HTTP 服务暴露指标
+    http.Handle("/metrics", promhttp.Handler())
+    http.ListenAndServe(":8080", nil)
+}
 ```
 ## Summary
 
@@ -718,6 +988,119 @@ summaryVec.WithLabelValues("PUT", "/settings").Observe(0.6)
 | `MustCurryWith`            | 部分绑定标签（简化版）                                   | panic        | 已知标签合法的场景       |
 | `With`                     | 直接获取带标签的 Summary。跟GetMetricWith类似             | panic        | 快速操作已知合法的标签键值对  |
 | `WithLabelValues`          | 直接通过标签值获取 Summary。跟GetMetricWithLabelValues类似 | panic        | 快速操作已知合法的标签值顺序  |
+## SummaryOpts
+
+- 类型定义：
+
+```go
+type SummaryOpts struct {
+	// Namespace, Subsystem, and Name are components of the fully-qualified
+	// name of the Summary (created by joining these components with
+	// "_"). Only Name is mandatory, the others merely help structuring the
+	// name. Note that the fully-qualified name of the Summary must be a
+	// valid Prometheus metric name.
+	Namespace string
+	Subsystem string
+	Name      string
+
+	// Help provides information about this Summary.
+	//
+	// Metrics with the same fully-qualified name must have the same Help
+	// string.
+	Help string
+
+	// ConstLabels are used to attach fixed labels to this metric. Metrics
+	// with the same fully-qualified name must have the same label names in
+	// their ConstLabels.
+	//
+	// Due to the way a Summary is represented in the Prometheus text format
+	// and how it is handled by the Prometheus server internally, “quantile”
+	// is an illegal label name. Construction of a Summary or SummaryVec
+	// will panic if this label name is used in ConstLabels.
+	//
+	// ConstLabels are only used rarely. In particular, do not use them to
+	// attach the same labels to all your metrics. Those use cases are
+	// better covered by target labels set by the scraping Prometheus
+	// server, or by one specific metric (e.g. a build_info or a
+	// machine_role metric). See also
+	// https://prometheus.io/docs/instrumenting/writing_exporters/#target-labels-not-static-scraped-labels
+	ConstLabels Labels
+
+	// Objectives defines the quantile rank estimates with their respective
+	// absolute error. If Objectives[q] = e, then the value reported for q
+	// will be the φ-quantile value for some φ between q-e and q+e.  The
+	// default value is an empty map, resulting in a summary without
+	// quantiles.
+	Objectives map[float64]float64
+
+	// MaxAge defines the duration for which an observation stays relevant
+	// for the summary. Only applies to pre-calculated quantiles, does not
+	// apply to _sum and _count. Must be positive. The default value is
+	// DefMaxAge.
+	MaxAge time.Duration
+
+	// AgeBuckets is the number of buckets used to exclude observations that
+	// are older than MaxAge from the summary. A higher number has a
+	// resource penalty, so only increase it if the higher resolution is
+	// really required. For very high observation rates, you might want to
+	// reduce the number of age buckets. With only one age bucket, you will
+	// effectively see a complete reset of the summary each time MaxAge has
+	// passed. The default value is DefAgeBuckets.
+	AgeBuckets uint32
+
+	// BufCap defines the default sample stream buffer size.  The default
+	// value of DefBufCap should suffice for most uses. If there is a need
+	// to increase the value, a multiple of 500 is recommended (because that
+	// is the internal buffer size of the underlying package
+	// "github.com/bmizerany/perks/quantile").
+	BufCap uint32
+	// contains filtered or unexported fields
+}
+```
+
+|字段名|类型|默认值|是否必填|描述|注意事项|
+|---|---|---|---|---|---|
+|​**​Namespace​**​|`string`|空字符串|否|指标命名空间，用于分类管理（如 `myapp`）|与 `Subsystem`、`Name` 共同组成指标全名（格式：`Namespace_Subsystem_Name`）|
+|​**​Subsystem​**​|`string`|空字符串|否|指标子系统，进一步细分命名空间（如 `http`）|同上|
+|​**​Name​**​|`string`|无|​**​是​**​|指标名称（如 `request_duration_seconds`）|必须非空且符合 Prometheus 指标命名规则（仅允许 `[a-zA-Z0-9_]`）|
+|​**​Help​**​|`string`|空字符串|否|指标的帮助信息，用于描述指标用途|相同名称的指标必须拥有相同的 `Help` 字符串|
+|​**​ConstLabels​**​|`prometheus.Labels`|`nil`|否|固定标签（如 `{"env": "prod"}`）|禁止使用 `quantile` 作为标签名；避免高基数标签|
+|​**​Objectives​**​|`map[float64]float64`|空 `map`|否|分位数目标及允许误差（如 `{0.5: 0.05}` 表示中位数误差 ±5%）|默认值将在 v1.0.0 变更为空，建议显式设置；误差值越小，资源消耗越大|
+|​**​MaxAge​**​|`time.Duration`|`DefMaxAge`（通常 10 分钟）|否|观测值的有效时间窗口（旧数据过期后被丢弃）|仅影响分位数计算；必须为正数|
+|​**​AgeBuckets​**​|`uint32`|`DefAgeBuckets`（通常 5）|否|时间窗口内的分段数量（用于管理 `MaxAge` 内的数据分布）|值越大，内存消耗越高；设为 1 时窗口过期后分位数完全重置|
+|​**​BufCap​**​|`uint32`|`DefBufCap`（通常 500）|否|采样数据流的缓冲区容量|建议设置为 500 的倍数（如 1000）；高吞吐场景可增大此值|
+
+ ​​**字段关键点总结​：**
+
+1. ​**​必填字段​**​：仅 `Name` 必须设置。
+2. ​**​名称规则​**​：
+    - 全名格式：`Namespace_Subsystem_Name`（如 `myapp_http_request_duration_seconds`）。
+    - 名称需符合正则表达式 `^[a-zA-Z_][a-zA-Z0-9_]*$`。
+3. ​**​分位数配置​**​：
+    - 若不设置 `Objectives`，则不会生成分位数指标（仅有 `_count` 和 `_sum`）。
+    - 示例：`Objectives: map[float64]float64{0.9: 0.01}` 表示计算 P90，误差不超过 ±1%。
+4. ​**​性能调优​**​：
+    - `MaxAge` 和 `AgeBuckets`：平衡分位数精度与内存开销。
+    - `BufCap`：影响高吞吐场景下的观测值缓冲能力。​
+
+```go
+opts := prometheus.SummaryOpts{
+    Name:      "http_request_duration_seconds",
+    Help:      "HTTP request latency distribution in seconds",
+    Namespace: "myapp",
+    Subsystem: "http",
+    ConstLabels: prometheus.Labels{
+        "env": "production",
+    },
+    Objectives: map[float64]float64{
+        0.5:  0.05,  // 中位数 ±5%
+        0.95: 0.01,  // P95 ±1%
+    },
+    MaxAge:     5 * time.Minute,
+    AgeBuckets: 10,
+    BufCap:     1000,
+}
+```
 ## Opts
 
 `Opts` 是用于创建各类指标（如 Counter、Gauge、Histogram）的通用配置选项。不同指标类型（如 `CounterOpts`、`GaugeOpts`）本质上是 `Opts` 的别名或扩展。
@@ -752,6 +1135,12 @@ type Opts struct {
 	ConstLabels Labels
 	// contains filtered or unexported fields
 }
+
+// CounterOpts
+type CounterOpts Opts
+
+// GaugeOpts
+type GaugeOpts Opts
 ```
 
 | **字段名​**​     | ​**​类型​**​ | ​**​是否必填​**​ | ​**​默认值​**​ | ​**​说明​**​                                      | ​**​示例​**​                                   | ​**​注意事项​**​                                                            |
@@ -792,6 +1181,7 @@ opts := prometheus.CounterOpts{
 }
 // 全限定名: order_service_http_requests_total
 ```
+
 ## Labels
 
 `Labels` 是一个键值对集合，用于表示 Prometheus 指标的标签（Metadata），其类型定义为：
@@ -802,3 +1192,208 @@ type Labels map[string]string
 
 - ​**​键（Label Name）​**​：标识标签的维度（如 `method`、`status_code`）。
 - ​**​值（Label Value）​**​：对应维度的具体取值（如 `GET`、`200`）。
+## Registerer 接口​​/Registry类型
+
+​**​`Registerer`​**​ 是用于注册和管理指标收集器（`Collector`）的接口。`Registry` 是其默认实现，负责管理指标的生命周期。
+
+> 核心方法​​
+
+|​**​方法​**​|​**​说明​**​|
+|---|---|
+|`Register(Collector) error`|注册一个 `Collector`，若名称冲突或标签不一致返回错误。|
+|`MustRegister(...Collector)`|批量注册 `Collector`，失败时触发 `panic`。|
+|`Unregister(Collector) bool`|注销一个 `Collector`，返回是否成功。|
+​
+
+​**​`Registry`​**​ 是 `Registerer` 的具体实现，用于管理多个 `Collector` 的注册和指标收集。
+
+> 创建方法
+
+|​**​函数​**​|​**​说明​**​|
+|---|---|
+|`NewRegistry() *Registry`|创建标准 Registry，仅检查指标名称和标签冲突。|
+|`NewPedanticRegistry() *Registry`|创建严格模式 Registry，额外检查 `Help` 字符串和类型一致性（适合测试）。|
+
+
+```go
+// 创建标准 Registry
+registry := prometheus.NewRegistry()
+
+// 创建严格模式 Registry（用于测试）
+pedanticRegistry := prometheus.NewPedanticRegistry()
+```
+
+> 核心方法
+
+|​**​方法​**​|​**​说明​**​|
+|---|---|
+|`Gather() ([]*dto.MetricFamily, error)`|收集所有注册的指标数据，转换为 Protobuf 格式（用于 HTTP 暴露或自定义处理）。|
+|`Collect(chan<- Metric)`|实现 `Collector` 接口，收集所有指标到通道中。|
+|`Describe(chan<- *Desc)`|实现 `Collector` 接口，描述所有注册的指标。|
+
+​**​示例​**​：暴露指标到 HTTP 服务
+
+```go
+http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+```
+
+> 包装 Registerer​​
+
+通过包装现有 `Registerer`，可以全局修改注册的指标名称或标签。
+
+> ​WrapRegistererWith(labels, reg)
+
+- ​**​作用​**​：为所有注册的指标添加 ​**​固定标签​**​。
+- ​**​参数​**​：
+    - `labels Labels`：需要添加的标签键值对。
+    - `reg Registerer`：被包装的原始 `Registerer`。
+- ​**​示例​**​：
+    
+    ```go
+    // 添加环境标签到所有指标
+    wrappedReg := prometheus.WrapRegistererWith(
+        prometheus.Labels{"env": "prod"},
+        registry,
+    )
+    wrappedReg.MustRegister(cpuCollector) // 所有 cpuCollector 的指标自动包含 env="prod"
+    ```
+
+> WrapRegistererWithPrefix(prefix, reg)​​
+
+- ​**​作用​**​：为所有注册的指标名称添加 ​**​前缀​**​。
+- ​**​参数​**​：
+    - `prefix string`：名称前缀（如 `myapp_`）。
+    - `reg Registerer`：被包装的原始 `Registerer`。
+- ​**​示例​**​：
+    
+    ```go
+    // 添加前缀 "myapp_"
+    wrappedReg := prometheus.WrapRegistererWithPrefix("myapp_", registry)
+    wrappedReg.MustRegister(cpuCollector) // 指标名称变为 myapp_cpu_usage
+    ```
+
+
+### ​**​使用场景​**​
+
+#### ​**​默认注册表​**​
+
+- ​**​直接使用全局注册表​**​：
+    
+    ```go
+    // 注册到默认 Registry（prometheus.DefaultRegisterer）
+    prometheus.MustRegister(httpRequests)
+    ```
+    
+
+#### ​**​自定义注册表​**​
+
+- ​**​隔离指标​**​：不同模块使用独立的 Registry，避免名称冲突。
+    
+    ```go
+    // 模块 A 的 Registry
+    registryA := prometheus.NewRegistry()
+    registryA.MustRegister(collectorA)
+    
+    // 模块 B 的 Registry
+    registryB := prometheus.NewRegistry()
+    registryB.MustRegister(collectorB)
+    ```
+    
+
+#### ​**​添加全局标签​**​
+
+- ​**​统一标记环境信息​**​：
+    
+    ```go
+    wrappedReg := prometheus.WrapRegistererWith(
+        prometheus.Labels{"cluster": "east-1"},
+        prometheus.DefaultRegisterer,
+    )
+    wrappedReg.MustRegister(httpRequests) // 所有指标包含 cluster="east-1"
+    ```
+    
+
+#### ​**​指标聚合与暴露​**​
+
+- ​**​自定义 HTTP 端点​**​：
+    
+    ```go
+    // 创建自定义 Registry
+    registry := prometheus.NewRegistry()
+    registry.MustRegister(cpuCollector)
+    
+    // 暴露指标
+    http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
+    ```
+
+
+### ​**​方法详解​**​
+
+#### ​Register(c Collector) error
+
+- ​**​作用​**​：注册一个 `Collector`，失败返回错误（如名称冲突）。
+- ​**​示例​**​：
+    
+    ```go
+    err := registry.Register(myCollector)
+    if err != nil {
+        log.Fatal("注册失败:", err)
+    }
+    ```
+    
+
+#### ​MustRegister(cs ...Collector)
+
+- ​**​作用​**​：批量注册 `Collector`，失败时 `panic`。
+- ​**​示例​**​：
+    
+    ```go
+    registry.MustRegister(cpuCollector, memCollector)
+    ```
+    
+
+#### ​Unregister(c Collector) bool
+
+- ​**​作用​**​：注销已注册的 `Collector`，返回是否成功。
+- ​**​示例​**​：
+    
+    ```go
+    if ok := registry.Unregister(oldCollector); ok {
+        log.Println("注销成功")
+    }
+    ```
+    
+
+#### Gather() (\[\]\*dto.MetricFamily, error)
+
+- ​**​作用​**​：收集所有指标数据，转换为 Protobuf 格式。
+- ​**​用途​**​：自定义指标处理或导出到其他系统。
+- ​**​示例​**​：
+    
+    go
+    
+    复制
+    
+    ```go
+    metrics, err := registry.Gather()
+    if err != nil {
+        log.Fatal("收集指标失败:", err)
+    }
+    ```
+​
+
+|​**​场景​**​|​**​推荐方法​**​|
+|---|---|
+|​**​全局默认监控​**​|使用 `prometheus.DefaultRegisterer` 和 `prometheus.MustRegister`。|
+|​**​模块化指标隔离​**​|为每个模块创建独立的 `Registry`。|
+|​**​添加环境标签​**​|使用 `WrapRegistererWith` 包装默认 Registry。|
+|​**​严格指标检查（测试环境）​**​|使用 `NewPedanticRegistry()`。|
+|​**​动态注销指标（如插件）​**​|结合 `Register` 和 `Unregister` 管理 Collector 生命周期。|
+
+
+### ​注意事项​​
+
+1. ​**​避免重复注册​**​：同一 `Collector` 不可重复注册到同一 Registry。
+2. ​**​高基数标签​**​：避免在 `WrapRegistererWith` 中使用动态值（如用户 ID）。
+3. ​**​线程安全​**​：`Registry` 的 `Register`/`Unregister` 方法需在并发环境中加锁。
+4. ​**​性能影响​**​：频繁调用 `Gather()` 可能影响性能，建议与 HTTP 暴露间隔结合使用。

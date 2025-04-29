@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/监控/prometheus/软件安装.md",
+                "file": "go/FQA/值类型和指针类型接收者.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "软件安装"
+              "title": "值类型和指针类型接收者"
             }
           }
         ]
@@ -231,9 +231,11 @@
   },
   "active": "56d12862dba4c665",
   "lastOpenFiles": [
-    "云计算/监控/prometheus/PromQL.md",
+    "go/FQA/值类型和指针类型接收者.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+    "go/基础/go基础.md",
     "云计算/监控/prometheus/软件安装.md",
+    "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/架构说明.md",
     "云计算/监控/prometheus/Prometheus配置.md",
     "go/包/原子操作/atomic.md",
@@ -259,12 +261,10 @@
     "go/包/log.md",
     "go/包/http.md",
     "go/基础/golang.md",
-    "go/基础/go基础.md",
     "云计算/监控/prometheus/image/架构说明_time_1.png",
     "云计算/监控/prometheus/image",
     "go/包/命令行/flag.md",
     "云计算/shell编程/shell脚本编程.md",
-    "云计算/shell编程/shell高级编程.md",
     "go/包/命令行",
     "go/未命名",
     "go/包/io处理",
