@@ -1192,90 +1192,6 @@ type Labels map[string]string
 
 - ​**​键（Label Name）​**​：标识标签的维度（如 `method`、`status_code`）。
 - ​**​值（Label Value）​**​：对应维度的具体取值（如 `GET`、`200`）。
-## Colletcor
-
-- 类型定义：
-
-```go
-type Collector interface {
-	Describe(chan<- *[Desc]
-	Collect(chan<- [Metric]
-}
-```
-
-| **方法名​**​          | ​**​参数名​**​ | ​**​参数类型​**​    | ​**​作用​**​                                       |
-| ------------------ | ----------- | --------------- | ------------------------------------------------ |
-| ​**​`Describe`​**​ | `ch`        | `chan<- *Desc`  | 传递指标的 ​**​描述符​**​（Descriptor），用于注册时检查指标的唯一性和一致性。 |
-| ​**​`Collect`​**​  | `ch`        | `chan<- Metric` | 传递实际的 ​**​指标数据​**​（Metric），用于收集当前时刻的指标值。         |
-1. **`Describe` 方法​**​
-    
-    - ​**​通道内容​**​：发送 `*Desc` 类型指针，描述指标的元信息（名称、帮助文档、标签等）。
-    - ​**​一致性检查​**​：Prometheus 在注册时通过此方法验证指标是否冲突或重复。
-    - ​**​示例​**​：
-        
-        ```go
-        func (c *MyCollector) Describe(ch chan<- *Desc) {
-            ch <- myMetricDesc // 发送指标描述符
-        }
-        ```
-        
-2. ​**​`Collect` 方法​**​
-    
-    - ​**​通道内容​**​：发送 `Metric` 接口实现的具体指标数据（如 `Gauge`, `Counter` 等）。
-    - ​**​实时收集​**​：每次调用 `Gather()` 或 HTTP 暴露指标时触发此方法，生成当前时刻的指标值。
-    - ​**​示例​**​：
-        
-        ```go
-        func (c *MyCollector) Collect(ch chan<- Metric) {
-            ch <- myMetric.WithLabelValues("label1").Set(42) // 发送指标数据
-        }
-        ```
-
-3. ​**​单一指标 Collector​**​（如 `Gauge`, `Counter`）
-
-```go
-type MyGauge struct {
-    desc *Desc
-    value float64
-}
-
-func (g *MyGauge) Describe(ch chan<- *Desc) {
-    ch <- g.desc
-}
-
-func (g *MyGauge) Collect(ch chan<- Metric) {
-    ch <- g
-}
-```
-
-4. ​**​复合指标 Collector​**​（如 `GaugeVec`, `HistogramVec`）
-
-```go
-type MyCollector struct {
-    desc      *Desc
-    metrics   []Metric
-}
-
-func (c *MyCollector) Describe(ch chan<- *Desc) {
-    ch <- c.desc
-}
-
-func (c *MyCollector) Collect(ch chan<- Metric) {
-    for _, m := range c.metrics {
-        ch <- m
-    }
-}
-```
-
-> ​注意事项​​
-
-|​**​场景​**​|​**​处理方式​**​|
-|---|---|
-|​**​高并发调用​**​|`Describe` 和 `Collect` 需实现为 ​**​线程安全​**​（如加锁或无状态）。|
-|​**​指标动态生成​**​|在 `Collect` 中实时生成指标（如从外部系统读取数据），避免在 `Describe` 中生成。|
-|​**​错误处理​**​|若 `Describe` 执行失败，需发送 `NewInvalidDesc()` 到通道通知 Registry。|
-
-通过实现 `Collector` 接口，可以灵活扩展自定义指标（如集成第三方系统数据），并纳入 Prometheus 的统一管理中。
 ## Registerer 接口​​/Registry类型
 
 ​**​`Registerer`​**​ 是用于注册和管理指标收集器（`Collector`）的接口。`Registry` 是其默认实现，负责管理指标的生命周期。
@@ -1470,7 +1386,6 @@ http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 |​**​严格指标检查（测试环境）​**​|使用 `NewPedanticRegistry()`。|
 |​**​动态注销指标（如插件）​**​|结合 `Register` 和 `Unregister` 管理 Collector 生命周期。|
 
-
 ### ​注意事项​​
 
 1. ​**​避免重复注册​**​：同一 `Collector` 不可重复注册到同一 Registry。
@@ -1610,3 +1525,718 @@ http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 |严格测试|使用 `NewPedanticRegistry()`|
 
 通过合理使用多 Registry，可实现监控系统的​**​高内聚、低耦合​**​，提升可维护性和性能。
+
+# 自定义指标
+
+## Desc
+
+`Desc`（描述符）是用于定义指标元数据的关键类型。它包含指标的名称、帮助信息、标签（动态标签和固定标签），确保指标在注册和数据收集时的一致性。
+
+> 核心作用
+
+- ​**元数据封装​**​：存储指标名称（`fqName`）、帮助信息（`help`）、动态标签（`variableLabels`）和固定标签（`constLabels`）。
+- ​**​唯一性标识​**​：通过名称和标签组合唯一标识指标。
+- ​**​校验规则​**​：同一注册表中的同名指标必须满足一致性和唯一性。
+
+> 类型定义
+
+```go
+type Desc struct {
+	// fqName has been built from Namespace, Subsystem, and Name.
+	fqName string
+	// help provides some helpful information about this metric.
+	help string
+	// constLabelPairs contains precalculated DTO label pairs based on
+	// the constant labels.
+	constLabelPairs []*dto.LabelPair
+	// variableLabels contains names of labels and normalization function for
+	// which the metric maintains variable values.
+	variableLabels *compiledLabels
+	// id is a hash of the values of the ConstLabels and fqName. This
+	// must be unique among all registered descriptors and can therefore be
+	// used as an identifier of the descriptor.
+	id uint64
+	// dimHash is a hash of the label names (preset and variable) and the
+	// Help string. Each Desc with the same fqName must have the same
+	// dimHash.
+	dimHash uint64
+	// err is an error that occurred during construction. It is reported on
+	// registration time.
+	err error
+}
+```
+
+- ​**​Fully Qualified Name (fqName)​**​：指标的完整名称（如 `http_requests_total`）。
+- ​**​Help​**​：指标的描述信息（如 `Total HTTP requests`）。
+- ​**​Variable Labels​**​：动态标签（每次记录指标时可变化，如 `method`, `status_code`）。
+- ​**​Constant Labels​**​：固定标签（创建时确定，如 `app="myapp"`）。
+### func NewDesc(fqName, help string, variableLabels \[\]string, constLabels Labels) \*Desc
+
+- **作用**：创建 `Desc` 实例
+- **`fqName`​**​：
+    - 必须非空，且符合命名规范（仅允许 `[a-zA-Z0-9_]`）。
+    - 示例：`http_requests_total`（正确）、`http-requests-total`（错误，含连字符）。
+- ​**​`help`​**​：
+    - 同一全名的指标必须使用相同的 `help`。
+- ​**​`variableLabels`​**​：
+    - 动态标签名列表（如 `[]string{"method"}`），标签值在记录指标时动态指定。
+- ​**​`constLabels`​**​：
+    - 固定标签键值对（如 `prometheus.Labels{"app": "web"}`），在创建 `Desc` 时确定。
+
+> 一致性和唯一性规则​​
+
+- ​**​同名指标必须一致​**​：
+    
+    - 若两个 `Desc` 的 `fqName` 相同，则 `help`、`variableLabels` 和 `constLabels` 的键名必须一致。
+    - ​**​错误示例​**​：
+        
+        ```go
+        // 两个同名 Desc，但 help 不同
+        desc1 := NewDesc("http_requests_total", "Total requests", nil, nil)
+        desc2 := NewDesc("http_requests_total", "HTTP requests count", nil, nil)
+        ```
+        
+        - 注册时会报错：`inconsistent help strings for metric`。
+- ​**​固定标签值必须不同​**​：
+    
+    - 同名 `Desc` 的 `constLabels` 值需不同以区分不同指标。
+    - ​**​正确示例​**​：
+        
+        ```go
+        // 两个同名 Desc，constLabels 值不同
+        desc1 := NewDesc("http_requests_total", "Total requests", nil, Labels{"app": "web"})
+        desc2 := NewDesc("http_requests_total", "Total requests", nil, Labels{"app": "api"})
+        ```
+### func NewInvalidDesc(err error) \*Desc
+
+`NewInvalidDesc` 是一个用于错误处理的关键函数。它允许开发者创建带有错误信息的无效指标描述符（`Desc`），从而在注册收集器时明确报告问题。
+
+> 核心作用
+
+- ​**​错误传递​**​：将初始化阶段的错误传递给 Prometheus 注册机制。
+- ​**​提前失败​**​：在注册收集器时（而非运行时）暴露问题，避免后续数据收集出现不可控错误。
+
+```go
+type ConfigCollector struct {
+    desc *prometheus.Desc
+}
+
+func NewConfigCollector(configPath string) *ConfigCollector {
+    // 尝试加载配置
+    config, err := loadConfig(configPath)
+    if err != nil {
+        return &ConfigCollector{
+            desc: prometheus.NewInvalidDesc(err),
+        }
+    }
+
+    // 正常初始化 Desc
+    return &ConfigCollector{
+        desc: prometheus.NewDesc("config_loaded", "Config loaded status", nil, nil),
+    }
+}
+```
+
+> 注意事项
+
+1. **错误传播机制**​​
+- ​注册阶段失败​​：调用 prometheus.Register() 时会检查 Describe 方法返回的 Desc。若存在无效描述符，注册立即失败。
+- 错误信息可见性​​：错误信息会通过注册函数的返回值暴露，需确保日志或监控系统捕获这些错误。
+
+2. **避免滥用**​​
+- 不可恢复错误​​：仅在确实无法继续运行时使用（如关键配置缺失）。对于可重试错误（如临时网络故障），应通过重试逻辑处理。
+- 替代方案​​：若需标记指标为“不可用”，可返回一个带有特殊标签的指标（如 status="error"），而非中断收集器。
+
+### func (d \*Desc) String() string
+
+- 作用：返回 `Desc` 的字符串表示，用于调试。
+
+```go
+desc := NewDesc("http_requests_total", "Total requests", nil, nil)
+fmt.Println(desc.String()) // 输出 Desc 的元数据信息
+```
+
+### 代码示例
+
+```go
+package main
+
+import (
+    "github.com/prometheus/client_golang/prometheus"
+)
+
+// 创建一个 Desc 实例
+func createHttpRequestDesc() *prometheus.Desc {
+    // 定义指标元数据
+    return prometheus.NewDesc(
+        "http_requests_total",                  // 指标全名
+        "Total number of HTTP requests",        // 帮助信息
+        []string{"method", "status_code"},      // 动态标签（例如：GET/POST, 200/404）
+        prometheus.Labels{"app": "my_web_app"}, // 固定标签（例如应用名称）
+    )
+}
+
+func main() {
+    // 创建 Desc 实例
+    httpRequestsDesc := createHttpRequestDesc()
+
+    // 使用 Desc 注册指标或实现 Collector 接口
+    // （此处省略具体的 Collector 实现，仅展示 Desc 的创建）
+}
+```
+
+## Metric
+#TODO：Metric示例代码有问题，重新检查逻辑
+`Metric` 是 Prometheus 监控指标的具体实例，它包含以下核心信息：
+
+- ​**​指标名称​**​（如 `http_requests_total`）。
+- ​**​指标类型​**​（Counter、Gauge、Histogram、Summary 等）。
+- ​**​标签​**​（动态标签和固定标签）。
+- ​**​当前值​**​（或分布数据）。
+- ​**​元数据​**​（时间戳、Exemplars 等）。
+
+```go
+type Metric interface {
+	// Desc returns the descriptor for the Metric. This method idempotently
+	// returns the same descriptor throughout the lifetime of the
+	// Metric. The returned descriptor is immutable by contract. A Metric
+	// unable to describe itself must return an invalid descriptor (created
+	// with NewInvalidDesc).
+	Desc() *Desc
+	// Write encodes the Metric into a "Metric" Protocol Buffer data
+	// transmission object.
+	//
+	// Metric implementations must observe concurrency safety as reads of
+	// this metric may occur at any time, and any blocking occurs at the
+	// expense of total performance of rendering all registered
+	// metrics. Ideally, Metric implementations should support concurrent
+	// readers.
+	//
+	// While populating dto.Metric, it is the responsibility of the
+	// implementation to ensure validity of the Metric protobuf (like valid
+	// UTF-8 strings or syntactically valid metric and label names). It is
+	// recommended to sort labels lexicographically. Callers of Write should
+	// still make sure of sorting if they depend on it.
+	Write(*dto.Metric) error
+}
+
+```
+### 创建普通指标：NewConstMetric 和 MustNewConstMetric​
+
+- 作用：创建计数器或仪表盘指标。
+- 函数定义如下：
+
+```go
+func NewConstMetric(desc *Desc, valueType ValueType, value float64, labelValues ...string) (Metric, error)
+```
+
+**参数​**​：
+
+- `desc *Desc`：指标描述符。
+- `valueType ValueType`：`CounterValue`（计数器）或 `GaugeValue`（仪表盘）。
+- `value float64`：指标当前值。
+- `labelValues ...string`：动态标签值（需与 `Desc` 的 `variableLabels` 顺序一致）。
+
+```go
+// 定义描述符
+desc := prometheus.NewDesc(
+    "temperature_celsius",          // 指标名
+    "Current temperature in Celsius", // 帮助信息
+    []string{"location"},           // 动态标签（此处为 location）
+    nil,                             // 固定标签
+)
+
+// 创建指标（带动态标签值 "Berlin"）
+metric, err := prometheus.NewConstMetric(
+    desc,
+    prometheus.GaugeValue,  // 类型为仪表盘
+    23.5,                   // 当前温度值
+    "Berlin",               // location 标签值
+)
+if err != nil {
+    log.Fatal("创建指标失败:", err)
+}
+
+// 或者使用 Must 方法（确保参数正确）
+metric = prometheus.MustNewConstMetric(
+    desc,
+    prometheus.GaugeValue,
+    23.5,
+    "Berlin",
+)
+```
+### 创建直方图：NewConstHistogram 和 MustNewConstHistogram​
+
+- ​**​功能​**​：创建直方图指标，记录数据分布（如请求延迟）。
+- **函数定义如下：**
+#TODO：Native创建
+```go
+func NewConstNativeHistogram(
+	desc *Desc,
+	count uint64,
+	sum float64,
+	positiveBuckets, negativeBuckets map[int]int64,
+	zeroBucket uint64,
+	schema int32,
+	zeroThreshold float64,
+	createdTimestamp time.Time,
+	labelValues ...string,
+) (Metric, error)
+
+func MustNewConstHistogram(
+	desc *Desc,
+	count uint64,
+	sum float64,
+	buckets map[float64]uint64,
+	labelValues ...string,
+) Metric
+```
+
+- ​**​参数​**​：
+    - `count uint64`：样本总数。
+    - `sum float64`：所有样本值的总和。
+    - `buckets map[float64]uint64`：各桶的累计计数（如 `{0.5: 3}` 表示 ≤0.5 的样本有 3 个）。
+
+```go
+desc := prometheus.NewDesc(
+    "http_request_duration_seconds",
+    "HTTP request duration distribution",
+    []string{"method"},
+    nil,
+)
+
+// 模拟数据：10 次请求，总耗时 15 秒，分布在各个桶中
+buckets := map[float64]uint64{
+    0.1: 5,   // ≤0.1s 的请求有 5 个
+    0.5: 8,   // ≤0.5s 的请求有 8 个
+    1.0: 10,  // ≤1.0s 的请求有 10 个
+}
+
+metric, err := prometheus.NewConstHistogram(
+    desc,
+    10,      // 总样本数
+    15.0,    // 总耗时
+    buckets,
+    "GET",   // method 标签值
+)
+if err != nil {
+    log.Fatal("创建直方图失败:", err)
+}
+```
+### 创建摘要：NewConstSummary 和 MustNewConstSummary​​
+
+- ​**​功能​**​：创建摘要指标，记录分位数（如 P99 延迟）。
+- **函数定义如下：**
+
+```go
+desc := prometheus.NewDesc(
+    "response_size_bytes",
+    "Response size distribution",
+    []string{"api_endpoint"},
+    nil,
+)
+
+// 模拟数据：100 次请求，总大小 5000 字节，分位数计算值
+quantiles := map[float64]float64{
+    0.5: 45.0,  // P50 响应大小 45 字节
+    0.9: 80.0,  // P90 响应大小 80 字节
+    0.99: 95.0, // P99 响应大小 95 字节
+}
+
+metric, err := prometheus.NewConstSummary(
+    desc,
+    100,     // 总样本数
+    5000.0,  // 总大小
+    quantiles,
+    "/users", // api_endpoint 标签值
+)
+if err != nil {
+    log.Fatal("创建摘要失败:", err)
+}
+```
+
+- ​**​参数​**​：
+    - `quantiles map[float64]float64`：分位数值（如 `{0.5: 0.1}` 表示 P50 为 0.1 秒）。
+### 带时间戳的指标：NewConstMetricWithCreatedTimestamp
+
+- ​**​功能​**​：为指标添加创建时间戳（通常用于标记指标生成时间）。
+- **函数定义如下：**
+
+```go
+func NewConstMetricWithCreatedTimestamp(desc *Desc, valueType ValueType, value float64, ct time.Time, labelValues ...string) (Metric, error)
+```
+
+- ​**​参数​**​：
+    - `ct time.Time`：指标创建时间。
+
+```go
+desc := prometheus.NewDesc(
+    "system_uptime_seconds",
+    "System uptime in seconds",
+    nil,
+    nil,
+)
+
+// 记录系统启动时间（假设启动于 2 小时前）
+createdTime := time.Now().Add(-2 * time.Hour)
+metric := prometheus.MustNewConstMetricWithCreatedTimestamp(
+    desc,
+    prometheus.CounterValue,
+    7200.0,        // 7200 秒 = 2 小时
+    createdTime,
+)
+```
+
+> 带时间戳和普通不带时间戳有什么区别
+
+**TSDB时间戳：**
+
+- ​**​普通指标​**​（不带显式时间戳）的时间戳由 Prometheus 在 ​**​抓取时刻​**​ 自动生成。
+- ​**​TSDB 存储的时间​**​：每个样本（Sample）的时间戳是 Prometheus 拉取（Scrape）该指标的时间，而非指标实际产生的时间。
+
+**显式时间戳：**
+
+- 当指标自带时间戳时，​**​覆盖了 Prometheus 的默认抓取时间戳​**​。这种设计是为了解决以下场景的痛点：
+
+    - 处理历史数据或延迟数据​：应用需要上报 ​​过去某个时刻​​ 产生的指标（如离线批处理作业、延迟上报的监控事件）。
+    - 高精度时间对齐​：需要将多个来源的指标按 ​​精确时间对齐​​（如分布式系统中的事件溯源）。
+    - 避免抓取间隔导致的误差​​：应用的指标生成频率远高于 Prometheus 抓取间隔（如高频计数器）。
+
+**注意事项：**
+
+-  ​**​时间戳范围​**​：
+    - Prometheus 拒绝处理 ​**​未来时间​**​ 的样本（超过当前服务器时间 + 5 分钟）。
+    - 样本时间戳不能 ​**​过于陈旧​**​（早于当前服务器时间 - 1 小时，具体取决于 `--storage.tsdb.retention.time` 配置）。
+- ​**​重复时间戳​**​：同一时间序列（相同的指标名和标签）在相同时间戳下，只有最后一个样本会被保留。
+
+> 什么时候使用显式时间戳
+
+| ​**​场景​**​             | ​**​是否使用显式时间戳​**​ | ​**​说明​**​         |
+| ---------------------- | ----------------- | ------------------ |
+| 实时监控（默认抓取）             | 否                 | Prometheus 自动管理时间戳 |
+| 批处理作业上报历史数据            | 是                 | 确保数据反映实际事件时间       |
+| 高频数据上报（配合 Pushgateway） | 是                 | 避免抓取间隔导致的数据丢失      |
+| 跨系统时间对齐                | 是                 | 强制多个系统的数据在相同时间戳下对齐 |
+
+### 错误处理：NewInvalidMetric
+
+- ​**​功能​**​：创建带错误信息的无效指标（如配置错误时）。
+- **函数定义如下**：
+
+```go
+func NewInvalidMetric(desc *Desc, err error) Metric
+```
+
+```go
+desc := prometheus.NewDesc(
+    "invalid_metric",
+    "An invalid metric example",
+    nil,
+    nil,
+)
+
+// 模拟错误（如依赖服务不可用）
+err := errors.New("数据库连接失败")
+invalidMetric := prometheus.NewInvalidMetric(desc, err)
+
+// 注册时会触发错误
+if err := prometheus.Register(invalidMetric); err != nil {
+    log.Println("注册失败:", err) // 输出：注册失败: database connection failed
+}
+```
+
+
+## MetricVec
+
+`MetricVec` 是 Prometheus 客户端库中用于管理 ​**​多标签组合指标集合​**​ 的核心类型。它适用于需要根据动态标签值（如 HTTP 方法、状态码等）生成和管理多个指标的场景。
+### NewMetricVec
+
+- ​**​功能​**​：创建 `MetricVec` 实例。
+- **函数定义如下：**
+
+```go
+func NewMetricVec(desc *Desc, newMetric func(lvs ...string) Metric) *MetricVec
+```
+
+- ​**​参数​**​：
+    - `desc *Desc`：指标描述符（名称、帮助信息、标签等）。
+    - `newMetric func(lvs ...string) Metric`：用于生成单个指标的函数。
+
+```go
+desc := prometheus.NewDesc(
+    "http_requests_total",
+    "Total HTTP requests",
+    []string{"method", "status"},
+    nil,
+)
+
+// 创建 MetricVec，定义如何生成单个指标
+httpReqs := prometheus.NewMetricVec(
+    desc,
+    func(lvs ...string) prometheus.Metric {
+        return prometheus.MustNewConstMetric(
+            desc,
+            prometheus.CounterValue,
+            0.0, // 初始值
+            lvs...,
+        )
+    },
+)
+```
+###  GetMetricWith 和 GetMetricWithLabelValues​
+
+- ​**​功能​**​：根据标签获取或创建指标实例。
+    - `GetMetricWith`：通过 ​**​标签键值对​**​（`Labels`）获取指标。
+    - `GetMetricWithLabelValues`：通过 ​**​标签值列表​**​（按顺序）获取指标。
+- ​**​参数​**​：
+    - `labels Labels`：标签键值对（如 `Labels{"method": "GET", "status": "200"}`）。
+    - `lvs ...string`：标签值列表（如 `"GET", "200"`）。
+- ​**​示例​**​：
+    
+    ```go
+    // 通过标签键值对获取指标
+    metric1, _ := httpReqs.GetMetricWith(prometheus.Labels{"method": "GET", "status": "200"})
+    
+    // 通过标签值列表获取指标（顺序需与 Desc 的 variableLabels 一致）
+    metric2, _ := httpReqs.GetMetricWithLabelValues("GET", "200")
+    ```
+
+- ​**​注意​**​：
+    - `GetMetricWithLabelValues` 必须严格按照 `variableLabels` 的顺序提供标签值。
+    - 若标签组合不存在，会自动创建新指标实例。
+
+### Delete 和 DeleteLabelValues
+
+- **功能​**​：删除指定标签组合的指标实例。
+    - `Delete`：根据 ​**​标签键值对​**​ 删除。
+    - `DeleteLabelValues`：根据 ​**​标签值列表​**​ 删除。
+- ​**​示例​**​：
+    
+    ```go
+    // 删除 method="GET", status="200" 的指标
+    httpReqs.Delete(prometheus.Labels{"method": "GET", "status": "200"})
+    
+    // 通过标签值列表删除（顺序必须一致）
+    httpReqs.DeleteLabelValues("GET", "200")
+    ```
+### DeletePartialMatch
+
+- **功能​**​：根据 ​**​部分标签匹配​**​ 删除指标实例。
+- ​**​参数​**​：
+    - `labels Labels`：部分标签键值对（如 `Labels{"method": "GET"}`）。
+- ​**​示例​**​：
+    
+    ```go
+    // 删除所有 method="GET" 的指标（无论 status 是什么）
+    count := httpReqs.DeletePartialMatch(prometheus.Labels{"method": "GET"})
+    fmt.Println("删除了", count, "个指标")
+    ```
+### CurryWith
+
+- **功能​**​：固定部分标签值，生成一个新的 `MetricVec`。
+- ​**​用途​**​：简化标签管理（如固定环境标签 `env="prod"`）。
+- ​**​示例​**​：
+    
+    ```go
+    // 固定 env="prod"，生成新的 MetricVec
+    prodReqs, _ := httpReqs.CurryWith(prometheus.Labels{"env": "prod"})
+    
+    // 后续只需提供 method 和 status
+    metric, _ := prodReqs.GetMetricWithLabelValues("GET", "200")
+    ```
+### Reset
+
+- ​**​功能​**​：清空所有指标实例。
+- ​**​用途​**​：重置状态（如单元测试或服务重启时）。
+- ​**​示例​**​：
+    
+    ```go
+    httpReqs.Reset() // 清空所有指标
+    ```
+### 示例
+
+```go
+package main
+
+import (
+    "github.com/prometheus/client_golang/prometheus"
+)
+
+func main() {
+    // 1. 定义描述符
+    desc := prometheus.NewDesc(
+        "http_requests_total",
+        "Total HTTP requests",
+        []string{"method", "status"},
+        nil,
+    )
+
+    // 2. 创建 MetricVec
+    httpReqs := prometheus.NewMetricVec(
+        desc,
+        func(lvs ...string) prometheus.Metric {
+            return prometheus.MustNewConstMetric(
+                desc,
+                prometheus.CounterValue,
+                0.0,
+                lvs...,
+            )
+        },
+    )
+
+    // 3. 注册到默认注册表
+    prometheus.MustRegister(httpReqs)
+
+    // 4. 动态添加指标数据
+    httpReqs.WithLabelValues("GET", "200").Inc()
+    httpReqs.With(prometheus.Labels{"method": "POST", "status": "404"}).Inc()
+
+    // 5. 删除指定指标
+    httpReqs.DeleteLabelValues("GET", "200")
+}
+```
+## Colletcor
+
+- 类型定义：
+
+```go
+type Collector interface {
+	Describe(chan<- *[Desc]
+	Collect(chan<- [Metric]
+}
+```
+
+| **方法名​**​          | ​**​参数名​**​ | ​**​参数类型​**​    | ​**​作用​**​                                       |
+| ------------------ | ----------- | --------------- | ------------------------------------------------ |
+| ​**​`Describe`​**​ | `ch`        | `chan<- *Desc`  | 传递指标的 ​**​描述符​**​（Descriptor），用于注册时检查指标的唯一性和一致性。 |
+| ​**​`Collect`​**​  | `ch`        | `chan<- Metric` | 传递实际的 ​**​指标数据​**​（Metric），用于收集当前时刻的指标值。         |
+1. **`Describe` 方法​**​
+    
+    - ​**​通道内容​**​：发送 `*Desc` 类型指针，描述指标的元信息（名称、帮助文档、标签等）。
+    - ​**​一致性检查​**​：Prometheus 在注册时通过此方法验证指标是否冲突或重复。
+    - ​**​示例​**​：
+        
+        ```go
+        func (c *MyCollector) Describe(ch chan<- *Desc) {
+            ch <- myMetricDesc // 发送指标描述符
+        }
+        ```
+        
+2. ​**​`Collect` 方法​**​
+    
+    - ​**​通道内容​**​：发送 `Metric` 接口实现的具体指标数据（如 `Gauge`, `Counter` 等）。
+    - ​**​实时收集​**​：每次调用 `Gather()` 或 HTTP 暴露指标时触发此方法，生成当前时刻的指标值。
+    - ​**​示例​**​：
+        
+        ```go
+        func (c *MyCollector) Collect(ch chan<- Metric) {
+            ch <- myMetric.WithLabelValues("label1").Set(42) // 发送指标数据
+        }
+        ```
+
+3. ​**​单一指标 Collector​**​（如 `Gauge`, `Counter`）
+
+```go
+type MyGauge struct {
+    desc *Desc
+    value float64
+}
+
+func (g *MyGauge) Describe(ch chan<- *Desc) {
+    ch <- g.desc
+}
+
+func (g *MyGauge) Collect(ch chan<- Metric) {
+    ch <- g
+}
+```
+
+4. ​**​复合指标 Collector​**​（如 `GaugeVec`, `HistogramVec`）
+
+```go
+type MyCollector struct {
+    desc      *Desc
+    metrics   []Metric
+}
+
+func (c *MyCollector) Describe(ch chan<- *Desc) {
+    ch <- c.desc
+}
+
+func (c *MyCollector) Collect(ch chan<- Metric) {
+    for _, m := range c.metrics {
+        ch <- m
+    }
+}
+```
+
+> ​注意事项​​
+
+| ​**​场景​**​     | ​**​处理方式​**​                                             |
+| -------------- | -------------------------------------------------------- |
+| ​**​高并发调用​**​  | `Describe` 和 `Collect` 需实现为 ​**​线程安全​**​（如加锁或无状态）。       |
+| ​**​指标动态生成​**​ | 在 `Collect` 中实时生成指标（如从外部系统读取数据），避免在 `Describe` 中生成。      |
+| ​**​错误处理​**​   | 若 `Describe` 执行失败，需发送 `NewInvalidDesc()` 到通道通知 Registry。 |
+
+通过实现 `Collector` 接口，可以灵活扩展自定义指标（如集成第三方系统数据），并纳入 Prometheus 的统一管理中。
+## CollectorFunc
+
+`CollectorFunc` 是 Prometheus 客户端库提供的一种 ​**​函数适配器类型​**​，用于将普通函数转换为符合 `Collector` 接口的对象。通过它，开发者可以快速实现自定义指标收集逻辑，无需定义结构体和实现 `Describe`/`Collect` 方法。
+
+```go
+type CollectorFunc func(chan<- Metric)
+```
+
+### Describe 方法​​
+
+- ​**​功能​**​：向 Prometheus 注册表声明指标描述符（`Desc`）。
+- ​**​默认行为​**​：若未显式实现，`Describe` 方法不会发送任何 `Desc`，可能导致注册时报错。
+- ​**​重要规则​**​：每个指标必须通过 `Describe` 方法声明其 `Desc`，否则 Prometheus 会认为指标元数据不一致。
+
+### ​Collect 方法​​
+
+- ​**​功能​**​：生成具体的指标数据（`Metric`）并发送到通道。
+- ​**​实现方式​**​：直接调用 `CollectorFunc` 函数本身。
+### 示例
+
+```go
+desc := prometheus.NewDesc(
+	"http_requests_info",
+	"Information about the received HTTP requests.",
+	[]string{"code", "method"},
+	nil,
+)
+
+// Example 1: 42 GET requests with 200 OK status code.
+collector := prometheus.CollectorFunc(func(ch chan<- prometheus.Metric) {
+	ch <- prometheus.MustNewConstMetric(
+		desc,
+		prometheus.CounterValue, // Metric type: Counter
+		42,                      // Value
+		"200",                   // Label value: HTTP status code
+		"GET",                   // Label value: HTTP method
+	)
+
+	// Example 2: 15 POST requests with 404 Not Found status code.
+	ch <- prometheus.MustNewConstMetric(
+		desc,
+		prometheus.CounterValue,
+		15,
+		"404",
+		"POST",
+	)
+})
+
+prometheus.MustRegister(collector)
+
+// Just for demonstration, let's check the state of the metric by registering
+// it with a custom registry and then let it collect the metrics.
+
+reg := prometheus.NewRegistry()
+reg.MustRegister(collector)
+
+metricFamilies, err := reg.Gather()
+if err != nil || len(metricFamilies) != 1 {
+	panic("unexpected behavior of custom test registry")
+}
+```
