@@ -768,6 +768,7 @@ function test(){
     }
 
     // watch(谁？,回调函数)：情况1:监视【ref】定义的【基本类型】数据
+    // 返回的值即是取消监控函数
     const stopWatch = watch(sum,(newValue,oldValue)=>{
         console.log("sum变化了",newValue,oldValue)
         if(newValue >= 10){
@@ -947,3 +948,138 @@ watch([()=>person.name,person.car],(newValue,oldValue)=>{
       console.log("person name和car改变了",newValue,oldValue)
     })
 ```
+## watchEffect
+
+* 官网：立即运行一个函数，同时响应式地追踪其依赖，并在依赖更改时重新执行该函数。
+
+* `watch`对比`watchEffect`
+
+>   1. 都能监听响应式数据的变化，不同的是监听数据变化的方式不同
+  >
+  > 2. `watch`：要明确指出监视的数据
+  >
+  > 3. `watchEffect`：不用明确指出监视的数据（函数中用到哪些属性，那就监视哪些属性）。
+
+```vue
+<template>
+  <div class="person">
+    <h1>需求：在水温大于60或水位大于80的时候给服务器发送请求</h1>
+    <h1>水温：{{ temp }}</h1>
+    <h1>水位：{{ height }}</h1>
+    <button @click="changeTemp">增加温度</button>
+    <button @click="changeHeight">增加水位</button>
+  </div>
+</template>
+  
+<script setup lang="ts" name="App">
+  import {ref, watch,watchEffect} from 'vue'
+  let temp = ref(10)
+  let height = ref(0)
+
+  function changeTemp(){
+    temp.value += 10
+  }
+  function changeHeight(){
+    height.value += 10
+  }
+  // watch实现
+  // watch([temp,height],(value)=>{
+  //   let [newTemp,newHight] = value
+  //   if (newTemp > 60 || newHight > 80) {
+  //       console.log("给服务器发请求",newTemp,newHight )
+  //   }
+  // })
+
+  watchEffect((value)=>{
+
+    if (temp.value > 60 || height.value > 80) {
+        console.log("给服务器发请求",temp.value,height.value )
+    }
+  })
+   
+</script>
+```
+## 标签中的ref属性
+
+作用：用于注册模板引用。
+
+> * 用在普通`DOM`标签上，获取的是`DOM`节点。
+>
+> * 用在组件标签上，获取的是组件实例对象。
+
+用在普通`DOM`标签上：
+
+```vue
+<template>
+  <div class="person">
+    <h1 ref="title1">尚硅谷</h1>
+    <h2 ref="title2">前端</h2>
+    <h3 ref="title3">Vue</h3>
+    <input type="text" ref="inpt"> <br><br>
+    <button @click="showLog">点我打印内容</button>
+  </div>
+</template>
+
+<script lang="ts" setup name="Person">
+  import {ref} from 'vue'
+	
+  let title1 = ref()
+  let title2 = ref()
+  let title3 = ref()
+
+  function showLog(){
+    // 通过id获取元素
+    const t1 = document.getElementById('title1')
+    // 打印内容
+    console.log((t1 as HTMLElement).innerText)
+    console.log((<HTMLElement>t1).innerText)
+    console.log(t1?.innerText)
+    
+		/************************************/
+		
+    // 通过ref获取元素
+    console.log(title1.value)
+    console.log(title2.value)
+    console.log(title3.value)
+  }
+</script>
+```
+
+用在组件标签上：
+
+```vue
+<!-- 父组件App.vue -->
+<template>
+  <Person ref="ren"/>
+  <button @click="test">测试</button>
+</template>
+
+<script lang="ts" setup name="App">
+  import Person from './components/Person.vue'
+  import {ref} from 'vue'
+
+  let ren = ref()
+
+  function test(){
+    console.log(ren.value.name)
+    console.log(ren.value.age)
+  }
+</script>
+
+
+<!-- 子组件Person.vue中要使用defineExpose暴露内容 -->
+<script lang="ts" setup name="Person">
+  import {ref,defineExpose} from 'vue'
+	// 数据
+  let name = ref('张三')
+  let age = ref(18)
+  /****************************/
+  /****************************/
+  // 使用defineExpose将组件中的数据交给外部
+  defineExpose({name,age})
+</script>
+```
+## props
+
+
+

@@ -69,24 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "web/vue/vue.md",
+                "file": "web/vue/typescript.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "vue"
-            }
-          },
-          {
-            "id": "f65c06b33747401d",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "web/vue/image/tmp1746255888105_vue_time_3.gif"
-              },
-              "icon": "lucide-image",
-              "title": "tmp1746255888105_vue_time_3"
+              "title": "typescript"
             }
           }
         ],
@@ -147,8 +135,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "a689601275098279",
@@ -164,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "web/vue/vue.md",
+                "file": "web/vue/typescript.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "vue 的大纲"
+              "title": "typescript 的大纲"
             }
           },
           {
@@ -190,7 +177,9 @@
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-tags",
               "title": "标签"
@@ -260,12 +249,13 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "web/vue/image/tmp1746255888105_vue_time_3.gif",
+    "web/vue/typescript.md",
+    "web/vue/vue.md",
     "web/vue/image/vue_time_3.gif",
     "web/vue/image/vue_time_3.png",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
-    "web/vue/vue.md",
-    "web/vue/image/tmp1746255888105_vue_time_3.gif",
     "web/vue/image/tmp1746255792234_vue_time_3.gif",
     "web/vue/image/tmp1746255652446_vue_time_3.gif",
     "go/基础/go命令.md",
@@ -296,10 +286,8 @@
     "go/包/原子操作",
     "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
     "云计算/监控/prometheus/Prometheus.md",
-    "README.md",
     "云计算/监控/prometheus/自定义Exporter",
     "分布式版本控制系统/image/tmp1743691684738_git_time_10.png",
-    "分布式版本控制系统/image/tmp1743691699799_git_time_10.png",
     "image",
     "云计算/监控/prometheus/image",
     "go/包/命令行",
