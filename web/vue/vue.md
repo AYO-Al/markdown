@@ -102,7 +102,7 @@ src/
 - ​**​`main.js`​**​  
     应用入口文件，初始化 Vue 实例并挂载到 DOM：
 
-    ```javascript
+```javascript
 // vue中导出分为默认导出和命名导出，命名导出在别的文件导入必须用{}包裹
 export default function() { console.log('默认导出') }
 export const PI = 3.14
@@ -112,7 +112,7 @@ import { createApp } from 'vue'      // 从 Vue 库导入应用创建函数
 import App from './App.vue'          // 导入根组件
 
 createApp(App).mount('#app')         // 创建应用实例并挂载到 DOM
-    ```
+```
     
 
 > ​(3) 其他常见目录（按需添加）​​
@@ -1081,5 +1081,165 @@ watch([()=>person.name,person.car],(newValue,oldValue)=>{
 ```
 ## props
 
+- **Props​**​ 是组件之间传递数据的核心机制，用于父组件向子组件传递数据。
+
+```typescript
+// index.ts
+// 定义一种接口，用于限制person对象的具体属性
+export interface PersonInter {
+    id:string,
+    name:string,
+    age:number
+    // x?:number // 可选
+}
+
+// 自定义类型
+// export type Persons = Array<PersonInter>
+export type Persons = PersonInter[]
+```
+
+```vue
+<!-- App.vue -->
+<template>
+     <!-- <person a="哈哈" :list="personList"/>  -->
+      <!-- v-if 判断表达式是否成立，不成立销毁组件及状态 -->
+       <!-- v-show逻辑一样，但不销毁组件，只是通过display让组件不显示 -->
+     <person a="哈哈" v-if="a" v-show="a"/> 
+
+</template>
+
+<script lang="ts" name="App" setup>
+    import person from "./components/Person.vue";
+    import { type Persons } from "@/types";
+    import { reactive } from "vue";
+
+    let personList = reactive<Persons>([
+        {id:'1',name:'王五',age:10},
+        {id:'2',name:'李四',age:20},
+    ])
+</script>
+
+<style>
+    /* 样式 */
+    .app {
+        background-color: aqua;
+        box-shadow: 0 0 10px;
+        border-radius: 10px;
+        padding: 20px;
+    }
+</style>
+```
+
+```vue
+<!--Person.vue-->
+<template>
+  <div class="person">
+
+    <ul>
+      <li v-for="i in list" :key="i.id">{{ i }}</li>
+    </ul>
+  
+  </div>
+</template>
+  
+<script setup lang="ts" name="App">
+  // define开头都属于宏函数可以不导入使用 
+  import { defineProps,withDefaults } from 'vue';
+  import { type Persons } from '@/types';
+
+  // 仅接受变量
+  // defineProps(['a','list'])
+
+  // 接收加限制
+  // defineProps<{list:Persons}>()
+
+  // 接收加限制加必要性加默认值
+   withDefaults(defineProps<{list?:Persons}>(),{
+    list:()=>[{id:'1',name:'zhangsan',age:19}]
+   })
 
 
+
+  // 接收加保存
+  // let x = defineProps(['a','list'])
+  // console.log(x.a)
+
+</script>
+
+<!-- scoped：定义局部样式 -->
+<style scoped>
+  .person {
+    background-color: aqua;
+  }
+</style>
+
+```
+## 生命周期
+
+> 创建阶段：`setup`
+  >
+  > 挂载阶段：`onBeforeMount`、`onMounted`
+  >
+  > 更新阶段：`onBeforeUpdate`、`onUpdated`
+  >
+  > 卸载阶段：`onBeforeUnmount`、`onUnmounted`
+
+* 常用的钩子：`onMounted`(挂载完毕)、`onUpdated`(更新完毕)、`onBeforeUnmount`(卸载之前)
+
+* 示例代码：
+
+  ```vue
+  <template>
+    <div class="person">
+      <h2>当前求和为：{{ sum }}</h2>
+      <button @click="changeSum">点我sum+1</button>
+    </div>
+  </template>
+  
+  <!-- vue3写法 -->
+  <script lang="ts" setup name="Person">
+    import { 
+      ref, 
+      onBeforeMount, 
+      onMounted, 
+      onBeforeUpdate, 
+      onUpdated, 
+      onBeforeUnmount, 
+      onUnmounted 
+    } from 'vue'
+  
+    // 数据
+    let sum = ref(0)
+    // 方法
+    function changeSum() {
+      sum.value += 1
+    }
+    console.log('setup')
+    // 生命周期钩子
+    onBeforeMount(()=>{
+      console.log('挂载之前')
+    })
+    onMounted(()=>{
+      console.log('挂载完毕')
+    })
+    onBeforeUpdate(()=>{
+      console.log('更新之前')
+    })
+    onUpdated(()=>{
+      console.log('更新完毕')
+    })
+    onBeforeUnmount(()=>{
+      console.log('卸载之前')
+    })
+    onUnmounted(()=>{
+      console.log('卸载完毕')
+    })
+  </script>
+  ```
+## 自定义Hooks
+
+- 下载axios包
+
+```node
+npm i axios
+```
