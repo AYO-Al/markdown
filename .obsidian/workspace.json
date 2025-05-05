@@ -13,10 +13,10 @@
             "state": {
               "type": "image",
               "state": {
-                "file": "web/vue/image/tmp1746425967242_vue_time_3.gif"
+                "file": "web/vue/image/tmp1746350087092_vue_time_3.gif"
               },
               "icon": "lucide-image",
-              "title": "tmp1746425967242_vue_time_3"
+              "title": "tmp1746350087092_vue_time_3"
             }
           },
           {
@@ -91,7 +91,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 314.5
   },
   "right": {
     "id": "a689601275098279",
@@ -184,7 +184,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -202,23 +203,22 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "4f0f2ca6323c33fe",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "web/vue/image/vue_time_3.png",
-    "web/vue/image/tep123vue_time_3.gif",
+    "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/vue.md",
+    "web/vue/image/tmp1746265614700_vue_time_3.gif",
+    "web/vue/image/tmp1746265584039_vue_time_3.png",
+    "web/vue/image/tmp1746255888105_vue_time_3.gif",
+    "web/vue/image/tep123vue_time_3.gif",
+    "web/vue/image/tmp1746255652446_vue_time_3.gif",
+    "web/vue/image/tmp1746255792234_vue_time_3.gif",
     "web/vue/image/tmp1746425967242_vue_time_3.gif",
+    "web/vue/image/vue_time_1.png",
     "web/vue/image/vue_time_2.png",
-    "web/vue/image/tmp1746433458639_vue_time_3.png",
     "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
     "go/基础/go命令.md",
     "web/vue/typescript.md",
-    "web/vue/image/tmp1746255888105_vue_time_3.gif",
-    "web/vue/image/tmp1746350087092_vue_time_3.gif",
-    "web/vue/image/tmp1746265584039_vue_time_3.png",
-    "web/vue/image/tmp1746265614700_vue_time_3.gif",
-    "web/vue/image/tmp1746255792234_vue_time_3.gif",
-    "web/vue/image/tmp1746255652446_vue_time_3.gif",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
     "go/包/数据库操作/sql包.md",
