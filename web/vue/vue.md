@@ -1236,10 +1236,215 @@ export type Persons = PersonInter[]
     })
   </script>
   ```
-## 自定义Hooks
+## 自定义Hook
 
 - 下载axios包
 
 ```node
 npm i axios
 ```
+
+- 什么是`hook`？—— 本质是一个函数，把`setup`函数中使用的`Composition API`进行了封装，类似于`vue2.x`中的`mixin`。
+
+- 自定义`hook`的优势：复用代码, 让`setup`中的逻辑更清楚易懂。
+
+> 示例代码：
+
+- `useSum.ts`中内容如下：
+
+```js
+import { ref } from 'vue';
+    
+export default function(){
+  let sum = ref(0)
+
+  function changeSum(){
+    sum.value += 1
+  }
+  return {sum,changeSum}
+}
+```
+  
+- `useDog.ts`中内容如下：
+
+```typescript
+import axios from 'axios';
+import { reactive } from 'vue';
+
+export default function(){
+  let dogList = reactive([
+    "https:\/\/images.dog.ceo\/breeds\/pembroke\/n02113023_5295.jpg"
+  ])
+
+  async function getDog(){
+    try {
+      let result = await axios.get("https://dog.ceo/api/breed/pembroke/images/random")
+      dogList.push(result.data.message)
+    } catch (error) {
+      alert(error)
+    }
+  }
+  // 向外部提供东西
+  return {dogList,getDog}
+}
+```
+
+- 组件中具体使用：
+
+```vue
+<template>
+  <div class="person">
+  <h1>{{sum}}</h1>
+  <button @click="changeSum">点击加1</button>
+    <hr>
+  <img v-for="(dog,index) in dogList" :src="dog" :key="index">
+  <br>
+    <button @click="getDog">再来一只狗</button>
+  </div>
+</template>
+  
+<script setup lang="ts" name="App">
+import useSum from '@/hooks/useSum';
+import useDog from '@/hooks/useDog';
+
+const {sum,changeSum} = useSum()
+const {dogList,getDog} = useDog()
+
+</script>  
+
+<!-- scoped：定义局部样式 -->
+<style scoped>
+  .person {
+    background-color: aqua;
+  }
+  
+  img{
+    height: 100px;
+  }
+</style>
+
+```
+# 路由
+
+- 使用路由前需要安装路由
+
+```node
+npm i vue-router
+```
+
+> 使用路由步骤
+
+```typescript
+// router/index.ts
+
+// 创建一个路由器，并暴露出去 
+
+// 引入createRouter
+import { createRouter, createWebHistory } from "vue-router";
+
+// 引入呈现组件
+import Home from "@/components/Home.vue";
+import News from "@/components/News.vue";
+import About from "@/components/About.vue";
+
+// 创建路由器
+const router = createRouter({
+    history:createWebHistory(), // 路由器的工作模式
+    routes:[  // 路由规则
+        {
+            path:'/home',
+            component:Home
+        },
+        {
+            path:'/news',
+            component:News
+        },
+        {
+            path:'/about',
+            component:About
+        }
+    ]
+})
+
+export default router
+```
+
+```js
+// main.js
+
+import {createApp} from 'vue'
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+app.use(router) // 在应用中使用路由
+app.mount('#app')
+```
+
+```vue
+<!--App.vue-->
+
+<template>
+    <h2>路由测试</h2>
+    <!-- 导航区 -->
+     <div class="navigate">
+         <!-- RouterLink内置的超链接组件 -->
+        <RouterLink to="/home" active-class="test">首页</RouterLink>
+        <RouterLink to="/news" active-class="test">新闻</RouterLink>
+        <RouterLink to="/about" active-class="test">关于</RouterLink>
+    </div>
+     <!-- 展示区 -->
+      <div class="main-content">
+        <!-- Routerview内置的路由视图，指定路由展示的位置 -->
+            <RouterView></RouterView>
+      </div>
+</template>
+
+<script lang="ts" name="App" setup>
+import { RouterView,RouterLink } from 'vue-router';
+</script>
+
+<style>
+    /* 样式 */
+    .test{
+        color: blueviolet;
+        background-color: aqua;
+    }
+</style>
+```
+## 两个注意点
+
+ 1. 路由组件通常存放在`pages` 或 `views`文件夹，一般组件通常存放在`components`文件夹。
+ 
+ 2. 通过点击导航，视觉效果上“消失” 了的路由组件，默认是被**卸载**掉的，需要的时候再去**挂载**。
+
+> 一般组件：亲手写标签出来的，如\<Dome/\>。
+> 
+> 路由组件：靠路由的规则渲染出来的。
+## 路由器工作模式
+
+1. `history`模式
+
+> 优点：`URL`更加美观，不带有`#`，更接近传统的网站`URL`。
+   >
+> 缺点：后期项目上线，需要服务端配合处理路径问题，否则刷新会有`404`错误。
+   >
+   > ```js
+   > const router = createRouter({
+   >   	history:createWebHistory(), //history模式
+   >   	/******/
+   > })
+   > ```
+
+2. `hash`模式
+
+> 优点：兼容性更好，因为不需要服务器端处理路径。
+   >
+> 缺点：`URL`带有`#`不太美观，且在`SEO`优化方面相对较差。
+   >
+   > ```js
+   > const router = createRouter({
+   >   	history:createWebHashHistory(), //hash模式
+   >   	/******/
+   > })
+   > ```

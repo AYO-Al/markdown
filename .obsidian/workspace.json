@@ -185,7 +185,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -203,7 +204,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa46d7f450b1de15",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "web/vue/image/vue_time_3.gif",
     "go/基础/go命令.md",
