@@ -1,6 +1,7 @@
 # 1 基础
 
 `log`是 Go 标准库提供的，不需要另外安装。可直接使用：
+
 ```go
 package main  
   
@@ -22,6 +23,7 @@ func main() {
 # 2 定制
 
 在log库中提供了这么一组常量。
+
 ```go
 const (
 	Ldate         = 1 << iota     // the date in the local time zone: 2009/01/23
@@ -36,6 +38,7 @@ const (
 ```
 
 可以在标准logger上添加前缀和对应标签。
+
 ```go
 package main  
   
@@ -61,6 +64,7 @@ logger:  2024/11/27 19:57:44 log.go:12: yes
 ```
 
 前面一直使用的是`log`包提供的标准Logger对象，我们也可以自己新建一个。
+
 ```go
 package main
 
@@ -87,6 +91,7 @@ func main() {
 # 3 实现
 
 Log库提供的标准Loggeer对象也是使用New方法创建出来的。
+
 ```go
 var std = New(os.Stderr, "", LstdFlags)
 
@@ -97,6 +102,7 @@ func Fatalf(format string, v ...any) {
 ```
 
 Log库的核心方法是`Output`方法。
+
 ```go
 func (l *Logger) output(pc uintptr, calldepth int, appendOutput func([]byte) []byte) error {  
     if l.isDiscard.Load() {  
