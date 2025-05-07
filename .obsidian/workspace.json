@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/包/log.md",
+                "file": "go/包/数据库操作/sql包.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "log"
+              "title": "sql包"
             }
           }
         ]
@@ -94,13 +94,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/包/log.md",
+                "file": "go/包/数据库操作/sql包.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "log 的大纲"
+              "title": "sql包 的大纲"
             }
           },
           {
@@ -176,7 +176,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 238.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -190,9 +190,11 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "bc5db4e5d718fb7d",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "web/vue/vue.md",
+    "go/包/数据库操作/sql包.md",
+    "go/包/log.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
@@ -208,7 +210,6 @@
     "web/vue/typescript.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
-    "go/包/数据库操作/sql包.md",
     "分布式版本控制系统/git.md",
     "web/vue/image",
     "web/vue/vue(粗).md",
