@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/包/数据库操作/sql包.md",
+                "file": "go/包/io处理/io.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sql包"
+              "title": "io"
+            }
+          },
+          {
+            "id": "a54b8c2a96dc3b90",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "web/vue/vue(粗).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "vue(粗)"
             }
           }
         ]
@@ -94,13 +108,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/包/数据库操作/sql包.md",
+                "file": "go/包/io处理/io.md",
                 "followCursor": false,
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "sql包 的大纲"
+              "title": "io 的大纲"
             }
           },
           {
@@ -171,8 +185,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -190,8 +203,10 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "bc5db4e5d718fb7d",
   "lastOpenFiles": [
+    "go/基础/go命令.md",
+    "web/vue/vue(粗).md",
     "web/vue/vue.md",
     "go/包/数据库操作/sql包.md",
     "go/包/log.md",
@@ -206,13 +221,11 @@
     "web/vue/image/vue_time_1.png",
     "web/vue/image/vue_time_2.png",
     "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
-    "go/基础/go命令.md",
     "web/vue/typescript.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
     "分布式版本控制系统/git.md",
     "web/vue/image",
-    "web/vue/vue(粗).md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "go/包/命令行/flag.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
