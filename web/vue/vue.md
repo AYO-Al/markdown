@@ -689,6 +689,7 @@ function test(){
 </script>
 ```
 ## 2.10 computed
+
 作用：根据已有数据计算出新数据（和`Vue2`中的`computed`作用一致）。
 
 <img src="image/tmp1746350087092_vue_time_3.gif" style="zoom:20%;" />  

@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "58f1fd501a636ab6",
+        "id": "d699c0557faf6d20",
         "type": "tabs",
         "children": [
           {
-            "id": "bc5db4e5d718fb7d",
+            "id": "c0818b4821eb0634",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -22,17 +22,17 @@
             }
           },
           {
-            "id": "a54b8c2a96dc3b90",
+            "id": "0186d3e85d5e22e3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "web/vue/vue(粗).md",
+                "file": "go/FQA/值类型和指针类型接收者.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "vue(粗)"
+              "title": "值类型和指针类型接收者"
             }
           }
         ]
@@ -92,7 +92,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 314.5
+    "width": 230.5
   },
   "right": {
     "id": "a689601275098279",
@@ -185,11 +185,12 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 219.5
+    "width": 352.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -203,12 +204,15 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "bc5db4e5d718fb7d",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/基础/go命令.md",
-    "web/vue/vue(粗).md",
+    "go/FQA/值类型和指针类型接收者.md",
+    "go/包/io处理/io.md",
+    "web/Axios.md",
     "web/vue/vue.md",
     "go/包/数据库操作/sql包.md",
+    "go/基础/go命令.md",
+    "web/vue/vue(粗).md",
     "go/包/log.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
@@ -233,7 +237,6 @@
     "go/包/未命名.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
     "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
-    "go/FQA/值类型和指针类型接收者.md",
     "云计算/容器/云原生/Kubernetes.md",
     "云计算/shell编程/命令/命令.md",
     "云计算/监控/prometheus/Prometheus配置.md",
@@ -242,8 +245,6 @@
     "云计算/监控/prometheus/架构说明.md",
     "go/包/原子操作/atomic.md",
     "go/包/原子操作",
-    "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
-    "云计算/监控/prometheus/Prometheus.md",
     "云计算/监控/prometheus/自定义Exporter",
     "image",
     "云计算/监控/prometheus/image",
