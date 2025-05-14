@@ -340,6 +340,51 @@ const (
 |`ReadAtLeast`|读取最小字节|确保最低数据量|
 |`ReadFull`|填满缓冲区|严格数据完整性|
 |`WriteString`|高效写入字符串|避免类型转换开销|
+## 3.9 func Pipe() (\*PipeReader, \*PipeWriter)
+
+`io.Pipe()` 用于在内存中创建一个​**​同步的、无缓冲的管道​**​，允许在两个协程（Goroutine）间直接传递数据流。它返回一对读写接口：`*PipeReader`（读端）和 `*PipeWriter`（写端），使数据生产者可以写入数据，消费者同时读取数据，且两者操作完全同步。
+### 3.9.1 核心特性​​
+
+> (1) 同步无缓冲​​
+
+- ​**​无中间缓存​**​：写入的数据直接从 `PipeWriter` 传输到 `PipeReader`，不存储在中间缓冲区。
+- ​**​写入阻塞，直至读消费​**​：每次写操作（`Write`）会阻塞，直到所有写入的数据被读取端通过一次或多次 `Read` 调用​**​完全读取​**​。
+    
+```go
+r, w := io.Pipe()
+go func() {
+    // 写入 "hello" 后阻塞，等待读端消费
+    w.Write([]byte("hello"))
+    w.Close() // 可选：关闭写端
+}()
+buf := make([]byte, 5) // 缓冲区大小为5
+n, _ := r.Read(buf)    // 读取后，写端解除阻塞
+fmt.Println(string(buf[:n])) // 输出 "hello"
+```
+
+> (2) 协程安全的并行操作​​
+
+- ​**​并发安全​**​：
+    - `Read` 和 `Write` 可在不同协程并发调用。
+    - 多个并行的 `Read` 或 `Write` 会被自动串行化（顺序执行）。
+- ​**​组合关闭操作​**​：可安全并行调用 `Close` 或 `CloseWithError`，关闭操作会中断阻塞的读写。
+
+> ​(3) 严格的一对一匹配​​
+
+- ​**​多读需消费单次写​**​：如果单次写入的数据量很大，需要多次 `Read` 调用才能全部消费。
+    
+```go
+r, w := io.Pipe()
+go func() {
+    w.Write([]byte("1234567890")) // 写入10字节
+    w.Close()
+}()
+
+buf1 := make([]byte, 5)
+n1, _ := r.Read(buf1) // 第一次读取5字节（"12345"）
+buf2 := make([]byte, 5)
+n2, _ := r.Read(buf2) // 第二次读取5字节（"67890"）
+```
 # 4 类型
 
 ## 4.1 Reader
@@ -981,3 +1026,15 @@ func CopyWithTransform(input io.Reader) io.Reader {
 
 - ​**​现象​**​：数据竞态或非预期错误。
 - ​**​解决​**​：通常设计为单生产者单消费者模式。
+### 4.8.4 io.WriterTo 接口​​
+
+`io.WriterTo` 是一个标准接口，定义如下：
+
+```go
+type WriterTo interface {
+    WriteTo(w Writer) (n int64, err error) 
+    }
+```
+
+- ​**​功能​**​：将数据从调用者（实现该接口的对象）直接写入 `w`，无需通过中间缓冲。
+- ​**​典型实现​**​：`os.File`、`bytes.Buffer`、`net.TCPConn` 等类型可能已实现此接口。
