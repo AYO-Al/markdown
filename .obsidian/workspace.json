@@ -4,49 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d699c0557faf6d20",
+        "id": "9e618096ec8ae66b",
         "type": "tabs",
         "children": [
           {
-            "id": "e78872cab7218e16",
+            "id": "deff8c1c4603cf35",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "web/Axios.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Axios"
-            }
-          },
-          {
-            "id": "f9d825c69dd1c5a9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Collector和MetricVec"
-            }
-          },
-          {
-            "id": "6206b6c8d983eec0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "4 prometheus包"
+              "title": "5 collectors包"
             }
           }
         ]
@@ -122,13 +94,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "web/Axios.md",
+                "file": "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Axios 的大纲"
+              "title": "5 collectors包 的大纲"
             }
           },
           {
@@ -217,13 +189,16 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "d5362f416d5b8f9a",
+  "active": "deff8c1c4603cf35",
   "lastOpenFiles": [
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+    "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
+    "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
+    "云计算/监控/Zabbix常用API.md",
+    "web/Axios.md",
     "web/vue/vue.md",
     "go/框架/Web开发/gin-web开发.md",
-    "web/Axios.md",
     "go/包/io处理/io.md",
     "go/基础/go基础.md",
     "go/包/io处理/bufio.md",
@@ -243,7 +218,6 @@
     "web/vue/image/tmp1746425967242_vue_time_3.gif",
     "web/vue/image/vue_time_1.png",
     "web/vue/image/vue_time_2.png",
-    "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
     "web/vue/typescript.md",
     "云计算/监控/prometheus/PromQL.md",
     "分布式版本控制系统/git.md",
@@ -253,10 +227,8 @@
     "go/包/数据库操作",
     "go/包/未命名.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
-    "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
     "云计算/容器/云原生/Kubernetes.md",
     "云计算/shell编程/命令/命令.md",
-    "云计算/监控/prometheus/Prometheus配置.md",
     "go/包/原子操作",
     "云计算/监控/prometheus/自定义Exporter",
     "image",
