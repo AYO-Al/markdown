@@ -388,6 +388,15 @@ instance.interceptors.request.use(function () {/*...*/});
 ```
 # 错误处理
 
+- `error` 通用字段：
+
+|字段名|类型|说明|
+|---|---|---|
+|`message`|string|错误描述（如 `"Request aborted"`、`"Network Error"`）|
+|`name`|string|错误类型名称（如 `"AxiosError"`、`"CanceledError"`）|
+|`config`|object|请求的配置信息（包含 URL、method、headers 等）|
+|`code`|string|错误代码（如 `"ERR_NETWORK"`、`"ERR_CANCELED"`，某些错误可能无此字段）|
+
 ```
 axios.get('/user/12345')
   .catch(function (error) {
