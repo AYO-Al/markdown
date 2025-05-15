@@ -284,7 +284,8 @@ tasksProcessed := prometheus.NewCounter(prometheus.CounterOpts{
 ```go
 type CounterVec struct {
     *metricVec // 内部维护 sync.Map，存储标签组合到 Counter 的映射
-}```
+}
+```
 
 CounterVec 是一个 Collector，它捆绑了一组 Counter，这些 Counter 都共享相同的 Desc，但其变量标签具有不同的值。如果你想计算按各种维度分区的同一事物（例如，按响应代码和方法分区的 HTTP 请求数量），则使用此方法。使用 NewCounterVec 创建实例。
 
@@ -1686,7 +1687,7 @@ func main() {
 ```
 
 ## Metric
-#TODO：Metric示例代码有问题，重新检查逻辑
+
 `Metric` 是 Prometheus 监控指标的具体实例，它包含以下核心信息：
 
 - ​**​指标名称​**​（如 `http_requests_total`）。
@@ -1769,7 +1770,7 @@ metric = prometheus.MustNewConstMetric(
 
 - ​**​功能​**​：创建直方图指标，记录数据分布（如请求延迟）。
 - **函数定义如下：**
-#TODO：Native创建
+
 ```go
 func NewConstNativeHistogram(
 	desc *Desc,
@@ -1963,25 +1964,87 @@ func NewMetricVec(desc *Desc, newMetric func(lvs ...string) Metric) *MetricVec
     - `newMetric func(lvs ...string) Metric`：用于生成单个指标的函数。
 
 ```go
-desc := prometheus.NewDesc(
-    "http_requests_total",
-    "Total HTTP requests",
-    []string{"method", "status"},
-    nil,
+package main
+
+import (
+    "github.com/prometheus/client_golang/prometheus"
+    "github.com/prometheus/client_golang/prometheus/promhttp"
+    "net/http"
 )
 
-// 创建 MetricVec，定义如何生成单个指标
-httpReqs := prometheus.NewMetricVec(
-    desc,
-    func(lvs ...string) prometheus.Metric {
-        return prometheus.MustNewConstMetric(
-            desc,
-            prometheus.CounterValue,
-            0.0, // 初始值
-            lvs...,
-        )
-    },
+// 1. 定义指标描述符（标签名固定，标签值动态）
+var (
+    customMetricDesc = prometheus.NewDesc(
+        "http_requests_total",
+        "Total HTTP requests by path and status.",
+        []string{"path", "status_code"}, // 标签名固定，值在运行时动态传入
+        nil,
+    )
 )
+
+// 2. 自定义 Collector 结构
+type DynamicLabelCollector struct {
+    metricVec *prometheus.MetricVec
+}
+
+func NewDynamicLabelCollector() *DynamicLabelCollector {
+    return &DynamicLabelCollector{
+        metricVec: prometheus.NewMetricVec(
+            customMetricDesc,
+            func(lvs ...string) (prometheus.Metric, error) {
+                // 动态创建 Counter 类型指标
+                return prometheus.NewConstMetric(
+                    customMetricDesc,
+                    prometheus.CounterValue,
+                    0, // 初始值，后续在 Collect 中更新
+                    lvs...,
+                ), nil
+            },
+        ),
+    }
+}
+
+// 3. 实现 Collector 接口
+func (c *DynamicLabelCollector) Describe(ch chan<- *prometheus.Desc) {
+    ch <- customMetricDesc
+}
+
+func (c *DynamicLabelCollector) Collect(ch chan<- prometheus.Metric) {
+    // 模拟动态数据源（例如从日志或请求中实时获取）
+    requests := []struct {
+        Path       string
+        StatusCode string
+        Count      float64
+    }{
+        {"/api", "200", 5},
+        {"/login", "401", 2},
+        {"/dashboard", "500", 1},
+    }
+
+    for _, req := range requests {
+        // 动态获取或创建指标（类似 CounterVec.WithLabelValues）
+        metric, err := c.metricVec.GetMetricWithLabelValues(req.Path, req.StatusCode)
+        if err != nil {
+            continue // 处理标签错误
+        }
+
+        // 更新指标值（类型断言为 Counter）
+        if counter, ok := metric.(prometheus.Counter); ok {
+            counter.Add(req.Count)
+        }
+
+        ch <- metric
+    }
+}
+
+// 4. 主函数
+func main() {
+    collector := NewDynamicLabelCollector()
+    prometheus.MustRegister(collector)
+
+    http.Handle("/metrics", prometheus.Handler())
+    http.ListenAndServe(":8080", nil)
+}
 ```
 ###  GetMetricWith 和 GetMetricWithLabelValues​
 
@@ -2097,10 +2160,13 @@ func main() {
 ```
 ## Colletcor
 
+- **一个 `Collector` 可以同时收集多个指标​**​。Prometheus 的设计允许在一个 `Collector` 中聚合多个相关指标，这在需要逻辑分组或共享数据源时非常有用。
+
 - 类型定义：
 
 ```go
 type Collector interface {
+    // 指针类型，描述信息全局存储一份即可
 	Describe(chan<- *[Desc]
 	Collect(chan<- [Metric]
 }
