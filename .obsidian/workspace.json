@@ -4,63 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "9e618096ec8ae66b",
+        "id": "0d4734b0d370ba88",
         "type": "tabs",
         "children": [
           {
-            "id": "deff8c1c4603cf35",
+            "id": "d8a12bdc21ee3b3d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+                "file": "go/框架/日志/Zap/1. Zap.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4 prometheus包"
-            }
-          },
-          {
-            "id": "f115a552d75d729a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "6 promhttp包"
-            }
-          },
-          {
-            "id": "1bba3ae9fb0075da",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "3 客户端说明"
-            }
-          },
-          {
-            "id": "d17f1e4a1580e222",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Collector和MetricVec"
+              "title": "1. Zap"
             }
           }
         ]
@@ -136,13 +94,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+                "file": "go/框架/日志/Zap/1. Zap.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "4 prometheus包 的大纲"
+              "title": "1. Zap 的大纲"
             }
           },
           {
@@ -213,7 +171,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -231,17 +190,24 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "deff8c1c4603cf35",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/自带包/io处理/io.md",
+    "分布式版本控制系统/git.md",
+    "go/基础/go命令.md",
+    "go/框架/日志/Zap/1. Zap.md",
+    "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
+    "go/框架/日志/Zap",
+    "go/框架/日志/未命名.md",
+    "go/框架/日志",
+    "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
-    "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
     "云计算/监控/prometheus/Prometheus配置.md",
     "云计算/监控/prometheus/软件安装.md",
     "云计算/监控/prometheus/架构说明.md",
     "云计算/监控/prometheus/Prometheus.md",
-    "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
     "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
     "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
@@ -249,15 +215,11 @@
     "web/Axios.md",
     "web/vue/vue.md",
     "go/框架/Web开发/gin-web开发.md",
-    "go/包/io处理/io.md",
     "go/基础/go基础.md",
-    "go/包/io处理/bufio.md",
+    "go/自带包/io处理/bufio.md",
     "go/FQA/make和new区别.md",
     "go/FQA/值类型和指针类型接收者.md",
-    "go/包/数据库操作/sql包.md",
-    "go/基础/go命令.md",
-    "web/vue/vue(粗).md",
-    "go/包/log.md",
+    "go/自带包/数据库操作/sql包.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
@@ -268,16 +230,13 @@
     "web/vue/image/tmp1746425967242_vue_time_3.gif",
     "web/vue/image/vue_time_1.png",
     "web/vue/image/vue_time_2.png",
-    "web/vue/typescript.md",
     "web/vue/image",
-    "go/包/数据库操作",
-    "go/包/原子操作",
+    "go/自带包/数据库操作",
+    "go/自带包/原子操作",
     "云计算/监控/prometheus/自定义Exporter",
     "image",
     "云计算/监控/prometheus/image",
-    "go/包/命令行",
-    "go/未命名",
-    "go/包/io处理",
-    "go/包/路径处理"
+    "go/自带包/命令行",
+    "go/未命名"
   ]
 }

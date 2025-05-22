@@ -99,19 +99,19 @@ Go 的 `go build` 命令是用于编译 Go 代码的核心工具，其原理�
 
 > GOARCH常见值
 
-|值|CPU 架构|备注|
-|---|---|---|
-|`amd64`|x86-64（64位）|主流服务器和桌面 CPU|
-|`386`|x86（32位）|兼容旧硬件|
-|`arm`|ARM（32位）|如 ARMv6、ARMv7（树莓派早期版本）|
-|`arm64`|ARM64（64位）|Apple M1/M2、现代安卓设备|
-|`mips`|MIPS（32位）|嵌入式设备|
-|`mips64`|MIPS64（64位）|高性能嵌入式设备|
-|`mips64le`|MIPS64（64位，小端序）|龙芯等国产 CPU|
-|`ppc64`|PowerPC 64（大端序）|IBM 服务器|
-|`ppc64le`|PowerPC 64（小端序）|现代 PowerPC 服务器|
-|`riscv64`|RISC-V 64|新兴开源指令集架构|
-|`wasm`|WebAssembly|浏览器或 Node.js 环境运行|
+| 值          | CPU 架构          | 备注                     |
+| ---------- | --------------- | ---------------------- |
+| `amd64`    | x86-64（64位）     | 主流服务器和桌面 CPU           |
+| `386`      | x86（32位）        | 兼容旧硬件                  |
+| `arm`      | ARM（32位）        | 如 ARMv6、ARMv7（树莓派早期版本） |
+| `arm64`    | ARM64（64位）      | Apple M1/M2、现代安卓设备     |
+| `mips`     | MIPS（32位）       | 嵌入式设备                  |
+| `mips64`   | MIPS64（64位）     | 高性能嵌入式设备               |
+| `mips64le` | MIPS64（64位，小端序） | 龙芯等国产 CPU              |
+| `ppc64`    | PowerPC 64（大端序） | IBM 服务器                |
+| `ppc64le`  | PowerPC 64（小端序） | 现代 PowerPC 服务器         |
+| `riscv64`  | RISC-V 64       | 新兴开源指令集架构              |
+| `wasm`     | WebAssembly     | 浏览器或 Node.js 环境运行      |
 
 > 组合
 
