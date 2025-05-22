@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/日志/Zap/1. Zap.md",
+                "file": "go/框架/日志/Zap/2. Zapcore.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "1. Zap"
+              "title": "2. Zapcore"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 230.5
+    "width": 230.5,
+    "collapsed": true
   },
   "right": {
     "id": "a689601275098279",
@@ -94,13 +95,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/日志/Zap/1. Zap.md",
+                "file": "go/框架/日志/Zap/2. Zapcore.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "1. Zap 的大纲"
+              "title": "2. Zapcore 的大纲"
             }
           },
           {
@@ -192,10 +193,11 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/框架/日志/Zap/1. Zap.md",
+    "go/框架/日志/Zap/2. Zapcore.md",
     "go/自带包/io处理/io.md",
     "分布式版本控制系统/git.md",
     "go/基础/go命令.md",
-    "go/框架/日志/Zap/1. Zap.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
     "go/框架/日志/Zap",
     "go/框架/日志/未命名.md",
@@ -219,7 +221,6 @@
     "go/自带包/io处理/bufio.md",
     "go/FQA/make和new区别.md",
     "go/FQA/值类型和指针类型接收者.md",
-    "go/自带包/数据库操作/sql包.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
