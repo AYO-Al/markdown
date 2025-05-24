@@ -13,16 +13,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/日志/Zap/1. Zap.md",
+                "file": "go/框架/日志/Zap/3. 日志滚动.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "1. Zap"
+              "title": "3. 日志滚动"
             }
           },
           {
-            "id": "d8a12bdc21ee3b3d",
+            "id": "57ac584aaf3adcd9",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -34,9 +34,22 @@
               "icon": "lucide-file",
               "title": "2. Zapcore"
             }
+          },
+          {
+            "id": "e70eae38c337ed92",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/框架/日志/Zap/1. Zap.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "1. Zap"
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,8 +106,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 230.5,
-    "collapsed": true
+    "width": 230.5
   },
   "right": {
     "id": "a689601275098279",
@@ -110,13 +122,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/日志/Zap/2. Zapcore.md",
+                "file": "go/框架/日志/Zap/3. 日志滚动.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2. Zapcore 的大纲"
+              "title": "3. 日志滚动 的大纲"
             }
           },
           {
@@ -208,8 +220,13 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/框架/日志/Zap/1. Zap.md",
     "go/框架/日志/Zap/2. Zapcore.md",
+    "go/框架/日志/Zap/3. 日志滚动.md",
+    "go/框架/日志/Zap/1. Zap.md",
+    "go/基础/go基础.md",
+    "云计算/监控/prometheus/PromQL.md",
+    "云计算/监控/prometheus/Promql细节补充.md",
+    "go/框架/日志/Zap/日志设计建议.md",
     "go/自带包/io处理/io.md",
     "分布式版本控制系统/git.md",
     "go/基础/go命令.md",
@@ -218,7 +235,6 @@
     "go/框架/日志/未命名.md",
     "go/框架/日志",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
-    "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
     "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
     "云计算/监控/prometheus/Prometheus配置.md",
@@ -232,10 +248,6 @@
     "web/Axios.md",
     "web/vue/vue.md",
     "go/框架/Web开发/gin-web开发.md",
-    "go/基础/go基础.md",
-    "go/自带包/io处理/bufio.md",
-    "go/FQA/make和new区别.md",
-    "go/FQA/值类型和指针类型接收者.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",

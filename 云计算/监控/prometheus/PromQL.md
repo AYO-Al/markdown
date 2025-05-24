@@ -286,7 +286,7 @@ http_requests_total{code="200",handler="graph",instance="localhost:9090",job="pr
 
 > 时间位移操作
 
-时间选择器 `[]` 可以与时间偏移选择器 `offset` 配合使用。
+时间选择器 `[]` 可以与时间偏移选择器 `offset` 配合使用。左开右闭。
 
 ```promql
 http_requests_total{job="api-server"} offset 1d  # 24小时前的瞬时值
