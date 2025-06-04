@@ -4,53 +4,66 @@
     "type": "split",
     "children": [
       {
-        "id": "0d4734b0d370ba88",
+        "id": "70bd702a6864b6a0",
         "type": "tabs",
         "children": [
           {
-            "id": "d323ff411611d8ac",
+            "id": "f0124b31e03562df",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/日志/Zap/日志设计建议.md",
+                "file": "go/自带包/系统功能/os.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "日志设计建议"
+              "title": "os"
             }
           },
           {
-            "id": "57ac584aaf3adcd9",
+            "id": "87e4d558c42e1466",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/日志/Zap/2. Zapcore.md",
+                "file": "go/自带包/io处理/io.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2. Zapcore"
+              "title": "io"
             }
           },
           {
-            "id": "e70eae38c337ed92",
+            "id": "96b9ae4e291b77e5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/日志/Zap/1. Zap.md",
+                "file": "go/自带包/文本处理.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "1. Zap"
+              "title": "文本处理"
+            }
+          },
+          {
+            "id": "105892ea01bce917",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/自带包/文本处理.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "文本处理"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -123,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/日志/Zap/2. Zapcore.md",
+                "file": "go/自带包/系统功能/os.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2. Zapcore 的大纲"
+              "title": "os 的大纲"
             }
           },
           {
@@ -221,14 +234,26 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/框架/日志/Zap/1. Zap.md",
-    "go/框架/日志/Zap/2. Zapcore.md",
-    "go/框架/日志/Zap/日志设计建议.md",
-    "go/框架/日志/Zap/3. 日志滚动.md",
+    "go/自带包/io处理/io.md",
+    "go/自带包/系统功能/os.md",
+    "go/自带包/文本处理.md",
+    "go/自带包/http.md",
+    "go/自带包/系统功能/exec.md",
+    "go/自带包/系统功能",
+    "go/自带包/未命名.md",
+    "go/自带包/sync.md",
+    "go/自带包/数据库操作/sql包.md",
     "go/基础/go基础.md",
+    "go/框架/Web开发/gin-web开发.md",
+    "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
+    "go/自带包/template.md",
+    "web/vue/vue.md",
+    "go/框架/日志/Zap/1. Zap.md",
+    "go/框架/日志/Zap/日志设计建议.md",
+    "go/框架/日志/Zap/2. Zapcore.md",
+    "go/框架/日志/Zap/3. 日志滚动.md",
     "云计算/监控/prometheus/PromQL.md",
     "云计算/监控/prometheus/Promql细节补充.md",
-    "go/自带包/io处理/io.md",
     "分布式版本控制系统/git.md",
     "go/基础/go命令.md",
     "云计算/监控/prometheus/自定义Exporter/4 prometheus包.md",
@@ -237,18 +262,7 @@
     "go/框架/日志",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
     "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
-    "云计算/监控/prometheus/自定义Exporter/6 promhttp包.md",
     "云计算/监控/prometheus/Prometheus配置.md",
-    "云计算/监控/prometheus/软件安装.md",
-    "云计算/监控/prometheus/架构说明.md",
-    "云计算/监控/prometheus/Prometheus.md",
-    "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
-    "云计算/监控/prometheus/自定义Exporter/2 Export编写指南.md",
-    "云计算/监控/prometheus/自定义Exporter/5 collectors包.md",
-    "云计算/监控/Zabbix常用API.md",
-    "web/Axios.md",
-    "web/vue/vue.md",
-    "go/框架/Web开发/gin-web开发.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
@@ -265,7 +279,6 @@
     "云计算/监控/prometheus/自定义Exporter",
     "image",
     "云计算/监控/prometheus/image",
-    "go/自带包/命令行",
-    "go/未命名"
+    "go/自带包/命令行"
   ]
 }
