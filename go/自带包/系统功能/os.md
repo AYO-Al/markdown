@@ -1373,7 +1373,7 @@ func findGroupID(name string) int {
 - Windows总是返回空切片
 - 容器环境可能返回主机组ID
 - 修改用户组后需要重启进程生效
-#### 3.37.1.1 func Exit(code int)
+## 3.38 func Exit(code int)
 
 ​**​功能​**​：立即终止当前进程  
 ​**​参数​**​：`code` - 退出状态码
@@ -1424,7 +1424,7 @@ func handleFatalError(msg string) {
 - 127: 命令未找到
 - 130: Ctrl+C终止 (SIGINT)
 - 137: OOM终止 (SIGKILL)
-## 3.38 func IsExist(err error) bool
+## 3.39 func IsExist(err error) bool
 
 ​**​功能​**​：检查是否为"已存在"错误  
 ​**​参数​**​：错误对象  
@@ -1460,7 +1460,7 @@ func createUniqueFile(path string) (*os.File, error) {
 | `IsTimeout(err error) bool`                        | 是否超时错误      |
 | `IsPathSeparator(c uint8) bool`                    | 是否是路径分隔符    |
 | `NewSyscallError(syscall string, err error) error` | 创建系统调用错误    |
-## 3.39 func SameFile(fi1, fi2 FileInfo) bool
+## 3.40 func SameFile(fi1, fi2 FileInfo) bool
 
 ​**​功能​**​：检查文件是否相同  
 ​**​参数​**​：两个文件信息对象  
@@ -2115,6 +2115,18 @@ type DirEntry interface {
 ### 4.3.1 func ReadDir(name string) (\[\]DirEntry, error)
 
 - **功能**：跟 `File.ReadDir` 方法一致。
+### 4.3.2 DirEntry与FileInfo对比
+
+| ​**​特性​**​   | ​**​DirEntry​**​                        | ​**​FileInfo​**​                          |
+| ------------ | --------------------------------------- | ----------------------------------------- |
+| ​**​核心目的​**​ | 快速目录遍历优化                                | 完整文件元数据表示                                 |
+| ​**​设计目标​**​ | 最小化系统开销                                 | 提供完整文件信息                                  |
+| ​**​获取成本​**​ | ⚡ 低成本（通常不需要额外系统调用）                      | ⚠️ 高成本（可能需要单独系统调用）                        |
+| ​**​实现来源​**​ | 目录读取操作（如 readdir）                       | 文件状态获取（如 stat、fstat）                      |
+| ​**​主要方法​**​ | `Name()`, `IsDir()`, `Type()`, `Info()` | `Name()`, `Size()`, `Mode()`, `ModTime()` |
+| ​**​使用场景​**​ | 批量目录列表、递归遍历                             | 文件详情展示、权限检查、大小统计                          |
+| ​**​扩展功能​**​ | 可延迟加载完整信息                               | 包含系统特定数据（Sys()方法）                         |
+| ​**​性能影响​**​ | ✅ 高效（避免不必要的系统调用）                        | ❌ 可能显著影响性能                                |
 ## 4.4 FileMode类型
 
 `FileMode`是Go语言中表示文件模式和权限的核心类型。

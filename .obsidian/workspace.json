@@ -13,6 +13,20 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "go/自带包/io处理/fs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "fs"
+            }
+          },
+          {
+            "id": "301c804d9c449eba",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "go/自带包/系统功能/os.md",
                 "mode": "source",
                 "source": false
@@ -136,13 +150,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/自带包/系统功能/os.md",
+                "file": "go/自带包/io处理/fs.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "os 的大纲"
+              "title": "fs 的大纲"
             }
           },
           {
@@ -234,8 +248,10 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/自带包/io处理/io.md",
     "go/自带包/系统功能/os.md",
+    "go/自带包/io处理/io.md",
+    "go/自带包/io处理/fs.md",
+    "go/自带包/路径处理/filepath.md",
     "go/自带包/文本处理.md",
     "go/自带包/http.md",
     "go/自带包/系统功能/exec.md",
@@ -261,8 +277,6 @@
     "go/框架/日志/未命名.md",
     "go/框架/日志",
     "云计算/监控/prometheus/自定义Exporter/Collector和MetricVec.md",
-    "云计算/监控/prometheus/自定义Exporter/3 客户端说明.md",
-    "云计算/监控/prometheus/Prometheus配置.md",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
     "web/vue/image/tmp1746265614700_vue_time_3.gif",
     "web/vue/image/tmp1746265584039_vue_time_3.png",
