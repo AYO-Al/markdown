@@ -3705,6 +3705,7 @@ var 数据名 chan 数据类型
 ```
 
 channel是引用类型的数据，在作为参数传递的时候，传递的是内存地址。
+
 ```go
 package main
 
@@ -3803,6 +3804,8 @@ func sendate(ch chan <-int) { // 只写
 
 一般来说，创建通道的时候都创建双向通道，然后在函数中进行读或写的限制。
 ## 27.5 select语句
+
+Select语句是堵塞的，如果没有 `default` 分支的话，永久阻塞直到任一case可以执行。空Select语句是永久阻塞的。**即使有多个case满足，但一次只会有一个case被执行。所有case都会被随机公平轮询（避免饥饿）** 
 
 ```go
 package main  
