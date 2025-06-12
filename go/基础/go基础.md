@@ -2329,6 +2329,7 @@ Go 语言中数组可以存储同一类型的数据，但在结构体中我们�
 ## 18.1 定义结构体
 
 结构体定义需要使用 type 和 struct 语句。struct 语句定义一个新的数据类型，结构体中有一个或多个成员。type 语句设定了结构体的名称。结构体的格式如下：
+
 ```go
 type struct_variable_type struct {
    member definition
@@ -2338,7 +2339,10 @@ type struct_variable_type struct {
 }
 ```
 
+结构体成员的输入顺序也有重要的意义。我们也可以将Position成员合并(因为也是字符串类型)，或 者是交换Name和Address出现的先后顺序，那样的话就是定义了不同的结构体类型。通常，我们只是将相关的成员写到一起。
+
 一旦定义了结构体类型，它就能用于变量的声明，语法格式如下：
+
 ```go
 variable_name := structure_variable_type {value1, value2...valuen}
 或
@@ -2376,6 +2380,58 @@ func main() {
 {Go 语言 www.runoob.com Go 语言教程 6495407}
 {Go 语言 www.runoob.com Go 语言教程 6495407}
 {Go 语言 www.runoob.com  0}
+```
+
+一个命名为S的结构体类型将不能再包含S类型的成员:因为一个聚合的值不能包含它自身。(该限制同 样适应于数组。)但是S类型的结构体可以包含 \*S 指针类型的成员，这可以让我们创建递归的数据结构， 比如链表和树结构等。下面实现了一个二叉树用来排序
+
+```go
+package main  
+  
+import "fmt"  
+  
+type tree struct {  
+    v           int  
+    left, right *tree  
+}  
+  
+func sort(values []int) {  
+    var root *tree  
+    for _, v := range values {  
+       root = add(root, v)  
+    }  
+  
+    addValues(values[:0], root)  
+    fmt.Println(values)  
+}  
+  
+func addValues(value []int, t *tree) []int {  
+    if t != nil {  
+       value = addValues(value, t.left)  
+       value = append(value, t.v)  
+       value = addValues(value, t.right)  
+    }  
+    return value  
+}  
+  
+func add(t *tree, value int) *tree {  
+    if t == nil {  
+       t = new(tree)  
+       t.v = value  
+       return t  
+    }  
+  
+    if value < t.v {  
+       t.left = add(t.left, value)  
+    } else if value > t.v {  
+       t.right = add(t.right, value)  
+    }  
+    return t  
+}  
+  
+func main() {  
+    v := []int{1, 10, 9, 2, 8}  
+    sort(v)  
+}
 ```
 
 ## 18.2 访问结构体成员
@@ -2438,9 +2494,25 @@ Book 2 subject : Python 语言教程
 Book 2 book_id : 6495700
 ```
 
+如果结构体的全部成员都是可以比较的，那么结构体也是可以比较的，那样的话两个结构体将可以使用 `==`或`!=`运算符进行比较。相等比较运算符`==`将比较两个结构体的每个成员，因此下面两个比较的表达式 是等价的:
+
+```go
+type a struct {  
+    p int  
+}  
+  
+func main() {  
+    c := a{1}  
+    d := a{2}  
+    fmt.Println(c == d)  // false  
+    fmt.Println(c.p == d.p) // false  
+}
+```
+
 ## 18.3 结构体作为函数参数
 
 你可以像其他数据类型一样将结构体类型作为参数传递给函数。并以以上实例的方式访问结构体变量：
+
 ```go
 package main  
   
@@ -2516,6 +2588,7 @@ struct_pointer.title
 ```
 
 接下来让我们使用结构体指针重写以上实例，代码如下：
+
 ```go
 package main  
   
@@ -2571,6 +2644,7 @@ Book book_id : 6495700
 ## 18.5 匿名结构体
 
 匿名结构体跟匿名函数一样就是没有名字的结构体。
+
 ```go
 func main() {  
     s := struct {  
@@ -2586,28 +2660,34 @@ func main() {
 ## 18.6 结构体嵌套
 
 结构体嵌套就是在一个结构体的字段设置为另一个结构体。
+
+Go语言有一个特性让我们只声明一个成员对应的数据类型而不指名成员的名字;这类成员就叫匿名成 员。匿名成员的数据类型必须是命名的类型或指向一个命名的类型的指针。下面的代码中，Circle有一个匿名成员。我们可以说Point类型被嵌入到了Circle结构体。
+
 ```go
-type book struct {  
-    name  string  
-    price int  
+  
+type Point struct {  
+    x int  
 }  
   
-type student struct {  
-    name  string  
-    books book  // 如果结构体中的匿名字段是另一个结构体，这个字段被称为提升字段，可以省略字段名直接访问另一个结构体的字段
-    // student.name指的是book结构里的字段
-    // 如果有同名的，只能使用匿名结构体中的
+type Circle struct {  
+    //x string  
+    point  
 }  
   
-t := student{  
-    name: "jack",  
-    books: book{  
-       name:  "price",  
-       price: 10,  
-    },  
-}  
-fmt.Println(t.boos.name)
+func main() {  
+    s := Circle{Point{x: 1}} // 但在定义时不能省略匿名路径
+    fmt.Printf("%#v", s.x)   // 使用时可以省略匿名成员路径，等同于s.point.x  
+    //fmt.Println(s.point.x) // 如果父结构体中有跟嵌入结构体一样的字段就不能省略路径  
+}
 ```
+
+因为匿名成员也有一个隐式的名字，因此不能同时包含两个类型相同的匿名成员，这会导致名字冲突。 同时，因为成员的名字是由其类型隐式地决定的，所有匿名成员也有可见性的规则约束。在上面的例子 中，Point和Circle匿名成员都是导出的。即使它们不导出(比如改成小写字母开头的point和 circle)，我们依然可以用简短形式访问匿名成员嵌套的成员。
+
+但是在包外部，因为circle和point没有导出不能访问它们的成员，因此简短的匿名成员访问语法也是禁 止的。
+
+到目前为止，我们看到匿名成员特性只是对访问嵌套成员的点运算符提供了简短的语法糖。稍后，我们将会看到匿名成员并不要求是结构体类型;其实任何命令的类型都可以作为结构体的匿名成员。但是为什么要嵌入一个没有任何子成员类型的匿名成员类型呢?
+
+答案是匿名类型的方法集。简短的点运算符语法可以用于选择匿名成员嵌套的成员，也可以用于访问它 们的方法。实际上，外层的结构体不仅仅是获得了匿名成员类型的所有成员，而且也获得了该类型导出 的全部的方法。这个机制可以用于将一个有简单行为的对象组合成有复杂行为的对象。组合是Go语言中 面向对象编程的核心。
 # 19 Go 语言接口
 
 Go 语言提供了另外一种数据类型即接口，它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口。
