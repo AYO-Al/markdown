@@ -30,6 +30,23 @@ func main() {
     fmt.Println(string(data_dent))
     }
 ```
+
+- 设置输出格式
+- func MarshalIndent(v any, prefix, indent string) (\[\]byte, error)
+
+```go
+b, err := json.MarshalIndent(data, "<prefix>", "<indent>")
+
+
+/*
+Output:
+
+{
+<prefix><indent>"a": 1,
+<prefix><indent>"b": 2
+<prefix>}
+*/
+```
 ## 1.2 反序列化
 
 - 将 JSON 数据解析到 Go 结构体或 map 中。
