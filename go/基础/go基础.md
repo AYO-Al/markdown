@@ -2263,6 +2263,58 @@ func main() {
 ```
 
  这个Distance实际上是指定了Point对象为接收器的一个方法func (p Point) Distance()，但通过Point.Distance得到的函数需要比实际的Distance方法多一个参数，**即其需要用第一个额外参数指定接收器**，后面排列Distance方法的参数。
+## 16.12 Bit数组
+
+位运算最好使用无符号整数。使用Bit切片来模拟集合。
+
+```go
+package main  
+  
+import (  
+    "fmt"  
+    "math/rand/v2")  
+  
+type IntSet struct {  
+    words []uint64  
+}  
+  
+func (s *IntSet) Has(n int) bool {  
+    word, bit := n/64, uint(n%64)  
+    return word < len(s.words) && (s.words[word]&1<<bit) != 0  
+}  
+  
+func (s *IntSet) Add(n int) {  
+    word, bit := n/64, uint(n%64)  
+  
+    for word >= len(s.words) {  
+       s.words = append(s.words, 0)  
+    }  
+  
+    s.words[word] |= 1 << bit  
+}  
+  
+func (s *IntSet) UnionWith(t *IntSet) {  
+    for i, _ := range t.words {  
+       if i < len(s.words) {  
+          s.words[i] |= t.words[i]  
+       } else {  
+          s.words = append(s.words, t.words[i])  
+       }  
+    }  
+}  
+  
+func main() {  
+    var l IntSet  
+    for v := range rand.IntN(100) {  
+       l.Add(v)  
+       if v > 50 {  
+          break  
+       }  
+    }  
+    fmt.Println(l.Has(30))  
+    fmt.Println(l.words)  
+}
+```
 # 17 Go 语言指针
 
 Go 语言中指针是很容易学习的，Go 语言中使用指针可以更简单的执行一些任务。
