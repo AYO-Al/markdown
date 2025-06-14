@@ -13,12 +13,40 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "go/FQA/对象设计原则SOLID.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "对象设计原则SOLID"
+            }
+          },
+          {
+            "id": "8dcb596b033954a2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "go/基础/go基础.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "go基础"
+            }
+          },
+          {
+            "id": "f1d81344a81397f3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/FQA/值类型和指针类型接收者.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "值类型和指针类型接收者"
             }
           },
           {
@@ -136,13 +164,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/FQA/对象设计原则SOLID.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "go基础 的大纲"
+              "title": "对象设计原则SOLID 的大纲"
             }
           },
           {
@@ -213,8 +241,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -232,15 +259,16 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "71b8c207e5922170",
   "lastOpenFiles": [
+    "go/基础/go基础.md",
+    "go/FQA/对象设计原则SOLID.md",
+    "go/FQA/值类型和指针类型接收者.md",
     "分布式版本控制系统/git.md",
     "云计算/shell编程/命令/命令.md",
     "go/自带包/时间处理/time.md",
-    "go/基础/go基础.md",
     "go/自带包/错误处理/errors.md",
     "go/自带包/时间处理/Wall Clock&Monotonic Clock.md",
-    "go/FQA/值类型和指针类型接收者.md",
     "go/FQA/make和new区别.md",
     "go/自带包/错误处理/错误包装.md",
     "go/自带包/错误处理/错误比较.md",
@@ -267,7 +295,6 @@
     "go/自带包/http.md",
     "go/自带包/系统功能/exec.md",
     "go/自带包/系统功能",
-    "go/自带包/未命名.md",
     "go/框架/日志/Zap",
     "go/框架/日志",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
