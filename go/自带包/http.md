@@ -185,6 +185,7 @@ http.ListenAndServe(":8080", nil)
 ## 2.1 Handler
 
 `net/http` 包中，​`http.Handler` 是一个 ​**接口类型**，定义了 HTTP 请求处理器的核心行为。任何实现了该接口的类型都可以处理 HTTP 请求，是构建 Web 服务的核心抽象。
+
 ```go
 type Handler interface {
     ServeHTTP(http.ResponseWriter, *http.Request)
