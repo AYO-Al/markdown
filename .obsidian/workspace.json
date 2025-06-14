@@ -20,6 +20,48 @@
               "icon": "lucide-file",
               "title": "go基础"
             }
+          },
+          {
+            "id": "eaebcdeeae944db7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/自带包/时间处理/time.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "time"
+            }
+          },
+          {
+            "id": "26b6cf8f02d2ed67",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/shell编程/命令/命令.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "命令"
+            }
+          },
+          {
+            "id": "6e483af02e0ce71b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "分布式版本控制系统/git.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "git"
+            }
           }
         ]
       }
@@ -192,8 +234,11 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/自带包/错误处理/errors.md",
+    "分布式版本控制系统/git.md",
+    "云计算/shell编程/命令/命令.md",
+    "go/自带包/时间处理/time.md",
     "go/基础/go基础.md",
+    "go/自带包/错误处理/errors.md",
     "go/自带包/时间处理/Wall Clock&Monotonic Clock.md",
     "go/FQA/值类型和指针类型接收者.md",
     "go/FQA/make和new区别.md",
@@ -208,7 +253,6 @@
     "go/基础/image/go基础_time_1.png",
     "云计算/监控/prometheus/自定义Exporter/1 简单示例.md",
     "go/自带包/系统功能/os.md",
-    "go/自带包/时间处理/time.md",
     "云计算/监控/prometheus/软件安装.md",
     "go/自带包/原子操作/atomic.md",
     "go/自带包/时间处理",
@@ -224,8 +268,6 @@
     "go/自带包/系统功能/exec.md",
     "go/自带包/系统功能",
     "go/自带包/未命名.md",
-    "go/自带包/数据库操作/sql包.md",
-    "go/框架/Web开发/gin-web开发.md",
     "go/框架/日志/Zap",
     "go/框架/日志",
     "web/vue/image/tmp1746350087092_vue_time_3.gif",
