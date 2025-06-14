@@ -227,7 +227,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -245,7 +246,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "d5362f416d5b8f9a",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "go/自带包/错误处理/errors.md",
     "go/基础/go基础.md",
