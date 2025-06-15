@@ -234,9 +234,10 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/基础/go命令.md",
+    "go/基础/go基础.md",
     "go/基础/image/go基础_time_7.png",
     "go/自带包/并发处理/sync.md",
-    "go/基础/go基础.md",
     "go/自带包/时间处理/time.md",
     "go/FQA/Comma-ok.md",
     "go/自带包/错误处理/errors.md",
@@ -276,7 +277,6 @@
     "web/vue/image/tmp1746265584039_vue_time_3.png",
     "web/vue/image/tmp1746255888105_vue_time_3.gif",
     "web/vue/image/tep123vue_time_3.gif",
-    "web/vue/image/tmp1746255652446_vue_time_3.gif",
     "web/vue/image",
     "go/自带包/数据库操作",
     "go/自带包/原子操作"
