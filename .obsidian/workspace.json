@@ -213,7 +213,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -231,7 +232,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "8dcb596b033954a2",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "go/基础/image/go基础_time_7.png",
     "go/自带包/并发处理/sync.md",
