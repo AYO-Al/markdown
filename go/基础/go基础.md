@@ -4414,6 +4414,11 @@ ch := make(chan type, capacity)
 通道，channel，是用于实现goroutine之间的通信的。一个goroutine可以向通道中发送数据，另一条goroutine可以从该通道中获取数据。把这种通道叫做双向通道。
 
 单向通道，也就是定向通道。也就是只能写或者只能读的一种通道。
+
+这种场景是典型的。当一个channel作为一个函数参数是，它一般总是被专门用于只发送或者只接收。
+
+为了表明这种意图并防止被滥用，Go语言的类型系统提供了单方向的channel类型，分别用于只发送或只接收的channel。类型`chan<- int`表示一个只发送int的channel，只能发送不能接收。相反，类型`<-chan int` 表示一个只接收int的channel，只能接收不能发送。(箭头 <- 和关键字chan的相对位置表明了 channel的方向。)这种限制将在编译期检测。
+
 ```go
 func sendate(ch chan <-int) { // 只写  
     for i := 0; i < 10; i++ {  
@@ -4421,9 +4426,15 @@ func sendate(ch chan <-int) { // 只写
     }  
     close(ch)  
 }
+
+func revdate(ch <- chan int) { // 只读 
+    for i := 0; i < 10; i++ {  
+       i <- ch
+    }   
+}
 ```
 
-一般来说，创建通道的时候都创建双向通道，然后在函数中进行读或写的限制。
+因为关闭操作只用于断言不再向channel发送新的数据，所以只有在发送者所在的goroutine才会调用 close函数，因此对一个只接收的channel调用close将是一个编译错误。
 ## 27.6 select语句
 
 Select语句是堵塞的，如果没有 `default` 分支的话，永久阻塞直到任一case可以执行。空Select语句是永久阻塞的。**即使有多个case满足，但一次只会有一个case被执行。所有case都会被随机公平轮询（避免饥饿）** 

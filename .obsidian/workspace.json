@@ -227,8 +227,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -246,7 +245,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
     "go/FQA/Comma-ok.md",
     "go/基础/go基础.md",
