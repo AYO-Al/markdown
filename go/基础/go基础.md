@@ -4362,8 +4362,28 @@ func sendate(ch chan int) {
 	}
 	close(ch) // 关闭通道
 }
-
 ```
+
+没有办法直接测试一个channel是否被关闭，但是接收操作有一个变体形式:它多接收一个结果，多接收的第二个结果是一个布尔值ok，ture表示成功从channels接收到值，false表示channels已经被关闭并且里面没有值可接收。
+
+```go
+naturals := make(chan int)  
+  
+go func() {  
+    for i := 0; i < 50; i = rand.IntN(100) {  
+       naturals <- i  
+    }  
+    close(naturals)
+}()  
+  
+for {  
+    if v, ok := <-naturals; ok {  
+       fmt.Println(v)  
+    }  
+    break  
+}
+```
+
 ## 27.3 不带缓存的Channel
 
 一个基于无缓存Channels的发送操作将导致发送者goroutine阻塞，直到另一个goroutine在相同的
