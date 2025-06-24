@@ -224,23 +224,23 @@ service SayHello {
 |string|字符串必须始终包含 UTF-8 编码或 7 位 ASCII 文本，并且长度不能超过 232。|
 |bytes|可能包含任何任意字节序列，长度不超过 232。|
 
-|Proto 类型|C++ 类型|Java/Kotlin 类型[1]|Python 类型[3]|Go 类型|Ruby 类型|C# 类型|PHP 类型|Dart 类型|Rust 类型|
-|---|---|---|---|---|---|---|---|---|---|
-|double|double|double|float|float64|Float|double|float|double|f64|
-|float|float|float|float|float32|Float|float|float|double|f32|
-|int32|int32_t|int|int|int32|Fixnum 或 Bignum (根据需要)|int|integer|int|i32|
-|int64|int64_t|long|int/long[4]|int64|Bignum|long|integer/string[6]|Int64|i64|
-|uint32|uint32_t|int[2]|int/long[4]|uint32|Fixnum 或 Bignum (根据需要)|uint|integer|int|u32|
-|uint64|uint64_t|long[2]|int/long[4]|uint64|Bignum|ulong|integer/string[6]|Int64|u64|
-|sint32|int32_t|int|int|int32|Fixnum 或 Bignum (根据需要)|int|integer|int|i32|
-|sint64|int64_t|long|int/long[4]|int64|Bignum|long|integer/string[6]|Int64|i64|
-|fixed32|uint32_t|int[2]|int/long[4]|uint32|Fixnum 或 Bignum (根据需要)|uint|integer|int|u32|
-|fixed64|uint64_t|long[2]|int/long[4]|uint64|Bignum|ulong|integer/string[6]|Int64|u64|
-|sfixed32|int32_t|int|int|int32|Fixnum 或 Bignum (根据需要)|int|integer|int|i32|
-|sfixed64|int64_t|long|int/long[4]|int64|Bignum|long|integer/string[6]|Int64|i64|
-|bool|bool|boolean|bool|bool|TrueClass/FalseClass|bool|boolean|bool|bool|
-|string|std::string|String|str/unicode[5]|string|String (UTF-8)|string|string|String|ProtoString|
-|bytes|std::string|ByteString|str (Python 2), bytes (Python 3)|[]byte|String (ASCII-8BIT)|ByteString|string|List|ProtoBytes|
+| Proto 类型 | C++ 类型      | Java/Kotlin 类型[1] | Python 类型[3]                     | Go 类型   | Ruby 类型                | C# 类型      | PHP 类型            | Dart 类型 | Rust 类型     |
+| -------- | ----------- | ----------------- | -------------------------------- | ------- | ---------------------- | ---------- | ----------------- | ------- | ----------- |
+| double   | double      | double            | float                            | float64 | Float                  | double     | float             | double  | f64         |
+| float    | float       | float             | float                            | float32 | Float                  | float      | float             | double  | f32         |
+| int32    | int32_t     | int               | int                              | int32   | Fixnum 或 Bignum (根据需要) | int        | integer           | int     | i32         |
+| int64    | int64_t     | long              | int/long[4]                      | int64   | Bignum                 | long       | integer/string[6] | Int64   | i64         |
+| uint32   | uint32_t    | int[2]            | int/long[4]                      | uint32  | Fixnum 或 Bignum (根据需要) | uint       | integer           | int     | u32         |
+| uint64   | uint64_t    | long[2]           | int/long[4]                      | uint64  | Bignum                 | ulong      | integer/string[6] | Int64   | u64         |
+| sint32   | int32_t     | int               | int                              | int32   | Fixnum 或 Bignum (根据需要) | int        | integer           | int     | i32         |
+| sint64   | int64_t     | long              | int/long[4]                      | int64   | Bignum                 | long       | integer/string[6] | Int64   | i64         |
+| fixed32  | uint32_t    | int[2]            | int/long[4]                      | uint32  | Fixnum 或 Bignum (根据需要) | uint       | integer           | int     | u32         |
+| fixed64  | uint64_t    | long[2]           | int/long[4]                      | uint64  | Bignum                 | ulong      | integer/string[6] | Int64   | u64         |
+| sfixed32 | int32_t     | int               | int                              | int32   | Fixnum 或 Bignum (根据需要) | int        | integer           | int     | i32         |
+| sfixed64 | int64_t     | long              | int/long[4]                      | int64   | Bignum                 | long       | integer/string[6] | Int64   | i64         |
+| bool     | bool        | boolean           | bool                             | bool    | TrueClass/FalseClass   | bool       | boolean           | bool    | bool        |
+| string   | std::string | String            | str/unicode[5]                   | string  | String (UTF-8)         | string     | string            | String  | ProtoString |
+| bytes    | std::string | ByteString        | str (Python 2), bytes (Python 3) | []byte  | String (ASCII-8BIT)    | ByteString | string            | List    | ProtoBytes  |
 ## 3.10 默认字段值
 
 当解析消息时，如果编码的消息字节不包含特定字段，则访问已解析对象中的该字段将返回该字段的默认值。默认值是类型特定的

@@ -42,7 +42,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
 
-使用gRPC之前要先编写[Protobuf](Protobuf.md)。
+使用gRPC之前要先编写[Protobuf](Protobuf/Protobuf.md)。
 # 3 编写服务端
 
 - 创建 gRPC Server对象，可以理解为是Server端的抽象对象
