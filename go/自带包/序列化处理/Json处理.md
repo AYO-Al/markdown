@@ -1359,6 +1359,7 @@ type Unmarshaler interface {
 - 传入的是原始 JSON 字节切片
 - 需要完全处理解码逻辑（包括嵌套结构）
 - 优先级高于 `TextUnmarshaler`
+- 使用的是必定是指针类型接受者
 
 ```go
 package main
