@@ -85,6 +85,7 @@ func handleRequestWithUser(ctx context.Context) {
 在 Goroutine 构成的树形结构中对信号进行同步以减少计算资源的浪费是 `context.Context` 的最大作用。Go 服务的每一个请求都是通过单独的 Goroutine 处理的，HTTP/RPC 请求的处理器会启动新的 Goroutine 访问数据库和其他服务。
 
 每一个 `context.Context` 都会从最顶层的 Goroutine 一层一层传递到最下层。`context.Context` 可以在上层 Goroutine 执行出现错误时，**将信号及时同步给下层**。例如：
+
 ```go
 func main() {
 	//deadline := time.Now().Add(5 * time.Second)
@@ -117,6 +118,7 @@ main context deadline exceeded
 ## 3.1 默认上下文
 
 `context` 包中最常用的方法还是 `context.Background`、`context.TODO`，这两个方法都会返回预先初始化好的私有变量 `background` 和 `todo`，它们会在同一个 Go 程序中被复用：
+
 ```go
 // 返回一个非零的空上下文。它永远不会被取消，没有值，没有截止日期。它通常由主函数、初始化和测试使用，并作为传入请求的顶级上下文
 func Background() Context {  
@@ -130,6 +132,7 @@ func TODO() Context {
 ```
 
 这两个结构体里面包含的都是emptyCtx空结构体。
+
 ```go
 // Go 1.7版本之后变成空接口体
 /* 
