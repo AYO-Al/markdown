@@ -186,8 +186,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -205,7 +204,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
     "云计算/Linux/Linux.md",
     "go/自带包/反射/reflect.md",

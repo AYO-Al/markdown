@@ -4,5 +4,6 @@
   "obsidian-git",
   "obsidian-local-images-plus",
   "obsidian-excalidraw-plugin",
-  "copilot"
+  "copilot",
+  "code-block-from-selection"
 ]
