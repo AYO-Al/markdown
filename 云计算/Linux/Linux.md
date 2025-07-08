@@ -4,7 +4,7 @@
 
 ## 1.1.Linux的应用范围
 
-![image-20221011201343785](./image/w5p9w3.png)
+![image-20221011201343785](image/Linux_time_1.png)
 
 ​																														**Linux适用范围**
 
@@ -43,7 +43,7 @@ Linux主要的发行版：**Ubuntu**、**RedHat**、**CentOS**、Debain、Fedora
 - 主机模式
   - 独立的系统，不和外部发生联系
 
-![image-20221011204719285](./image/w5p7je.png)
+![image-20221011204719285](image/Linux_time_2.png)
 
 安装vmtools后可以设置Windows和Linux的共享文件夹
 
@@ -73,11 +73,11 @@ Linux中目录结构是规定好了的(FHS标准)
 
 FHS 是根据以往无数 Linux 用户和开发者的经验总结出来的，并且会维持更新，FHS 依据文件系统使用的频繁与否以及是否允许用户随意改动（注意，不是不能，学习过程中，不要怕这些），将目录定义为四种交互作用的形态，如下表所示：
 
-![此处输入图片的描述](./image/zg57bf-0.png)
+![此处输入图片的描述](image/Linux_time_3.png)
 
 LInux的文件系统采用层级式的树状目录结构，再次结构中的最上层是根目录"/"，然后在此目录下创建其他目录
 
-![img](./image/d0c50-linux2bfile2bsystem2bhierarchy.jpg)
+![img](image/Linux_time_4.jpg)
 
 - **/bin**(/usr/bin,/usr/local/bin)
   - 是Binary的缩写，存放着常用指令
@@ -120,7 +120,7 @@ LInux的文件系统采用层级式的树状目录结构，再次结构中的最
 - /lost+found
   - 这个目录一般是空的，当系统非法关机后，这里会存放一些文件
 
-![img](./image/zg5bay-0.png)
+![img](image/Linux_time_5.png)
 
 # 4.Linux远程登录
 
@@ -150,13 +150,13 @@ Vim具有程序编辑功能，可以看做是Vi的增强版本，可以主动的
 - **命令行模式**：
   - 在正常模式按":"进入。在这个模式中，可以提供你相关指令，完成读取、存盘、替换、离开vim、显示行号等动作
 
-![image-20221015124503334](./image/w5pzjt.png)
+![image-20221015124503334](image/Linux_time_6.png)
 
-![image-20221015130128183](./image/w5qnyn.png)
+![image-20221015130128183](image/Linux_time_7.png)
 
 > 快捷键
 
-![img](./image/zh326q-0.gif)
+![img](image/Linux_time_8.gif)
 
 - 正常模式
   - 按"q"+":":查看历史底线命令
@@ -171,7 +171,7 @@ Vim具有程序编辑功能，可以看做是Vi的增强版本，可以主动的
   - **Insert**，切换光标为输入/替换模式，光标将变成竖线/下划线
   - **ESC**，退出输入模式，切换到命令模式
 
-![image-20221015133233993](./image/w5qp50.png)
+![image-20221015133233993](image/Linux_time_9.png)
 
 ## 5.1.配置 vim
 
@@ -267,7 +267,7 @@ Linux系统是一个多用户多任务的操作系统，啊任何一个要使用
 
 类似于角色，系统可以对有共性的多个用户进行统一的管理
 
-![image-20221018084102587](./image/w62nho.png)
+![image-20221018084102587](image/Linux_time_10.png)
 
 - groups 用户名：查看用户所在组
 - groupadd 组名：新增组
@@ -286,7 +286,7 @@ Linux系统是一个多用户多任务的操作系统，啊任何一个要使用
 
 ## 7.2.用户和用户组相关文件
 
-![image-20221015140015413](./image/w60ag2.png)
+![image-20221015140015413](image/Linux_time_11.png)
 
 # 8.运行级别
 
@@ -547,7 +547,7 @@ cut /etc/passwd -c 2-5
 >
 > **-a或–append** 　附加到既有文件的后面，而非覆盖它．
 
-![此处输入图片的描述](./image/zhwycg-0.png)
+![此处输入图片的描述](image/Linux_time_12.png)
 
 - join：文件按行连接
 
@@ -659,9 +659,9 @@ cut /etc/passwd -c 2-5
 >
 > cat -n 文件|more  #不显示完全，需要翻页才能查看完整文件
 
-![image-20221015174718906](./image/w60b2h.png)
+![image-20221015174718906](image/Linux_time_13.png)
 
-![image-20221015195417711](./image/w60awn.png)
+![image-20221015195417711](image/Linux_time_14.png)
 
 - echo 输出内容到控制台
   - 语法：echo [选项] [输出内容]
@@ -772,11 +772,11 @@ cut /etc/passwd -c 2-5
 
  Linux 默认提供了三个特殊设备，用于终端的显示和输出，分别为 stdin（标准输入，对应于你在终端的输入），stdout（标准输出，对应于终端的输出），stderr（标准错误输出，对应于终端的输出）。
 
-| 文件描述符 | 设备文件    | 说明     |
-| ---------- | ----------- | -------- |
-| 0          | \dev\stdin  | 标准输入 |
-| 1          | \dev\stdout | 标准输出 |
-| 2          | \dev\stderr | 标准错误 |
+| 文件描述符 | 设备文件        | 说明   |
+| ----- | ----------- | ---- |
+| 0     | \dev\stdin  | 标准输入 |
+| 1     | \dev\stdout | 标准输出 |
+| 2     | \dev\stderr | 标准错误 |
 
 > 文件描述符：文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于 UNIX、Linux 这样的操作系统。
 
@@ -896,7 +896,7 @@ cat Documents/test.c 1>/dev/null 2>&1
     - `-type type`：按文件类型查找，可以是 `f`（普通文件）、`d`（目录）、`l`（符号链接）等。
     - -exec：exec rm {} \;(如果查到有东西继续执行命令。{}为找到的结果，\;为结束)
   
-  ![image-20230203091421033](./image/w7iy01.png)
+  ![image-20230203091421033](image/Linux_time_15.png)
   
 - locate 快速定位文件路径
 
@@ -999,7 +999,7 @@ cat Documents/test.c 1>/dev/null 2>&1
   - -p:保留文件属性
   - -h:备份链接指向的源文件，而不是链接本身
   
-  ![image-20221015213829708](./image/w60j1b.png)
+  ![image-20221015213829708](image/Linux_time_16.png)
 
 # 14.组管理和权限管理
 
@@ -1011,7 +1011,7 @@ cat Documents/test.c 1>/dev/null 2>&1
 
 - ls -alh：查看文件所有者
 
-  ![image-20221016122357350](./image/w60cvp.png)
+  ![image-20221016122357350](image/Linux_time_17.png)
 
   > 分别为所有者和所在组
 
@@ -1035,9 +1035,9 @@ cat Documents/test.c 1>/dev/null 2>&1
 - sudo命令：提权以能够执行某些命令
   - 在wheel组中的用户具有提权的能力
 
-![image-20221016123813256](./image/w60f4f.png)
+![image-20221016123813256](image/Linux_time_18.png)
 
-![image-20221016125603779](./image/w60gh9.png)
+![image-20221016125603779](image/Linux_time_19.png)
 
 > 0-9位说明
 >
@@ -1086,7 +1086,7 @@ cat Documents/test.c 1>/dev/null 2>&1
 
 -  设置权限：setfacl -m u:用户名:权限 文件名
 
-  ![image-20221027153905429](./image/w64pih.png)
+  ![image-20221027153905429](image/Linux_time_20.png)
 
 - 删除权限：setfacl -x 权限 文件名
 
@@ -1144,7 +1144,7 @@ crontab进行定时任务的设置
 >
 > 在 `/etc` 目录下，`cron` 相关的目录有下面几个：
 >
-> ![实验楼](./image/zigmrg-0.png)
+> ![实验楼](image/Linux_time_21.png)
 >
 > 每个目录的作用：
 >
@@ -1161,9 +1161,9 @@ crontab进行定时任务的设置
   - -：代表范围，比如“0 5 * * 1-6”，代表周一到周六的5点0分执行命令
   - */n:代表每隔多久执行一次，比如“\*/10\***\*”,代表每隔10分钟就执行一次
 
-![image-20221016155400289](./image/w60dj2.png)
+![image-20221016155400289](image/Linux_time_22.png)
 
-![image-20221016160245397](./image/w60kau.png)
+![image-20221016160245397](image/Linux_time_23.png)
 
 ## 15.2.at
 
@@ -1179,13 +1179,13 @@ crontab进行定时任务的设置
 
    1. ps -ef|grep atd
 
-      ![image-20221016162601943](./image/w60kuj.png)
+      ![image-20221016162601943](image/Linux_time_24.png)
 
 - at命令格式
 
   - at [选项] [时间]
 
-    ![image-20221016162802345](./image/w60pjb.png)
+    ![image-20221016162802345](image/Linux_time_25.png)
 
   - at指定时间的方法
 
@@ -1214,7 +1214,7 @@ crontab进行定时任务的设置
 
 3. 原理图
 
-   ![image-20221016171020624](./image/w60m6g.png)
+   ![image-20221016171020624](image/Linux_time_26.png)
 
 > 硬盘说明
 
@@ -1230,7 +1230,7 @@ crontab进行定时任务的设置
 
   - df -Th 
 
-     ![image-20221110151500045](./image/w6t15q.png)
+     ![image-20221110151500045](image/Linux_time_27.png)
 
     > 当已用超过80%就要想办法清理空间了
 
@@ -1247,7 +1247,7 @@ crontab进行定时任务的设置
 
 - 常用命令
 
-  ![image-20221016191126607](./image/w60zao.png)
+  ![image-20221016191126607](image/Linux_time_28.png)
 
   > 使用yum install tree安装命令
 
@@ -1259,7 +1259,7 @@ crontab进行定时任务的设置
 
   1. 虚拟机添加硬盘
 
-     ![image-20221016172824618](./image/w60qbu.png)
+     ![image-20221016172824618](image/Linux_time_29.png)
 
   2. 分区
 
@@ -1294,17 +1294,17 @@ crontab进行定时任务的设置
   
   5. 设置可以自动挂载
 
-​													 ![image-20221016182734566](./image/w60ndt.png)
+​													 ![image-20221016182734566](image/Linux_time_30.png)
 
-![image-20221016192043617](./image/w60z9a.png)
+![image-20221016192043617](image/Linux_time_31.png)
 
 # 17.网络配置
 
-![image-20221110155826263](./image/w6sw8h.png)
+![image-20221110155826263](image/Linux_time_32.png)
 
-![image-20221110164222999](./image/w6svtl.png)
+![image-20221110164222999](image/Linux_time_33.png)
 
-![image-20221016193432166](./image/w613ys.png)
+![image-20221016193432166](image/Linux_time_34.png)
 
 > 这里的子网IP指定了虚拟机IP的网段
 >
@@ -1323,7 +1323,7 @@ crontab进行定时任务的设置
   - 直接修改配置文件来指定ip
   - vim /etc/sysconfig/network-scripts/ifcfg-ens33
 
-![image-20221016194648695](./image/w612jv.png)
+![image-20221016194648695](image/Linux_time_35.png)
 
 > 修改完成后service network restart重启网络服务生效
 
@@ -1335,7 +1335,7 @@ crontab进行定时任务的设置
   - 修改主机名在/etc/hostname指定
   - 修改后重启生效
 
- ![image-20221016200310079](./image/w6163u.png)
+ ![image-20221016200310079](image/Linux_time_36.png)
 
 > 主机名解析过程分析(Hosts、DNS)
 
@@ -1370,7 +1370,7 @@ crontab进行定时任务的设置
 
 简而言之，一个程序至少有一个进程，一个进程至少有一个线程。线程的划分尺度小于进程，使得多线程程序的并发性高。另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。就如下图所示：
 
-![实验楼](./image/zjie2n-0.png)
+![实验楼](image/Linux_time_37.png)
 
 大概明白进程是个什么样的存在后，我们需要进一步了解的就是进程分类。可以从两个角度来分：
 
@@ -1416,7 +1416,7 @@ crontab进行定时任务的设置
 
 **init为所有进程的父进程**
 
-![实验楼](./image/zjodhi-0.png)
+![实验楼](image/Linux_time_38.png)
 
 
 
@@ -1450,7 +1450,7 @@ bash(Bourne-Again shell)支持工作控制（job control），而 sh（Bourne sh
 ls &
 ```
 
-![实验楼](./image/zkc30n-0.png)
+![实验楼](image/Linux_time_39.png)
 
 图中所显示的 `[1] 236`分别是该 job 的 job number 与该进程的 PID，而最后一行的 Done 表示该命令已经在后台执行完毕。
 
@@ -1558,7 +1558,7 @@ ps命令时用来查看目前系统中，有哪些正在执行，以及它们执
 - 选项
   - -9：表示强迫进程立即停止
   
-  ![image-20221101092858018](./image/w67zw3.png)
+  ![image-20221101092858018](image/Linux_time_40.png)
 
 ## 18.6.查看进程树
 
@@ -1611,7 +1611,7 @@ renice -5 pid
 >
 > 3. service指令管理的服务在/etc/init.d/查看
 >
->    ![image-20221020193150403](./image/w62qyx.png)
+>    ![image-20221020193150403](image/Linux_time_41.png)
 >
 > 4. systemctl指令管理的服务在/usr/lib/systemd/system查看
 
@@ -1633,7 +1633,7 @@ renice -5 pid
 
 > **系统默认级别不能设为0和6，否则系统不能正常启动**
 >
-> ![image-20221020194708063](./image/w62q8h.png)
+> ![image-20221020194708063](image/Linux_time_42.png)
 
 ## 19.2.服务自启
 
@@ -1677,9 +1677,9 @@ top命令与ps命令很相似，它们都用来显示正在执行的进程。top
   - top [选项]
 - 选项
 
-![image-20221020204110065](./image/w62p5y.png)
+![image-20221020204110065](image/Linux_time_43.png)
 
-![实验楼](./image/zkwn6t-0.png)
+![实验楼](image/Linux_time_44.png)
 
 我们看到 top 显示的第一排，
 
@@ -1979,7 +1979,7 @@ shell变量分为`系统变量`和`用户自定义变量`
 2. 让修改后的配置立即生效：source 配置文件
 3. 查询环境变量的值：echo $变量名
 
-![image-20221022104318168](./image/w63263.png)
+![image-20221022104318168](image/Linux_time_45.png)
 
 ## 22.3.位置参数变量
 
@@ -2056,7 +2056,7 @@ esac #整个case结束
 
 ```
 
-![image-20221022123042487](./image/w63akv.png)
+![image-20221022123042487](image/Linux_time_46.png)
 
 
 
@@ -2162,7 +2162,7 @@ getSum $1 $2
 
 > 系统常用日志
 
-![image-20221022200152419](./image/w63atn.png)
+![image-20221022200152419](image/Linux_time_47.png)
 
 
 
@@ -2177,7 +2177,7 @@ getSum $1 $2
 
 编辑文件时的格式为：\*.*    存放日志文件
 
- ![image-20230207162624689](./image/w7j9f4.png)
+ ![image-20230207162624689](image/Linux_time_48.png)
 
 > 日志类型
 
@@ -2225,11 +2225,11 @@ getSum $1 $2
 - 如果配置文件中有“**dateext**”参数，那么日志会用日志来作为日志文件的后缀，例如：secure-20201010。这样日志文件名不会重叠，也就不需要日志文件的改名，只需要指定保存日志个数。删除多余的日志文件即可
 - 如果没有“dateext”参数，日志文件就需要进行改名了。**当第一次进行日志轮替时，当前的“secure”日志会自动改名为“secure.1”，然后新建“secure”日志，用来保存新的日志。**当第二次进行日志轮替时，“secure.1”会改名为“secure.2”,当前的“secure”日志会自动改名为“secure.1”,然后也新建“secure”日志，用来保存新的日志，以此类推
 
-![image-20221023165649718](./image/w63nth.png)
+![image-20221023165649718](image/Linux_time_49.png)
 
 > 也可以把日志的轮替规则写到/etc/logrotate.d文件夹中
 >
-> ![image-20221023170125701](./image/w63xu4.png)
+> ![image-20221023170125701](image/Linux_time_50.png)
 
 > 日志轮替机制原理
 
@@ -2271,7 +2271,7 @@ getSum $1 $2
 
 > 制作Linux思路分析
 
-![image-20221023192907698](./image/w642ep.png)
+![image-20221023192907698](image/Linux_time_51.png)
 
 # 25.备份与恢复
 
@@ -2296,7 +2296,7 @@ dump支持分卷和增量备份(所谓增量备份是指备份上次备份后修
 
 - dump [-cu] [-123456789] [-f <备份文件名>] [-T <日期>] [目录或文件系统]
 
-![image-20221024193517355](./image/w64bsb.png)
+![image-20221024193517355](image/Linux_time_52.png)
 
 > 查看备份时间文件：cat /etc/dumpdates
 >
@@ -2346,7 +2346,7 @@ restore可以从dump生成的备份文件中恢复文件
 | `^`，`$`，`\` 任何元字符              | 定位点和序列 |
 | ｜                                    | 选择         |
 
-![pic](./image/zlur13-0.png)
+![pic](image/Linux_time_53.png)
 
 # 命令行基础
 
@@ -2420,7 +2420,7 @@ restore可以从dump生成的备份文件中恢复文件
   - `||` ： 只有左面的命令执行错误才执行右侧的命令（短路作用）
   - `!` : 对命令的执行状态按逻辑取反
 
-  ![1](./image/zmjyvx-0.png)
+  ![1](image/Linux_time_54.png)
 
 - 举例
 
@@ -2512,7 +2512,7 @@ source .bashrc
 - cmatrix
   - 实现“数字雨”
 
-![image-20230203092436878](./image/w7j2zb.png)
+![image-20230203092436878](image/Linux_time_55.png)
 
 - cacafire
 
