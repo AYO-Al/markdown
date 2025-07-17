@@ -28,7 +28,7 @@
               "type": "markdown",
               "state": {
                 "file": "go/框架/API接口文档/Swag.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -219,7 +219,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "748cc993cb7b6d69",
   "lastOpenFiles": [
     "分布式版本控制系统/git.md",
     "云计算/Linux/Linux.md",
