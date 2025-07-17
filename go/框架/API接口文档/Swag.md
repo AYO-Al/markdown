@@ -112,6 +112,9 @@ swag init
 ```
 
 4. 运行程序，然后在浏览器中访问 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) 。将看到Swagger 2.0 Api文档
+
+> 为什么需要加上`index.html`？因为`ginSwagger.WrapHandler`实际上是将一个静态文件服务挂载到了`/swagger/`路径下。这个静态文件服务包含了Swagger UI的所有资源（包括index.html）。当我们访问`/swagger/`时，实际上并没有默认返回index.html，因此需要明确指定。
+
 # 4 声明式注释格式
 
 ## 4.1 通用API信息

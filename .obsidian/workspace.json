@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
-                "mode": "source",
+                "file": "云计算/Linux/Linux.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "命令"
+              "title": "Linux"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "分布式版本控制系统/git.md",
+                "file": "go/框架/API接口文档/Swag.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "git"
+              "title": "Swag"
             }
           },
           {
@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/编程实践/并发设计.md",
+                "file": "云计算/shell编程/命令/命令.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "并发设计"
+              "title": "命令"
             }
           }
         ],
@@ -123,13 +123,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "分布式版本控制系统/git.md",
+                "file": "go/框架/API接口文档/Swag.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "git 的大纲"
+              "title": "Swag 的大纲"
             }
           },
           {
@@ -221,10 +221,12 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "云计算/shell编程/shell.md",
+    "分布式版本控制系统/git.md",
+    "云计算/Linux/Linux.md",
     "云计算/shell编程/命令/命令.md",
-    "go/基础/go基础.md",
     "go/编程实践/并发设计.md",
+    "云计算/shell编程/shell.md",
+    "go/基础/go基础.md",
     "go/编程实践/image/并发设计_time_2.png",
     "go/编程实践/image/并发设计_time_1.png",
     "go/编程实践/image",
@@ -234,9 +236,7 @@
     "go/自带包/数据库操作/sql包.md",
     "go/自带包/反射/reflect示例.md",
     "go/自带包/文本处理.md",
-    "云计算/Linux/Linux.md",
     "go/自带包/反射",
-    "分布式版本控制系统/git.md",
     "python/Django/DRF/接口开发方式.md",
     "python/Django/DRF/Serializer.md",
     "README.md",
