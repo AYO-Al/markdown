@@ -27,12 +27,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/API接口文档/Swag.md",
+                "file": "go/基础/go基础.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Swag"
+              "title": "go基础"
+            }
+          },
+          {
+            "id": "ec71eca839f1ee43",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/自带包/反射/reflect.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "reflect"
             }
           },
           {
@@ -41,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
-                "mode": "source",
+                "file": "go/自带包/数据库操作/sql包.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "命令"
+              "title": "sql包"
             }
           }
         ],
@@ -123,13 +137,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/API接口文档/Swag.md",
+                "file": "go/基础/go基础.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Swag 的大纲"
+              "title": "go基础 的大纲"
             }
           },
           {
@@ -205,7 +219,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 264.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -219,21 +233,24 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "748cc993cb7b6d69",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/自带包/反射/reflect.md",
+    "go/基础/go基础.md",
+    "go/自带包/数据库操作/sql包.md",
+    "go/基础/golang.md",
+    "云计算/shell编程/命令/命令.md",
+    "go/FQA/Comma-ok.md",
+    "go/框架/API接口文档/Swag.md",
     "分布式版本控制系统/git.md",
     "云计算/Linux/Linux.md",
-    "云计算/shell编程/命令/命令.md",
     "go/编程实践/并发设计.md",
     "云计算/shell编程/shell.md",
-    "go/基础/go基础.md",
     "go/编程实践/image/并发设计_time_2.png",
     "go/编程实践/image/并发设计_time_1.png",
     "go/编程实践/image",
-    "go/自带包/反射/reflect.md",
     "go/原理深入",
     "web/vue/vue.md",
-    "go/自带包/数据库操作/sql包.md",
     "go/自带包/反射/reflect示例.md",
     "go/自带包/文本处理.md",
     "go/自带包/反射",
@@ -252,9 +269,6 @@
     "go/自带包/序列化处理/Json处理.md",
     "go/自带包/路径处理/filepath.md",
     "go/自带包/系统功能/os.md",
-    "go/自带包/原子操作/atomic.md",
-    "go/编程实践/零拷贝.md",
-    "go/编程实践/写时复制.md",
     "go/编程实践",
     "go/框架/RPC/Protobuf",
     "go/自带包/数据结构",

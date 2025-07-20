@@ -3155,6 +3155,7 @@ w.Write([]byte("test")) // 调用成功？会发生panic!
 
 ```go
 // 安全的断言
+// 如果失败v会是目标类型的零值
 v,ok = value.(type)
 
 // 非安全的断言,会panic
