@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/自带包/反射/reflect.md",
-                "mode": "source",
+                "file": "go/编程实践/写时复制.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "reflect"
+              "title": "写时复制"
             }
           },
           {
@@ -56,7 +56,7 @@
               "type": "markdown",
               "state": {
                 "file": "go/自带包/数据库操作/sql包.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -137,13 +137,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/自带包/数据库操作/sql包.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "go基础 的大纲"
+              "title": "sql包 的大纲"
             }
           },
           {
@@ -235,8 +235,10 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/自带包/反射/reflect.md",
     "go/基础/go基础.md",
+    "go/编程实践/写时复制.md",
+    "go/编程实践/零拷贝.md",
+    "go/自带包/反射/reflect.md",
     "go/自带包/数据库操作/sql包.md",
     "go/基础/golang.md",
     "云计算/shell编程/命令/命令.md",
@@ -267,8 +269,6 @@
     "go/自带包/io处理/fs.md",
     "go/自带包/io处理/io.md",
     "go/自带包/序列化处理/Json处理.md",
-    "go/自带包/路径处理/filepath.md",
-    "go/自带包/系统功能/os.md",
     "go/编程实践",
     "go/框架/RPC/Protobuf",
     "go/自带包/数据结构",
