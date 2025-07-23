@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -137,13 +137,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/自带包/http.md",
+                "file": "go/设计模式/接口型函数.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "http 的大纲"
+              "title": "接口型函数 的大纲"
             }
           },
           {
@@ -235,8 +235,8 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/设计模式/接口型函数.md",
     "go/自带包/http.md",
+    "go/设计模式/接口型函数.md",
     "go/自带包/数据库操作/sql包.md",
     "go/基础/go基础.md",
     "go/编程实践/写时复制.md",
