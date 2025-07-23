@@ -267,7 +267,42 @@ func main() {
 // 也能使用HandlerFunc转换为Handler接口
 handler := http.HandlerFunc(helloFunc)
 ```
-## 2.2 Dir类型
+## 2.2 HandlerFunc
+
+`HandlerFunc` 是​**​接口型函数模式最经典的实现​**​。它完美展示了如何通过函数类型实现接口，极大简化 HTTP 处理器的编写。
+
+**设计精妙之处**：
+
+1. ​**​类型转换即实现​**​：任何 `func(ResponseWriter, *Request)` 函数都可转为 `Handler`
+2. ​**​零成本抽象​**​：没有额外内存分配
+3. ​**​闭包友好​**​：天然支持状态捕获
+
+```go
+// 1. 定义函数类型
+type HandlerFunc func(ResponseWriter, *Request)
+
+// 2. 实现接口方法
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+    f(w, r) // 关键：直接调用函数本身
+}
+
+```
+
+```go
+// 1. 直接定义处理函数
+welcome := func(w ResponseWriter, r *Request) {
+    fmt.Fprintf(w, "Welcome! %s", r.URL.Query().Get("name"))
+}
+
+// 2. 注册路由（函数秒变处理器）
+http.Handle("/welcome", http.HandlerFunc(welcome))
+
+// 更简洁的写法（无需中间变量）
+http.Handle("/hello", http.HandlerFunc(func(w ResponseWriter, r *Request) {
+    fmt.Fprint(w, "Hello World!")
+}))
+```
+## 2.3 Dir类型
 
 http.Dir 是 Go 语言 net/http 包中用于表示文件系统目录的类型，主要用于提供静态文件服务。它实现了 **http.FileSystem** 接口，允许通过 HTTP 访问指定目录下的文件。
 
@@ -277,7 +312,7 @@ type Dir string
 - ​**本质**：是 `string` 类型的别名，表示文件系统的绝对或相对路径（如 `"./static"`）。
 - ​**实现接口**：`http.FileSystem`（需实现 `Open` 方法）。
 
-### 2.2.1 Open(name string) (http.File, error)
+### 2.3.1 Open(name string) (http.File, error)
 
 ```go
 package main
@@ -297,7 +332,7 @@ func main() {
     2. ​**安全检查**：清理路径中的 `..`，防止访问根目录外的文件。
     3. ​**返回文件**：若文件存在且可读，返回文件句柄；否则返回错误（如 `os.ErrNotExist`）。
 
-## 2.3 FileSystem类型
+## 2.4 FileSystem类型
 
 http.FileSystem 是 Go 语言 net/http 包中用于抽象文件系统访问的接口类型，允许通过 HTTP 协议提供文件服务。它不限于物理磁盘文件，可以支持内存文件、嵌入式资源或云存储（如 S3）等。
 ```go
@@ -305,26 +340,26 @@ type FileSystem interface {
     Open(name string) (File, error)
 }
 ```
-## 2.4 Header类型
+## 2.5 Header类型
 
 `http.Header` 是 Go 语言 `net/http` 包中用于操作 HTTP 头部信息的类型。它是一个键值对集合，键为字符串，值为字符串切片（`[]string`），支持多值头部（如 `Accept-Encoding: gzip, deflate`）。
 ```go
 type Header map[[string]
 ```
-### 2.4.1 Get(key string) string
+### 2.5.1 Get(key string) string
 
 - 作用：获取键对应的第一个值。
 ```go
 contentType := header.Get("Content-Type") // 返回 "application/json"
 ```
-### 2.4.2 Set(key, value string)
+### 2.5.2 Set(key, value string)
 
 - 作用：设置键的值，覆盖所有现有值。
 ```go
 // 强制设置单值头部（如 `Authorization`）。
 header.Set("Authorization", "Bearer abc123")
 ```
-### 2.4.3 Add(key, value string)
+### 2.5.3 Add(key, value string)
 
 - 作用：为键追加一个值，保留现有值。
 ```go
@@ -332,21 +367,21 @@ header.Set("Authorization", "Bearer abc123")
 header.Add("Accept-Language", "en-US")
 header.Add("Accept-Language", "zh-CN") // 最终值：["en-US", "zh-CN"]
 ```
-### 2.4.4 Del(key string)
+### 2.5.4 Del(key string)
 
 - 作用：删除键及其所有值。
 ```go
 // 移除敏感或冗余头部（如 `X-Secret-Token`）。
 header.Del("X-Debug-Info")
 ```
-### 2.4.5 Values(key string) \[\]string
+### 2.5.5 Values(key string) \[\]string
 
 - 作用：获取键对应的所有值。
 ```go
 // 处理多值头部（如 `Cache-Control`）。
 langs := header.Values("Accept-Language") // 返回 ["en-US", "zh-CN"]
 ```
-### 2.4.6 Write(w io.Writer) error
+### 2.5.6 Write(w io.Writer) error
 
 - 作用：将头部按 HTTP 格式写入 `io.Writer`
 ```go
@@ -354,7 +389,7 @@ langs := header.Values("Accept-Language") // 返回 ["en-US", "zh-CN"]
 var buf bytes.Buffer
 header.Write(&buf) // 生成 "Content-Type: application/json\r\n..."
 ```
-## 2.5 Request
+## 2.6 Request
 
 `http.Request` 是 Go 语言 `net/http` 包中表示 HTTP 请求的核心结构体，它封装了客户端请求的所有信息，包括方法、URL、头、体等。
 ```go
@@ -425,7 +460,7 @@ type Request struct {
      cookie, err := r.Cookie("session_id")   
     ```
     - Context()：获取请求的上下文（用于传递元数据或超时控制）。
-### 2.5.1 ParseForm() error
+### 2.6.1 ParseForm() error
 
 - 作用：解析 URL 查询参数和 `application/x-www-form-urlencoded` 类型的请求体。
 - 调用关系：在访问 `r.Form` 或 `r.PostForm` 前必须调用。
@@ -436,14 +471,14 @@ if err := r.ParseForm(); err != nil {
 }
 name := r.Form.Get("name")
 ```
-### 2.5.2 FormValue(key string) string
+### 2.6.2 FormValue(key string) string
 
 - 作用：获取 URL 查询参数或 POST 表单中指定键的值（自动调用 `ParseForm`）。
 - 注意：若键存在多个值，返回第一个值。
-### 2.5.3 PostFormValue(key string) string
+### 2.6.3 PostFormValue(key string) string
 
 - 作用：仅获取 POST 表单中指定键的值（自动调用 `ParseForm`）。
-### 2.5.4 ParseMultipartForm(maxMemory int64) error
+### 2.6.4 ParseMultipartForm(maxMemory int64) error
 
 - 作用：解析 `multipart/form-data` 类型的请求体（如文件上传）。
 - 参数：`maxMemory` 指定内存缓存大小（超出部分写入临时文件）。
@@ -454,17 +489,17 @@ if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB
 }
 fileHeader := r.MultipartForm.File["avatar"][0]
 ```
-### 2.5.5 Cookie(name string) (\*Cookie, error)
+### 2.6.5 Cookie(name string) (\*Cookie, error)
 
 - 作用：获取指定名称的 Cookie。
-### 2.5.6 WithContext(ctx context.Context) \*Request
+### 2.6.6 WithContext(ctx context.Context) \*Request
 
 - 作用：创建绑定新上下文的新请求（常用于中间件传递数据或超时控制）。
 ```go
 ctx := context.WithValue(r.Context(), "userID", 123)
 newReq := r.WithContext(ctx)
 ```
-## 2.6 ResponseWriter
+## 2.7 ResponseWriter
 
 `http.ResponseWriter` 是 Go 语言 `net/http` 包中用于构建 HTTP 响应的核心接口，它定义了服务端向客户端发送响应的基本操作。
 
@@ -496,7 +531,7 @@ w.Header().Add("Cache-Control", "max-age=3600")
 ```go
 w.WriteHeader(http.StatusNotFound)
 ```
-## 2.7 ServeMux
+## 2.8 ServeMux
 
 `http.ServeMux` 是 Go 语言 `net/http` 包中用于管理 HTTP 请求路由的核心类型，它是一个 ​**HTTP 请求多路复用器**​（即路由管理器），负责将不同路径的请求分发到对应的处理器。
 
@@ -518,10 +553,10 @@ type ServeMux struct {
 - patterns：存储所有已注册的路由模式（如 `/api`、`/user/{id}`）。
 - mux121：旧版路由复用器（如 Go 1.21 之前的实现），通过 `GODEBUG=httpmuxgo121=1` 启用，用于兼容性测试或回退。
 
-### 2.7.1 NewServeMux() \*ServeMux
+### 2.8.1 NewServeMux() \*ServeMux
 
 - 作用：创建一个新的ServeMux对象
-### 2.7.2 Handle(pattern string, handler http.Handler)
+### 2.8.2 Handle(pattern string, handler http.Handler)
 
 - 作用：将 `handler` 注册到指定的路径模式 `pattern`。
     - `pattern`：URL 路径匹配模式（如 `"/api"` 或 `"/static/"`）。
@@ -530,7 +565,7 @@ type ServeMux struct {
 mux := http.NewServeMux()
 mux.Handle("/", &HomeHandler{}) // 自定义处理器
 ```
-### 2.7.3 HandleFunc(pattern string, handler func(http.ResponseWriter, \*http.Request))
+### 2.8.3 HandleFunc(pattern string, handler func(http.ResponseWriter, \*http.Request))
 
 - 作用：将函数 `handler` 转换为 `http.Handler` 并注册到 `pattern`。
 ```go
@@ -539,7 +574,7 @@ mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("Hello, ServeMux!"))
 })
 ```
-### 2.7.4 Handler(r \*http.Request) (handler http.Handler, pattern string)
+### 2.8.4 Handler(r \*http.Request) (handler http.Handler, pattern string)
 
 - 作用：根据请求 `r` 查找匹配的处理器和路径模式。
     - 一般用于中间件或自定义路由逻辑，较少直接调用。
@@ -547,11 +582,11 @@ mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 handler, pattern := mux.Handler(r)
 log.Printf("Request to %s handled by %T", pattern, handler)
 ```
-### 2.7.5 ServeHTTP(w http.ResponseWriter, r \*http.Request)
+### 2.8.5 ServeHTTP(w http.ResponseWriter, r \*http.Request)
 
 - 作用：实现 `http.Handler` 接口，处理请求并调用匹配的处理器。
     - 用户通常不直接调用此方法，由 `http.Server` 自动触发。
-## 2.8 路径匹配
+## 2.9 路径匹配
 
 ServeMux 的路径匹配遵循以下优先级规则，且区分大小写：
 
