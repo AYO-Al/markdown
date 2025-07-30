@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/设计模式/接口型函数.md",
+                "file": "go/自带包/io处理/bufio.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "接口型函数"
+              "title": "bufio"
             }
           },
           {
@@ -248,8 +248,12 @@
   },
   "active": "705fbfd8397de995",
   "lastOpenFiles": [
-    "分布式版本控制系统/git.md",
+    "go/自带包/io处理/bufio.md",
+    "go/自带包/文本处理.md",
+    "go/自带包/文本处理/strings.md",
+    "go/设计模式/接口型函数.md",
     "go/自带包/迭代器/iter.md",
+    "分布式版本控制系统/git.md",
     "go/自带包/迭代器/image/iter_time_1.png",
     "go/自带包/迭代器/image",
     "go/编程实践/range迭代器实现.md",
@@ -258,13 +262,10 @@
     "go/框架/RPC/Protobuf/Proto.md",
     "云计算/Linux/Linux.md",
     "go/编程实践/image/range迭代器实现_time_1.png",
-    "go/自带包/文本处理/strings.md",
-    "go/自带包/文本处理.md",
     "go/自带包/文本处理/正则：regexp.md",
     "go/基础/go基础.md",
     "go/自带包/文本处理",
     "go/自带包/http.md",
-    "go/设计模式/接口型函数.md",
     "go/自带包/数据库操作/sql包.md",
     "go/编程实践/写时复制.md",
     "go/设计模式",

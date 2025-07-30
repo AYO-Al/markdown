@@ -474,8 +474,112 @@ func main() {
     }  
 }
 ```
+## 3.5 yield函数行为
 
-## 3.5 总结
+`yield` 是迭代器实现中的核心机制，它控制着值传递、流程中断和迭代终止。
+
+| ​**​结束类型​**​ | ​**​触发条件​**​       | ​**​后续行为​**​ |
+| ------------ | ------------------ | ------------ |
+| ​**​自然结束​**​ | 迭代器函数执行完成          | 所有资源释放       |
+| ​**​提前终止​**​ | `yield` 返回 `false` | 立即终止并清理      |
+| ​**​错误终止​**​ | 内部发生 panic         | 传播 panic 并终止 |
+> 迭代器函数结束后不会响应新值原因 
+
+1. **​单次执行​**​：迭代器函数只执行一次
+2. ​**​状态丢失​**​：迭代位置和临时状态不保存
+3. ​**​资源释放​**​：清理操作在结束时执行
+4. ​**​设计哲学​**​：迭代器是值序列的快照
+### 3.5.1 持久连接模式
+
+```go
+func PersistentIter(conn net.Conn) iter.Seq[string] {
+    return func(yield func(string) bool) {
+        for {
+            // 尝试读取
+            line, err := readLine(conn)
+            
+            switch {
+            case err == nil:
+                if !yield(line) {
+                    return
+                }
+            case errors.Is(err, io.EOF):
+                // 临时结束，等待新数据
+                waitForData(conn, 500*time.Millisecond)
+            default:
+                log.Printf("永久错误: %v", err)
+                return
+            }
+        }
+    }
+}
+```
+### 3.5.2 事件驱动模式
+
+```go
+func EventDrivenIter(file *os.File) iter.Seq[string] {
+    return func(yield func(string) bool) {
+        watcher := fsnotify.NewWatcher()
+        watcher.Add(file.Name())
+        
+        // 读取现有内容
+        scanner := bufio.NewScanner(file)
+        for scanner.Scan() {
+            if !yield(scanner.Text()) {
+                return
+            }
+        }
+        
+        // 监听新内容
+        for event := range watcher.Events {
+            if event.Op&fsnotify.Write == fsnotify.Write {
+                // 读取新增内容
+                for scanner.Scan() {
+                    if !yield(scanner.Text()) {
+                        return
+                    }
+                }
+            }
+        }
+    }
+}
+```
+### 3.5.3 状态恢复模式
+
+```go
+type FilePosIter struct {
+    file *os.File
+    pos  int64
+}
+
+func (it *FilePosIter) Next() (string, bool) {
+    it.file.Seek(it.pos, io.SeekStart)
+    scanner := bufio.NewScanner(it.file)
+    if scanner.Scan() {
+        it.pos, _ = it.file.Seek(0, io.SeekCurrent)
+        return scanner.Text(), true
+    }
+    return "", false
+}
+
+// 使用
+iter := &FilePosIter{file: f, pos: lastPos}
+for line, ok := iter.Next(); ok; line, ok = iter.Next() {
+    process(line)
+}
+saveLastPos(iter.pos) // 保存位置
+```
+## 3.6 设计选择指南
+
+| **场景​**​ | ​**​推荐方案​**​ | ​**​新值响应​**​ |
+| -------- | ------------ | ------------ |
+| 静态数据     | 标准迭代器        | 不可能          |
+| 实时数据流    | 长连接迭代器       | 自动响应         |
+| 大文件处理    | 状态保存迭代器      | 手动恢复后响应      |
+| 日志监控     | 事件驱动迭代器      | 自动响应         |
+
+
+## 3.7 总结
 
 1. ​**​控制反转​**​：
     
