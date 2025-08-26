@@ -4,53 +4,52 @@
     "type": "split",
     "children": [
       {
-        "id": "1bb25ed7c23e0e98",
+        "id": "9053c7b7daddf050",
         "type": "tabs",
         "children": [
           {
-            "id": "09fe36f7a8ff69b9",
+            "id": "35a097fec1be5868",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/RPC/Protobuf/Protobuf.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Protobuf"
-            }
-          },
-          {
-            "id": "748cc993cb7b6d69",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/自带包/io处理/bufio.md",
+                "file": "go/FQA/PCRE正则和POSIX正则.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "bufio"
+              "title": "PCRE正则和POSIX正则"
             }
           },
           {
-            "id": "ec71eca839f1ee43",
+            "id": "cab388ce05eed7ac",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/mcp/mcp-go/基础.md",
+                "file": "go/基础/go基础.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "基础"
+              "title": "go基础"
+            }
+          },
+          {
+            "id": "b2a7fc56b8e56e5f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "云计算/shell编程/命令/命令.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "命令"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -123,13 +122,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/mcp/mcp-go/基础.md",
+                "file": "go/FQA/PCRE正则和POSIX正则.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "基础 的大纲"
+              "title": "PCRE正则和POSIX正则 的大纲"
             }
           },
           {
@@ -221,51 +220,51 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/自带包/文本处理/正则：regexp.md",
+    "go/FQA/PCRE正则和POSIX正则.md",
+    "go/基础/go基础.md",
+    "云计算/shell编程/命令/命令.md",
+    "go/自带包/文本处理/strings.md",
+    "go/自带包/io处理/io.md",
+    "go/自带包/文本处理.md",
+    "go/自带包/log.md",
+    "go/自带包/http.md",
+    "计算机基础/网络/网络是怎么连接的/第一章：浏览器生成消息.md",
+    "计算机基础/网络/Wireshark/如果A和B网络配置的子网掩码不一样还能正常通信嘛.md",
+    "计算机基础/网络/网络是怎么连接的",
+    "计算机基础/网络/Wireshark/image/如果A和B网络配置的子网掩码不一样还能正常通信嘛_time_1.png",
+    "计算机基础/网络/Wireshark/image",
+    "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
+    "计算机基础/网络/Wireshark",
+    "go/框架/RPC/Protobuf/Protobuf.md",
+    "go/自带包/迭代器/iter.md",
+    "云计算/shell编程/shell.md",
+    "go/FQA/Comma-ok.md",
+    "云计算/shell编程/shell脚本编程.md",
+    "云计算/shell编程/shell高级编程.md",
+    "go/自带包/io处理/bufio.md",
+    "go/FQA/锁作用.md",
+    "云计算/shell编程/命令/cp.md",
+    "云计算/Linux/Nginx.md",
+    "go/框架/mcp/mcp-go/基础.md",
     "go/框架/mcp/mcp-go/image/基础_time_1.png",
     "go/框架/mcp/mcp-go/image",
-    "云计算/shell编程/shell.md",
-    "go/框架/mcp/mcp-go/基础.md",
     "go/框架/mcp/mcp-go",
     "go/框架/mcp",
     "分布式版本控制系统/git.md",
-    "go/自带包/文本处理/strings.md",
     "python/Django/DRF/接口开发方式.md",
     "python/Django/DRF/Serializer.md",
-    "go/自带包/迭代器/iter.md",
-    "go/自带包/io处理/bufio.md",
-    "go/自带包/文本处理.md",
-    "go/设计模式/接口型函数.md",
     "go/自带包/迭代器/image/iter_time_1.png",
     "go/自带包/迭代器/image",
-    "go/编程实践/range迭代器实现.md",
     "go/自带包/迭代器",
-    "go/框架/RPC/Protobuf/Protobuf.md",
-    "go/框架/RPC/Protobuf/Proto.md",
-    "云计算/Linux/Linux.md",
     "go/编程实践/image/range迭代器实现_time_1.png",
-    "go/自带包/文本处理/正则：regexp.md",
-    "go/基础/go基础.md",
     "go/自带包/文本处理",
-    "go/自带包/http.md",
-    "go/自带包/数据库操作/sql包.md",
-    "go/编程实践/写时复制.md",
     "go/设计模式",
-    "go/未命名.md",
-    "go/编程实践/零拷贝.md",
-    "go/自带包/反射/reflect.md",
-    "go/基础/golang.md",
-    "云计算/shell编程/命令/命令.md",
-    "go/FQA/Comma-ok.md",
     "go/编程实践/image/并发设计_time_2.png",
     "go/编程实践/image/并发设计_time_1.png",
-    "go/编程实践/image",
-    "go/原理深入",
-    "go/自带包/反射",
     "go/基础/image/go基础_time_11.png",
     "go/基础/image/go基础_time_10.png",
     "go/基础/image/go基础_time_9.png",
-    "go/基础/image/测试_time_1.png",
-    "go/基础/image/go基础_time_7.png",
-    "go/基础/image/go基础_time_3.png"
+    "go/基础/image/测试_time_1.png"
   ]
 }
