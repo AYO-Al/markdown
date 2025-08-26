@@ -1,3 +1,6 @@
+---
+number headings: first-level 1, max 6, start-at 1, 1.1
+---
 `regexp` 包为 Go 语言提供了强大的正则表达式处理能力。通过编译正则表达式并使用 `Regexp` 对象，你可以轻松地进行字符串匹配、查找、替换和分割等操作。基于 [RE2 引擎](https://github.com/google/re2/wiki/Syntax)。
 
 需要注意的是：
@@ -16,9 +19,9 @@
     ∙Submatch：包含捕获组（索引 0为完整匹配，1为第一组，依此类推）。
 
     ∙Index：返回字节索引位置（如 [start, end]）。
-# 常用函数
+# 1 常用函数
 
-## func Match(pattern string, b \[\]byte) (matched bool, err error)
+## 1.1 func Match(pattern string, b \[\]byte) (matched bool, err error)
 
 ​**​作用​**​: 检查字节切片是否包含与正则表达式匹配的子序列
 
@@ -54,7 +57,7 @@
 matched, err := regexp.Match(`h`, []byte("hello")) // tre,nil
 ```
 
-## func MatchReader(pattern string, r io.RuneReader) (matched bool, err error)
+## 1.2 func MatchReader(pattern string, r io.RuneReader) (matched bool, err error)
 
 ​**​作用​**​：从 `io.RuneReader`接口读取数据并检查是否匹配正则表达式。
 
@@ -80,10 +83,10 @@ matched, err := regexp.Match(`h`, []byte("hello")) // tre,nil
     r := bytes.NewReader([]byte("关羽关云长")) // 创建 RuneReader
     matched, err := regexp.MatchReader(pattern, r) // true,nil
 ```
-## func MatchString(pattern string, s string) (matched bool, err error)
+## 1.3 func MatchString(pattern string, s string) (matched bool, err error)
 
 同`Match`。
-## func QuoteMeta(s string) string
+## 1.4 func QuoteMeta(s string) string
 
 ​**​作用​**​：转义字符串 `s`中的所有正则元字符（如 `.`、`*`、`?`），使其成为字面字符串。
 
@@ -105,13 +108,13 @@ matched, err := regexp.Match(`h`, []byte("hello")) // tre,nil
 s := "file.txt*"  
 fmt.Println(regexp.QuoteMeta(s)) // file\.txt
 ```
-# 类型
-## Regexp
+# 2 类型
+## 2.1 Regexp
 
 `Regexp`类型代表一个编译后的正则表达式，它是线程安全的，可以在多个 goroutine 中并发使用。所有正则表达式操作都通过 `Regexp`类型的方法进行。
-### 编译函数
+### 2.1.1 编译函数
 
-#### func Compile(expr string) (\*Regexp, error)
+#### 2.1.1.1 func Compile(expr string) (\*Regexp, error)
 
 ​**​作用​**​: 编译正则表达式并返回 Regexp 对象
 
@@ -169,7 +172,7 @@ func main() {
 预期错误: error parsing regexp: missing closing ): `go(`
 */
 ```
-#### func CompilePOSIX(expr string) (\*Regexp, error)
+#### 2.1.1.2 func CompilePOSIX(expr string) (\*Regexp, error)
 
 ​**​作用​**​: 使用 POSIX ERE 语法编译正则表达式
 
@@ -226,7 +229,7 @@ func main() {
 标准匹配: go, POSIX匹配: golang
 */
 ```
-#### func MustCompile(str string) \*Regexp
+#### 2.1.1.3 func MustCompile(str string) \*Regexp
 
 ​**​作用​**​: 编译正则表达式，如果失败则 panic
 
@@ -244,16 +247,16 @@ func main() {
 2. 适合在程序初始化时使用已知正确的正则表达式
     
 3. 比 `Compile`更简洁，但不够安全
-#### func MustCompilePOSIX(str string) \*Regexp
+#### 2.1.1.4 func MustCompilePOSIX(str string) \*Regexp
 
 结合了 `CompilePOSIX`和 `MustCompile`的特性.
-### 匹配方法
+### 2.1.2 匹配方法
 
-#### func (re \*Regexp) Match(b \[\]byte) bool
+#### 2.1.2.1 func (re \*Regexp) Match(b \[\]byte) bool
 
 ​**​作用​**​: 检查字节切片是否匹配正则表达式
 
-#### 参数说明
+#### 2.1.2.2 参数说明
 
 -  `b []byte`: 要检查的字节切片
     
@@ -288,7 +291,7 @@ user@example.com 是有效的电子邮件: true
 invalid.email 是有效的电子邮件: false
 */
 ```
-#### func (re \*Regexp) MatchReader(r io.RuneReader) bool
+#### 2.1.2.3 func (re \*Regexp) MatchReader(r io.RuneReader) bool
 
 ​**​作用​**​: 从 RuneReader 读取数据并检查是否匹配
 
@@ -300,9 +303,9 @@ invalid.email 是有效的电子邮件: false
 
 -  `bool`: 如果匹配返回 true，否则 false
 
-#### func (re \*Regexp) MatchString(s string) bool
-### 查找方法
-#### func (re \*Regexp) Find(b \[\]byte) \[\]byte
+#### 2.1.2.4 func (re \*Regexp) MatchString(s string) bool
+### 2.1.3 查找方法
+#### 2.1.3.1 func (re \*Regexp) Find(b \[\]byte) \[\]byte
 
 **作用​**​: 在字节切片中查找第一个匹配项
 
@@ -322,7 +325,7 @@ if err == nil {
     fmt.Println(err)  
 } 
 ```
-#### func (re \*Regexp) FindAll(b \[\]byte, n int) \[\]\[\]byte
+#### 2.1.3.2 func (re \*Regexp) FindAll(b \[\]byte, n int) \[\]\[\]byte
 
 ​**​作用​**​: 在字节切片中查找所有匹配项
 
@@ -348,7 +351,7 @@ if err == nil {
        fmt.Println(err)  
     }
 ```
-#### func (re \*Regexp) FindString(s string) string
+#### 2.1.3.3 func (re \*Regexp) FindString(s string) string
 
 ​**​作用​**​: 在字符串中查找第一个匹配项
 
@@ -359,9 +362,9 @@ if err == nil {
 **返回值**
 
 -  `string`: 第一个匹配项的字符串，如果没有匹配返回空字符串
-### 替换方法
+### 2.1.4 替换方法
 
-#### func (re \*Regexp) ReplaceAll(src, repl \[\]byte) \[\]byte
+#### 2.1.4.1 func (re \*Regexp) ReplaceAll(src, repl \[\]byte) \[\]byte
 
 ​**​作用​**​: 替换所有匹配项（字节切片版本）
 
@@ -409,7 +412,7 @@ func main() {
 加括号结果: 日期: [2023-04-15], 另一个日期: [2022-12-25]
 */
 ```
-#### func (re \*Regexp) ReplaceAllString(src, repl string) string
+#### 2.1.4.2 func (re \*Regexp) ReplaceAllString(src, repl string) string
 
 ​**​作用​**​: 替换所有匹配项（字符串版本）
 
@@ -452,9 +455,9 @@ func main() {
 命名替换结果: name: John age: 30 city: NewYork
 */
 ```
-### 其他重要方法
+### 2.1.5 其他重要方法
 
-#### func (re \*Regexp) Split(s string, n int) \[\]string
+#### 2.1.5.1 func (re \*Regexp) Split(s string, n int) \[\]string
 
 ​**​作用​**​: 使用正则表达式分割字符串
 
@@ -501,7 +504,7 @@ func main() {
 多分隔符分割: [apple banana cherry date]
 */
 ```
-#### func (re \*Regexp) SubexpNames() \[\]string
+#### 2.1.5.2 func (re \*Regexp) SubexpNames() \[\]string
 
 ​**​作用​**​: 返回捕获组的名称
 
@@ -546,10 +549,70 @@ func main() {
 未命名组2: 15
 */
 ```
-#### func (re \*Regexp) NumSubexp() int
+#### 2.1.5.3 func (re \*Regexp) NumSubexp() int
 
 ​**​作用​**​: 返回捕获组的数量
 
-#### 返回值
+#### 2.1.5.4 返回值
 
 - `int`: 捕获组的数量
+
+# 3 为什么使用Regexp类型性能要好
+
+正则表达式的编译函数（如 `regexp.Compile()`）比直接匹配函数（如 `regexp.MatchString()`）性能更高的主要原因在于​**​避免重复编译开销​**​。
+
+**直接匹配函数的内部过程**
+
+当你使用 regexp.MatchString(pattern, text)时，Go 语言在内部实际上执行以下步骤：
+
+1. 解析正则表达式​​：将字符串模式解析为内部数据结构
+
+2. 编译正则表达式​​：将解析后的结构转换为可执行的状态机
+
+3. 执行匹配​​：使用编译后的状态机进行文本匹配
+
+4. 丢弃编译结果​​：匹配完成后，丢弃编译后的状态机
+
+每次调用 MatchString都会重复这个过程，即使使用相同的正则表达式模式。
+
+**编译函数的工作方式**
+
+当你使用 regexp.Compile(pattern)时：
+
+1. 解析和编译​​：只执行一次解析和编译过程
+
+2. 返回可重用的对象​​：返回一个 \*Regexp对象，包含编译后的状态机
+
+3. 重复使用​​：可以多次调用该对象的匹配方法，无需重新编译
+
+## 3.1 编译过程的详细分析
+
+### 3.1.1 正则表达式编译的步骤
+
+1. ​**​词法分析​**​：将正则表达式字符串分解为令牌（tokens）
+    
+2. ​**​语法分析​**​：构建抽象语法树（AST）
+    
+3. ​**​状态机构建​**​：将 AST 转换为非确定性有限自动机（NFA）
+    
+4. ​**​状态机优化​**​：可能将 NFA 转换为确定性有限自动机（DFA）
+    
+5. ​**​代码生成​**​：生成高效匹配的代码或数据结构
+    
+
+这个过程可能相当耗时，特别是对于复杂的正则表达式。
+
+### 3.1.2 编译结果的复用价值
+
+编译后的正则表达式对象包含：
+
+- 优化后的匹配状态机
+    
+- 预计算的字符类映射
+    
+- 分组和捕获结构信息
+    
+- 其他优化数据结构
+    
+
+这些结构可以被无限次复用，而无需重新计算。
