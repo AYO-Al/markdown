@@ -200,7 +200,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -218,7 +219,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "cab388ce05eed7ac",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "计算机基础/网络/ping命令工作流程.md",
     "计算机基础/网络/网络编程/网络编程.md",
