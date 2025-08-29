@@ -219,8 +219,10 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "cab388ce05eed7ac",
   "lastOpenFiles": [
+    "计算机基础/网络/网络编程/image/网络编程_time_1.png",
+    "计算机基础/网络/网络编程/image",
     "计算机基础/网络/ping命令工作流程.md",
     "计算机基础/网络/网络编程/网络编程.md",
     "计算机基础/网络/网络编程",
@@ -254,12 +256,10 @@
     "计算机基础/网络/网络是怎么连接的",
     "计算机基础/网络/Wireshark/image/如果A和B网络配置的子网掩码不一样还能正常通信嘛_time_1.png",
     "计算机基础/网络/Wireshark/image",
-    "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/Wireshark",
     "go/框架/mcp/mcp-go/image/基础_time_1.png",
     "go/框架/mcp/mcp-go/image",
     "go/框架/mcp/mcp-go",
-    "go/框架/mcp",
     "go/自带包/迭代器/image/iter_time_1.png",
     "go/编程实践/image/range迭代器实现_time_1.png",
     "go/编程实践/image/并发设计_time_2.png",
