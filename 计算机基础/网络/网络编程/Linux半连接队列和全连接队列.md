@@ -40,8 +40,16 @@
 - min(somaxconn,backlog)
     - somaxconn参数在/proc/sys/net/core/somaxconn文件中设置
     - backlog则根据工具的不同设置方式也不同
-        - nginx：server { listen 8080 default backlog=5000 }
+        - nginx：server { listen 8080 default backlog=5000 }。默认情况下，`backlog` 在 FreeBSD、DragonFly BSD 和 macOS 上设置为 -1，在其他平台上设置为 511。
         - 编程语言一般在listen函数中进行设置
+
+
+取最小值体现了内核“双重保险”的设计哲学：既要尊重应用的需求，又要服从系统的总体管控。
+
+| **参数​**​            | 作用层级          | 配置方式                        | 默认值（典型）         | 设计目标          |
+| ------------------- | ------------- | --------------------------- | --------------- | ------------- |
+| ​**​`backlog`​**​   | ​**​应用层​**​   | 程序代码中 `listen(fd, backlog)` | 语言相关（如Python=5） | 声明应用能处理的并发预备量 |
+| ​**​`somaxconn`​**​ | ​**​操作系统层​**​ | `sysctl net.core.somaxconn` | 128~4096        | 防止单个应用耗尽系统资源  |
 # 如何查看半连接队列大小
 
 - 查看半连接队列大小
