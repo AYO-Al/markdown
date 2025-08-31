@@ -76,8 +76,16 @@
 - 当 max_syn_backlog < min(somaxconn, backlog) 时， 半连接队列最大值 max_qlen_log = max_syn_backlog * 2;
 
 - tcp_max_syn_backlog:   /proc/sys/net/ipv4/tcp_max_syn_backlog设置
+- 修改半连接队列大小要连同somaxconn，backlog参数一起修改
 
 - 如果「当前半连接队列」没超过「理论半连接队列最大值」，但是超过 max_syn_backlog - (max_syn_backlog >> 2)，那么处于 SYN_RECV 状态的最大个数就是 max_syn_backlog - (max_syn_backlog >> 2)； 
 - 如果「当前半连接队列」超过「理论半连接队列最大值」，那么处于 SYN_RECV 状态的最大个数就是「理论半连接队列最大值」；
 # 为什么要设计半连接和全连接队列
 
+设计 ​**​半连接队列（SYN Queue）​**​ 和 ​**​全连接队列（Accept Queue）​**​ 是 Linux TCP 协议栈的核心机制，根本目的是为了解决 ​**​资源安全隔离​**​ 和 ​**​流量异步缓冲​**​ 两大问题。
+
+- 资源安全隔离：将SYN队列与ACK队列分开，这样SYN Flood攻击就无法污染已建立的合法连接。并且可以启用SYN Cookie单独加固半连接。
+
+    - **如果没有SYN队列，操作系统会为每一个SYN请求都创建完整结构体，导致操作系统资源耗尽（CPU/内存）。**
+
+- 流量异步缓冲：把SYN和ACK队列开分，操作系统可以批量处理 SYN + ACK半连接请求。ACK队列缓冲避免请求一次性压到业务上，如果没有队列，应用 accept() 被海量请求淹没 导致 服务崩溃。
