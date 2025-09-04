@@ -49,5 +49,23 @@
       ],
       "key": "G"
     }
+  ],
+  "code-block-from-selection:0744fd82-4cd1-4f6e-8c78-c4da36648249": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "P"
+    }
+  ],
+  "code-block-from-selection:8974e9e8-b144-406a-bb85-76bdba6e7758": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "B"
+    }
   ]
 }
