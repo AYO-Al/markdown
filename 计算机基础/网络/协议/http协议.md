@@ -30,6 +30,41 @@ POST /upload/image HTTP/1.1
 常用请求头字段及设置：
 
 
+|头部字段 (Field)|类别|重要性|字段说明 (Description)|字段语法 (Syntax)|字段示例 (Example with Parameters)|参数说明 (Parameters)|类型|常用场景 (Common Use Cases)|
+|---|---|---|---|---|---|---|---|---|
+|​**​`Host`​**​|核心|★★★|指定请求将要发送到的服务器域名和端口号。HTTP/1.1 ​**​必须​**​包含的头部。|`Host: <domain>:<port>`|`Host: example.com`  <br>`Host: localhost:8080`|​**​domain:​**​ 服务器域名。  <br>​**​port:​**​ 可选，服务器监听的端口号（默认80/443则省略）。|字符串|虚拟主机托管（一台服务器托管多个网站）。|
+|​**​`User-Agent`​**​|信息|★★☆|包含一个特征字符串，用来让服务器识别客户端使用的应用程序、操作系统、厂商和版本。|`User-Agent: <product> / <product-version> <comment>`|`User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36`|​**​product:​**​ 产品名称（如 Mozilla）。  <br>​**​version:​**​ 产品版本。  <br>​**​comment:​**​ 零个或多个注释，包含子产品信息。|字符串|服务器据此进行统计、提供不同设备（桌面/移动）的页面版本、识别爬虫。|
+|​**​`Accept`​**​|内容协商|★★☆|告知服务器客户端能够处理哪些类型的媒体（MIME types），以及优先级。|`Accept: <MIME-type>/<MIME-subtype>; q=<q-value>[, <type>; q=<q-value>]*`|`Accept: text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8`|​**​MIME-type:​**​ 媒体类型。  <br>​**​q=<q-value>:​**​ 相对质量价值（权重），范围 0-1，默认 1。值越高，优先级越高。|列表|浏览器告知服务器希望接收 HTML、XML 还是 JSON 等。|
+|​**​`Accept-Language`​**​|内容协商|★★☆|告知服务器客户端偏好哪种自然语言。|`Accept-Language: <language>; q=<q-value>[, <language>; q=<q-value>]*`|`Accept-Language: en-US, en;q=0.9, zh-CN;q=0.8, zh;q=0.7`|​**​language:​**​ 语言标签（如 `en`, `zh-CN`）。  <br>​**​q=<q-value>:​**​ 权重值。|列表|国际化和本地化，服务器据此返回对应语言的网页版本。|
+|​**​`Accept-Encoding`​**​|内容协商|★★☆|告知服务器客户端支持哪些内容编码（通常是压缩算法）。|`Accept-Encoding: <encoding>; q=<q-value>[, <encoding>; q=<q-value>]*`|`Accept-Encoding: gzip, deflate, br`|​**​encoding:​**​ 编码类型，如 `gzip`, `deflate`, `br` (Brotli), `identity` (不压缩)。  <br>​**​q=<q-value>:​**​ 权重值。|列表|客户端声明支持的压缩格式，服务器据此选择一种进行压缩响应，节省带宽。|
+|​**​`Accept-Charset`​**​|内容协商|★☆☆|告知服务器客户端偏好哪种字符集。​**​现代已基本废弃​**​，因为字符集通常在 `Content-Type` 中指定。|`Accept-Charset: <charset>; q=<q-value>`|`Accept-Charset: utf-8, iso-8859-1;q=0.5`|​**​charset:​**​ 字符集名称。|列表|旧式浏览器使用，现在字符集协商通过 `Content-Type` 头的 `charset` 参数完成。|
+|​**​`Content-Type`​**​|实体|★★★|在 ​**​POST​**​ 或 ​**​PUT​**​ 等请求中，指明请求体的媒体类型。|`Content-Type: <media-type>; charset=<encoding>`|`Content-Type: application/json; charset=utf-8`  <br>`Content-Type: application/x-www-form-urlencoded`  <br>`Content-Type: multipart/form-data; boundary=something`|​**​media-type:​**​ 媒体类型。  <br>​**​charset:​**​ 字符编码。  <br>​**​boundary:​**​ 用于 `multipart` 类型的分隔符。|媒体类型|提交 JSON 数据给 API (`application/json`)。提交 HTML 表单 (`application/x-www-form-urlencoded`)。文件上传 (`multipart/form-data`)。|
+|​**​`Content-Length`​**​|实体|★★☆|请求体的字节大小（十进制数字）。|`Content-Length: <length>`|`Content-Length: 348`|​**​length:​**​ 请求体的确切字节数。|数字|对于有请求体的方法（如 POST）是必需的，以便服务器知道要读取多少数据。|
+|​**​`Authorization`​**​|认证|★★★|包含用于向服务器认证用户代理的凭证。|`Authorization: <type> <credentials>`|`Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l`  <br>`Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`|​**​type:​**​ 认证方案，如 `Basic`, `Bearer`, `Digest`。  <br>​**​credentials:​**​ 对应方案的凭证（如 base64 编码的用户:密码 或 JWT Token）。|字符串|HTTP 认证（Basic）。JWT Token 认证（Bearer）。API 访问控制。|
+|​**​`Cookie`​**​|状态|★★★|包含先前由服务器通过 `Set-Cookie` 响应头发送并存储的 HTTP Cookies。|`Cookie: <name>=<value>; <name>=<value>`|`Cookie: sessionId=abc123; userId=john_doe`|​**​name=value:​**​ 键值对，多个 cookie 用分号和空格分隔。|列表|携带用户会话标识、身份认证令牌、用户偏好设置等。|
+|​**​`Referer`​**​|信息|★★☆|表示当前请求页面的来源页面的地址。|`Referer: <url>`|`Referer: https://example.com/previous-page.html`|​**​url:​**​ 来源页面的绝对或相对 URL。|URL|服务器用于日志记录、分析来源、防盗链、优化缓存。​**​注意拼写错误（应是 Referrer）​**​。|
+|​**​`Origin`​**​|CORS|★★★|表示跨域请求或 POST 请求的来源。​**​不包含路径信息​**​，只有协议、域名和端口。|`Origin: <scheme>://<hostname>[:<port>]`|`Origin: https://www.example.com`  <br>`Origin: http://localhost:3000`|​**​scheme:​**​ 协议（如 http, https）。  <br>​**​hostname:​**​ 域名。  <br>​**​port:​**​ 端口号（可选，非默认端口时出现）。|来源|​**​CORS 跨域请求​**​的核心头部。服务器根据此头决定是否允许跨域访问。|
+|​**​`If-Modified-Since`​**​|条件|★★☆|允许服务器在资源​**​自指定日期以来未被修改​**​的情况下返回 `304 Not Modified`。|`If-Modified-Since: <http-date>`|`If-Modified-Since: Tue, 15 Nov 1994 08:12:31 GMT`|​**​<http-date>:​**​ 遵循 RFC 7231 的日期时间格式。|日期时间戳|​**​条件性 GET 请求​**​。与服务器的 `Last-Modified` 响应头配合使用，节省带宽。|
+|​**​`If-None-Match`​**​|条件|★★★|允许服务器在资源的 ETag ​**​与列表中任何一个都不匹配​**​的情况下返回 `304 Not Modified`。比 `If-Modified-Since` 更精确。|`If-None-Match: <etag>[, <etag>]*`  <br>`If-None-Match: *`|`If-None-Match: "737060cd8c284d8af7ad3082f209582d"`  <br>`If-None-Match: "strong-tag", W/"weak-tag"`|​**​etag:​**​ 实体标签，来自服务器的 `ETag` 响应头。  <br>​**​​**​*: 特殊值，匹配任何当前存在的资源。|列表|​**​条件性 GET 请求​**​。与服务器的 `ETag` 响应头配合使用，实现高效的缓存验证。|
+|​**​`Cache-Control`​**​|缓存|★★☆|客户端使用该头来指定缓存机制在本次请求/响应链中应如何操作。|`Cache-Control: <directive>`|`Cache-Control: no-cache`  <br>`Cache-Control: max-age=0`  <br>`Cache-Control: no-store`|​**​no-cache:​**​ 在使用缓存副本前强制向服务器验证。  <br>​**​max-age=0:​**​ 含义类似于 `no-cache`。  <br>​**​no-store:​**​ 请求和响应都禁止被缓存。|指令|强制浏览器或代理服务器向源服务器重新验证缓存 (`no-cache`)。确保获取最新内容。|
+|​**​`Connection`​**​|连接|★☆☆|控制当前网络连接在当前请求完成后是否保持打开。|`Connection: keep-alive \| close`|`Connection: keep-alive`|​**​keep-alive:​**​ 保持连接打开（HTTP/1.1 默认）。  <br>​**​close:​**​ 本次传输后关闭连接。|字符串|客户端希望管理 TCP 连接的寿命以减少开销。
+## 请求体 - Request Body
+
+主要用于 POST、PUT 等方法携带数据
+# 响应报文
+## 状态行
+
+```http
+HTTP-Version Status-Code Reason-Phrase
+
+HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
+HTTP/1.1 500 Internal Server Error
+```
+## 响应头 - Response Headers
+
+常用响应头字段及设置：
+
 | 头部字段 (Field)                             | 类别   | 重要性 | 字段说明 (Description)                         | 字段语法 (Syntax)                                                                                                                                                                       | 字段示例 (Example with Parameters)                                                                                                                   | 参数说明 (Parameters)                                                                                                                                                                                                                 | 类型    | 常用场景 (Common Use Cases)                          |
 | ---------------------------------------- | ---- | --- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------ |
 | ​**​Content-Type​**​                     | 实体   | ★★★ | 响应体的媒体类型（MIME类型），告知客户端如何解释响应体。             | `Content-Type: <media-type>; charset=<encoding>`                                                                                                                                    | `Content-Type: text/html; charset=UTF-8`  <br>`Content-Type: application/json; charset=utf-8`  <br>`Content-Type: image/png`                     | ​**​media-type:​**​ 资源的 MIME 类型（如 `text/html`, `application/json`）。  <br>​**​charset:​**​ 字符编码（如 `UTF-8`）。                                                                                                                        | 媒体类型  | 浏览器渲染页面，API 返回数据格式。                              |
@@ -55,24 +90,6 @@ POST /upload/image HTTP/1.1
 | ​**​Server​**​                           | 信息   | ★☆☆ | 包含处理请求的服务器软件的名称和版本。                        | `Server: <software>/<version>`                                                                                                                                                      | `Server: nginx`  <br>`Server: Apache/2.4.41 (Unix)`                                                                                              | ​**​software/version:​**​ 服务器软件信息。                                                                                                                                                                                                | 字符串   | 标识服务器环境。​**​生产环境应移除或混淆此信息​**​。                   |
 | ​**​Date​**​                             | 信息   | ★★☆ | 消息发出的日期和时间。                                | `Date: <http-date>`                                                                                                                                                                 | `Date: Tue, 15 Nov 1994 08:12:31 GMT`                                                                                                            | ​**​<http-date>:​**​ 遵循 RFC 7231 的日期时间格式。                                                                                                                                                                                         | 日期时间戳 | 所有响应都应包含，用于辅助计算缓存新鲜度。                            |
 | ​**​Connection​**​                       | 连接   | ★☆☆ | 决定当前事务完成后，是否会关闭网络连接。                       | `Connection: keep-alive \| close`                                                                                                                                                   | `Connection: keep-alive`                                                                                                                         | ​**​keep-alive:​**​ 保持连接打开（HTTP/1.1 默认）。  <br>​**​close:​**​ 本次传输后关闭连接。                                                                                                                                                           | 字符串   | 减少 TCP 连接建立的开销，提升性能。                             |
-## 请求体 - Request Body
-
-主要用于 POST、PUT 等方法携带数据
-# 响应报文
-## 状态行
-
-```http
-HTTP-Version Status-Code Reason-Phrase
-
-HTTP/1.1 200 OK
-HTTP/1.1 404 Not Found
-HTTP/1.1 500 Internal Server Error
-```
-## 响应头 - Response Headers
-
-常用响应头字段及设置：
-
-
 ## 响应体 - Response Body
 
 包含服务器返回的实际数据
