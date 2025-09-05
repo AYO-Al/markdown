@@ -1,0 +1,120 @@
+# 请求报文
+
+HTTP 报文分为​**​请求报文​**​（客户端发送）和​**​响应报文​**​（服务器返回），两者都包含三个部分：
+
+```http
+<起始行>\r\n
+<头部字段>\r\n
+<头部字段>\r\n
+...\r\n
+\r\n
+<消息正文>
+```
+
+## 请求行 - Request Line
+
+```http
+METHOD Request-URI HTTP-Version
+```
+
+- **​METHOD​**​: 请求方法（GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH）
+- ​**​Request-URI​**​: 请求的资源路径
+- ​**​HTTP-Version​**​: 协议版本（HTTP/1.1 或 HTTP/2）
+
+```http
+GET /api/users HTTP/1.1
+POST /upload/image HTTP/1.1
+```
+## 请求头 - Request Headers
+
+常用请求头字段及设置：
+
+
+| 头部字段 (Field)                             | 类别   | 重要性 | 字段说明 (Description)                         | 字段语法 (Syntax)                                                                                                                                                                       | 字段示例 (Example with Parameters)                                                                                                                   | 参数说明 (Parameters)                                                                                                                                                                                                                 | 类型    | 常用场景 (Common Use Cases)                          |
+| ---------------------------------------- | ---- | --- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------ |
+| ​**​Content-Type​**​                     | 实体   | ★★★ | 响应体的媒体类型（MIME类型），告知客户端如何解释响应体。             | `Content-Type: <media-type>; charset=<encoding>`                                                                                                                                    | `Content-Type: text/html; charset=UTF-8`  <br>`Content-Type: application/json; charset=utf-8`  <br>`Content-Type: image/png`                     | ​**​media-type:​**​ 资源的 MIME 类型（如 `text/html`, `application/json`）。  <br>​**​charset:​**​ 字符编码（如 `UTF-8`）。                                                                                                                        | 媒体类型  | 浏览器渲染页面，API 返回数据格式。                              |
+| ​**​Content-Length​**​                   | 实体   | ★★☆ | 响应体的确切字节大小。                                | `Content-Length: <length>`                                                                                                                                                          | `Content-Length: 348`                                                                                                                            | ​**​length:​**​ 十进制数字，表示字节数。                                                                                                                                                                                                      | 数字    | 客户端判断响应是否接收完整，特别是在持久连接中。                         |
+| ​**​Content-Encoding​**​                 | 实体   | ★★☆ | 表明对响应体使用了何种压缩算法。                           | `Content-Encoding: <encoding>`                                                                                                                                                      | `Content-Encoding: gzip`  <br>`Content-Encoding: br`                                                                                             | ​**​encoding:​**​ 压缩算法，如 `gzip`, `deflate`, `br` (Brotli)。                                                                                                                                                                        | 字符串   | 服务器对文本资源进行压缩，节省带宽，提高加载速度。                        |
+| ​**​Content-Disposition​**​              | 实体   | ★★☆ | 指示响应内容是否应在浏览器内联显示，还是作为附件下载。                | `Content-Disposition: inline \| attachment; filename="<file.name>"`                                                                                                                 | `Content-Disposition: attachment; filename="report.pdf"`  <br>`Content-Disposition: inline`                                                      | ​**​inline:​**​ 尝试在浏览器中显示（默认）。  <br>​**​attachment:​**​ 提示浏览器下载文件。  <br>​**​filename:​**​ 建议下载的文件名。                                                                                                                               | 字符串   | 触发文件下载并指定文件名。防止用户上传的内容在浏览器中直接执行。                 |
+| ​**​Cache-Control​**​                    | 缓存   | ★★★ | 缓存控制的核心指令。指导缓存机制如何工作。                      | `Cache-Control: <directive>[, <directive>]*`                                                                                                                                        | `Cache-Control: public, max-age=31536000, immutable`  <br>`Cache-Control: no-cache, must-revalidate`  <br>`Cache-Control: no-store`              | ​**​public/private:​**​ 响应可被谁缓存。  <br>​**​no-cache:​**​ 使用前必须验证。  <br>​**​no-store:​**​ 禁止任何缓存。  <br>​**​max-age=<seconds>:​**​ 资源新鲜时间（秒）。  <br>​**​must-revalidate:​**​ 过期后必须验证。  <br>​**​immutable:​**​ 资源永不变，无需验证。             | 指令列表  | 静态资源长期缓存。动态数据实时验证。敏感信息禁止缓存。                      |
+| ​**​ETag​**​                             | 缓存   | ★★☆ | 资源的实体标签，是特定版本的唯一标识符，用于条件请求。                | `ETag: ["W/"]<etag-value>`                                                                                                                                                          | `ETag: "33a64df551425fcc55e4d42a148795d9f25f89d4"`  <br>`ETag: W/"0815"`                                                                         | ​**​强验证器:​**​ 字节必须完全一致（无`W/`）。  <br>​**​弱验证器:​**​ 内容语义一致即可（有`W/`）。                                                                                                                                                                | 字符串   | 与 `If-None-Match` 配合，实现高效缓存验证（304 Not Modified）。 |
+| ​**​Last-Modified​**​                    | 缓存   | ★★☆ | 资源最后被修改的日期和时间。用于条件请求。                      | `Last-Modified: <http-date>`                                                                                                                                                        | `Last-Modified: Tue, 15 Nov 1994 08:12:31 GMT`                                                                                                   | ​**​<http-date>:​**​ 遵循 RFC 7231 的日期时间格式。                                                                                                                                                                                         | 日期时间戳 | 与 `If-Modified-Since` 配合，进行缓存验证。作为 `ETag` 的备用方案。 |
+| ​**​Vary​**​                             | 缓存   | ★★☆ | 告知缓存服务器根据哪些请求头来区分不同版本的资源。                  | `Vary: <header-name>[, <header-name>]*`                                                                                                                                             | `Vary: Accept-Encoding`  <br>`Vary: User-Agent, Origin`                                                                                          | ​**​header-name:​**​ 请求头的名称，如 `Accept-Encoding`, `User-Agent`, `Origin`。                                                                                                                                                          | 字符串   | 确保为不同设备、语言或编码的客户端提供正确的缓存版本。                      |
+| ​**​Set-Cookie​**​                       | 状态   | ★★★ | 由服务器发送，用于在客户端创建或更新 Cookie。                 | `Set-Cookie: <name>=<value>; [Expires=<date>]; [Max-Age=<seconds>]; [Domain]; [Path]; [Secure]; [HttpOnly]; [SameSite=Strict\|Lax\|None]`                                           | `Set-Cookie: sessionid=abc123; Expires=Wed, 21 Oct 2025 07:28:00 GMT; Max-Age=3600; Domain=.example.com; Path=/; Secure; HttpOnly; SameSite=Lax` | ​**​Expires/Max-Age:​**​ 过期时间。  <br>​**​Domain/Path:​**​ 作用域。  <br>​**​Secure:​**​ 仅 HTTPS 发送。  <br>​**​HttpOnly:​**​ 禁止 JS 访问。  <br>​**​SameSite:​**​ 控制跨站请求是否发送（`Strict`, `Lax`, `None`）。                                       | 列表    | 用户会话管理（Session）、身份认证、追踪、个性化设置。                   |
+| ​**​Location​**​                         | 重定向  | ★★☆ | 在重定向响应或创建资源响应中，指定重定向的目标 URL 或新资源的 URL。     | `Location: <url>`                                                                                                                                                                   | `Location: https://example.com/new-page`  <br>`Location: /login.html`                                                                            | ​**​url:​**​ 一个绝对或相对 URL。                                                                                                                                                                                                         | URL   | 3xx 重定向响应（如 302 Found）。201 Created 响应指示新资源的位置。   |
+| ​**​Access-Control-Allow-Origin​**​      | CORS | ★★★ | 指定允许访问该资源的外域。CORS 的核心头部。                   | `Access-Control-Allow-Origin: <origin> \| *`                                                                                                                                        | `Access-Control-Allow-Origin: https://example.com`  <br>`Access-Control-Allow-Origin: *`                                                         | ​**​*:​**​ 允许任何域访问（不能与 credentialed 请求同用）。  <br>​**​<origin>:​**​ 允许的特定源。                                                                                                                                                         | 来源    | 允许前端 SPA（部署在不同域名下）访问后端 API。                      |
+| ​**​Access-Control-Allow-Credentials​**​ | CORS | ★★☆ | 指示当请求的凭证模式为 `include` 时，响应是否可以被暴露。         | `Access-Control-Allow-Credentials: true`                                                                                                                                            | `Access-Control-Allow-Credentials: true`                                                                                                         | ​**​true:​**​ 唯一有效值。如果使用，则 `Access-Control-Allow-Origin` 不能为 `*`。                                                                                                                                                                 | 布尔值   | 允许跨域请求携带 Cookie 或 HTTP 认证信息。                     |
+| ​**​Access-Control-Allow-Methods​**​     | CORS | ★★☆ | 用于预检请求的响应，指明实际请求所允许使用的 HTTP 方法。            | `Access-Control-Allow-Methods: <method>[, <method>]*`                                                                                                                               | `Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS`                                                                                          | ​**​method:​**​ HTTP 方法，如 `GET`, `POST`, `PUT`, `DELETE`, `OPTIONS`。                                                                                                                                                              | 列表    | 响应 `OPTIONS` 预检请求，告知客户端允许的方法。                    |
+| ​**​Access-Control-Allow-Headers​**​     | CORS | ★★☆ | 用于预检请求的响应，指明实际请求中允许携带的首部字段。                | `Access-Control-Allow-Headers: <header-name>[, <header-name>]*`                                                                                                                     | `Access-Control-Allow-Headers: Content-Type, Authorization, X-Custom-Header`                                                                     | ​**​header-name:​**​ 请求头的名称。                                                                                                                                                                                                      | 列表    | 响应 `OPTIONS` 预检请求，告知客户端允许的自定义或非简单头。              |
+| ​**​Strict-Transport-Security​**​        | 安全   | ★★★ | 强制浏览器在未来一段时间内通过 HTTPS 访问该域名。               | `Strict-Transport-Security: max-age=<expire-time>; [includeSubDomains]; [preload]`                                                                                                  | `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`                                                                        | ​**​max-age:​**​ 秒数。  <br>​**​includeSubDomains:​**​ 规则适用于所有子域名。  <br>​**​preload:​**​ 申请加入浏览器预加载列表。                                                                                                                              | 指令列表  | 防御 SSL 剥离攻击，提升网站安全性。                             |
+| ​**​Content-Security-Policy​**​          | 安全   | ★★★ | 通过白名单机制，控制允许加载资源的来源，有效缓解 XSS、数据注入等攻击。      | `Content-Security-Policy: <policy-directive>; <policy-directive>`                                                                                                                   | `Content-Security-Policy: default-src 'self'; script-src 'self' https://trusted.cdn.com; object-src 'none'; upgrade-insecure-requests;`          | ​**​default-src 'self':​**​ 默认策略。  <br>​**​script-src:​**​ 控制JS来源。  <br>​**​style-src:​**​ 控制CSS来源。  <br>​**​img-src:​**​ 控制图像来源。  <br>​**​object-src 'none':​**​ 禁止插件。  <br>​**​upgrade-insecure-requests:​**​ 将 HTTP 升级为 HTTPS。 | 指令列表  | 防御跨站脚本 (XSS) 攻击，是现代 Web 应用的关键安全头。                |
+| ​**​X-Frame-Options​**​                  | 安全   | ★★☆ | 指示浏览器是否允许页面在 `<frame>`, `<iframe>` 中渲染。    | `X-Frame-Options: DENY \| SAMEORIGIN \| ALLOW-FROM <uri>`                                                                                                                           | `X-Frame-Options: SAMEORIGIN`                                                                                                                    | ​**​DENY:​**​ 完全禁止。  <br>​**​SAMEORIGIN:​**​ 只允许同源页面嵌入。  <br>​**​ALLOW-FROM uri:​**​ 允许指定源嵌入（已逐渐被 CSP 的 `frame-ancestors` 取代）。                                                                                                    | 字符串   | 防御点击劫持 (Clickjacking) 攻击。                        |
+| ​**​X-Content-Type-Options​**​           | 安全   | ★★☆ | 指示浏览器不要嗅探响应类型，必须遵循 `Content-Type` 头中声明的类型。 | `X-Content-Type-Options: nosniff`                                                                                                                                                   | `X-Content-Type-Options: nosniff`                                                                                                                | ​**​nosniff:​**​ 唯一有效值。                                                                                                                                                                                                           | 字符串   | 防止 MIME 类型混淆攻击，例如将文本文件当作 HTML 执行。                |
+| ​**​Referrer-Policy​**​                  | 安全   | ★★☆ | 控制请求中 `Referer` 头携带的信息量，保护用户隐私。            | `Referrer-Policy: no-referrer \| no-referrer-when-downgrade \| origin \| origin-when-cross-origin \| same-origin \| strict-origin \| strict-origin-when-cross-origin \| unsafe-url` | `Referrer-Policy: strict-origin-when-cross-origin`                                                                                               | ​**​no-referrer:​**​ 不发送。  <br>​**​strict-origin-when-cross-origin:​**​ （推荐）同源发送完整URL，跨域时只发送源。  <br>​**​unsafe-url:​**​ 始终发送完整URL。                                                                                                | 字符串   | 防止将敏感的 URL 参数泄露给第三方网站。                           |
+| ​**​Permissions-Policy​**​               | 安全   | ★★☆ | 控制浏览器特性和 API 在页面中的使用。                      | `Permissions-Policy: <feature>=<allowlist>`                                                                                                                                         | `Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=*`                                                                        | ​**​geolocation=():​**​ 禁用地理定位。  <br>​**​camera=('self'):​**​ 仅同源可用摄像头。  <br>​**​payment=*:​**​ 允许支付功能。                                                                                                                           | 指令列表  | 限制页面或第三方 iframe 使用敏感功能，增强隐私和安全。                  |
+| ​**​Server​**​                           | 信息   | ★☆☆ | 包含处理请求的服务器软件的名称和版本。                        | `Server: <software>/<version>`                                                                                                                                                      | `Server: nginx`  <br>`Server: Apache/2.4.41 (Unix)`                                                                                              | ​**​software/version:​**​ 服务器软件信息。                                                                                                                                                                                                | 字符串   | 标识服务器环境。​**​生产环境应移除或混淆此信息​**​。                   |
+| ​**​Date​**​                             | 信息   | ★★☆ | 消息发出的日期和时间。                                | `Date: <http-date>`                                                                                                                                                                 | `Date: Tue, 15 Nov 1994 08:12:31 GMT`                                                                                                            | ​**​<http-date>:​**​ 遵循 RFC 7231 的日期时间格式。                                                                                                                                                                                         | 日期时间戳 | 所有响应都应包含，用于辅助计算缓存新鲜度。                            |
+| ​**​Connection​**​                       | 连接   | ★☆☆ | 决定当前事务完成后，是否会关闭网络连接。                       | `Connection: keep-alive \| close`                                                                                                                                                   | `Connection: keep-alive`                                                                                                                         | ​**​keep-alive:​**​ 保持连接打开（HTTP/1.1 默认）。  <br>​**​close:​**​ 本次传输后关闭连接。                                                                                                                                                           | 字符串   | 减少 TCP 连接建立的开销，提升性能。                             |
+## 请求体 - Request Body
+
+主要用于 POST、PUT 等方法携带数据
+# 响应报文
+## 状态行
+
+```http
+HTTP-Version Status-Code Reason-Phrase
+
+HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
+HTTP/1.1 500 Internal Server Error
+```
+## 响应头 - Response Headers
+
+常用响应头字段及设置：
+
+
+## 响应体 - Response Body
+
+包含服务器返回的实际数据
+# MIME类型
+
+MIME（多用途互联网邮件扩展）类型是一种标准，用来表示文档、文件或字节流的性质和格式，确保内容能被正确处理和显示。
+
+|MIME 类型|类别|说明|常见扩展名|使用场景与备注|
+|---|---|---|---|---|
+|​**​`text/html`​**​|文本|​**​超文本标记语言​**​，Web 的基石。|`.html`, `.htm`|所有网页。必须指定字符集，如 `charset=UTF-8`。|
+|​**​`text/css`​**​|文本|​**​层叠样式表​**​，用于定义网页样式。|`.css`|网页样式文件。常被压缩传输。|
+|​**​`text/javascript`​**​  <br>​**​`application/javascript`​**​|文本/应用|​**​JavaScript​**​ 代码。|`.js`, `.mjs`|为网页添加交互性。建议使用 `application/javascript`。|
+|​**​`application/json`​**​|应用|​**​JavaScript 对象表示法​**​，轻量级数据交换格式。|`.json`|​**​现代 API 通信的标准​**​。用于 RESTful API 的数据传输。|
+|​**​`application/xml`​**​  <br>​**​`text/xml`​**​|应用/文本|​**​可扩展标记语言​**​，用于存储和传输数据。|`.xml`|配置文件和旧式 Web 服务（如 SOAP）。|
+|​**​`application/ld+json`​**​|应用|​**​JSON-LD​**​，基于 JSON 的链接数据格式。|`.jsonld`|结构化数据（Schema.org），用于 SEO 和搜索引擎理解页面内容。|
+|​**​`application/pdf`​**​|应用|​**​Adobe Portable Document Format​**​。|`.pdf`|跨平台固定布局文档。浏览器通常内联显示。|
+|​**​`application/zip`​**​|应用|​**​ZIP 归档文件​**​。|`.zip`|压缩文件集合。浏览器会触发下载。|
+|​**​`application/msword`​**​|应用|​**​Microsoft Word​**​ 文档（较老版本）。|`.doc`|微软 Word 97-2003 文档。|
+|​**​`application/vnd.openxmlformats-officedocument.wordprocessingml.document`​**​|应用|​**​Microsoft Word​**​ 文档（新版 .docx）。|`.docx`|微软 Word 2007 及以后版本的文档（基于 ZIP+XML）。|
+|​**​`application/vnd.ms-excel`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`​**​|应用|​**​Microsoft Excel​**​ 电子表格。|`.xls`, `.xlsx`|Excel 文件。|
+|​**​`application/vnd.ms-powerpoint`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.presentationml.presentation`​**​|应用|​**​Microsoft PowerPoint​**​ 演示文稿。|`.ppt`, `.pptx`|PowerPoint 文件。|
+|​**​`application/x-httpd-php`​**​|应用|​**​PHP​**​ 源代码。|`.php`|PHP 脚本文件的常见 MIME 类型（但输出通常是 `text/html`）。|
+|​**​`application/octet-stream`​**​|应用|通用的​**​二进制数据流​**​。|任意 (如 `.bin`, `.exe`)|​**​强制文件下载​**​。表示“未知的二进制文件，请保存”。|
+|​**​`image/jpeg`​**​|图像|​**​JPEG​**​ 图像，有损压缩格式。|`.jpg`, `.jpeg`|​**​照片和颜色丰富的图像​**​。不支持透明度。|
+|​**​`image/png`​**​|图像|​**​PNG​**​ 图像，无损压缩格式。|`.png`|​**​需要透明度或更高清晰度的图像​**​（如图标、徽标、截图）。|
+|​**​`image/gif`​**​|图像|​**​GIF​**​ 图像，支持动画和简单透明度。|`.gif`|​**​简单动画​**​。颜色支持有限（256色）。|
+|​**​`image/svg+xml`​**​|图像|​**​SVG​**​，基于 XML 的矢量图像格式。|`.svg`, `.svgz`|​**​可缩放矢量图形​**​（徽标、图标）。无限缩放不失真，文件小。|
+|​**​`image/webp`​**​|图像|​**​WebP​**​，现代图像格式，提供优异的压缩。|`.webp`|​**​JPEG 和 PNG 的现代替代品​**​。在相同质量下体积更小。|
+|​**​`image/apng`​**​|图像|​**​动态 PNG​**​，支持动画的 PNG 格式。|`.apng`|类似于 GIF，但支持更多颜色和更好的透明度。|
+|​**​`image/avif`​**​|图像|​**​AVIF​**​，基于 AV1 视频编码的下一代图像格式。|`.avif`|​**​压缩率极高​**​的新格式，支持 HDR、动画和透明度。|
+|​**​`image/x-icon``<br>**`image/vnd.microsoft.icon`​**​|图像|​**​ICO​**​，图标格式。|`.ico`|​**​网站 Favicon​**​。通常包含多个尺寸。|
+|​**​`audio/mpeg`​**​|音频|​**​MP3​**​ 音频。|`.mp3`|通用的音频压缩格式。|
+|​**​`audio/wav`​**​|音频|​**​WAV​**​ 音频，通常未压缩。|`.wav`|无损音频格式，文件体积大。|
+|​**​`audio/webm`​**​|音频|​**​WebM​**​ 音频。|`.weba`|开放、免版税的音频格式，常用于网页。|
+|​**​`audio/aac`​**​|音频|​**​AAC​**​ 音频。|`.aac`|MP4 容器中常用的音频编码格式。|
+|​**​`video/mp4`​**​|视频|​**​MPEG-4​**​ 视频。|`.mp4`|​**​网络视频的主流格式​**​。通常包含 H.264 视频和 AAC 音频。|
+|​**​`video/mpeg`​**​|视频|​**​MPEG​**​ 视频。|`.mpeg`, `.mpg`|较老的视频格式。|
+|​**​`video/webm`​**​|视频|​**​WebM​**​ 视频。|`.webm`|开放、免版税的视频格式，常用于 HTML5 视频。|
+|​**​`video/quicktime`​**​|视频|​**​QuickTime​**​ 视频（Apple）。|`.mov`|Apple QuickTime 格式。|
+|​**​`font/woff`​**​|字体|​**​WOFF​**​，Web 开放字体格式。|`.woff`|第一代 Web 字体格式，是压缩的 OpenType/TrueType。|
+|​**​`font/woff2`​**​|字体|​**​WOFF 2.0​**​，Web 开放字体格式。|`.woff2`|​**​WOFF 的下一代​**​，提供更好的压缩。​**​现代浏览器的首选​**​。|
+|​**​`font/ttf`​**​|字体|​**​TrueType​**​ 字体。|`.ttf`|常见的系统字体格式，但直接在 Web 上使用不如 WOFF2 高效。|
+|​**​`font/otf`​**​|字体|​**​OpenType​**​ 字体。|`.otf`|TrueType 的扩展，功能更丰富。|
+|​**​`multipart/form-data`​**​|多部分|用于将表单数据作为多个部分发送。|无|​**​HTML 表单中包含文件上传时使用​**​ (`<form enctype="...">`)。|
+|​**​`multipart/byteranges`​**​|多部分|用于支持​**​断点续传​**​，响应部分内容（206 Partial Content）。|无|下载管理器和大文件下载。|

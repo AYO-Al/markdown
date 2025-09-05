@@ -2,6 +2,7 @@
   "languages": {
     "429fa8ef-6ffb-4a0e-bd66-be2533038857": "go",
     "0744fd82-4cd1-4f6e-8c78-c4da36648249": "python",
-    "8974e9e8-b144-406a-bb85-76bdba6e7758": "bash"
+    "8974e9e8-b144-406a-bb85-76bdba6e7758": "bash",
+    "acdc2b99-13c1-42ac-8172-16bbfbabed5b": "http"
   }
 }

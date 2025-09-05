@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "计算机基础/网络/协议/http协议.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "网络编程"
+              "title": "http协议"
             }
           },
           {
@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/算法/时间复杂度和空间复杂度.md",
+                "file": "go/框架/配置文件/Viper.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "时间复杂度和空间复杂度"
+              "title": "Viper"
             }
           },
           {
@@ -77,8 +77,7 @@
               "title": "supervisor"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -151,13 +150,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "云计算/Linux/supervisor.md",
+                "file": "计算机基础/网络/协议/http协议.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "supervisor 的大纲"
+              "title": "http协议 的大纲"
             }
           },
           {
@@ -228,7 +227,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -246,16 +246,21 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "3c45679ce03f7e97",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "云计算/shell编程/shell脚本编程.md",
+    "计算机基础/网络/基础/TCP IP网络协议入门.md",
+    "计算机基础/网络/协议/http协议.md",
+    "计算机基础/网络/协议",
+    "计算机基础/网络/网络编程/网络编程.md",
+    "计算机基础/网络/基础",
     "云计算/Linux/supervisor.md",
+    "go/框架/配置文件/Viper.md",
+    "计算机基础/算法/时间复杂度和空间复杂度.md",
+    "计算机基础/操作系统/基础/进程-线程-协程.md",
+    "云计算/shell编程/shell脚本编程.md",
     "云计算/shell编程/shell.md",
     "云计算/shell编程/命令/命令.md",
-    "计算机基础/网络/网络编程/网络编程.md",
-    "计算机基础/算法/时间复杂度和空间复杂度.md",
     "计算机基础/操作系统/io.md",
-    "计算机基础/操作系统/基础/进程-线程-协程.md",
     "计算机基础/网络/网络编程/Linux半连接队列和全连接队列.md",
     "计算机基础/算法",
     "云计算/容器/深入剖析kubernetes/01-容器基础：从进程说起.md",
@@ -264,10 +269,9 @@
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/网络编程/image/网络编程_time_1.png",
     "计算机基础/网络/网络编程/image",
-    "计算机基础/网络/ping命令工作流程.md",
+    "计算机基础/网络/基础/ping命令工作流程.md",
     "计算机基础/网络/网络编程",
-    "计算机基础/网络/TCP IP网络协议入门.md",
-    "计算机基础/网络/计网.md",
+    "计算机基础/网络/基础/计网.md",
     "go/自带包/io处理/bufio.md",
     "go/编程实践/零拷贝.md",
     "计算机基础/操作系统/基础/image/进程-线程-协程_time_1.png",
@@ -280,13 +284,9 @@
     "计算机基础/操作系统/基础",
     "go/自带包/并发处理/sync.md",
     "go/自带包/文本处理/正则：regexp.md",
-    "go/框架/日志/Zap/1. Zap.md",
     "go/自带包/网络",
-    "go/FQA/PCRE正则和POSIX正则.md",
     "计算机基础/网络/网络是怎么连接的",
     "计算机基础/网络/Wireshark/image/如果A和B网络配置的子网掩码不一样还能正常通信嘛_time_1.png",
-    "计算机基础/网络/Wireshark/image",
-    "计算机基础/网络/Wireshark",
     "go/框架/mcp/mcp-go/image/基础_time_1.png",
     "go/自带包/迭代器/image/iter_time_1.png",
     "go/编程实践/image/range迭代器实现_time_1.png",
