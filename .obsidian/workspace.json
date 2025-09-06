@@ -243,8 +243,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -262,7 +261,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
     "计算机基础/网络/网络编程/image/网络编程_time_2.png",
     "go/自带包/迭代器/iter.md",
