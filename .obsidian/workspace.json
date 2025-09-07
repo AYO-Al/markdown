@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/自带包/时间处理/time.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "go基础"
+              "title": "time"
             }
           },
           {
@@ -62,9 +62,23 @@
               "icon": "lucide-file",
               "title": "iter"
             }
+          },
+          {
+            "id": "9ed7654acd1c81f5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/基础/go基础.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "go基础"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -137,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "go/基础/go基础.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "网络编程 的大纲"
+              "title": "go基础 的大纲"
             }
           },
           {
@@ -214,7 +228,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -232,11 +247,12 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "3c45679ce03f7e97",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "计算机基础/网络/协议/http协议.md",
-    "计算机基础/网络/网络编程/网络编程.md",
+    "go/自带包/时间处理/time.md",
     "go/基础/go基础.md",
+    "计算机基础/网络/网络编程/网络编程.md",
+    "计算机基础/网络/协议/http协议.md",
     "go/编程实践/并发设计.md",
     "go/自带包/迭代器/iter.md",
     "go/自带包/并发处理/sync.md",
@@ -272,7 +288,6 @@
     "计算机基础/网络/网络编程",
     "计算机基础/网络/基础/计网.md",
     "go/自带包/io处理/bufio.md",
-    "go/编程实践/零拷贝.md",
     "计算机基础/操作系统/基础/image/进程-线程-协程_time_1.png",
     "计算机基础/操作系统/基础/image",
     "计算机基础/操作系统/基础",
