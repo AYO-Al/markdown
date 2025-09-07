@@ -1112,10 +1112,10 @@ func main() {
 
 Go 语言提供了以下几种类型循环处理语句：
 
-|循环类型|描述|
-|---|---|
-|[for 循环](https://www.runoob.com/go/go-for-loop.html)|重复执行语句块|
-|[循环嵌套](https://www.runoob.com/go/go-nested-loops.html)|在 for 循环中嵌套一个或多个 for 循环|
+| 循环类型                                                   | 描述                      |
+| ------------------------------------------------------ | ----------------------- |
+| [for 循环](https://www.runoob.com/go/go-for-loop.html)   | 重复执行语句块                 |
+| [循环嵌套](https://www.runoob.com/go/go-nested-loops.html) | 在 for 循环中嵌套一个或多个 for 循环 |
 
 ## 12.1 循环控制语句
 
@@ -1123,11 +1123,11 @@ Go 语言提供了以下几种类型循环处理语句：
 
 GO 语言支持以下几种循环控制语句：
 
-|控制语句|描述|
-|---|---|
-|[break 语句](https://www.runoob.com/go/go-break-statement.html)|经常用于中断当前 for 循环或跳出 switch 语句|
-|[continue 语句](https://www.runoob.com/go/go-continue-statement.html)|跳过当前循环的剩余语句，然后继续进行下一轮循环。|
-|[goto 语句](https://www.runoob.com/go/go-goto-statement.html)|将控制转移到被标记的语句。|
+| 控制语句                                                                | 描述                           |
+| ------------------------------------------------------------------- | ---------------------------- |
+| [break 语句](https://www.runoob.com/go/go-break-statement.html)       | 经常用于中断当前 for 循环或跳出 switch 语句 |
+| [continue 语句](https://www.runoob.com/go/go-continue-statement.html) | 跳过当前循环的剩余语句，然后继续进行下一轮循环。     |
+| [goto 语句](https://www.runoob.com/go/go-goto-statement.html)         | 将控制转移到被标记的语句。                |
 
 ```go
 func main() {  
@@ -1150,7 +1150,8 @@ func main() {
     }  
     /* 定义局部变量 */    var a int = 10  
   
-    /* 循环 */    LOOP: for a < 20 {  
+    /* 循环 */    
+    LOOP: for a < 20 {  
     if a == 15 {  
        /* 跳过迭代 */       a = a + 1  
        goto LOOP  
