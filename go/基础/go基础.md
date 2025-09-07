@@ -2052,7 +2052,7 @@ func fact(n int) int {
 ```
 ## 16.7 defer关键字
 
-defer用于资源的释放，会在return之后执行，但函数返回之前进行调用。
+defer用于资源的释放，会在return之后执行，但函数返回之前进行调用，`defer`**后面必须跟一个函数调用。**
 
 需要注意的是，延迟函数是延迟函数被执行，而不是延迟函数被调用，所以在运行到函数被调用时参数已经传递过去了，只不过要到最后才执行。
 
@@ -4526,6 +4526,35 @@ func revdate(ch <- chan int) { // 只读
 ## 27.6 select语句
 
 Select语句是堵塞的，如果没有 `default` 分支的话，永久阻塞直到任一case可以执行。空Select语句是永久阻塞的。**即使有多个case满足，但一次只会有一个case被执行。所有case都会被随机公平轮询（避免饥饿）** 
+
+`select`  也能被 break 打破，如果在循环中使用select，可以使用goto或`break 循环标签`跳出循环。
+
+```go
+import "fmt"  
+  
+func main() {  
+    var fin = make(chan struct{})  
+    var loop = make(chan int)  
+    go func() {  
+       defer close(fin)  
+       for i := 0; i <= 10; i++ {  
+          loop <- i  
+       }  
+    }()  
+  
+loop_select:  
+    for {  
+       select {  
+       case <-fin:  
+          fmt.Println("结束信号")  
+          break loop_select  
+       case x := <-loop:  
+          fmt.Println("接收到：", x)  
+       }  
+    }  
+}
+```
+
 
 ```go
 package main  
