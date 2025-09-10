@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/自带包/文本处理/正则逻辑.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "go基础"
+              "title": "正则逻辑"
             }
           }
         ],
@@ -151,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/自带包/文本处理/正则逻辑.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "go基础 的大纲"
+              "title": "正则逻辑 的大纲"
             }
           },
           {
@@ -228,7 +228,8 @@
               "title": "Copilot"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -246,10 +247,12 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "d5362f416d5b8f9a",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
-    "go/自带包/时间处理/time.md",
+    "go/自带包/文本处理/正则：regexp.md",
+    "go/自带包/文本处理/正则逻辑.md",
     "go/基础/go基础.md",
+    "go/自带包/时间处理/time.md",
     "计算机基础/网络/网络编程/网络编程.md",
     "计算机基础/网络/协议/http协议.md",
     "go/编程实践/并发设计.md",
@@ -285,8 +288,6 @@
     "计算机基础/网络/网络编程/image",
     "计算机基础/网络/基础/ping命令工作流程.md",
     "计算机基础/网络/网络编程",
-    "计算机基础/网络/基础/计网.md",
-    "go/自带包/io处理/bufio.md",
     "计算机基础/操作系统/基础/image/进程-线程-协程_time_1.png",
     "计算机基础/操作系统/基础/image",
     "计算机基础/操作系统/基础",
