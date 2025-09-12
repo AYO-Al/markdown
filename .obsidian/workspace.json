@@ -171,8 +171,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -190,7 +189,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "d23c02485bb12a14",
   "lastOpenFiles": [
     "计算机基础/网络/网络编程/网络编程.md",
     "计算机基础/操作系统/基础/用户态和内核态.md",
