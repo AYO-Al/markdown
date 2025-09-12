@@ -8,31 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "d23c02485bb12a14",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "计算机基础/操作系统/基础/文件描述符.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "文件描述符"
-            }
-          },
-          {
             "id": "71fbfeb6e15ace90",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "云计算/shell编程/命令/命令.md",
+                "file": "计算机基础/操作系统/基础/IO多路复用.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "命令"
+              "title": "IO多路复用"
+            }
+          },
+          {
+            "id": "5e268c8087563db8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "网络编程"
             }
           }
         ]
@@ -108,13 +108,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/操作系统/基础/文件描述符.md",
+                "file": "计算机基础/操作系统/基础/IO多路复用.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "文件描述符 的大纲"
+              "title": "IO多路复用 的大纲"
             }
           },
           {
@@ -203,14 +203,16 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "d23c02485bb12a14",
+  "active": "71fbfeb6e15ace90",
   "lastOpenFiles": [
+    "计算机基础/网络/网络编程/网络编程.md",
+    "计算机基础/网络/图解/Linux是如何收发网络包的.md",
+    "计算机基础/操作系统/基础/IO多路复用.md",
     "云计算/shell编程/命令/命令.md",
     "计算机基础/操作系统/基础/文件描述符.md",
     "计算机基础/操作系统/基础/image/文件描述符_time_2.png",
     "计算机基础/操作系统/基础/image/文件描述符_time_1.png",
     "计算机基础/操作系统/基础/用户态和内核态.md",
-    "计算机基础/网络/网络编程/网络编程.md",
     "云计算/Linux/supervisor.md",
     "go/自带包/迭代器/iter.md",
     "go/自带包/文本处理/正则逻辑.md",
@@ -220,7 +222,6 @@
     "计算机基础/网络/协议/http协议.md",
     "go/编程实践/并发设计.md",
     "go/自带包/并发处理/sync.md",
-    "计算机基础/网络/图解/Linux是如何收发网络包的.md",
     "计算机基础/网络/网络编程/Linux半连接队列和全连接队列.md",
     "计算机基础/操作系统/基础/进程-线程-协程.md",
     "go/FQA/锁作用.md",
