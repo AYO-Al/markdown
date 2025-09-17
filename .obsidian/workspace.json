@@ -13,16 +13,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/操作系统/基础/IO多路复用.md",
+                "file": "go/FQA/对象设计原则SOLID.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "IO多路复用"
+              "title": "对象设计原则SOLID"
             }
           },
           {
-            "id": "5e268c8087563db8",
+            "id": "9c965061ec7c0929",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -41,16 +41,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/自带包/错误处理/errors.md",
+                "file": "go/自带包/序列化处理/Json处理.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "errors"
+              "title": "Json处理"
+            }
+          },
+          {
+            "id": "0e3b94c98f5d5685",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/自带包/序列化处理/序列化和反序列化.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "序列化和反序列化"
+            }
+          },
+          {
+            "id": "8ac6697002694c9e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "go/FQA/值类型和指针类型接收者.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "值类型和指针类型接收者"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -82,7 +110,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "锁",
+                "query": "递归",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -123,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/基础/go基础.md",
+                "file": "go/自带包/序列化处理/序列化和反序列化.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "go基础 的大纲"
+              "title": "序列化和反序列化 的大纲"
             }
           },
           {
@@ -218,16 +246,21 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "5e268c8087563db8",
+  "active": "0e3b94c98f5d5685",
   "lastOpenFiles": [
-    "计算机基础/网络/网络编程/网络编程.md",
+    "go/自带包/序列化处理/Json处理.md",
+    "go/基础/go基础.md",
+    "go/自带包/序列化处理/序列化和反序列化.md",
     "go/自带包/错误处理/errors.md",
+    "go/FQA/值类型和指针类型接收者.md",
+    "go/FQA/对象设计原则SOLID.md",
+    "计算机基础/操作系统/基础/IO多路复用.md",
+    "web/vue/vue.md",
+    "go/FQA/PCRE正则和POSIX正则.md",
+    "计算机基础/网络/网络编程/网络编程.md",
     "go/自带包/错误处理/错误比较.md",
     "go/自带包/错误处理/错误包装.md",
-    "go/基础/go基础.md",
     "go/自带包/反射/reflect.md",
-    "go/FQA/值类型和指针类型接收者.md",
-    "计算机基础/操作系统/基础/IO多路复用.md",
     "计算机基础/网络/图解/Linux是如何收发网络包的.md",
     "云计算/shell编程/命令/命令.md",
     "计算机基础/操作系统/基础/文件描述符.md",
@@ -243,14 +276,9 @@
     "go/编程实践/并发设计.md",
     "go/自带包/并发处理/sync.md",
     "计算机基础/网络/网络编程/Linux半连接队列和全连接队列.md",
-    "计算机基础/操作系统/基础/进程-线程-协程.md",
-    "go/FQA/锁作用.md",
-    "go/FQA/对象设计原则SOLID.md",
-    "云计算/Nginx/Nginx-all.md",
     "计算机基础/网络/网络编程/image/网络编程_time_2.png",
     "计算机基础/网络/图解/image/Linux是如何收发网络包的_time_2.png",
     "计算机基础/网络/图解/image/Linux是如何收发网络包的_time_1.png",
-    "go/框架/配置文件/Viper.md",
     "计算机基础/网络/图解/image/Pasted image 20250905152733.png",
     "计算机基础/网络/图解/image/Pasted image 20250905152712.png",
     "计算机基础/网络/图解/image",
