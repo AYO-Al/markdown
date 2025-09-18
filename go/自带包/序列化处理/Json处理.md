@@ -778,7 +778,7 @@ isValid := json.Valid([]byte(`{"name": "Alice"}`)) // true
 | ------------------- | ------------------ |
 | `json:"-"`          | 忽略该字段              |
 | `json:"name"`       | 指定 JSON 字段名        |
-| `json:",omitempty"` | 字段为零值时忽略           |
+| `json:",omitempty"` | 字段为空值时忽略           |
 | `json:",inline"`    | 嵌套结构体的字段平铺到父级 JSON |
 # 6 分隔符
 ## 6.1 json.Delim类型
