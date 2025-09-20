@@ -1123,7 +1123,7 @@ func captureNow() {
 
 ​**​常见错误​**​：
 
-- `parsing time ...: extra text`（有多余字符）
+- `parsing time ...: extra text`（有多余字符）：需要所有格式一一对应
 - `parsing time ...: month out of range`
 - `parsing time ...: unknown time zone ...`
 
@@ -1146,7 +1146,7 @@ func parseTime() {
     _, err = time.Parse("2006-13-02", "2025-13-06")
     fmt.Println("月份错误:", err) // parsing time "2025-13-06": month out of range
     
-    // ⚠️ 时区问题 (默认UTC)
+    // ⚠️ 时区问题 (默认UTC),可以在时间字符串中带时区信息
     t3, _ := time.Parse("2006-01-02 15:04", "2025-06-06 15:30")
     fmt.Println("无时区时间:", t3.Location()) // UTC
 }
@@ -1845,6 +1845,9 @@ func localExample() {
 ​**​特点​**​：
 
 - 支持自定义时间显示格式
+    - "2006-01-02 15:04-05.9999999 -0700"
+    - 分别为年-月-日 时-分-秒.毫秒 时区
+    - 毫秒可以用9/0，但9的逻辑为舍弃无用0，0会保留所有位数
 - 不会改变原时间值
 - 线程安全
 
