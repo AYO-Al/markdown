@@ -3460,6 +3460,12 @@ Go语言使用包(package)这种语法来组织源码，所有语法可见性均
 ```go
 go get golang.org/x/tools/cmd/goimports
 ```
+
+- 包由多个目录和文件组成
+- 包名一般小写，要求符合标识符要求
+- 使用 `package name` 来定义包名
+- 一般来说当前目录名和 `package name` 定义的名字不要求相同，但最好相同
+- 同级文件属于同一个包，同一包内除了测试包外，只能有一个包名
 ## 21.1 main包
 
 Go语言的入口main()函数所在的包叫main，main包想要引用别的代码，需要import导入。

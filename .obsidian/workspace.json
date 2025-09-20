@@ -78,7 +78,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -151,13 +151,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/自带包/时间处理/time.md",
+                "file": "go/基础/go基础.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "time 的大纲"
+              "title": "go基础 的大纲"
             }
           },
           {
@@ -246,8 +246,9 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "b8b2040c074d104e",
+  "active": "9c965061ec7c0929",
   "lastOpenFiles": [
+    "go/自带包/时间处理/time.md",
     "go/自带包/反射/reflect.md",
     "go/自带包/网络/http.md",
     "go/基础/go基础.md",
@@ -272,7 +273,6 @@
     "go/自带包/迭代器/iter.md",
     "go/自带包/文本处理/正则逻辑.md",
     "go/自带包/文本处理/正则：regexp.md",
-    "go/自带包/时间处理/time.md",
     "计算机基础/网络/协议/http协议.md",
     "go/编程实践/并发设计.md",
     "go/自带包/并发处理/sync.md",
