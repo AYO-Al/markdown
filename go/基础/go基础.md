@@ -1794,7 +1794,7 @@ Italy 首都是 Rome
 Japan 首都是 Tokyo
 India 首都是 New delhi
 ```
-## map结构
+## 15.4 map结构
 
 **结构体定义大致如下：**
 
