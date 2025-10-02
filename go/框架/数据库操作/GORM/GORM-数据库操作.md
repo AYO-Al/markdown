@@ -1,4 +1,5 @@
 # 1 基础设置
+
 GROM官方文档：https://gorm.io/zh_CN/
 - 下载：go get -u gorm.io/gorm
 ## 1.1 连接Mysql数据库
@@ -53,9 +54,11 @@ db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{
 ```
 
 # 2 错误处理
+
 [错误处理](https://gorm.io/zh_CN/docs/error_handling.html)
 
 # 3 save
+
 在 GORM 中，`Save` 方法用于 ​**插入或更新记录**，其行为会根据记录是否存在（基于主键）自动判断是执行 `INSERT` 还是 `UPDATE`。以下是它的详细说明：
 
 ---
@@ -214,4 +217,5 @@ db.Scopes(AmountGreaterThan1000, OrderStatus([]string{"paid", "shipped"})).Find(
 ```
 
 # 6 思维导图
+
 ![[Gorm.excalidraw]]
