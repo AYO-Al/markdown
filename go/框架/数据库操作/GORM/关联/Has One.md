@@ -64,6 +64,23 @@ type CreditCard struct {
   UserName string
 }
 ```
+# 自关联
+
+Has One 自关联表示​**​一个模型实例拥有另一个相同类型的模型实例​**​。
+
+```go
+type User struct {
+    gorm.Model
+    Name         string
+    AssistantID  *uint      // 外键字段（必须）
+    Assistant    *User      `gorm:"foreignKey:AssistantID"` // Has One 关系
+}
+```
+
+- ​**​经理​**​ 拥有一个 ​**​助理​**​
+    
+- ​**​助理​**​ 属于 ​**​经理​**​
+
 # Belons To 与 Has One
 
 在 GORM 中，`Has One`和 `Belongs To`都是描述一对一关系的模型关联方式，但它们​**​代表完全不同的关系方向和所有权​**​。理解它们的区别是构建正确数据模型的关键。
