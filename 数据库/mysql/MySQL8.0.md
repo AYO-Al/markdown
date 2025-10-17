@@ -25,15 +25,15 @@
 - MySQL数据库系统使用常用的数据库管理语言---**结构化查询语言**(SQL)进行数据库管理
 - 体积小、速度快、总体拥有成本低，尤其是开发源码这一特点，使得许多企业选择了MySQL作为数据库
 
-![](./image/quh1qn-0.png)
+![](image/MySQL8.0_time_1.png)
 
-![image-20230909164002223](./image/r4fo8l-0.png)
+![image-20230909164002223](image/MySQL8.0_time_2.png)
 
-![image-20230909164733870](./image/r8sdo9-0.png)
+![image-20230909164733870](image/MySQL8.0_time_3.png)
 
-![image-20230909164836859](./image/r9ebjs-0.png)
+![image-20230909164836859](image/MySQL8.0_time_4.png)
 
-![image-20230909164855302](./image/r9ik72-0.png)
+![image-20230909164855302](image/MySQL8.0_time_5.png)
 
 
 
@@ -56,13 +56,13 @@
 
 - 下载正确的tar包
 
-![image-20230916152216598](./image/p6b5er-0.png)
+![image-20230916152216598](image/MySQL8.0_time_6.png)
 
-![image-20230916152406623](./image/p7ect1-0.png)
+![image-20230916152406623](image/MySQL8.0_time_7.png)
 
-![image-20230916165607372](./image/rdzr7e-0.png)
+![image-20230916165607372](image/MySQL8.0_time_8.png)
 
-![image-20230916154518607](./image/pjyykp-0.png)
+![image-20230916154518607](image/MySQL8.0_time_9.png)
 
 - 在成功登录mysql之后，需要修改初始密码，否则不能执行命令
 
@@ -120,7 +120,7 @@
   - SHOW GRANTS FOR 'JOKE'@'www.baidu.com'
   - SHOW GRANTS FOR 'JOKE'@'www.baidu.cn'
 
-![image-20230926153553973](./image/peidmw-0.png)
+![image-20230926153553973](image/MySQL8.0_time_10.png)
 
 - 使用`show privileges;`可以查看能赋予的权限
 
@@ -148,19 +148,19 @@
 
 ### 1.权限详解
 
-![image-20230926164501008](./image/r7euzj-0.png)
+![image-20230926164501008](image/MySQL8.0_time_11.png)
 
-![image-20230926164548981](./image/r7ouia-0.png)
+![image-20230926164548981](image/MySQL8.0_time_12.png)
 
-![image-20230926164617774](./image/r83onp-0.png)
+![image-20230926164617774](image/MySQL8.0_time_13.png)
 
-![image-20230926164708856](./image/r8n6tj-0.png)
+![image-20230926164708856](image/MySQL8.0_time_14.png)
 
-![image-20230926164743959](./image/r8un3i-0.png)
+![image-20230926164743959](image/MySQL8.0_time_15.png)
 
 ## 2.设置MySQL用户的密码
 
-![image-20231209153601213](./image/image-20231209153601213.png)
+![image-20231209153601213](image/MySQL8.0_time_16.png)
 
 **请注意：在MySQL8.0之后不支持用`grant`命令修改密码**
 
@@ -235,7 +235,7 @@ validate_password.special_char_count,0
 
 ## 3.设置MySQL用户密码过期策略
 
-![image-20231209154520773](./image/image-20231209154520773.png)
+![image-20231209154520773](image/MySQL8.0_time_17.png)
 
 # 3.SQL
 
@@ -640,7 +640,7 @@ drop user '用户名'@'主机名';
 
 - MySQL中常用权限
 
-![image-20231210160006040](./image/image-20231210160006040.png)
+![image-20231210160006040](image/MySQL8.0_time_18.png)
 
 - 查询权限
 
@@ -1014,7 +1014,7 @@ SELECT * FROM t1 WHERE COLUMN1=(SELECT column from t2);
   - 列子查询
     - 把列子查询当成集合来使用
 
-  ![image-20231210213302544](./image/image-20231210213302544.png)
+  ![image-20231210213302544](image/MySQL8.0_time_19.png)
 
   - 行子查询
 
@@ -1023,7 +1023,7 @@ SELECT * FROM t1 WHERE COLUMN1=(SELECT column from t2);
     SELECT * FROM emp where (salary,managerid)=(select salary,managerid from emp where name = "p")
     ```
 
-  ![image-20231210213807908](./image/image-20231210213807908.png)
+  ![image-20231210213807908](image/MySQL8.0_time_20.png)
 
   - 表子查询(查询结果为多行多列)
     - 可以当成一个中间表来查询，并且可以使用in操作符方式使用元组方式比较
@@ -1080,7 +1080,7 @@ set @@autocommit=1;
 
 ## 3.事务隔离级别
 
-![image-20231210222814567](./image/image-20231210222814567.png)
+![image-20231210222814567](image/MySQL8.0_time_21.png)
 
 
 
@@ -1088,7 +1088,7 @@ set @@autocommit=1;
 
 > MySQL体系结构
 
-![image-20231211203725165](./image/image-20231211203725165.png)
+![image-20231211203725165](image/MySQL8.0_time_22.png)
 
 - 连接层：最上层是一些客户端和链接服务，主要完成一些类似于连接处理、授权认证及相关的安全方案。服务器也会为安全接入的每个客户端验证它所具有的权限
 - 服务层：第二层架构主要完成大多数的核心服务功能，如SQL接口，并完成缓存的查询，SQL的分析和优化，部分内置函数的执行。所有跨存储引擎的功能也在这一层实现，如过程、函数等
@@ -1122,7 +1122,7 @@ CREATE TABLE `Employee` (
   - 支持外键约束，保证数据的完整性和正确性
   - xxx.ibd：xxx代表的是表名，innodb引擎每张表都会对应这样一个表空间文件，存储该表的表结构(frm、sdi)、数据和索引。该行为由`innodb_file_per_table`参数控制
 
-![image-20231211212343512](./image/image-20231211212343512.png)
+![image-20231211212343512](image/MySQL8.0_time_23.png)
 
 - MyISAM
   - MyISAM是MySQL早期默认存储引擎
@@ -1139,7 +1139,7 @@ CREATE TABLE `Employee` (
   - hash索引
   - sdi：存储表结构信息
 
-![image-20231211213236506](./image/image-20231211213236506.png)
+![image-20231211213236506](image/MySQL8.0_time_24.png)
 
 ![image-20231211213345129](https://cdn.jsdelivr.net/gh/AYO-Al/image/image/image-20231211213345129.png)
 
@@ -1367,39 +1367,39 @@ possible_keys: NULL    # 可能用到的索引
 
 - type：表示连接类型，性能由好到坏的连接类型为NULL、system、const、eq_ref、ref、range、index、all
 
-  - NULL：不访问任何表
-  - system：访问系统表，这是最好的连接类型，表示表中只有一行记录（系统表），这是常量连接。这个类型通常出现在对 `sys` 等系统表的查询中。
-  - const：根据主键或唯一索引访问。也是常量连接，但是与 `system` 不同的是，它用于比较与查询表的所有部分（或索引的所有部分）匹配的常量值。这个类型通常出现在对主键或唯一索引列进行等值查询的情况下。
+     - NULL：不访问任何表
+      - system：访问系统表，这是最好的连接类型，表示表中只有一行记录（系统表），这是常量连接。这个类型通常出现在对 `sys` 等系统表的查询中。
+      - const：根据主键或唯一索引访问。也是常量连接，但是与 `system` 不同的是，它用于比较与查询表的所有部分（或索引的所有部分）匹配的常量值。这个类型通常出现在对主键或唯一索引列进行等值查询的情况下。
 
-  ```sql
+```sql
   EXPLAIN SELECT * FROM users WHERE id = 1;
-  ```
+```
 
-  - eq_ref：表示对于前表的每个行组合，都只有一行在后表中匹配。这是一个非常有效的连接类型，通常出现在使用主键或唯一索引进行连接的情况下。
+      - eq_ref：表示对于前表的每个行组合，都只有一行在后表中匹配。这是一个非常有效的连接类型，通常出现在使用主键或唯一索引进行连接的情况下。
 
   ```sql
   EXPLAIN SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.id = 1;
   ```
 
-  - ref：该连接类型表示使用非唯一索引进行连接。这通常用于使用非唯一索引进行连接
+      - ref：该连接类型表示使用非唯一索引进行连接。这通常用于使用非唯一索引进行连接
 
   ```sql
   EXPLAIN SELECT * FROM orders WHERE user_id = 1;
   ```
 
-  - range：表示使用索引范围扫描，通常发生在使用 `BETWEEN`、`<`、`>`、`IN()` 这类范围条件的查询中。
+      - range：表示使用索引范围扫描，通常发生在使用 `BETWEEN`、`<`、`>`、`IN()` 这类范围条件的查询中。
 
   ```sql
   EXPLAIN SELECT * FROM users WHERE age BETWEEN 20 AND 30;
   ```
 
-  - index：表示对整个索引进行扫描，通常在没有找到更好的连接类型时使用。这可能发生在查询不会返回大量数据的情况下，以避免排序操作。
+      - index：表示对整个索引进行扫描，通常在没有找到更好的连接类型时使用。这可能发生在查询不会返回大量数据的情况下，以避免排序操作。
 
   ```sql
   EXPLAIN SELECT * FROM users WHERE username LIKE 'A%';
   ```
 
-  - all：全表扫描
+      - all：全表扫描
 
 - possible_key：显示可能应用在这张表上的索引，一个或多个
 
@@ -1412,6 +1412,14 @@ possible_keys: NULL    # 可能用到的索引
 - filtered：表示返回结果的行数占需读取行数的百分比，filtered的值越大越好
 
 - Extra：额外的信息
+
+| 值                                    | 含义     | 优化建议                |
+| ------------------------------------ | ------ | ------------------- |
+| ​**​Using index​**​                  | 覆盖索引   | 优秀，无需优化             |
+| ​**​Using where​**​                  | 服务器层过滤 | 检查索引覆盖性             |
+| ​**​Using temporary​**​              | 创建临时表  | 优化GROUP BY/ORDER BY |
+| ​**​Using filesort​**​               | 文件排序   | 添加ORDER BY字段索引      |
+| ​**​Select tables optimized away​**​ | 优化器已优化 | 最佳状态                |
 
 ## 7.索引的使用
 
