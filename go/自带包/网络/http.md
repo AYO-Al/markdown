@@ -597,3 +597,75 @@ ServeMux 的路径匹配遵循以下优先级规则，且区分大小写：
     以 `/` 结尾的模式（如 `/images/`）会匹配该路径及其子路径（如 `/images/1.jpg`）。
 3. ​**精确匹配**：  
     不以 `/` 结尾的模式（如 `/about`）仅匹配完全相同的路径（不匹配 `/about/`）。
+## Client
+
+`http.Client`是Go语言`net/http`包中用于发送HTTP请求并接收HTTP响应的核心结构体。
+
+```go
+type Client struct {
+	// Transport specifies the mechanism by which individual
+	// HTTP requests are made.
+	// If nil, DefaultTransport is used.
+	Transport RoundTripper
+
+	// CheckRedirect specifies the policy for handling redirects.
+	// If CheckRedirect is not nil, the client calls it before
+	// following an HTTP redirect. The arguments req and via are
+	// the upcoming request and the requests made already, oldest
+	// first. If CheckRedirect returns an error, the Client's Get
+	// method returns both the previous Response (with its Body
+	// closed) and CheckRedirect's error (wrapped in a url.Error)
+	// instead of issuing the Request req.
+	// As a special case, if CheckRedirect returns ErrUseLastResponse,
+	// then the most recent response is returned with its body
+	// unclosed, along with a nil error.
+	//
+	// If CheckRedirect is nil, the Client uses its default policy,
+	// which is to stop after 10 consecutive requests.
+	CheckRedirect func(req *Request, via []*Request) error
+
+	// Jar specifies the cookie jar.
+	//
+	// The Jar is used to insert relevant cookies into every
+	// outbound Request and is updated with the cookie values
+	// of every inbound Response. The Jar is consulted for every
+	// redirect that the Client follows.
+	//
+	// If Jar is nil, cookies are only sent if they are explicitly
+	// set on the Request.
+	Jar CookieJar
+
+	// Timeout specifies a time limit for requests made by this
+	// Client. The timeout includes connection time, any
+	// redirects, and reading the response body. The timer remains
+	// running after Get, Head, Post, or Do return and will
+	// interrupt reading of the Response.Body.
+	//
+	// A Timeout of zero means no timeout.
+	//
+	// The Client cancels requests to the underlying Transport
+	// as if the Request's Context ended.
+	//
+	// For compatibility, the Client will also use the deprecated
+	// CancelRequest method on Transport if found. New
+	// RoundTripper implementations should use the Request's Context
+	// for cancellation instead of implementing CancelRequest.
+	Timeout time.Duration
+}
+```
+
+| 字段名                     | 类型                                         | 功能说明                                                  | 默认值                        | 注意事项与示例                                                                                                                                                                                                                                                                                                                                                               |
+| ----------------------- | ------------------------------------------ | ----------------------------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ​**​`Transport`​**​     | `RoundTripper`接口                           | 指定HTTP事务（请求-响应）的完整运行机制，是客户端最核心的组件，负责连接管理、协议细节等底层传输逻辑。 | `http.DefaultTransport`    | 1. ​**​连接池​**​：默认的 `DefaultTransport`会维护连接池以复用连接，提升性能。关键配置包括 `MaxIdleConns`（总最大空闲连接数，默认100）和 `MaxIdleConnsPerHost`（每主机最大空闲连接数，​**​默认2​**​，此值过小可能导致高并发时频繁建连）<br><br>。  <br>2. ​**​自定义​**​：可实现自定义的 `RoundTripper`以控制代理、TLS、压缩等底层细节<br><br>。  <br>3. ​**​超时​**​：`Transport`本身可设置更细粒度的超时（如 `DialContext.Timeout`, `TLSHandshakeTimeout`），这与 `Client.Timeout`是互补的<br><br>。 |
+| ​**​`CheckRedirect`​**​ | `func(req *Request, via []*Request) error` | 定义处理HTTP重定向的策略。当收到3xx响应时，客户端在跟随重定向前会调用此函数。            | 默认策略：在10次连续重定向后停止<br><br>。 | 1. ​**​控制逻辑​**​：可通过此函数限制重定向次数、记录重定向路径或根据特定条件（如URL）中止重定向<br><br>。  <br>2. ​**​特殊错误​**​：若函数返回 `http.ErrUseLastResponse`，则客户端返回最近一个响应且不关闭其Body，并返回 `nil`错误<br><br>。  <br>示例：`func(req *http.Request, via []*http.Request) error { if len(via) >= 5 { return fmt.Errorf("stopped after %d redirects", len(via)) } return nil }`                                           |
+| ​**​`Jar`​**​           | `CookieJar`接口                              | 管理Cookie的容器。自动存储响应中的Cookie，并在后续出站请求中自动添加相关的Cookie。    | `nil`                      | 1. ​**​默认行为​**​：如果为 `nil`，则只有在请求上显式设置的Cookie才会被发送，响应中的Cookie会被忽略<br><br>。  <br>2. ​**​使用​**​：通常使用 `cookiejar.New(nil)`创建Jar实例<br><br>。该Jar是内存型的，程序重启后Cookie会丢失。如需持久化，需自行实现。                                                                                                                                                                                           |
+| ​**​`Timeout`​**​       | `time.Duration`                            | 设置客户端每次请求从开始到结束（包括重定向、读取响应体）的​**​总时间限制​**​。           |                            |                                                                                                                                                                                                                                                                                                                                                                       |
+1. **复用Client实例​**​：`http.Client`是并发安全的，其底层的 `Transport`维护了连接池。​**​强烈建议在应用程序中复用同一个Client实例​**​（或极少数几个配置不同的实例），而不是为每个请求都创建新的Client。这可以避免不必要的连接建立与销毁开销，并有效利用连接池。
+    
+2. ​**​资源清理​**​：使用 `Client`发送请求后，​**​必须关闭响应体（`resp.Body.Close()`）​**​，通常使用 `defer`语句确保执行。这是为了将连接返回到连接池以供复用，否则可能导致资源（如文件描述符）泄漏。
+    
+3. ​**​默认客户端​**​：包级别的便捷函数（如 `http.Get`, `http.Post`）使用默认的 `http.DefaultClient`。它是一个没有设置超时的基本客户端，在生产环境中直接使用需谨慎，最好根据需求创建具有适当配置（尤其是 `Timeout`）的自定义Client。
+### `func (c *Client) Do(req *Request) (*Response, error)`
+
+
+
