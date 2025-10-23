@@ -665,7 +665,174 @@ type Client struct {
 2. ​**​资源清理​**​：使用 `Client`发送请求后，​**​必须关闭响应体（`resp.Body.Close()`）​**​，通常使用 `defer`语句确保执行。这是为了将连接返回到连接池以供复用，否则可能导致资源（如文件描述符）泄漏。
     
 3. ​**​默认客户端​**​：包级别的便捷函数（如 `http.Get`, `http.Post`）使用默认的 `http.DefaultClient`。它是一个没有设置超时的基本客户端，在生产环境中直接使用需谨慎，最好根据需求创建具有适当配置（尤其是 `Timeout`）的自定义Client。
-### `func (c *Client) Do(req *Request) (*Response, error)`
+### Get
 
+- **定义​**​: `func (c *Client) Get(url string) (resp *Response, err error)`
+    
+- ​**​用途​**​: 向指定URL发起​**​GET​**​请求。适用于简单的数据获取。
 
+```go
+// 使用默认客户端
+resp, err := http.Get("https://api.example.com/data")
+if err != nil {
+    // 处理网络错误或协议错误
+    log.Fatal(err)
+}
+defer resp.Body.Close() // 必须关闭响应体
 
+body, _ := io.ReadAll(resp.Body)
+fmt.Printf("Status: %s, Body: %s\n", resp.Status, string(body))
+```
+
+- **注意​**​: 非2xx状态码（如404、500）​**​不会​**​被该方法认为是错误，你需要检查 `resp.StatusCode`。
+### Post 和 PostForm​
+
+- **定义​**​:
+    
+    - `func (c *Client) Post(url, contentType string, body io.Reader) (resp *Response, err error)`
+        
+    - `func (c *Client) PostForm(url string, data url.Values) (resp *Response, err error)`
+        
+    
+- ​**​用途​**​: ​**​Post​**​用于发送自定义内容类型（如JSON）的数据。​**​PostForm​**​专用于发送表单数据（`application/x-www-form-urlencoded`）。
+
+```go
+// 使用 Post 发送 JSON
+jsonData := `{"title": "Post Example"}`
+resp, err := http.Post("https://api.example.com/posts", "application/json", strings.NewReader(jsonData))
+// ... 错误处理和资源清理
+
+// 使用 PostForm 提交表单
+formData := url.Values{}
+formData.Add("username", "admin")
+formData.Add("password", "secret")
+resp, err := http.PostForm("https://api.example.com/login", formData)
+// ... 错误处理和资源清理
+```
+### DO
+
+- **定义​**​: `func (c *Client) Do(req *Request) (*Response, error)`
+    
+- ​**​用途​**​: 这是最基础、最强大的方法。`Get`, `Post`等方法内部都调用了`Do`。当需要设置自定义请求头、使用特定上下文（Context）或更精细地控制请求时，必须使用`Do`方法。
+
+```go
+// 1. 创建请求对象
+req, err := http.NewRequestWithContext(context.Background(), "GET", "https://api.example.com/data", nil)
+if err != nil {
+    log.Fatal(err)
+}
+// 2. 设置自定义请求头
+req.Header.Add("Authorization", "Bearer your-token")
+req.Header.Add("User-Agent", "MyApp/1.0")
+
+// 3. 使用配置好的客户端发送请求
+client := &http.Client{Timeout: 10 * time.Second}
+resp, err := client.Do(req)
+if err != nil {
+    // 处理错误，可能是网络错误、超时等
+    log.Fatal(err)
+}
+defer resp.Body.Close() // 至关重要！
+
+// ... 处理响应
+```
+
+​**​关键提醒​**​:
+
+- 如果返回的 `err`为 `nil`，​**​必须​**​在读取完响应体后调用 `resp.Body.Close()`来释放网络连接，使其能被连接池复用。通常使用 `defer`来确保执行。
+    
+- 错误可能由客户端策略（如重定向检查失败）或HTTP协议问题（如网络连接失败）引起。非2xx状态码​**​不会​**​导致错误
+### CloseIdleConnections
+
+- **定义​**​: `func (c *Client) CloseIdleConnections()`
+    
+- ​**​用途​**​: 关闭客户端传输层中所有处于空闲（keep-alive）状态的连接。它不会中断正在使用的连接。通常在应用程序退出或明确知道一段时间内不会有新请求时调用，有助于释放系统资源
+
+```go
+​client := &http.Client{Timeout: 30 * time.Second}
+// ... 使用client进行一系列请求
+// 程序退出前或合适时机
+client.CloseIdleConnections()
+```
+### 注意事项
+
+1. ​**​资源管理：务必关闭响应体​**​
+
+    这是最重要也是最容易出错的一点。只要`client.Do`, `Get`, `Post`等函数返回的`err`为`nil`，你就​**​必须​**​在处理完响应后关闭`resp.Body`。使用`defer`是确保这一操作得以执行的最佳方式。
+
+```go
+resp, err := http.Get("...")
+if err != nil {
+    return err
+}
+defer resp.Body.Close() // 使用defer，无论后续逻辑如何，都会执行关闭
+// ... 读取resp.Body
+```
+
+2. **​错误处理：区分网络错误与HTTP错误​**
+
+    - **网络/协议错误​**​：会在`err`中体现，如超时、DNS解析失败、连接被拒绝等。
+    
+    - ​**​HTTP错误​**​：指4xx, 5xx等状态码。这些​**​不会​**​使`err`不为nil，你需要手动检查`resp.StatusCode`。
+
+```go
+resp, err := http.Get("...")
+if err != nil {
+    // 处理网络或协议错误
+    log.Fatal("Request failed:", err)
+}
+defer resp.Body.Close()
+
+if resp.StatusCode != http.StatusOK {
+    // 处理HTTP层面的错误（如404 Not Found, 500 Internal Server Error）
+    log.Fatalf("HTTP error: %s", resp.Status)
+}
+// ... 正常处理响应体
+```
+
+3. **性能优化：复用Client实例​**​
+
+- `http.Client`是并发安全的，其内部通过 `Transport`机制管理连接池。​**​绝对不要​**​为每个HTTP请求都创建一个新的`Client`。应该在程序生命周期内复用同一个（或少量几个配置不同的）Client实例，这样可以极大提升性能，避免频繁建立和断开TCP连接
+
+- 确保连接能被复用的正确操作包括两个步骤：​**​将响应体读取完毕​**​和​**​关闭响应体​**​。
+
+    1. ​**​读取完毕​**​：这是为了将连接中的残留数据清空，为下一个请求准备好一个“干净”的连接。如果你不关心响应内容，也需要将其读取并丢弃。
+    
+    2. ​**​关闭响应体​**​：这是最关键的一步，它会通知底层的 `Transport`：“这个连接我已经用完了，请把它收回到连接池里。”
+
+```go
+// 好的做法：在全局范围初始化一个客户端
+var myClient = &http.Client{
+    Timeout: 15 * time.Second,
+}
+
+func makeRequest() {
+    resp, err := myClient.Get("...")
+    // ...
+}
+```
+
+4. **配置超时​**​
+
+    永远不要使用无限期等待的默认客户端（`http.DefaultClient`没有设置超时）。为你的客户端设置合理的超时时间，防止请求无限期挂起，这对生产环境的稳定性至关重要。
+
+```go
+client := &http.Client{
+    Timeout: 15 * time.Second, // 总超时时间，包括连接、重定向、读取响应体
+}
+```
+
+| 方法                        | 最佳使用场景                                        | 灵活性        | 是否自动处理重定向/Cookie | 响应体是否必须关闭 |
+| ------------------------- | --------------------------------------------- | ---------- | ---------------- | --------- |
+| ​**​`Get`​**​             | 快速发起简单的GET请求                                  | 低          | 是                | ​**​是​**​ |
+| ​**​`Post`/`PostForm`​**​ | 快速发起简单的POST请求（JSON或表单）                        | 低          | 是                | ​**​是​**​ |
+| ​**​`Do`​**​              | ​**​需要高度自定义​**​的请求（如设置Header、Context、使用非标准方法） | ​**​极高​**​ | 遵循客户端配置          | ​**​是​**  |
+`http.Client`的高性能很大程度上得益于其底层的连接池机制，由`Transport`类型管理
+
+。了解几个关键配置有助于优化高频请求场景：
+
+- ​**​MaxIdleConnsPerHost​**​：默认值为​**​2​**​。这表示对同一个目标主机，最多只保持2个空闲连接。在高并发场景下，此值设置过小可能导致需要频繁创建新连接。可以根据需要适当调大。
+    
+- ​**​DisableKeepAlives​**​：默认为`false`，即启用长连接（连接复用）。除非有特殊理由，否则不应禁用。
+    
+- ​**​IdleConnTimeout​**​：空闲连接在连接池中保留的最长时间，超时后连接将被关闭。
