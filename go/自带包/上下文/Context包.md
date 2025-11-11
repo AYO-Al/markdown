@@ -132,7 +132,21 @@ func main() {
     // 输出：等待时间: 500ms  原因: context deadline exceeded
 }
 ```
-## 1.4 func WithDeadlineCause(parent Context, d time.Time, cause error) (Context, CancelFunc)
+## 1.4 func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+
+**功能**：用于为操作设置一个​**​最长时间限制​**​。如果操作在指定时间内未能完成，它会自动发出取消信号
+
+`context.WithTimeout`创建的上下文是一个 `timerCtx`结构体，它内嵌了一个 `cancelCtx`，并额外包含了一个定时器和一个截止时间
+
+- ​**​定时器作用​**​：当到达指定的超时时间后，这个定时器会触发，进而调用 `cancel`函数。
+    
+- ​**​取消的传播​**​：当 `cancel`被调用（无论超时还是手动），它会做两件关键事情：
+    
+    1. ​**​关闭 `Done()`通道​**​：这会使所有监听这个通道的 goroutine 都能收到信号。
+        
+    2. ​**​递归取消子节点​**​：它会遍历其 `children`字段中记录的所有子上下文，并依次调用它们的取消方法。这意味着​**​取消信号会沿着上下文树向下传播​**​，所有派生自这个超时上下文的子操作也会被取消
+
+## 1.5 func WithDeadlineCause(parent Context, d time.Time, cause error) (Context, CancelFunc)
 
 ​**​作用​**​：创建带截止时间和超时原因的 Context  
 ​**​参数​**​：
@@ -165,7 +179,7 @@ func slowOperation(ctx context.Context) error {
     return nil
 }
 ```
-## 1.5 func AfterFunc(ctx Context, f func()) (stop func() bool)
+## 1.6 func AfterFunc(ctx Context, f func()) (stop func() bool)
 
 ​**​作用​**​：在 Context 完成时异步执行函数  
 ​**​参数​**​：
@@ -201,7 +215,7 @@ func main() {
     // 可能输出：清理资源 或 成功阻止回调
 }
 ```
-## 1.6 func Cause(c Context) error
+## 1.7 func Cause(c Context) error
 
 ​**​作用​**​：获取 Context 取消的原因  
 
