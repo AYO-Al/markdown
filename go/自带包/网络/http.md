@@ -182,6 +182,49 @@ http.ListenAndServe(":8080", nil)
     ```go
     http.Handle("/", http.HandlerFunc(handler))
     ```
+
+## 1.5 func MaxBytesReader(w ResponseWriter, r io.ReadCloser, n int64) io.ReadCloser
+
+- 作用：主要用于限制HTTP请求体（Request Body）的最大大小，防止客户端（无论是意外还是恶意）发送过大的请求，从而保护服务器资源免于被耗尽
+    -  **`w http.ResponseWriter`​**​：服务器的响应写入器。当请求体过大时，函数内部可能会利用它来确保连接被正确关闭或处理。
+    
+    - ​**​`r io.ReadCloser`​**​：通常传入原始的请求体 `r.Body`。它必须实现 `io.ReadCloser`接口（即同时包含 `Read`和 `Close`方法）。
+    
+    - ​**​`n int64`​**​：允许读取的请求体的最大字节数。
+- 当从被包装的 `r.Body`中读取的数据量超过设定的 `n`时：
+
+    1. 后续的读取操作会​**​立即返回一个错误​**​。
+    
+    2. 常见的错误信息是 `"http: request body too large"`。
+    
+    3. 你需要在后续读取请求体的代码中（例如 `io.ReadAll(r.Body)`或 `json.NewDecoder(r.Body).Decode(...)`）检查并处理这个错误，通常向客户端返回 `http.StatusRequestEntityTooLarge`(413) 状态码
+
+    4. 当 `http.MaxBytesReader`检测到读取的数据量超过设置的限制时，它不会立即向客户端发送响应，而是会​**​在后续读取请求体（`r.Body`）时返回一个特定的错误​**​。
+    
+
+调用后，它返回一个包装过的 `io.ReadCloser`，你应该用其​**​替换原始的 `r.Body`**。
+
+```go
+http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+    // 限制请求体最大为 1MB
+    r.Body = http.MaxBytesReader(w, r.Body, 1 * 1024 * 1024) // 1MB
+
+    // 尝试读取整个请求体
+    body, err := io.ReadAll(r.Body)
+    if err != nil {
+        // 检查是否是请求体过大的错误
+        if strings.Contains(err.Error(), "http: request body too large") {
+            http.Error(w, "请求体过大", http.StatusRequestEntityTooLarge)
+            return
+        }
+        // 处理其他读取错误
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    // ... 处理 body
+})
+```
 # 2 常用类型
 ## 2.1 Handler
 
@@ -476,13 +519,22 @@ name := r.Form.Get("name")
 
 - 作用：获取 URL 查询参数或 POST 表单中指定键的值（自动调用 `ParseForm`）。
 - 注意：若键存在多个值，返回第一个值。
-### 2.6.3 PostFormValue(key string) string
+### 2.6.3 func (r \*Request) FormFile(key string) (multipart.File, \*multipart.FileHeader, error)
+
+- 作用：返回表单键提供的第一个文件，如有必要，FormFile 会调用 Request.ParseMultipartForm （默认的内存大小限制是 32MB）和 Request.ParseForm
+- 接收一个字符串参数 `key`，这个 `key`对应于HTML表单中文件上传输入框（`<input type="file">`）的 `name`属性值
+- ​multipart.File：一个实现了`io.Reader`接口的对象，用于读取文件内容
+- \*multipart.FileHeader:包含文件的元数据，如文件名、大小和MIME信息
+- error:表示操作过程中是否发生错误
+
+### 2.6.4 PostFormValue(key string) string
 
 - 作用：仅获取 POST 表单中指定键的值（自动调用 `ParseForm`）。
-### 2.6.4 ParseMultipartForm(maxMemory int64) error
+### 2.6.5 ParseMultipartForm(maxMemory int64) error
 
 - 作用：解析 `multipart/form-data` 类型的请求体（如文件上传）。
 - 参数：`maxMemory` 指定内存缓存大小（超出部分写入临时文件）。
+- 调用此方法后，解析得到的所有表单数据（包括普通字段和上传的文件信息）会存储在 `http.Request`对象的 `MultipartForm`字段中，此后你可以通过该字段或其它辅助方法来访问数据
 ```go
 if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB
     http.Error(w, "Bad Request", http.StatusBadRequest)
@@ -490,10 +542,10 @@ if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB
 }
 fileHeader := r.MultipartForm.File["avatar"][0]
 ```
-### 2.6.5 Cookie(name string) (\*Cookie, error)
+### 2.6.6 Cookie(name string) (\*Cookie, error)
 
 - 作用：获取指定名称的 Cookie。
-### 2.6.6 WithContext(ctx context.Context) \*Request
+### 2.6.7 WithContext(ctx context.Context) \*Request
 
 - 作用：创建绑定新上下文的新请求（常用于中间件传递数据或超时控制）。
 ```go
@@ -597,7 +649,7 @@ ServeMux 的路径匹配遵循以下优先级规则，且区分大小写：
     以 `/` 结尾的模式（如 `/images/`）会匹配该路径及其子路径（如 `/images/1.jpg`）。
 3. ​**精确匹配**：  
     不以 `/` 结尾的模式（如 `/about`）仅匹配完全相同的路径（不匹配 `/about/`）。
-## Client
+## 2.10 Client
 
 `http.Client`是Go语言`net/http`包中用于发送HTTP请求并接收HTTP响应的核心结构体。
 
@@ -665,7 +717,7 @@ type Client struct {
 2. ​**​资源清理​**​：使用 `Client`发送请求后，​**​必须关闭响应体（`resp.Body.Close()`）​**​，通常使用 `defer`语句确保执行。这是为了将连接返回到连接池以供复用，否则可能导致资源（如文件描述符）泄漏。
     
 3. ​**​默认客户端​**​：包级别的便捷函数（如 `http.Get`, `http.Post`）使用默认的 `http.DefaultClient`。它是一个没有设置超时的基本客户端，在生产环境中直接使用需谨慎，最好根据需求创建具有适当配置（尤其是 `Timeout`）的自定义Client。
-### Get
+### 2.10.1 Get
 
 - **定义​**​: `func (c *Client) Get(url string) (resp *Response, err error)`
     
@@ -685,7 +737,7 @@ fmt.Printf("Status: %s, Body: %s\n", resp.Status, string(body))
 ```
 
 - **注意​**​: 非2xx状态码（如404、500）​**​不会​**​被该方法认为是错误，你需要检查 `resp.StatusCode`。
-### Post 和 PostForm​
+### 2.10.2 Post 和 PostForm​
 
 - **定义​**​:
     
@@ -709,7 +761,7 @@ formData.Add("password", "secret")
 resp, err := http.PostForm("https://api.example.com/login", formData)
 // ... 错误处理和资源清理
 ```
-### DO
+### 2.10.3 DO
 
 - **定义​**​: `func (c *Client) Do(req *Request) (*Response, error)`
     
@@ -742,7 +794,7 @@ defer resp.Body.Close() // 至关重要！
 - 如果返回的 `err`为 `nil`，​**​必须​**​在读取完响应体后调用 `resp.Body.Close()`来释放网络连接，使其能被连接池复用。通常使用 `defer`来确保执行。
     
 - 错误可能由客户端策略（如重定向检查失败）或HTTP协议问题（如网络连接失败）引起。非2xx状态码​**​不会​**​导致错误
-### CloseIdleConnections
+### 2.10.4 CloseIdleConnections
 
 - **定义​**​: `func (c *Client) CloseIdleConnections()`
     
@@ -754,7 +806,7 @@ defer resp.Body.Close() // 至关重要！
 // 程序退出前或合适时机
 client.CloseIdleConnections()
 ```
-### 注意事项
+### 2.10.5 注意事项
 
 1. ​**​资源管理：务必关闭响应体​**​
 

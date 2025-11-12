@@ -34,7 +34,7 @@ db.Exec("UPDATE orders SET shipped_at = ? WHERE id IN ?", time.Now(), []int64{1,
 db.Exec("UPDATE users SET money = ? WHERE name = ?", gorm.Expr("money * ? + ?", 10000, 1), "jinzhu")
 ```
 
-**GORM 允许缓存准备好的语句以提高性能，详情查看[performance](../配置/performance.md)**
+**GORM 允许缓存准备好的语句以提高性能，详情查看[performance](../高级/performance.md)**
 # 2 命名参数
 
 GORM 支持使用 sql.NamedArg 、 `map[string]interface{}{}` 或 struct 的命名参数，例如：
@@ -71,7 +71,7 @@ db.Raw("SELECT * FROM users WHERE (name1 = @Name AND name3 = @Name) AND name2 = 
 ```
 # 3 DryRun Mode
 
-生成 `SQL` 及其参数但不执行，可用于准备或测试生成的 SQL，详情请查看[session](../配置/session.md)
+生成 `SQL` 及其参数但不执行，可用于准备或测试生成的 SQL，详情请查看[session](../高级/session.md)
 
 ```go
 // db.DryRun().First(&user)
