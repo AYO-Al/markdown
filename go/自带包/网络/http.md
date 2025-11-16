@@ -1,4 +1,11 @@
 Go语言内置的net/http包十分的优秀，提供了HTTP客户端和服务端的实现。
+# 变量
+
+```go
+var NoBody = noBody{}
+```
+
+NoBody 是一个 [io.ReadCloser](https://pkg.go.dev/io#ReadCloser)，没有字节。Read 始终返回 EOF，Close 始终返回 nil。它可以在传出客户端请求中使用，以显式表示请求具有零字节。但是，另一种方法是简单地将 [Request.Body] 设置为 nil。
 
 # 1 常用函数
 

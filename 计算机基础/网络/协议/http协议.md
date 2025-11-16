@@ -97,41 +97,41 @@ HTTP/1.1 500 Internal Server Error
 
 MIME（多用途互联网邮件扩展）类型是一种标准，用来表示文档、文件或字节流的性质和格式，确保内容能被正确处理和显示。
 
-|MIME 类型|类别|说明|常见扩展名|使用场景与备注|
-|---|---|---|---|---|
-|​**​`text/html`​**​|文本|​**​超文本标记语言​**​，Web 的基石。|`.html`, `.htm`|所有网页。必须指定字符集，如 `charset=UTF-8`。|
-|​**​`text/css`​**​|文本|​**​层叠样式表​**​，用于定义网页样式。|`.css`|网页样式文件。常被压缩传输。|
-|​**​`text/javascript`​**​  <br>​**​`application/javascript`​**​|文本/应用|​**​JavaScript​**​ 代码。|`.js`, `.mjs`|为网页添加交互性。建议使用 `application/javascript`。|
-|​**​`application/json`​**​|应用|​**​JavaScript 对象表示法​**​，轻量级数据交换格式。|`.json`|​**​现代 API 通信的标准​**​。用于 RESTful API 的数据传输。|
-|​**​`application/xml`​**​  <br>​**​`text/xml`​**​|应用/文本|​**​可扩展标记语言​**​，用于存储和传输数据。|`.xml`|配置文件和旧式 Web 服务（如 SOAP）。|
-|​**​`application/ld+json`​**​|应用|​**​JSON-LD​**​，基于 JSON 的链接数据格式。|`.jsonld`|结构化数据（Schema.org），用于 SEO 和搜索引擎理解页面内容。|
-|​**​`application/pdf`​**​|应用|​**​Adobe Portable Document Format​**​。|`.pdf`|跨平台固定布局文档。浏览器通常内联显示。|
-|​**​`application/zip`​**​|应用|​**​ZIP 归档文件​**​。|`.zip`|压缩文件集合。浏览器会触发下载。|
-|​**​`application/msword`​**​|应用|​**​Microsoft Word​**​ 文档（较老版本）。|`.doc`|微软 Word 97-2003 文档。|
-|​**​`application/vnd.openxmlformats-officedocument.wordprocessingml.document`​**​|应用|​**​Microsoft Word​**​ 文档（新版 .docx）。|`.docx`|微软 Word 2007 及以后版本的文档（基于 ZIP+XML）。|
-|​**​`application/vnd.ms-excel`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`​**​|应用|​**​Microsoft Excel​**​ 电子表格。|`.xls`, `.xlsx`|Excel 文件。|
-|​**​`application/vnd.ms-powerpoint`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.presentationml.presentation`​**​|应用|​**​Microsoft PowerPoint​**​ 演示文稿。|`.ppt`, `.pptx`|PowerPoint 文件。|
-|​**​`application/x-httpd-php`​**​|应用|​**​PHP​**​ 源代码。|`.php`|PHP 脚本文件的常见 MIME 类型（但输出通常是 `text/html`）。|
-|​**​`application/octet-stream`​**​|应用|通用的​**​二进制数据流​**​。|任意 (如 `.bin`, `.exe`)|​**​强制文件下载​**​。表示“未知的二进制文件，请保存”。|
-|​**​`image/jpeg`​**​|图像|​**​JPEG​**​ 图像，有损压缩格式。|`.jpg`, `.jpeg`|​**​照片和颜色丰富的图像​**​。不支持透明度。|
-|​**​`image/png`​**​|图像|​**​PNG​**​ 图像，无损压缩格式。|`.png`|​**​需要透明度或更高清晰度的图像​**​（如图标、徽标、截图）。|
-|​**​`image/gif`​**​|图像|​**​GIF​**​ 图像，支持动画和简单透明度。|`.gif`|​**​简单动画​**​。颜色支持有限（256色）。|
-|​**​`image/svg+xml`​**​|图像|​**​SVG​**​，基于 XML 的矢量图像格式。|`.svg`, `.svgz`|​**​可缩放矢量图形​**​（徽标、图标）。无限缩放不失真，文件小。|
-|​**​`image/webp`​**​|图像|​**​WebP​**​，现代图像格式，提供优异的压缩。|`.webp`|​**​JPEG 和 PNG 的现代替代品​**​。在相同质量下体积更小。|
-|​**​`image/apng`​**​|图像|​**​动态 PNG​**​，支持动画的 PNG 格式。|`.apng`|类似于 GIF，但支持更多颜色和更好的透明度。|
-|​**​`image/avif`​**​|图像|​**​AVIF​**​，基于 AV1 视频编码的下一代图像格式。|`.avif`|​**​压缩率极高​**​的新格式，支持 HDR、动画和透明度。|
-|​**​`image/x-icon``<br>**`image/vnd.microsoft.icon`​**​|图像|​**​ICO​**​，图标格式。|`.ico`|​**​网站 Favicon​**​。通常包含多个尺寸。|
-|​**​`audio/mpeg`​**​|音频|​**​MP3​**​ 音频。|`.mp3`|通用的音频压缩格式。|
-|​**​`audio/wav`​**​|音频|​**​WAV​**​ 音频，通常未压缩。|`.wav`|无损音频格式，文件体积大。|
-|​**​`audio/webm`​**​|音频|​**​WebM​**​ 音频。|`.weba`|开放、免版税的音频格式，常用于网页。|
-|​**​`audio/aac`​**​|音频|​**​AAC​**​ 音频。|`.aac`|MP4 容器中常用的音频编码格式。|
-|​**​`video/mp4`​**​|视频|​**​MPEG-4​**​ 视频。|`.mp4`|​**​网络视频的主流格式​**​。通常包含 H.264 视频和 AAC 音频。|
-|​**​`video/mpeg`​**​|视频|​**​MPEG​**​ 视频。|`.mpeg`, `.mpg`|较老的视频格式。|
-|​**​`video/webm`​**​|视频|​**​WebM​**​ 视频。|`.webm`|开放、免版税的视频格式，常用于 HTML5 视频。|
-|​**​`video/quicktime`​**​|视频|​**​QuickTime​**​ 视频（Apple）。|`.mov`|Apple QuickTime 格式。|
-|​**​`font/woff`​**​|字体|​**​WOFF​**​，Web 开放字体格式。|`.woff`|第一代 Web 字体格式，是压缩的 OpenType/TrueType。|
-|​**​`font/woff2`​**​|字体|​**​WOFF 2.0​**​，Web 开放字体格式。|`.woff2`|​**​WOFF 的下一代​**​，提供更好的压缩。​**​现代浏览器的首选​**​。|
-|​**​`font/ttf`​**​|字体|​**​TrueType​**​ 字体。|`.ttf`|常见的系统字体格式，但直接在 Web 上使用不如 WOFF2 高效。|
-|​**​`font/otf`​**​|字体|​**​OpenType​**​ 字体。|`.otf`|TrueType 的扩展，功能更丰富。|
-|​**​`multipart/form-data`​**​|多部分|用于将表单数据作为多个部分发送。|无|​**​HTML 表单中包含文件上传时使用​**​ (`<form enctype="...">`)。|
-|​**​`multipart/byteranges`​**​|多部分|用于支持​**​断点续传​**​，响应部分内容（206 Partial Content）。|无|下载管理器和大文件下载。|
+| MIME 类型                                                                                                                          | 类别    | 说明                                            | 常见扩展名                 | 使用场景与备注                                             |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----- | --------------------------------------------- | --------------------- | --------------------------------------------------- |
+| ​**​`text/html`​**​                                                                                                              | 文本    | ​**​超文本标记语言​**​，Web 的基石。                      | `.html`, `.htm`       | 所有网页。必须指定字符集，如 `charset=UTF-8`。                     |
+| ​**​`text/css`​**​                                                                                                               | 文本    | ​**​层叠样式表​**​，用于定义网页样式。                       | `.css`                | 网页样式文件。常被压缩传输。                                      |
+| ​**​`text/javascript`​**​  <br>​**​`application/javascript`​**​                                                                  | 文本/应用 | ​**​JavaScript​**​ 代码。                        | `.js`, `.mjs`         | 为网页添加交互性。建议使用 `application/javascript`。             |
+| ​**​`application/json`​**​                                                                                                       | 应用    | ​**​JavaScript 对象表示法​**​，轻量级数据交换格式。           | `.json`               | ​**​现代 API 通信的标准​**​。用于 RESTful API 的数据传输。          |
+| ​**​`application/xml`​**​  <br>​**​`text/xml`​**​                                                                                | 应用/文本 | ​**​可扩展标记语言​**​，用于存储和传输数据。                    | `.xml`                | 配置文件和旧式 Web 服务（如 SOAP）。                             |
+| ​**​`application/ld+json`​**​                                                                                                    | 应用    | ​**​JSON-LD​**​，基于 JSON 的链接数据格式。              | `.jsonld`             | 结构化数据（Schema.org），用于 SEO 和搜索引擎理解页面内容。               |
+| ​**​`application/pdf`​**​                                                                                                        | 应用    | ​**​Adobe Portable Document Format​**​。       | `.pdf`                | 跨平台固定布局文档。浏览器通常内联显示。                                |
+| ​**​`application/zip`​**​                                                                                                        | 应用    | ​**​ZIP 归档文件​**​。                             | `.zip`                | 压缩文件集合。浏览器会触发下载。                                    |
+| ​**​`application/msword`​**​                                                                                                     | 应用    | ​**​Microsoft Word​**​ 文档（较老版本）。              | `.doc`                | 微软 Word 97-2003 文档。                                 |
+| ​**​`application/vnd.openxmlformats-officedocument.wordprocessingml.document`​**​                                                | 应用    | ​**​Microsoft Word​**​ 文档（新版 .docx）。          | `.docx`               | 微软 Word 2007 及以后版本的文档（基于 ZIP+XML）。                  |
+| ​**​`application/vnd.ms-excel`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`​**​              | 应用    | ​**​Microsoft Excel​**​ 电子表格。                 | `.xls`, `.xlsx`       | Excel 文件。                                           |
+| ​**​`application/vnd.ms-powerpoint`​**​  <br>​**​`application/vnd.openxmlformats-officedocument.presentationml.presentation`​**​ | 应用    | ​**​Microsoft PowerPoint​**​ 演示文稿。            | `.ppt`, `.pptx`       | PowerPoint 文件。                                      |
+| ​**​`application/x-httpd-php`​**​                                                                                                | 应用    | ​**​PHP​**​ 源代码。                              | `.php`                | PHP 脚本文件的常见 MIME 类型（但输出通常是 `text/html`）。            |
+| ​**​`application/octet-stream`​**​                                                                                               | 应用    | 通用的​**​二进制数据流​**​。                            | 任意 (如 `.bin`, `.exe`) | ​**​强制文件下载​**​。表示“未知的二进制文件，请保存”。                    |
+| ​**​`image/jpeg`​**​                                                                                                             | 图像    | ​**​JPEG​**​ 图像，有损压缩格式。                       | `.jpg`, `.jpeg`       | ​**​照片和颜色丰富的图像​**​。不支持透明度。                          |
+| ​**​`image/png`​**​                                                                                                              | 图像    | ​**​PNG​**​ 图像，无损压缩格式。                        | `.png`                | ​**​需要透明度或更高清晰度的图像​**​（如图标、徽标、截图）。                  |
+| ​**​`image/gif`​**​                                                                                                              | 图像    | ​**​GIF​**​ 图像，支持动画和简单透明度。                    | `.gif`                | ​**​简单动画​**​。颜色支持有限（256色）。                          |
+| ​**​`image/svg+xml`​**​                                                                                                          | 图像    | ​**​SVG​**​，基于 XML 的矢量图像格式。                   | `.svg`, `.svgz`       | ​**​可缩放矢量图形​**​（徽标、图标）。无限缩放不失真，文件小。                 |
+| ​**​`image/webp`​**​                                                                                                             | 图像    | ​**​WebP​**​，现代图像格式，提供优异的压缩。                  | `.webp`               | ​**​JPEG 和 PNG 的现代替代品​**​。在相同质量下体积更小。               |
+| ​**​`image/apng`​**​                                                                                                             | 图像    | ​**​动态 PNG​**​，支持动画的 PNG 格式。                  | `.apng`               | 类似于 GIF，但支持更多颜色和更好的透明度。                             |
+| ​**​`image/avif`​**​                                                                                                             | 图像    | ​**​AVIF​**​，基于 AV1 视频编码的下一代图像格式。             | `.avif`               | ​**​压缩率极高​**​的新格式，支持 HDR、动画和透明度。                    |
+| ​**​`image/x-icon``<br>**`image/vnd.microsoft.icon`​**​                                                                          | 图像    | ​**​ICO​**​，图标格式。                             | `.ico`                | ​**​网站 Favicon​**​。通常包含多个尺寸。                        |
+| ​**​`audio/mpeg`​**​                                                                                                             | 音频    | ​**​MP3​**​ 音频。                               | `.mp3`                | 通用的音频压缩格式。                                          |
+| ​**​`audio/wav`​**​                                                                                                              | 音频    | ​**​WAV​**​ 音频，通常未压缩。                         | `.wav`                | 无损音频格式，文件体积大。                                       |
+| ​**​`audio/webm`​**​                                                                                                             | 音频    | ​**​WebM​**​ 音频。                              | `.weba`               | 开放、免版税的音频格式，常用于网页。                                  |
+| ​**​`audio/aac`​**​                                                                                                              | 音频    | ​**​AAC​**​ 音频。                               | `.aac`                | MP4 容器中常用的音频编码格式。                                   |
+| ​**​`video/mp4`​**​                                                                                                              | 视频    | ​**​MPEG-4​**​ 视频。                            | `.mp4`                | ​**​网络视频的主流格式​**​。通常包含 H.264 视频和 AAC 音频。            |
+| ​**​`video/mpeg`​**​                                                                                                             | 视频    | ​**​MPEG​**​ 视频。                              | `.mpeg`, `.mpg`       | 较老的视频格式。                                            |
+| ​**​`video/webm`​**​                                                                                                             | 视频    | ​**​WebM​**​ 视频。                              | `.webm`               | 开放、免版税的视频格式，常用于 HTML5 视频。                           |
+| ​**​`video/quicktime`​**​                                                                                                        | 视频    | ​**​QuickTime​**​ 视频（Apple）。                  | `.mov`                | Apple QuickTime 格式。                                 |
+| ​**​`font/woff`​**​                                                                                                              | 字体    | ​**​WOFF​**​，Web 开放字体格式。                      | `.woff`               | 第一代 Web 字体格式，是压缩的 OpenType/TrueType。                |
+| ​**​`font/woff2`​**​                                                                                                             | 字体    | ​**​WOFF 2.0​**​，Web 开放字体格式。                  | `.woff2`              | ​**​WOFF 的下一代​**​，提供更好的压缩。​**​现代浏览器的首选​**​。         |
+| ​**​`font/ttf`​**​                                                                                                               | 字体    | ​**​TrueType​**​ 字体。                          | `.ttf`                | 常见的系统字体格式，但直接在 Web 上使用不如 WOFF2 高效。                  |
+| ​**​`font/otf`​**​                                                                                                               | 字体    | ​**​OpenType​**​ 字体。                          | `.otf`                | TrueType 的扩展，功能更丰富。                                 |
+| ​**​`multipart/form-data`​**​                                                                                                    | 多部分   | 用于将表单数据作为多个部分发送。                              | 无                     | ​**​HTML 表单中包含文件上传时使用​**​ (`<form enctype="...">`)。 |
+| ​**​`multipart/byteranges`​**​                                                                                                   | 多部分   | 用于支持​**​断点续传​**​，响应部分内容（206 Partial Content）。 | 无                     | 下载管理器和大文件下载。                                        |
