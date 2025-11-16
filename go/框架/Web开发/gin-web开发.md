@@ -130,7 +130,7 @@ gin/
 		context.HTML(http.StatusNotFound, "404.html", "")
 	})
 ```
-## 路由匹配规则
+## 4.1 路由匹配规则
 
 Gin 框架的路由匹配规则基于 **HTTP 方法**​ 和 **URL 路径**，支持静态路由、参数路由、通配符等多种模式。
 
@@ -486,7 +486,7 @@ type Article struct {
 go get github.com/astaxie/beego/validation
 ```
 2. 常用验证器
-![](image/gin-web开发_time_1.png)
+![](gin-web开发_time_1.png)
 3. 使用
 ```go
 /*
@@ -664,7 +664,7 @@ func OutYaml(context *gin.Context) {
 - 中间件的回调要先于用户定义的路由处理函数
 - Use是追加中间件，会按照顺序调用中间件
 - 常用中间件
-![](image/gin-web开发_time_2.png)
+![](gin-web开发_time_2.png)
 ## 11.1 自定义中间件
 ```go
   
