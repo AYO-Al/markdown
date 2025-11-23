@@ -198,10 +198,14 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "d5362f416d5b8f9a",
+  "active": "92fea55aec279923",
   "lastOpenFiles": [
     "计算机基础/网络/协议/http协议.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
+    "第2章：应用层_time_5.png",
+    "第2章：应用层_time_4.png",
+    "第2章：应用层_time_3.png",
+    "第2章：应用层_time_2.png",
     "go/框架/认证/JWT/JWT.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
     "go/框架/认证/JWT",
@@ -240,10 +244,6 @@
     "go/框架/数据库操作/GORM/基础/GORM.md",
     "go/自带包/数据库操作/sql包.md",
     "go/框架/数据库操作/GORM/关联/image/多态性关联_time_1.png",
-    "go/基础/image/泛型_time_1.png",
-    "go/基础/image/go基础_time_3.png",
-    "计算机基础/操作系统/基础/image/文件描述符_time_2.png",
-    "计算机基础/操作系统/基础/image/文件描述符_time_1.png",
-    "计算机基础/网络/网络编程/image/网络编程_time_2.png"
+    "go/基础/image/泛型_time_1.png"
   ]
 }
