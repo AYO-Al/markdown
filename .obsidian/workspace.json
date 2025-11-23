@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/智能体/eino/编排/workflow字段映射.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "workflow字段映射"
+              "title": "第2章：应用层"
+            }
+          },
+          {
+            "id": "c980d49d4eedeab6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "第1章：计算机网络"
             }
           }
         ]
@@ -94,13 +108,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/框架/智能体/eino/编排/workflow字段映射.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "workflow字段映射 的大纲"
+              "title": "第2章：应用层 的大纲"
             }
           },
           {
@@ -158,9 +172,11 @@
   },
   "active": "92fea55aec279923",
   "lastOpenFiles": [
+    "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
+    "go/框架/智能体/eino/编排/workflow字段映射.md",
     "Pasted image 20251121172256.png",
     "go/框架/Web开发/gin-web开发.md",
-    "go/框架/智能体/eino/编排/workflow字段映射.md",
     "go/框架/智能体/eino/编排",
     "go/框架/智能体/eino/model",
     "go/框架/智能体/eino",
@@ -168,7 +184,6 @@
     "go/自带包/网络/http.md",
     "go/基础/go基础.md",
     "计算机基础/网络/基础/计网.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/第一章：计算机网络.md",
     "计算机基础/网络/基础/网络架构.md",
     "计算机基础/网络/基础/ping命令工作流程.md",
     "计算机基础/网络/基础/TCP IP网络协议入门.md",
@@ -178,8 +193,8 @@
     "计算机基础/网络/图解/Linux是如何收发网络包的.md",
     "计算机基础/网络/网络编程/Linux半连接队列和全连接队列.md",
     "计算机基础/网络/网络编程/网络编程.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第一章：计算机网络_time_2.png",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第一章：计算机网络_time_1.png",
+    "第1章：计算机网络_time_2.png",
+    "第1章：计算机网络_time_1.png",
     "计算机基础/网络/计算机网络-自顶向下方法/image",
     "go/自带包/路径处理/filepath.md",
     "计算机基础/网络/计算机网络-自顶向下方法",
@@ -202,7 +217,6 @@
     "计算机基础/操作系统/基础/image/文件描述符_time_2.png",
     "计算机基础/操作系统/基础/image/文件描述符_time_1.png",
     "计算机基础/网络/网络编程/image/网络编程_time_2.png",
-    "计算机基础/网络/图解/image/Linux是如何收发网络包的_time_2.png",
-    "计算机基础/网络/图解/image/Linux是如何收发网络包的_time_1.png"
+    "计算机基础/网络/图解/image/Linux是如何收发网络包的_time_2.png"
   ]
 }
