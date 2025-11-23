@@ -152,8 +152,7 @@
               "title": "Copilot"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -171,7 +170,7 @@
       "copilot:Open Copilot Chat": false
     }
   },
-  "active": "fa67bdd24346a170",
+  "active": "92fea55aec279923",
   "lastOpenFiles": [
     "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
