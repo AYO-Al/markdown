@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "go/框架/认证/JWT/JWT.md",
+                "file": "计算机基础/网络/网络编程/网络编程.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "JWT"
+              "title": "网络编程"
             }
           },
           {
@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "go/框架/mcp/mcp-go/客户端.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "网络编程"
+              "title": "客户端"
             }
           }
         ],
@@ -109,13 +109,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "go/框架/mcp/mcp-go/客户端.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "网络编程 的大纲"
+              "title": "客户端 的大纲"
             }
           },
           {
@@ -159,7 +159,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "go/框架/mcp/mcp-go/客户端.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -169,7 +169,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "网络编程 的反向链接列表"
+              "title": "客户端 的反向链接列表"
             }
           },
           {
@@ -178,12 +178,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "计算机基础/网络/网络编程/网络编程.md",
+                "file": "go/框架/mcp/mcp-go/客户端.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "网络编程 的出链列表"
+              "title": "客户端 的出链列表"
             }
           }
         ],
@@ -206,12 +206,15 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "go/框架/mcp/mcp-go/基础.md",
+    "go/框架/mcp/mcp-go/客户端.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
+    "计算机基础/网络/网络编程/网络编程.md",
     "go/框架/认证/JWT/JWT.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/image/第2章：应用层_time_1.png",
     "计算机基础/网络/协议/http协议.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
     "go/框架/认证/JWT/image",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第2章：应用层_time_1.png",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第2章：应用层_time_2.png",
     "Pasted image 20251121172256.png",
     "go/框架/认证/JWT/image/JWT_time_2.png",
@@ -241,7 +244,6 @@
     "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md",
     "计算机基础/网络/图解/Linux是如何收发网络包的.md",
     "计算机基础/网络/网络编程/Linux半连接队列和全连接队列.md",
-    "计算机基础/网络/网络编程/网络编程.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image",
     "go/自带包/路径处理/filepath.md",
     "计算机基础/网络/计算机网络-自顶向下方法",
@@ -249,7 +251,6 @@
     "go/框架/数据库操作/GORM/关联/预加载.md",
     "go/自带包/上下文/Context包.md",
     "go/框架/数据库操作/GORM/基础/声明模型.md",
-    "go/框架/数据库操作/GORM/基础/GORM.md",
-    "go/自带包/数据库操作/sql包.md"
+    "go/框架/数据库操作/GORM/基础/GORM.md"
   ]
 }
