@@ -933,7 +933,7 @@ func SubStr(str string, l int) string {
     {{ 0 }}  
 {{end}}
 ```
-## 12.8 with伴随
+## 12.8 with
 
 - 作用：**用于重定向pipline**
 ```go
