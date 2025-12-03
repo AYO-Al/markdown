@@ -62,23 +62,8 @@
               "icon": "lucide-file",
               "title": "channel"
             }
-          },
-          {
-            "id": "0885d6c738d376c1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "go/基础/go基础.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "go基础"
-            }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -151,13 +136,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "go/原理深入/结构/channel.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "channel 的大纲"
+              "title": "第3章：传输层 的大纲"
             }
           },
           {
@@ -201,7 +186,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "go/原理深入/结构/channel.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -211,7 +196,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "channel 的反向链接列表"
+              "title": "第3章：传输层 的反向链接列表"
             }
           },
           {
@@ -220,12 +205,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "go/原理深入/结构/channel.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "channel 的出链列表"
+              "title": "第3章：传输层 的出链列表"
             }
           }
         ],
@@ -248,14 +233,17 @@
   },
   "active": "fa67bdd24346a170",
   "lastOpenFiles": [
+    "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_15.png",
+    "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_14.png",
+    "go/原理深入/结构/channel.md",
+    "数据库/redis/redis.md",
+    "go/基础/go基础.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
     "go/原理深入/结构/image/channel_time_2.png",
     "go/原理深入/结构/image/channel_time_1.png",
     "go/原理深入/结构/image/channel_time_1.png",
     "go/原理深入/结构/image",
-    "go/基础/go基础.md",
-    "go/原理深入/结构/channel.md",
     "go/原理深入/结构",
-    "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_13.png",
     "go/框架/mcp/mcp-go/基础.md",
     "go/框架/mcp/mcp-go/客户端.md",
@@ -265,8 +253,6 @@
     "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_9.png",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_8.png",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_7.png",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_6.png",
     "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
     "go/框架/Web开发/gin-web开发.md",
     "计算机基础/网络/网络编程/网络编程.md",
@@ -292,7 +278,6 @@
     "计算机基础/网络/基础/网络架构.md",
     "计算机基础/网络/基础/ping命令工作流程.md",
     "计算机基础/网络/基础/TCP IP网络协议入门.md",
-    "计算机基础/网络/网络是怎么连接的/第一章：浏览器生成消息.md",
-    "计算机基础/网络/图解/TCP-IP网络模型有哪几层.md"
+    "计算机基础/网络/网络是怎么连接的/第一章：浏览器生成消息.md"
   ]
 }
