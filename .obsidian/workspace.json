@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/未命名.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "第4章：网络层-数据平面"
+              "title": "未命名"
             }
           },
           {
@@ -165,13 +165,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/未命名.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "第4章：网络层-数据平面 的大纲"
+              "title": "未命名 的大纲"
             }
           },
           {
@@ -215,7 +215,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/未命名.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -225,7 +225,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "第4章：网络层-数据平面 的反向链接列表"
+              "title": "未命名 的反向链接列表"
             }
           },
           {
@@ -234,12 +234,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/未命名.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "第4章：网络层-数据平面 的出链列表"
+              "title": "未命名 的出链列表"
             }
           }
         ]
@@ -261,14 +261,16 @@
   },
   "active": "744b9721cde9b268",
   "lastOpenFiles": [
+    "计算机基础/网络/计算机网络-自顶向下方法/第6章：数据链路层.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/未命名.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
+    "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
     "计算机基础/网络/基础/计网.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第5章：网络层-控制平面.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第4章：网络层-数据平面_time_1.png",
     "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第4章：网络层-数据平面_time_4.png",
-    "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/第2章：应用层.md",
     "云计算/Linux/场景复现/系统端口和普通用户.md",
     "云计算/Linux/Linux.md",
     "云计算/Linux/HTTPD.md",
@@ -291,14 +293,12 @@
     "go/基础/go基础.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_15.png",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_14.png",
-    "数据库/redis/redis.md",
     "go/原理深入/结构/image/channel_time_2.png",
     "go/原理深入/结构/image/channel_time_1.png",
     "go/原理深入/结构/image/channel_time_1.png",
     "go/原理深入/结构/image",
     "go/原理深入/结构",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_13.png",
-    "go/框架/mcp/mcp-go/基础.md",
     "go/框架/认证/JWT/image",
     "go/框架/认证/JWT",
     "go/框架/认证",
