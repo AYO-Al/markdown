@@ -91,8 +91,7 @@
               "title": "系统端口和普通用户"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -165,13 +164,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第5章：网络层-控制平面.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "第4章：网络层-数据平面 的大纲"
+              "title": "第5章：网络层-控制平面 的大纲"
             }
           },
           {
@@ -215,7 +214,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第5章：网络层-控制平面.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -225,7 +224,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "第4章：网络层-数据平面 的反向链接列表"
+              "title": "第5章：网络层-控制平面 的反向链接列表"
             }
           },
           {
@@ -234,12 +233,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
+                "file": "计算机基础/网络/计算机网络-自顶向下方法/第5章：网络层-控制平面.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "第4章：网络层-数据平面 的出链列表"
+              "title": "第5章：网络层-控制平面 的出链列表"
             }
           }
         ]
@@ -259,11 +258,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "744b9721cde9b268",
+  "active": "d5362f416d5b8f9a",
   "lastOpenFiles": [
+    "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第4章：网络层-数据平面_time_1.png",
     "计算机基础/网络/计算机网络-自顶向下方法/第5章：网络层-控制平面.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/第4章：网络层-数据平面.md",
     "计算机基础/网络/计算机网络-自顶向下方法/第3章：传输层.md",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第4章：网络层-数据平面_time_4.png",
     "计算机基础/网络/计算机网络-自顶向下方法/第1章：计算机网络.md",
@@ -298,7 +297,6 @@
     "go/原理深入/结构",
     "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_13.png",
     "go/框架/mcp/mcp-go/基础.md",
-    "计算机基础/网络/计算机网络-自顶向下方法/image/第3章：传输层_time_12.png",
     "go/框架/认证/JWT/image",
     "go/框架/认证/JWT",
     "go/框架/认证",
