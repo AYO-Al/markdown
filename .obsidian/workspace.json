@@ -242,7 +242,8 @@
               "title": "第8章：网络安全 的出链列表"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -259,7 +260,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "744b9721cde9b268",
+  "active": "fa67bdd24346a170",
   "lastOpenFiles": [
     "计算机基础/网络/基础/公钥和私钥.md",
     "计算机基础/网络/基础/计网.md",
