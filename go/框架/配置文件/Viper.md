@@ -3,7 +3,7 @@
 
 - 安装
 ```go
-go get github.com/spf13/viper
+go get -u github.com/spf13/viper
 ```
 
 # 1 介绍
@@ -53,6 +53,7 @@ Viper需要最少知道在哪里查找配置文件的配置。Viper支持`JSON`�
 
 ```go
 viper.SetConfigFile("./config.yaml") // 指定配置文件路径
+
 viper.SetConfigName("config") // 配置文件名称(无扩展名)
 viper.SetConfigType("yaml") // 如果配置文件的名称中没有扩展名，则需要配置此项
 viper.AddConfigPath("/etc/appname/")   // 查找配置文件所在的路径
@@ -401,7 +402,7 @@ if err != nil {
 }
 ```
 
-## 7.2  `WatchRemoteConfig() error`**
+## 7.2  `WatchRemoteConfig() error`
 
 **用途**：启动后台监控，当远程配置发生变化时自动重新加载。  
 
