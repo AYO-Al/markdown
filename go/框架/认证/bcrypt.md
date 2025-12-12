@@ -23,6 +23,7 @@ const (
 - 格式说明
 
 ```go
+// 固定总长度：60 个字符
 $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
 ↓  ↓  ↓                          ↓
 │  │  │                          └── 哈希结果 (31字符)
