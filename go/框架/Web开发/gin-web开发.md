@@ -296,6 +296,12 @@ Gin提供了两类绑定方法：
 - 使用 Bind 方法时，Gin 会尝试根据 Content-Type 推断如何绑定。 如果你明确知道要绑定什么，可以使用 `MustBindWith` 或 `ShouldBindWith`。
 - 你也可以指定必须绑定的字段。 如果一个字段的 tag 加上了 `binding:"required"`，但绑定时是空值, Gin 会报错。
 
+| 标签类型               | 绑定位置                  | 常见场景               | 示例请求                     |
+| ------------------ | --------------------- | ------------------ | ------------------------ |
+| **`form:"name"`**​ | URL Query 或 Form Data | HTML 表单提交、GET 请求参数 | `?name=张三&age=20`        |
+| **`uri:"name"`**​  | URL 路径参数              | RESTful API 资源标识   | `/users/123`             |
+| **`json:"name"`**​ | 请求体 JSON              | API 请求、前端传参        | `{"name":"张三","age":20}` |
+
 ```go
 <form action="/user/add" method="post">  
     <p>用户名: <input type="text" name="username"></p>  
