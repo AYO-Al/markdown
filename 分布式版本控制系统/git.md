@@ -790,7 +790,7 @@ subtree和submodule要解决的问题是一样的，都是为了引用另外的�
 	- 再切换到main分支，使用`git rebase bugfix`，使HEAD快进到变基后的bugfix节点
 ![](./image/git_time_13.png)
 
-# 规范
+# 3 规范
 
 > 提交规范
 
