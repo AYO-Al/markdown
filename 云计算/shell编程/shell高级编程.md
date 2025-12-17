@@ -1,66 +1,54 @@
-# 1.SSH协议管理多主机基础
+# shell高级编程
+
+## 1.SSH协议管理多主机基础
 
 > 基本概念
 
-- SSH是(Secure Shell)的缩写，安全外壳协议
-- 专为远程登录会话和其他网络服务提供安全性的协议
-- 先对数据包加密再传输，确保安全性
+* SSH是(Secure Shell)的缩写，安全外壳协议
+* 专为远程登录会话和其他网络服务提供安全性的协议
+* 先对数据包加密再传输，确保安全性
 
-![image-20230306083928922](./image/dvp6zs-0.png)
-
-
+![image-20230306083928922](../../.gitbook/assets/dvp6zs-0.png)
 
 > SSH工作过程
 
 1. SSH版本协商
-
 2. 密钥和算法协商
-
 3. 认证阶段
-
 4. 会话请求阶段
-
 5. 交互会话阶段
-
-
 
 > SSH协议管理主机的两种用法
 
-- SSH非免密登录执行-基于口令的验证
+*   SSH非免密登录执行-基于口令的验证
 
-  ![image-20230306092422154](./image/fa9kv7-0.png)
+    ![image-20230306092422154](../../.gitbook/assets/fa9kv7-0.png)
+* SSH免密登录-基于密钥的验证
 
-- SSH免密登录-基于密钥的验证
+![image-20230306092631798](../../.gitbook/assets/fbimwu-0.png)
 
-![image-20230306092631798](./image/fbimwu-0.png)
+### 1.1.SSH非免密环境
 
+* 命令行登录：ssh root@172.16.100.50(输入密码后登录成功)
+*   使用脚本
 
+    ```bash
+    yum install -y  sshpass # 安装sshpass
+    sshpass -predhat ssh -o StrictHostKeyChecking=no root@155.144.77.206 "df -h" # 把密码作为参数并执行指令
 
-## 1.1.SSH非免密环境
+    # 脚本
+    #!/bin/bash
 
-- 命令行登录：ssh root@172.16.100.50(输入密码后登录成功)
+    host_list='172.16.100.50 172.16.100.60'
+    user_name=root
+    user_pass=redhat
 
-- 使用脚本
+    for host in $host_list;do
+            sshpass -p$user_pass ssh -o StrictHostKeyChecking=no $user_name@$host  "$1"
+    done
+    ```
 
-  ```bash
-  yum install -y  sshpass # 安装sshpass
-  sshpass -predhat ssh -o StrictHostKeyChecking=no root@155.144.77.206 "df -h" # 把密码作为参数并执行指令
-  
-  # 脚本
-  #!/bin/bash
-  
-  host_list='172.16.100.50 172.16.100.60'
-  user_name=root
-  user_pass=redhat
-  
-  for host in $host_list;do
-          sshpass -p$user_pass ssh -o StrictHostKeyChecking=no $user_name@$host  "$1"
-  done
-  ```
-
-  
-
-## 1.2.SSH免密环境
+### 1.2.SSH免密环境
 
 ```bash
 ssh-keygen -t rsa # 以rsa算法生成密钥，保存在.ssh文件夹下
@@ -68,45 +56,36 @@ ssh-copy-id root@node02 # 把秘钥进行分发，保存在authorized_keys文件
 ssh node02 # 分发之后就可以直接免密登录了
 ```
 
-
-
-## 1.3.非免密和免密使用场景及优劣势
+### 1.3.非免密和免密使用场景及优劣势
 
 > 非免密
 
-- 集群环境初始化，免密环境初始化
-
-
+* 集群环境初始化，免密环境初始化
 
 > 免密
 
-- 安全策略要求较高，root密码定期更换
-- 自动化运维工具必备，例如ansible
-- 分布式、大规模集群环境高效运维必备
-
-
+* 安全策略要求较高，root密码定期更换
+* 自动化运维工具必备，例如ansible
+* 分布式、大规模集群环境高效运维必备
 
 > 非免密和免密结合
 
 1. 利用SSH非免密创建免密环境
-
 2. 借助免密环境，利用其他自动化运维工具完成应用安装部署
 
-
-
-## 1.4.生产环境集群初始化
+### 1.4.生产环境集群初始化
 
 > 实现功能
 
-- 在所有主机上创建用户、设置密码
-- 针对创建的用户初始化免密环境
+* 在所有主机上创建用户、设置密码
+* 针对创建的用户初始化免密环境
 
 > 实现步骤
 
 1. 管理主机本地创建用户、设置密码
 2. 管理主机创建的用户生产密钥对
 3. 利用SSH非免密在所有主机创建用户
-4. 利用SSH非免密将管理主机公钥内容写入所有主机authorized_key文件
+4. 利用SSH非免密将管理主机公钥内容写入所有主机authorized\_key文件
 
 ```bash
 #!/bin/bash
@@ -143,25 +122,21 @@ done
 
 ```
 
-
-
-## 1.5.SSH跨主机返回值处理
+### 1.5.SSH跨主机返回值处理
 
 > 指令返回
 
-![image-20230307103519132](./image/h4do1r-0.png)
+![image-20230307103519132](../../.gitbook/assets/h4do1r-0.png)
 
-- $?:判断指令执行情况，为0成功，其他失败
+* $?:判断指令执行情况，为0成功，其他失败
 
 > 脚本返回
 
-![image-20230307104321855](./image/h93uyk-0.png)
+![image-20230307104321855](../../.gitbook/assets/h93uyk-0.png)
 
-- 在执行有可能出错的命令之前，要先做判断
+* 在执行有可能出错的命令之前，要先做判断
 
-
-
-# 2.利用SSH实现分布式应用的一键安装部署
+## 2.利用SSH实现分布式应用的一键安装部署
 
 > 安装部署实现步骤拆解
 
@@ -343,9 +318,7 @@ remote_execute 'if [ `hostname` == "node01" ];then $APP_DIR/kafka/bin/kafka-topi
 
 ```
 
-
-
-# 3.集群多主机一键启停服务脚本
+## 3.集群多主机一键启停服务脚本
 
 > 服务一键启停实现步骤
 
@@ -480,13 +453,11 @@ esac
 
 ```
 
-
-
-# 4.ansible核心用法
+## 4.ansible核心用法
 
 > 使用ansible管理多主机
 
-![image-20230320101315685](./image/gr9bo2-0.png)
+![image-20230320101315685](../../.gitbook/assets/gr9bo2-0.png)
 
 > ansible简介
 
@@ -496,39 +467,30 @@ ansible是流行的自动化运维工具之一，基于python开发，集合了�
 
 ansible被定义为配置管理工具，应具备以下功能：
 
-- 确保所依赖的安装包已经安装
-- 配置文件包含正确的内容已经正确的权限
-- 相关服务已正确运行
+* 确保所依赖的安装包已经安装
+* 配置文件包含正确的内容已经正确的权限
+* 相关服务已正确运行
 
 Ansible是一个开源的自动化工具，可以用来管理云计算、配置管理和应用部署等多种场景。Ansible的特点是简单、易用、安全和灵活。Ansible不需要在目标主机上安装任何代理，只需要在一个控制节点上安装Ansible，然后通过SSH或者WinRM等协议来连接和控制目标主机。Ansible使用YAML语言来编写自动化任务，称为playbook，可以方便地描述复杂的逻辑和流程。Ansible还提供了大量的模块和插件，可以支持各种平台和服务，比如Azure。
 
-
-
 > absible特性
 
-- 无agent概念，不需要在被管理主机上安装客户端agent
-- 无server概念，使用时直接执行指令即可
-- 基于模块工作、扩展更灵活
-- 无code概念，使用YAML定义playbook
+* 无agent概念，不需要在被管理主机上安装客户端agent
+* 无server概念，使用时直接执行指令即可
+* 基于模块工作、扩展更灵活
+* 无code概念，使用YAML定义playbook
 
-![image-20230320103734719](./image/h5m1r3-0.png)
+![image-20230320103734719](../../.gitbook/assets/h5m1r3-0.png)
 
-![image-20230327145840376](./image/o4azfl-0.png)
+![image-20230327145840376](../../.gitbook/assets/o4azfl-0.png)
 
-![img](./image/h5r83o-0.webp)
-
-
+![img](../../.gitbook/assets/h5r83o-0.webp)
 
 > 安装ansible
 
-| ansible | epel、Base |
-| ------- | ---------- |
+### 4.1.ansible配置账号密码
 
-
-
-## 4.1.ansible配置账号密码
-
-![image-20230320105408320](./image/hfkv9w-0.png)
+![image-20230320105408320](../../.gitbook/assets/hfkv9w-0.png)
 
 ```bash
 # 直接在/etc/ansible/hosts添加，如果配置了免密登录，可以不加后面参数
@@ -539,11 +501,9 @@ Ansible是一个开源的自动化工具，可以用来管理云计算、配置�
 ansible all -m ping 
 ```
 
+### 4.2.ansible执行流程
 
-
-## 4.2.ansible执行流程
-
-![image-20230320204459497](./image/xtll1b-0.png)
+![image-20230320204459497](../../.gitbook/assets/xtll1b-0.png)
 
 ansible读取配置文件是有顺序的
 
@@ -551,132 +511,118 @@ ansible读取配置文件是有顺序的
 2. 没有再读取家目录.ansible.cfg
 3. 最后读取/etc/ansible/ansible.cfg
 
+### 4.3.ansible目录结构及配置文件
 
+![image-20230320205627252](../../.gitbook/assets/y09k2k-0.png)
 
-## 4.3.ansible目录结构及配置文件
+### 4.4.ansible命令参数
 
-![image-20230320205627252](./image/y09k2k-0.png)
-
-
-
-## 4.4.ansible命令参数
-
-| 参数         | 含义                     |
-| ------------ | ------------------------ |
-| -i           | 指定使用的主机清单文件   |
-| -m           | 指定模块                 |
-| -a           | 指定模块使用参数         |
-| -v           | 打印详细日志             |
+| 参数           | 含义             |
+| ------------ | -------------- |
+| -i           | 指定使用的主机清单文件    |
+| -m           | 指定模块           |
+| -a           | 指定模块使用参数       |
+| -v           | 打印详细日志         |
 | -f           | 指定fork开启同步进程个数 |
-| -u           | ssh连接的用户名          |
-| -k           | 提示输入ssh登录密码      |
-| --list-hosts | 列出执行的主机清单       |
+| -u           | ssh连接的用户名      |
+| -k           | 提示输入ssh登录密码    |
+| --list-hosts | 列出执行的主机清单      |
 
-- 命令格式：
+*   命令格式：
 
-  ```bash
-  ansible 主机 -m 模块 -a 参数
-  ```
+    ```bash
+    ansible 主机 -m 模块 -a 参数
+    ```
 
-
-
-## 4.5.ansible核心模块
+### 4.5.ansible核心模块
 
 > command
 
-- ansible默认模块
-- 主要用于在远程主机执行Linux命令
-- 缺陷：不支持变量、重定向、管道等
+* ansible默认模块
+* 主要用于在远程主机执行Linux命令
+* 缺陷：不支持变量、重定向、管道等
 
-| 参数    | 含义                         |
-| ------- | ---------------------------- |
-| chdir   | 执行指令前，先切换目录       |
-| creates | 文件存在时，不执行后续指令   |
+| 参数      | 含义             |
+| ------- | -------------- |
+| chdir   | 执行指令前，先切换目录    |
+| creates | 文件存在时，不执行后续指令  |
 | removes | 文件不存在时，不执行后续指令 |
 
 ```bash
 ansible all -m command -a 'chdir /tmp ll'
 ```
 
-
-
 > shell
 
-- 主要用于在远程主机执行Linux命令
-- 支持变量、重定向、管道等
-- 缺陷：shell注入风险、非幂等性
+* 主要用于在远程主机执行Linux命令
+* 支持变量、重定向、管道等
+* 缺陷：shell注入风险、非幂等性
 
-| 参数    | 含义                         |
-| ------- | ---------------------------- |
-| chdir   | 执行指令前，先切换目录       |
-| creates | 文件存在时，不执行后续指令   |
+| 参数      | 含义             |
+| ------- | -------------- |
+| chdir   | 执行指令前，先切换目录    |
+| creates | 文件存在时，不执行后续指令  |
 | removes | 文件不存在时，不执行后续指令 |
-
-
 
 > copy
 
-- 主要用于在拷贝文件到不同主机上
+* 主要用于在拷贝文件到不同主机上
 
-| 参数    | 含义                                                         |
-| ------- | ------------------------------------------------------------ |
-| src     | 本地需拷贝的文件或目录                                       |
-| dest    | 远程主机目标目录                                             |
-| content | 不指定src时，可以使用从tent参数填充文件内容；src和content必选其一 |
-| force   | 拷贝文件和远程主机内容不一致时，是否强制覆盖；默认yes        |
+| 参数      | 含义                                                                       |
+| ------- | ------------------------------------------------------------------------ |
+| src     | 本地需拷贝的文件或目录                                                              |
+| dest    | 远程主机目标目录                                                                 |
+| content | 不指定src时，可以使用从tent参数填充文件内容；src和content必选其一                                |
+| force   | 拷贝文件和远程主机内容不一致时，是否强制覆盖；默认yes                                             |
 | backup  | 目标路径存在同名文件且与ansible主机中的文件内容不同时是否对远程主机的文件进行备份，当设置为yes时，会先备份远程主机中的文件，在进行拷贝 |
-| owner   | 指定文件拷贝到远程主机后的属主，但是远程主机上必须有对应的用户，否则报错 |
-| group   | 指定文件拷贝到远程主机后的属组，但是远程主机上必须有相应的组，否则会报错 |
-| mode    | 指定文件拷贝到远程主机后的权限                               |
+| owner   | 指定文件拷贝到远程主机后的属主，但是远程主机上必须有对应的用户，否则报错                                     |
+| group   | 指定文件拷贝到远程主机后的属组，但是远程主机上必须有相应的组，否则会报错                                     |
+| mode    | 指定文件拷贝到远程主机后的权限                                                          |
 
 > 如果直接拷贝整个文件夹的话，速度会很慢
 
-- 可以使用Synchronize模块
-- 需要所有主机都安装了rsync服务
+* 可以使用Synchronize模块
+* 需要所有主机都安装了rsync服务
 
-| 参数         | 含义                         |
-| ------------ | ---------------------------- |
-| src          | 本地需拷贝的文件或目录       |
-| dest         | 远程主机目标目录或文件       |
+| 参数           | 含义             |
+| ------------ | -------------- |
+| src          | 本地需拷贝的文件或目录    |
+| dest         | 远程主机目标目录或文件    |
 | exclude      | 用于定义排除单个文件夹和文件 |
 | exclude-from | 用于定义排除多个文件夹和文件 |
-| owner        | 同                           |
-| group        | 同                           |
-| perms        | 保留文件的权限               |
-
-
+| owner        | 同              |
+| group        | 同              |
+| perms        | 保留文件的权限        |
 
 > file
 
-- 主要用于完成文件基本操作
-- 创建文件或目录、删除文件或目录、修改文件权限
+* 主要用于完成文件基本操作
+* 创建文件或目录、删除文件或目录、修改文件权限
 
-| 参数    | 含义                                                         |
-| ------- | ------------------------------------------------------------ |
-| path    | 操作对象，可以是目录或文件                                   |
+| 参数      | 含义                                                    |
+| ------- | ----------------------------------------------------- |
+| path    | 操作对象，可以是目录或文件                                         |
 | state   | 文件状态。值可以为{directory\|touch\|file\|absent\|link\|hard} |
-| owner   | 指定文件属主                                                 |
-| group   | 指定文件属组                                                 |
-| mode    | 指定文件权限                                                 |
-| recurse | 递归操作目录                                                 |
-| src     | 指定链接源                                                   |
-
-
+| owner   | 指定文件属主                                                |
+| group   | 指定文件属组                                                |
+| mode    | 指定文件权限                                                |
+| recurse | 递归操作目录                                                |
+| src     | 指定链接源                                                 |
 
 > lineinfile
 
-- 确保文件中存在特定行，或者使用反向正则表达式替换现有行
+* 确保文件中存在特定行，或者使用反向正则表达式替换现有行
 
-| 参数         | 含义                                                |
-| ------------ | --------------------------------------------------- |
-| path         | 指定要操作的文件                                    |
-| line         | 行内容信息                                          |
-| regexp       | 正则表达式匹配                                      |
+| 参数           | 含义                                     |
+| ------------ | -------------------------------------- |
+| path         | 指定要操作的文件                               |
+| line         | 行内容信息                                  |
+| regexp       | 正则表达式匹配                                |
 | state        | 文件行状态，只可以为{absent\|present},默认为present |
-| insertbefore | 插入指定行之前                                      |
-| insertafter  | 插入指定行之后                                      |
-| backup       | 是否备份原文件                                      |
-| backrefs     | 是否开启后向引用                                    |
+| insertbefore | 插入指定行之前                                |
+| insertafter  | 插入指定行之后                                |
+| backup       | 是否备份原文件                                |
+| backrefs     | 是否开启后向引用                               |
 
 ```bash
 # 添加行内容到文件中
@@ -696,36 +642,30 @@ ansible all -m lineinfile -a 'path=/tmp/selinux regexp="^SELINUX=" line="SELINUX
 ansible all -m lineinfile -a 'path=/tmp/my.cnf regexp="^datadir=" line="datadir=/data/mysql"'
 ```
 
-
-
 > yum和service
 
-- yum
+* yum
+*   基于yum源完成软件包安装、卸载、更新
 
-- 基于yum源完成软件包安装、卸载、更新
-
-  | 参数              | 含义                                                  |
-  | ----------------- | ----------------------------------------------------- |
-  | name              | 软件包名                                              |
-  | state             | 目标状态：present\|installed\|latest\|absent\|removed |
-  | disable_gpg_check | 禁用对rpm包的公钥验证，默认no                         |
-  | enablerepo        | 使用指定yum源安装                                     |
-  | disablerepo       | 安装时不使用特定yum源                                 |
+    | 参数                  | 含义                                               |
+    | ------------------- | ------------------------------------------------ |
+    | name                | 软件包名                                             |
+    | state               | 目标状态：present\|installed\|latest\|absent\|removed |
+    | disable\_gpg\_check | 禁用对rpm包的公钥验证，默认no                                |
+    | enablerepo          | 使用指定yum源安装                                       |
+    | disablerepo         | 安装时不使用特定yum源                                     |
 
 > service
 
-- 服务的管理：启动、停止、重启、开机自启
+*   服务的管理：启动、停止、重启、开机自启
 
-  | 参数    | 含义                                            |
-  | ------- | ----------------------------------------------- |
-  | name    | 服务名                                          |
-  | state   | 目标状态：started\|stopped\|restarted\|reloaded |
-  | enabled | 开启自启设置：yes\|no                           |
+    | 参数      | 含义                                         |
+    | ------- | ------------------------------------------ |
+    | name    | 服务名                                        |
+    | state   | 目标状态：started\|stopped\|restarted\|reloaded |
+    | enabled | 开启自启设置：yes\|no                             |
 
-  
-
-
-# 5.分布式应用安装部署前常见环境检查
+## 5.分布式应用安装部署前常见环境检查
 
 > 配置文件
 
@@ -758,8 +698,6 @@ node17
 node15
 
 ```
-
-
 
 > 检查代码
 
@@ -898,9 +836,7 @@ check_timesync
 
 ```
 
-
-
-# 6.ansible多主机部署
+## 6.ansible多主机部署
 
 > 完整实例
 
@@ -909,20 +845,18 @@ check_timesync
 3. 脚本中ansible的多常见详细用法
 4. 基于纯净的CentOS从0-1实现一个完整实例
 
+### 6.1.内网搭建YUM源
 
+![image-20230323145230345](../../.gitbook/assets/o0q4ff-0.png)
 
-## 6.1.内网搭建YUM源
-
-![image-20230323145230345](./image/o0q4ff-0.png)
-
-- 准备rpm包
+* 准备rpm包
 
 ```bash
 # 只会下载相关依赖及软件的rpm包到指定目录，而不会安装
 yum install nginx --downloadonly --downloaddir /root/shell_c/cloud/
 ```
 
-- 安装createrepo指令，指定yum源路径
+* 安装createrepo指令，指定yum源路径
 
 ```bash
 # 用于创建软件仓库和生成元数据。它可以对指定目录下的rpm文件进行索引，方便远程yum命令安装更新
@@ -932,7 +866,7 @@ yum install createrepo -y
 createrepo /root/shell_c/cloud/
 ```
 
-- 搭建YUM源
+* 搭建YUM源
 
 ```bash
 # 安装httpd
@@ -961,8 +895,6 @@ yum makecache
 # 查看源信息
 yum repolist
 ```
-
-
 
 > 脚本实现yum源搭建
 
@@ -1048,9 +980,7 @@ fi
 
 ```
 
-
-
-## 6.2.ansible安装基础软件
+### 6.2.ansible安装基础软件
 
 ```
 # 实现免密
@@ -1067,26 +997,3 @@ for host in $HOSTS;do
 done
                                                  
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

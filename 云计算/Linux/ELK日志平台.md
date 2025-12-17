@@ -1,74 +1,65 @@
-# 1.ELK架构介绍
+# ELK日志平台
+
+## 1.ELK架构介绍
 
 ELK是一个应用套件，ELK 是 Elasticsearch、Logstash 和 Kibana 的缩写，是一种流行的开源日志管理解决方案。Elasticsearch 是一个分布式搜索和分析引擎，Logstash 是一个用于收集、处理和转发日志的工具，Kibana 是一个用于可视化 Elasticsearch 数据的工具。
 
 是一套开源免费、功能强大的日志分析管理系统。ELK可以将系统日志、网站日志、应用系统日志等各种日志进行收集、过滤、清洗、如何进行集中存放并可用于实时检索、分析
 
-![image-20230708094728915](./image/fo2cu2-0.png)
+![image-20230708094728915](../../.gitbook/assets/fo2cu2-0.png)
 
-![image-20230708094909840](./image/fp2u6b-0.png)
+![image-20230708094909840](../../.gitbook/assets/fp2u6b-0.png)
 
-![image-20230708094952089](./image/fpbvj7-0.png)
+![image-20230708094952089](../../.gitbook/assets/fpbvj7-0.png)
 
-![image-20230708095119692](./image/fqbv4c-0.png)
+![image-20230708095119692](../../.gitbook/assets/fqbv4c-0.png)
 
-![image-20230712085537081](./image/e5e6xb-0.png)
+![image-20230712085537081](../../.gitbook/assets/e5e6xb-0.png)
 
-![image-20230527145652207](./image/o36kfz-0.png)
+![image-20230527145652207](../../.gitbook/assets/o36kfz-0.png)
 
-![image-20230708092704346](./image/fbzr3w-0.png)
+![image-20230708092704346](../../.gitbook/assets/fbzr3w-0.png)
 
-- Elasticsearch
+* Elasticsearch
+  * 是一个实时的分布式搜索和分析引擎，它可以用于全文搜索，结构化搜索以及分析，采用java语言编写。是一个搜索引擎类的数据库
+  * 实时搜索，实时分析
+  * 分布式架构、实时文件存储，并将每一个字段都编入索引
+  * 文档导向，所有的对象都是文档
+  * 高可用性、易拓展、支持集群、分片和复制
+  * 接口友好，支持JSON
+*   Logstash
 
-  - 是一个实时的分布式搜索和分析引擎，它可以用于全文搜索，结构化搜索以及分析，采用java语言编写。是一个搜索引擎类的数据库
+    * 是一款轻量级的、开源的日志收集处理框架，它可以方便的把分散的、多样化的日志搜集起来，并进行自定义过滤分析处理，然后传输到指定的位置，比如某个服务器或者文件。Logstash采用JRuby语言编写
+    * input：数据收集
+    * filter：数据加工，如过滤，改写等
+    * output：数据输出
 
-  - 实时搜索，实时分析
-  - 分布式架构、实时文件存储，并将每一个字段都编入索引
-  - 文档导向，所有的对象都是文档
-  - 高可用性、易拓展、支持集群、分片和复制
-  - 接口友好，支持JSON
+    ![image-20230527145948103](../../.gitbook/assets/o4y21m-0.png)
 
-- Logstash
+    ![image-20230527150233063](../../.gitbook/assets/oughyk-0.png)
+* Kibana
+  * 是一个开源的数据分析可视化平台。使用Kibana可以为Logstash和Elasticsearch提供的日志数据进行高效的搜索、可视化汇总和多维度分析，还可以与Elasticsearch搜索引擎中的数据进行交互。它基于浏览器的界面操作可以快速创建动态仪表板，实时监控Elasticsearch的数据状态与更改
 
-  - 是一款轻量级的、开源的日志收集处理框架，它可以方便的把分散的、多样化的日志搜集起来，并进行自定义过滤分析处理，然后传输到指定的位置，比如某个服务器或者文件。Logstash采用JRuby语言编写
-  - input：数据收集
-  - filter：数据加工，如过滤，改写等
-  - output：数据输出
+![image-20230527150707991](../../.gitbook/assets/oxabx8-0.png)
 
-  ![image-20230527145948103](./image/o4y21m-0.png)
+## 2.环境安装
 
-  ![image-20230527150233063](./image/oughyk-0.png)
+![image-20230708095450667](../../.gitbook/assets/fsas0c-0.png)
 
-- Kibana
+### 1.安装JDK
 
-  - 是一个开源的数据分析可视化平台。使用Kibana可以为Logstash和Elasticsearch提供的日志数据进行高效的搜索、可视化汇总和多维度分析，还可以与Elasticsearch搜索引擎中的数据进行交互。它基于浏览器的界面操作可以快速创建动态仪表板，实时监控Elasticsearch的数据状态与更改
+![image-20230708095545188](../../.gitbook/assets/fsv2ge-0.png)
 
-![image-20230527150707991](./image/oxabx8-0.png)
+### 2.安装Elasticsearch
 
-
-
-
-
-# 2.环境安装
-
-![image-20230708095450667](./image/fsas0c-0.png)
-
-## 1.安装JDK
-
-![image-20230708095545188](./image/fsv2ge-0.png)
-
-
-
-## 2.安装Elasticsearch
-
-![image-20230708100102553](./image/gk4whj-0.png)
+![image-20230708100102553](../../.gitbook/assets/gk4whj-0.png)
 
 ```bash
 curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz
 tar -xvf elasticsearch-7.3.2-linux-x86_64.tar.gz
 ```
 
-![image-20230708100908493](./image/goszfg-0.png)
+![image-20230708100908493](../../.gitbook/assets/goszfg-0.png)
 
 ```bash
 ./elasticsearch
@@ -108,11 +99,11 @@ http.max_initial_line_length: "1024k"
 http.max_header_size: "1024k"
 ```
 
-![image-20230709100902148](./image/gov325-0.png)
+![image-20230709100902148](../../.gitbook/assets/gov325-0.png)
 
-## 3.安装Kibana
+### 3.安装Kibana
 
-![image-20230709101558263](./image/gsnnd7-0.png)
+![image-20230709101558263](../../.gitbook/assets/gsnnd7-0.png)
 
 ```bash
 # 注意版本需求，需要跟Elasticsearch配合
@@ -137,15 +128,13 @@ xpack.encryptedSavedObjects.encryptionKey: "122333444455555666666777777788888888
 [root@localhost kibana-7.10.2-linux-x86_64]# bin/kibana --allow-root # 可以使用root启动
 ```
 
-![image-20230709110909145](./image/icea8n-0.png)
+![image-20230709110909145](../../.gitbook/assets/icea8n-0.png)
 
-![image-20230709111041457](./image/id4fn3-0.png)
+![image-20230709111041457](../../.gitbook/assets/id4fn3-0.png)
 
+### 4.安装Head插件
 
-
-## 4.安装Head插件
-
-![image-20230709111340665](./image/iez0ou-0.png)
+![image-20230709111340665](../../.gitbook/assets/iez0ou-0.png)
 
 ```bash
 # 添加环境变量
@@ -168,13 +157,11 @@ npm run start
 open http://localhost:9100/
 ```
 
-![image-20230709120234306](./image/jvx53i-0.png)
+![image-20230709120234306](../../.gitbook/assets/jvx53i-0.png)
 
-![image-20230709153120975](./image/pbq562-0.png)
+![image-20230709153120975](../../.gitbook/assets/pbq562-0.png)
 
-
-
-## 5.YUM安装
+### 5.YUM安装
 
 ```bash
 sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
@@ -194,11 +181,9 @@ type=rpm-md
 sudo yum install elasticsearch kibana -y
 ```
 
+#### 1.集群的健康值检查
 
-
-### 1.集群的健康值检查
-
-![image-20230709153330559](./image/pcwp7w-0.png)
+![image-20230709153330559](../../.gitbook/assets/pcwp7w-0.png)
 
 ```bash
 {
@@ -220,77 +205,71 @@ sudo yum install elasticsearch kibana -y
 }
 ```
 
-
-
-# 3.核心概念
+## 3.核心概念
 
 > 什么是搜索引擎
 
 1. 全文搜索引擎
-   - 自然语言处理(NLP)、爬虫、网页处理、大数据处理。
-   - 如谷歌、百度等等
+   * 自然语言处理(NLP)、爬虫、网页处理、大数据处理。
+   * 如谷歌、百度等等
 2. 垂直搜索引擎
-   - 有明确搜索目的的搜索行为
-   - 如各大电商网站、OA、站内搜索、视频网站等
+   * 有明确搜索目的的搜索行为
+   * 如各大电商网站、OA、站内搜索、视频网站等
 
 > 搜索引擎应该具备那些要求？
 
-- 查询速度快
-  - 高效的压缩算法
-  - 快速的编码和解码速度
-- 结果准确
-  - BM25
-  - TF-IDF
-- 检索结果丰富
-  - 召回率
+* 查询速度快
+  * 高效的压缩算法
+  * 快速的编码和解码速度
+* 结果准确
+  * BM25
+  * TF-IDF
+* 检索结果丰富
+  * 召回率
 
 > 索引
 
-- 帮助快速检索
-- 以数据结构为载体
-- 以文件的形式落地
+* 帮助快速检索
+* 以数据结构为载体
+* 以文件的形式落地
 
 > Lucene
 
-- Lucene是一个成熟的全文检索库，由Java语言编写，具有高性能、可伸缩的特点，并且开源、免费
+* Lucene是一个成熟的全文检索库，由Java语言编写，具有高性能、可伸缩的特点，并且开源、免费
 
 > 全文检索
 
-- 索引系统通过扫描文章中的每一个词，对其创建索引，指明在文章中出现的次数和位置，当用户查询时，索引系统就会根据实现建立的索引进行查找，并将查找的结果反馈给用户的检索方式
+* 索引系统通过扫描文章中的每一个词，对其创建索引，指明在文章中出现的次数和位置，当用户查询时，索引系统就会根据实现建立的索引进行查找，并将查找的结果反馈给用户的检索方式
 
-## 1.倒排索引
+### 1.倒排索引
 
 倒排索引（Inverted Index）是一种数据库索引，用于存储从内容到文档的映射。使用倒排索引可以很好的支持全文搜索，被广泛应用于信息检索（搜索引擎、数据库）中。 倒排索引是实现“单词-文档矩阵”的一种具体存储形式，通过倒排索引，可以根据单词快速获取包含这个单词的文档列表。
 
 倒排索引的原理是将文档中的每个单词映射到包含该单词的所有文档的列表中，然后用该列表替换单词。倒排索引在文本搜索和信息检索中广泛应用，如搜索引擎、网站搜索、文本分类等场景中。 具体来说，一个倒排索引包含一个词语词典和每个词语对应的倒排列表。2倒排列表中记录了包含该词语的所有文档的编号、词频等信息。2这让我们能够在O(1)的时间内判断某个文档是否包含某个词，而且还可以基于词频、相关度等统计信息进行搜索结果排序。
 
-![image-20230710085827326](./image/e700h4-0.png)
+![image-20230710085827326](../../.gitbook/assets/e700h4-0.png)
 
-![image-20230710085500631](./image/e56cum-0.png)
+![image-20230710085500631](../../.gitbook/assets/e56cum-0.png)
 
-![image-20230710085933908](./image/e7my9z-0.png)
+![image-20230710085933908](../../.gitbook/assets/e7my9z-0.png)
 
-### 1.FOR压缩算法
+#### 1.FOR压缩算法
 
-![image-20230710090004193](./image/evvlb7-0.png)
+![image-20230710090004193](../../.gitbook/assets/evvlb7-0.png)
 
-![image-20230710091653036](./image/f5zpqd-0.png)
+![image-20230710091653036](../../.gitbook/assets/f5zpqd-0.png)
 
+#### 2.RBM压缩算法
 
+![image-20230710094004593](../../.gitbook/assets/fjotnt-0.png)
 
-### 2.RBM压缩算法
+![image-20230710094138943](../../.gitbook/assets/fkhae3-0.png)
 
-![image-20230710094004593](./image/fjotnt-0.png)
-
-![image-20230710094138943](./image/fkhae3-0.png)
-
-
-
-### 3.FST压缩算法
+#### 3.FST压缩算法
 
 > 为什么要安装term的字典序处理？
 
-- 为了生成最小化的FST的数据结构
+* 为了生成最小化的FST的数据结构
 
 > Trie前缀树
 
@@ -298,75 +277,65 @@ sudo yum install elasticsearch kibana -y
 
 前缀树的主要优点是可以最大限度地减少无谓的字符串比较，查询效率比哈希表高。前缀树常用于搜索提示、自动补全、拼写检查等场景中
 
-
-
 > FST
 
-![image-20230710101943648](./image/guyrqr-0.png)
+![image-20230710101943648](../../.gitbook/assets/guyrqr-0.png)
 
-![image-20230710102624989](./image/gz0mnz-0.png)
+![image-20230710102624989](../../.gitbook/assets/gz0mnz-0.png)
 
-![image-20230710102845688](./image/h0bodv-0.png)
+![image-20230710102845688](../../.gitbook/assets/h0bodv-0.png)
 
-![image-20230710103048426](./image/h1jb2x-0.png)
+![image-20230710103048426](../../.gitbook/assets/h1jb2x-0.png)
 
-![image-20230710104311638](./image/h91ytd-0.png)
+![image-20230710104311638](../../.gitbook/assets/h91ytd-0.png)
 
-![image-20230710111903280](./image/ii9uim-0.png)
+![image-20230710111903280](../../.gitbook/assets/ii9uim-0.png)
 
-![image-20230710113506320](./image/irtugf-0.png)
+![image-20230710113506320](../../.gitbook/assets/irtugf-0.png)
 
-![image-20230710114205557](./image/ivznc1-0.png)
+![image-20230710114205557](../../.gitbook/assets/ivznc1-0.png)
 
-![image-20230710115048700](./image/j0z9kj-0.png)
+![image-20230710115048700](../../.gitbook/assets/j0z9kj-0.png)
 
-![image-20230710115120443](./image/j1ej5r-0.png)
+![image-20230710115120443](../../.gitbook/assets/j1ej5r-0.png)
 
-![image-20230710115054814](./image/j10nl9-0.png)
+![image-20230710115054814](../../.gitbook/assets/j10nl9-0.png)
 
+### 2.tip和tim文件内部结构
 
+![](../../.gitbook/assets/e56cum-0.png)
 
-## 2.tip和tim文件内部结构
+#### ![image-20230710142906928](../../.gitbook/assets/nn46xh-0.png)
 
-![](./image/e56cum-0.png)
+### 3.FSt在Lucene中的构建和读取过程
 
-### ![image-20230710142906928](./image/nn46xh-0.png)
+![image-20230710145035388](../../.gitbook/assets/nzjl8p-0.png)
 
-
-
-## 3.FSt在Lucene中的构建和读取过程
-
-![image-20230710145035388](./image/nzjl8p-0.png)
-
-
-
-## 4.集群、节点和分片
+### 4.集群、节点和分片
 
 > 节点
 
-- 每个节点就是一个Elasticsearch实例
-- 一个节点≠一台服务器
+* 每个节点就是一个Elasticsearch实例
+* 一个节点≠一台服务器
 
-![image-20230710152107315](./image/p5ofde-0.png)
+![image-20230710152107315](../../.gitbook/assets/p5ofde-0.png)
 
 > 分片
 
-- 一个索引包含一个或多个分片，在7.0之前默认五个主分片，每个主分片一个副本；在7.0之后默认一个主分片。副本可以在索引创建之后修改数量，但是主分片的数量一旦确认不可修改，只能创建索引
-- 每个分片都是一个Lucene实例，有完整的创建索引和处理请求的能力
-- ES会自动在nodes上做分片均衡
-- 一个doc不可能同时存在于多个主分片中，但是当每个主分片的副本数量不为一时，可以同时存在与多个副本中
-- 每个主分片和其副本分片不能同时存在与同一个节点上，所以最低的可用配置是两个节点互为主备
+* 一个索引包含一个或多个分片，在7.0之前默认五个主分片，每个主分片一个副本；在7.0之后默认一个主分片。副本可以在索引创建之后修改数量，但是主分片的数量一旦确认不可修改，只能创建索引
+* 每个分片都是一个Lucene实例，有完整的创建索引和处理请求的能力
+* ES会自动在nodes上做分片均衡
+* 一个doc不可能同时存在于多个主分片中，但是当每个主分片的副本数量不为一时，可以同时存在与多个副本中
+* 每个主分片和其副本分片不能同时存在与同一个节点上，所以最低的可用配置是两个节点互为主备
 
 > 集群
 
-- 原生分布式
-- 一个节点≠一台服务器
+* 原生分布式
+* 一个节点≠一台服务器
 
+## 4.索引的CRUD
 
-
-# 4.索引的CRUD
-
-![image-20230710162039699](./image/qsr2si-0.png)
+![image-20230710162039699](../../.gitbook/assets/qsr2si-0.png)
 
 ```bash
 # 查看一个索引的全部信息
@@ -387,34 +356,30 @@ POST /index/_update/1
 DELETE /index/_doc/2
 ```
 
+## 5.Mapping
 
+### 1.概念
 
-# 5.Mapping
+* 概念：映射是定义文档及其包含的字段的存储和索引方式的过程。优点类似于RDB中"表结构"的概念。在Mapping中包含一些属性，比如字段名称、类型、字段使用的分词器、是否评分、是否创建索引等属性。并且在ES中一个字段可以有对应类型
+* 两种映射方式
+  * dynamic mapping(动态映射或自动映射)
+  * expllcit mapping(静态映射或手工映射或显示映射)
 
-## 1.概念
+### 2.查看mapping
 
-- 概念：映射是定义文档及其包含的字段的存储和索引方式的过程。优点类似于RDB中"表结构"的概念。在Mapping中包含一些属性，比如字段名称、类型、字段使用的分词器、是否评分、是否创建索引等属性。并且在ES中一个字段可以有对应类型
-- 两种映射方式
-  - dynamic mapping(动态映射或自动映射)
-  - expllcit mapping(静态映射或手工映射或显示映射)
+* GET /index/\_mapping
 
-## 2.查看mapping
+### 3.ES数据类型
 
-- GET /index/_mapping
+![image-20230710172536417](../../.gitbook/assets/sj9a7j-0.png)
 
-## 3.ES数据类型
+![image-20230710172702590](../../.gitbook/assets/skamzm-0.png)
 
-![image-20230710172536417](./image/sj9a7j-0.png)
+### 4.两种映射类型
 
-![image-20230710172702590](./image/skamzm-0.png)
+* **Dynamic field mapping**
 
-
-
-## 4.两种映射类型
-
-- **Dynamic field mapping**
-
-![image-20230710173032068](./image/sm9fxc-0.png)
+![image-20230710173032068](../../.gitbook/assets/sm9fxc-0.png)
 
 ```bash
    # 为text数据类型数据，自动创建一个fields类型，里面包含一个keyword，用于基准匹配，且默认长度为256
@@ -429,11 +394,9 @@ DELETE /index/_doc/2
         },
 ```
 
+* **Expllcit field mapping：手动映射**
 
-
-- **Expllcit field mapping：手动映射**
-
-![image-20230710185653982](./image/upcex0-0.png)
+![image-20230710185653982](../../.gitbook/assets/upcex0-0.png)
 
 ```bash
 # 手工创建mapping(fields的mapping只能创建，无法修改)
@@ -449,80 +412,63 @@ PUT /product
 }
 ```
 
+### 5.映射参数
 
+![image-20230710190819394](../../.gitbook/assets/vk3xs1-0.png)
 
-## 5.映射参数
+![image-20230710191127139](../../.gitbook/assets/vlxmm4-0.png)
 
-![image-20230710190819394](./image/vk3xs1-0.png)
+## 6.搜索和查询
 
-![image-20230710191127139](./image/vlxmm4-0.png)
-
-
-
-# 6.搜索和查询
-
-## 1.相关度评分
+### 1.相关度评分
 
 **未指定排序字段时，会按照评分进行排序**
 
+### 2.元数据\_source
 
+![image-20230710203355415](../../.gitbook/assets/xnoonc-0.png)
 
-## 2.元数据_source
-
-![image-20230710203355415](./image/xnoonc-0.png)
-
-![image-20230710203455689](./image/xnppda-0.png)
+![image-20230710203455689](../../.gitbook/assets/xnppda-0.png)
 
 > 发生冲突时，以excludes为准
 
+### 3.Query String
 
+*   **查询所有：**
 
-## 3.Query String
+    GET /product/\_search
+*   **带参数**
 
-- **查询所有：**
+    GET /product/\_search?q=name:xiaomi
+*   **分页**
 
-  GET /product/_search
+    GET /product/\_search?from=0\&size=2$sort=price:asc
+*   **精准匹配exact value**
 
-- **带参数**
+    GET /product/\_search?q=name:xiaomi
+*   **\_all搜索 相当于在所有有索引字段中检索**
 
-  GET /product/_search?q=name:xiaomi
+    GET /product/\_search?q=xiaomi
 
-- **分页**
+    如果设置字段不设置索引，那么就不会搜索该字段
 
-  GET /product/_search?from=0&size=2$sort=price:asc
+    ![image-20230710210155756](../../.gitbook/assets/yrix6d-0.png)
 
-- **精准匹配exact value**
-
-  GET /product/_search?q=name:xiaomi
-
-- **_all搜索 相当于在所有有索引字段中检索**
-
-  GET /product/_search?q=xiaomi
-
-  如果设置字段不设置索引，那么就不会搜索该字段
-
-  ![image-20230710210155756](./image/yrix6d-0.png)
-
-
-
-## 4.全文检索：match
+### 4.全文检索：match
 
 > DSL(Domain Specific Language)
 
-- Query string search
-
-- 全文检索：fulltext search
-- 过滤器：filter
-- 精准匹配：exact match
-- 组合查询：boo query
-
-
+* Query string search
+* 全文检索：fulltext search
+* 过滤器：filter
+* 精准匹配：exact match
+* 组合查询：boo query
 
 > 全文检索
 
 全文搜索，也被称为全文检索、关键词搜索，是一种能对文档进行搜索的技术，它的主要特点是用户可以输入一个或多个关键词，搜索结果返回所有包含这些关键词的文档。
 
-![image-20230710210926041](./image/yvtkg1-0.png)
+![image-20230710210926041](../../.gitbook/assets/yvtkg1-0.png)
 
 ```bash
 # match：匹配任意分词
@@ -565,11 +511,9 @@ GET product/_search
 }
 ```
 
+### 5.精准匹配：exact match
 
-
-## 5.精准匹配：exact match
-
-![image-20230710213225073](./image/z9kt2l-0.png)
+![image-20230710213225073](../../.gitbook/assets/z9kt2l-0.png)
 
 ```bash
 # term
@@ -614,19 +558,15 @@ GET /product/_search
 }
 ```
 
+### 6.过滤器
 
+![image-20230710221649595](../../.gitbook/assets/10ny94c-0.png)
 
-## 6.过滤器
+* filter：query和filter的主要区别在：filter是结果导向的而query是过程导向。query倾向于当前文档和查询的语句的相关度，而filter倾向于当前文档和查询的条件是不是相符。即在查询过程中，query是要对查询的每个结果计算相关性得分的，而filter不会。另外filter有相应的缓存机制，可以提高查询效率
 
-![image-20230710221649595](./image/10ny94c-0.png)
+### 7.组合查询：bool query
 
-- filter：query和filter的主要区别在：filter是结果导向的而query是过程导向。query倾向于当前文档和查询的语句的相关度，而filter倾向于当前文档和查询的条件是不是相符。即在查询过程中，query是要对查询的每个结果计算相关性得分的，而filter不会。另外filter有相应的缓存机制，可以提高查询效率
-
-
-
-## 7.组合查询：bool query
-
-![image-20230710222132970](./image/10qjz8q-0.png)
+![image-20230710222132970](../../.gitbook/assets/10qjz8q-0.png)
 
 ```bash
 # 组合查询
@@ -658,16 +598,14 @@ GET product/_search
 }
 ```
 
+## 7.分词器
 
+* 规范化：normalization
+* 字符过滤器：character filter
+* 分词器：tokenizer
+* 令牌过滤器：token filter
 
-# 7.分词器
-
-- 规范化：normalization
-- 字符过滤器：character filter
-- 分词器：tokenizer
-- 令牌过滤器：token filter
-
-## 1.使用分词器查看分词结果
+### 1.使用分词器查看分词结果
 
 ```bash
 GET _analyze
@@ -705,27 +643,23 @@ GET _analyze
 
 ```
 
-
-
-## 2.normalization
+### 2.normalization
 
 **文档规范化，提高召回率**
 
-- 停用词
-- 时态转换
-- 大小写
-- 同义词
-- 语气词
+* 停用词
+* 时态转换
+* 大小写
+* 同义词
+* 语气词
 
-
-
-## 3.字符过滤器
+### 3.字符过滤器
 
 **分词之前的预处理，过滤无用字符**
 
-- HTML Strip
-- Mapping
-- Pattern Replace
+* HTML Strip
+* Mapping
+* Pattern Replace
 
 ```bash
 # HTML Strip Character Filter
@@ -858,32 +792,28 @@ GET my_index/_analyze
 
 ```
 
-
-
-## 4.令牌过滤器：token filter
+### 4.令牌过滤器：token filter
 
 **停用词、时态转换、大小写转换、同义词转换、语气词处理等**
 
 **ES的令牌过滤器和字符过滤器是用于分析器的两种过滤器。字符过滤器用于在将字符流传递给分词器之前对其进行预处理，将原始文本作为字符流接收，并可以通过添加、删除或更改字符来转换流。而令牌过滤器则是在分词器生成单词后，对单词进行进一步的处理，如删除停用词、同义词转换等等。**
 
-![image-20230711104036234](./image/h7irnp-0.png)
+![image-20230711104036234](../../.gitbook/assets/h7irnp-0.png)
 
-![image-20230711104601803](./image/haugan-0.png)
+![image-20230711104601803](../../.gitbook/assets/haugan-0.png)
 
-![image-20230711104900823](./image/hck1ho-0.png)
+![image-20230711104900823](../../.gitbook/assets/hck1ho-0.png)
 
-
-
-## 5.分词器：tokenizer
+### 5.分词器：tokenizer
 
 **切词**
 
 > 常见分词器
 
-- standard analyzer:默认分词器，中文支持的不理想，会逐字拆分
-- pattern tokenizer:以正则匹配分隔符，把文本拆分成若干词项
-- simple pattern tokenizer:以正则匹配词项，速度比pattern tokenizer快
-- whitespace analyzer:以空白符分隔 tim_cookie
+* standard analyzer:默认分词器，中文支持的不理想，会逐字拆分
+* pattern tokenizer:以正则匹配分隔符，把文本拆分成若干词项
+* simple pattern tokenizer:以正则匹配词项，速度比pattern tokenizer快
+* whitespace analyzer:以空白符分隔 tim\_cookie
 
 > 自定义分词器
 
@@ -927,31 +857,25 @@ PUT custom
 }
 ```
 
-
-
-## 6.中文分词器
+### 6.中文分词器
 
 [Github地址](https://github.com/medcl/elasticsearch-analysis-ik)
 
 Analyzer: `ik_smart` , `ik_max_word` , Tokenizer: `ik_smart` , `ik_max_word`
 
-![image-20230711112650649](./image/in08rs-0.png)
+![image-20230711112650649](../../.gitbook/assets/in08rs-0.png)
 
-![image-20230711113838343](./image/itsk0g-0.png)
+![image-20230711113838343](../../.gitbook/assets/itsk0g-0.png)
 
+### 7.关于热更新
 
+#### 1.关于远程词库的热更新
 
-## 7.关于热更新
+#### 2.关于基于数据库的热更新
 
-### 1.关于远程词库的热更新
+## 8.聚合查询：Aggregation
 
-### 2.关于基于数据库的热更新
-
-
-
-# 8.聚合查询：Aggregation
-
-## 1.基础聚合
+### 1.基础聚合
 
 ```bash
 # 语法
@@ -1074,7 +998,7 @@ PUT /product/_doc/3
 }
 ```
 
-### 1.分桶聚合(Bucket agregations)
+#### 1.分桶聚合(Bucket agregations)
 
 ```bash
 # 分桶聚合(Bucket agregations)：统计不同标签的商品数量
@@ -1152,11 +1076,9 @@ GET /product/_search
 }
 ```
 
+#### 2.指标聚合(Metrics agregations)
 
-
-### 2.指标聚合(Metrics agregations)
-
-![image-20230713085920942](./image/e7nzpp-0.png)
+![image-20230713085920942](../../.gitbook/assets/e7nzpp-0.png)
 
 ```bash
 # 指标聚合(Metrics agregations)：统计最贵、最便宜和平均价格
@@ -1234,9 +1156,9 @@ GET product/_search
 }
 ```
 
-### 3.管道聚合(Pipeline agregation)
+#### 3.管道聚合(Pipeline agregation)
 
-![image-20230713090116297](./image/ewkslj-0.png)
+![image-20230713090116297](../../.gitbook/assets/ewkslj-0.png)
 
 ```bash
 # 管道聚合
@@ -1352,11 +1274,7 @@ GET product/_search
 }
 ```
 
-
-
-
-
-## 2.嵌套聚合：基于聚合结果的聚合
+### 2.嵌套聚合：基于聚合结果的聚合
 
 ```bash
 # 嵌套聚合
@@ -1393,11 +1311,7 @@ GET product/_search
 }
 ```
 
-
-
-
-
-## 3.基于查询结果的聚合和基于聚合结果的查询
+### 3.基于查询结果的聚合和基于聚合结果的查询
 
 ```bash
 # 基于查询结果的聚合
@@ -1566,9 +1480,7 @@ GET product/_search
 }
 ```
 
-
-
-## 4.聚合排序
+### 4.聚合排序
 
 ```
 GET product/_search?size=0
@@ -1659,11 +1571,9 @@ GET product/_search?size=0
 
 ```
 
+### 5.常见的聚合函数
 
-
-## 5.常见的聚合函数
-
-### 1.histogram
+#### 1.histogram
 
 > 使用range
 
@@ -1756,9 +1666,7 @@ GET product/_search
 
 ```
 
-
-
-### 2.percentile
+#### 2.percentile
 
 ```bash
 GET product/_search
@@ -1868,15 +1776,13 @@ GET product/_search?size=0
 
 ```
 
+## 9.脚本查询:Scripting
 
-
-# 9.脚本查询:Scripting
-
-## 1.概念
+### 1.概念
 
 Scripting是Elasticsearch支持的一种专门用于复杂场景下支持自定义编程的强大的脚本功能，ES支持多种脚本语言，如painless，其语法类似于java，也有注释、关键字、类型、变量、函数等，其相对于其他脚本高出几倍性能，并且安全可靠，可以用于内联合存储脚本
 
-![image-20230713091228197](./image/f35oht-0.png)
+![image-20230713091228197](../../.gitbook/assets/f35oht-0.png)
 
 ```bash
 # 语法
@@ -1888,9 +1794,7 @@ POST product/_update/2
 }
 ```
 
-
-
-## 2.基础使用
+### 2.基础使用
 
 ```bash
 POST product2/_update/1
@@ -1903,9 +1807,7 @@ POST product2/_update/1
 
 ```
 
-
-
-## 3.scripting的CURD
+### 3.scripting的CURD
 
 ```bash
 # 备份数据
@@ -1920,7 +1822,7 @@ POST _reindex
 }
 ```
 
-### 1.修改新增
+#### 1.修改新增
 
 ```bash
 POST product/_update/2
@@ -1947,7 +1849,7 @@ POST product/_update/2
 }
 ```
 
-### 2.删除
+#### 2.删除
 
 ```bash
 POST product/_update/2
@@ -1959,7 +1861,7 @@ POST product/_update/2
 }
 ```
 
-### 3.查询
+#### 3.查询
 
 ```bash
 # 查询
@@ -1987,7 +1889,7 @@ GET product/_search
 }
 ```
 
-## 4.参数化脚本
+### 4.参数化脚本
 
 **Elasticsearch在执行脚本之前需要编译脚本，这是一个相对耗时的操作。为了提高性能，可以使用params参数来避免编译脚本。params参数可以在脚本中使用，它允许你在执行脚本时传递参数，而不是在脚本中写死参数值。这样，如果脚本只是参数值不同，就可以避免重复编译脚本，从而提高性能。**
 
@@ -2023,9 +1925,7 @@ GET product/_search
 }
 ```
 
-
-
-## 5.scripts模板
+### 5.scripts模板
 
 **Elasticsearch会把模板保存在集群的缓存中**
 
@@ -2058,11 +1958,9 @@ GET product/_search
 }
 ```
 
+### 6.函数式编程
 
-
-## 6.函数式编程
-
-![image-20230713110353579](./image/i9bfvj-0.png)
+![image-20230713110353579](../../.gitbook/assets/i9bfvj-0.png)
 
 ```bash
 GET product/_search
@@ -2113,23 +2011,19 @@ GET product/_search
 }
 ```
 
+### 7.doc\['field'].value和params\['\_source']\['field']区别
 
+**doc和params都只能查询\_source中的数据**
 
-## 7.doc['field'].value和params['_source']\['field']区别
+在Elasticsearch中，doc\[‘field’].value和params\[‘\_source’]\[‘field’]都是用于访问文档字段的方式。但是，它们之间有一些区别。
 
-**doc和params都只能查询_source中的数据**
+doc\[‘field’].value是一种更快的方式，它将字段的术语加载到内存中，以便脚本可以更快地访问它们。但是，它只能访问简单字段值，例如数字或字符串。
 
-在Elasticsearch中，doc[‘field’].value和params\[‘_source’][‘field’]都是用于访问文档字段的方式。但是，它们之间有一些区别。
+params\[‘\_source’]\[‘field’]是一种更通用的方式，它可以访问复杂字段值，例如嵌套对象或数组。但是，它比doc\[‘field’].value慢，因为它需要从磁盘中加载整个文档并解析JSON格式。
 
-doc[‘field’].value是一种更快的方式，它将字段的术语加载到内存中，以便脚本可以更快地访问它们。但是，它只能访问简单字段值，例如数字或字符串。
+## 10.索引的批量操作
 
-params[‘_source’]\[‘field’]是一种更通用的方式，它可以访问复杂字段值，例如嵌套对象或数组。但是，它比doc[‘field’].value慢，因为它需要从磁盘中加载整个文档并解析JSON格式。
-
-
-
-# 10.索引的批量操作
-
-## 1.基于mget的批量查询
+### 1.基于mget的批量查询
 
 ```bash
 GET /_mget
@@ -2179,11 +2073,9 @@ GET /_mget
 }
 ```
 
+### 2.文档的操作类型
 
-
-## 2.文档的操作类型
-
-![image-20230723102638235](./image/it4h8x-0.png)
+![image-20230723102638235](../../.gitbook/assets/it4h8x-0.png)
 
 ```bash
 # create
@@ -2225,9 +2117,7 @@ PUT test_index/_doc/iXifgIkBcdO9ST1Q54i5?op_type=index
 #?filter_path=items.*.error:只输出错误的信息
 ```
 
-
-
-## 3.基于_bulk的增删改
+### 3.基于\_bulk的增删改
 
 **传统的增删改都要在内存中序列化成JSON对象，而是用bulk不消耗额外内存**
 
@@ -2245,33 +2135,25 @@ POST _bulk?filter_path=items.*.error
 
 ```
 
+## 11.模糊查询
 
+### 1.prefix：前缀搜索
 
-# 11.模糊查询
+![image-20230723113759738](../../.gitbook/assets/itjln2-0.png)
 
-## 1.prefix：前缀搜索
+![image-20230723144726293](../../.gitbook/assets/nxp15j-0.png)
 
-![image-20230723113759738](./image/itjln2-0.png)
+### 2.wildcard：通配符
 
-![image-20230723144726293](./image/nxp15j-0.png)
+![image-20230723145012836](../../.gitbook/assets/nzdocz-0.png)
 
+### 3.regexp：正则表达式
 
+![image-20230723145408720](../../.gitbook/assets/o1r1uk-0.png)
 
-## 2.wildcard：通配符
+### 4.fuzzy模糊查询
 
-![image-20230723145012836](./image/nzdocz-0.png)
-
-
-
-## 3.regexp：正则表达式
-
-![image-20230723145408720](./image/o1r1uk-0.png)
-
-
-
-## 4.fuzzy模糊查询
-
-![image-20230723150157764](./image/ou974i-0.png)
+![image-20230723150157764](../../.gitbook/assets/ou974i-0.png)
 
 ```bash
 # match也可用使用模糊查询，但是match是分词的，fuzzy是不分词的
@@ -2288,11 +2170,9 @@ GET product/_search
 }
 ```
 
+### 5.match\_phrase\_prefix：短语前缀
 
-
-## 5.match_phrase_prefix：短语前缀
-
-![image-20230723151406305](./image/image-20230723151406305.png)
+![image-20230723151406305](../../.gitbook/assets/image-20230723151406305.png)
 
 ```bash
 GET product/_search
@@ -2309,13 +2189,11 @@ GET product/_search
 }
 ```
 
+### 6.ngram和edge-ngram
 
+![image-20230723154345325](../../.gitbook/assets/piydc2-0.png)
 
-## 6.ngram和edge-ngram
-
-![image-20230723154345325](./image/piydc2-0.png)
-
-**ngram默认的min_gram和max_gram分别是1和2，edge_ngram都是1**
+**ngram默认的min\_gram和max\_gram分别是1和2，edge\_ngram都是1**
 
 ```
 # ngram可以在前缀，中缀，后缀都能使用
@@ -2581,132 +2459,114 @@ GET _analyze
 
 ```
 
+## 12.搜索推荐
 
+![image-20230723155623358](../../.gitbook/assets/pqk3wq-0.png)
 
-# 12.搜索推荐
+### 1.Term Suggester
 
-![image-20230723155623358](./image/pqk3wq-0.png)
+![image-20230723155658051](../../.gitbook/assets/pqzz82-0.png)
 
-## 1.Term Suggester
+![image-20230723155838665](../../.gitbook/assets/pru08a-0.png)
 
-![image-20230723155658051](./image/pqzz82-0.png)
+### 2.phrase suggester
 
-![image-20230723155838665](./image/pru08a-0.png)
-
-
-
-## 2.phrase suggester
-
-![image-20230723161458910](./image/qpji9t-0.png)
+![image-20230723161458910](../../.gitbook/assets/qpji9t-0.png)
 
 **在使用Phrase之前，需要定义一个特定的mapping**
 
+### 3.completion suggester
 
-
-## 3.completion suggester
-
-![image-20230723162914547](./image/qxynmy-0.png)
+![image-20230723162914547](../../.gitbook/assets/qxynmy-0.png)
 
 **使用之前先创建mapping**
 
-![image-20230723163303066](./image/r09zm3-0.png)
+![image-20230723163303066](../../.gitbook/assets/r09zm3-0.png)
 
-![image-20230723163436872](./image/r12iwf-0.png)
+![image-20230723163436872](../../.gitbook/assets/r12iwf-0.png)
 
-![image-20230723163505077](./image/r1h8zx-0.png)
+![image-20230723163505077](../../.gitbook/assets/r1h8zx-0.png)
 
-![image-20230723163756295](./image/r2z27w-0.png)
+![image-20230723163756295](../../.gitbook/assets/r2z27w-0.png)
 
+### 4.Context Suggester
 
-
-## 4.Context Suggester
-
-![image-20230723163856871](./image/r3kp41-0.png)
+![image-20230723163856871](../../.gitbook/assets/r3kp41-0.png)
 
 **使用之前也必须创建mapping**
 
-![image-20230723164055119](./image/r4r4ox-0.png)
+![image-20230723164055119](../../.gitbook/assets/r4r4ox-0.png)
 
-![image-20230723164244325](./image/r5vtra-0.png)
+![image-20230723164244325](../../.gitbook/assets/r5vtra-0.png)
 
-![image-20230723164717164](./image/r8p1xt-0.png)
+![image-20230723164717164](../../.gitbook/assets/r8p1xt-0.png)
 
-![image-20230723164738869](./image/r8toa7-0.png)
+![image-20230723164738869](../../.gitbook/assets/r8toa7-0.png)
 
-![image-20230723164818251](./image/r9aod0-0.png)
+![image-20230723164818251](../../.gitbook/assets/r9aod0-0.png)
 
-![image-20230723165018188](./image/rahlbt-0.png)
+![image-20230723165018188](../../.gitbook/assets/rahlbt-0.png)
 
-![image-20230723165037517](./image/ralqzy-0.png)
+![image-20230723165037517](../../.gitbook/assets/ralqzy-0.png)
 
+## 13.数据建模
 
+### 1.嵌套类型查询：Nested
 
-# 13.数据建模
+![image-20230723171048222](../../.gitbook/assets/sae18u-0.png)
 
-## 1.嵌套类型查询：Nested
+![image-20230723171351490](../../.gitbook/assets/sc6xr7-0.png)
 
-![image-20230723171048222](./image/sae18u-0.png)
+![image-20230723171651878](../../.gitbook/assets/sdz9zp-0.png)
 
-![image-20230723171351490](./image/sc6xr7-0.png)
+### 2.父子级关系查询：Join
 
-![image-20230723171651878](./image/sdz9zp-0.png)
+![image-20230723172840889](../../.gitbook/assets/sl24ko-0.png)
 
+![image-20230723172407516](../../.gitbook/assets/sihe8k-0.png)
 
-
-## 2.父子级关系查询：Join
-
-![image-20230723172840889](./image/sl24ko-0.png)
-
-![image-20230723172407516](./image/sihe8k-0.png)
-
-![image-20230723172705560](./image/sk971b-0.png)
+![image-20230723172705560](../../.gitbook/assets/sk971b-0.png)
 
 **使用routing指定分片**
 
-![image-20230723173002496](./image/sm0yh3-0.png)
+![image-20230723173002496](../../.gitbook/assets/sm0yh3-0.png)
 
-![image-20230723173310633](./image/snuz7s-0.png)
+![image-20230723173310633](../../.gitbook/assets/snuz7s-0.png)
 
+### 3.数据建模
 
+![image-20230723173412424](../../.gitbook/assets/soh4l2-0.png)
 
-## 3.数据建模
+![image-20230723173730078](../../.gitbook/assets/sqda0v-0.png)
 
-![image-20230723173412424](./image/soh4l2-0.png)
+![image-20230723174059545](../../.gitbook/assets/ssk1ng-0.png)
 
-![image-20230723173730078](./image/sqda0v-0.png)
+![image-20230723174238437](../../.gitbook/assets/stdtok-0.png)
 
-![image-20230723174059545](./image/ssk1ng-0.png)
+![image-20230723174400203](../../.gitbook/assets/sucm5g-0.png)
 
-![image-20230723174238437](./image/stdtok-0.png)
+![image-20230723174426836](../../.gitbook/assets/suid7n-0.png)
 
-![image-20230723174400203](./image/sucm5g-0.png)
+## 14.es客户端
 
-![image-20230723174426836](./image/suid7n-0.png)
+![image-20230724193905189](../../.gitbook/assets/w2ie98-0.png)
 
+![](../../.gitbook/assets/w2k3d3-0.png)
 
+## 15.Elasticsearch分布式原理
 
-# 14.es客户端
+### 1.单机服务有哪些问题？
 
-![image-20230724193905189](./image/w2ie98-0.png)
+* 性能有限
+* 可用性差
+* 难以扩展
 
-![](./image/w2k3d3-0.png)
+### 2.分布式的好处
 
+* 高可用性：集群可容忍部分节点宕机而保持服务的可用性和数据的完整性
+* 易扩展性：当集群的性能不满足业务要求时，可以方便快速的扩容集群，而无需停止服务
+* 高性能：集群通过负载均衡器分摊并发请求压力，可以大大提高集群的吞吐能力和并发能力
 
+![image-20230724203842799](../../.gitbook/assets/xpngd9-0.png)
 
-# 15.Elasticsearch分布式原理
-
-## 1.单机服务有哪些问题？
-
-- 性能有限
-- 可用性差
-- 难以扩展
-
-## 2.分布式的好处
-
-- 高可用性：集群可容忍部分节点宕机而保持服务的可用性和数据的完整性
-- 易扩展性：当集群的性能不满足业务要求时，可以方便快速的扩容集群，而无需停止服务
-- 高性能：集群通过负载均衡器分摊并发请求压力，可以大大提高集群的吞吐能力和并发能力
-
-![image-20230724203842799](./image/xpngd9-0.png)
-
-![image-20230724204618678](./image/xuemdz-0.png)
+![image-20230724204618678](../../.gitbook/assets/xuemdz-0.png)

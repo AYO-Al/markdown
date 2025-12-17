@@ -1,13 +1,13 @@
-[toc]
+# functools模块
 
-## python中的functools模块
+\[toc]
 
-> functools 模块可以说主要是为[函数式编程](https://so.csdn.net/so/search?q=函数式编程&spm=1001.2101.3001.7020)而设计，用于增强函数功能。
-> functools模块用以为可调用对象（callable objects）定义[高阶函数](https://so.csdn.net/so/search?q=高阶函数&spm=1001.2101.3001.7020)或操作。
+### python中的functools模块
 
+> functools 模块可以说主要是为[函数式编程](https://so.csdn.net/so/search?q=%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B\&spm=1001.2101.3001.7020)而设计，用于增强函数功能。\
+> functools模块用以为可调用对象（callable objects）定义[高阶函数](https://so.csdn.net/so/search?q=%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0\&spm=1001.2101.3001.7020)或操作。
 
-
-### partial函数
+#### partial函数
 
 > 用于创建一个偏函数，将默认参数包装一个可调用对象，返回结果也是可调用对象。
 >
@@ -22,11 +22,11 @@ print(int1())
 # 把int1函数设置为专门把10转换为8进制的函数
 ```
 
-### update_wrapper函数
+#### update\_wrapper函数
 
-> 使用partial包装的函数是没有\_\_name\_\___和\_\_doc____属性的。
+> 使用partial包装的函数是没有\_\_name\_\_\_\_和\_\_doc\_\_\_\_属性的。
 >
-> update_wrapper:将被包装的函数的属性拷贝到新函数里去
+> update\_wrapper:将被包装的函数的属性拷贝到新函数里去
 
 ```python
 from functools import partial,update_wrapper
@@ -41,9 +41,9 @@ print(int1())
 # 8
 ```
 
-### wraps装饰器
+#### wraps装饰器
 
-> 装饰器版的update_wrapper函数
+> 装饰器版的update\_wrapper函数
 
 ```python
 from functools import wraps
@@ -70,7 +70,7 @@ print(play_lol.__name__)
 # 如果不用装饰器，则为inner
 ```
 
-### reduce函数
+#### reduce函数
 
 > 语法：reduce(函数，参数)
 >
@@ -85,7 +85,7 @@ print(reduce(lambda x,y:x+y, l))
 # 将l中所有元素进行相加
 ```
 
-### cmp_to_key
+#### cmp\_to\_key
 
 > 将函数转换为key函数
 
@@ -103,7 +103,7 @@ print(new_nums2)
 
 ```
 
-### lru_cache装饰器
+#### lru\_cache装饰器
 
 > 允许我们将一个函数的返回值快速的缓存或取消缓存
 >
@@ -135,7 +135,7 @@ print(now() - start2)
 # 2.0083212852478027
 ```
 
-### singledispatch
+#### singledispatch
 
 > 单分发器，用于实现泛型函数
 >
@@ -176,36 +176,3 @@ print(fun.registry[int])	# 获取int的泛型函数
 # <function _ at 0x106f0b9d8>
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

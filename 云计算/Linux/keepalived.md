@@ -1,4 +1,6 @@
-# 1.Keepalived介绍
+# keepalived
+
+## 1.Keepalived介绍
 
 Keepalived是一个基于VRRP协议来实现的LVS服务高可用方案，可以利用其来解决单点故障。Keepalived是集群管理中保证集群高可用的一个服务软件，其功能类似于heartbeat，用来防止**单点故障**。
 
@@ -6,55 +8,46 @@ Keepalived是一个基于VRRP协议来实现的LVS服务高可用方案，可以
 
 高可用使用原则：**能用负载均衡就不用高可用**，因为高可用会浪费一台机器
 
-![image-20230722154936710](./image/pml1bq-0.png)
+![image-20230722154936710](../../.gitbook/assets/pml1bq-0.png)
 
-![image-20230722155047063](./image/pn5evz-0.png)
+![image-20230722155047063](../../.gitbook/assets/pn5evz-0.png)
 
-![image-20230722155321840](./image/potlao-0.png)
+![image-20230722155321840](../../.gitbook/assets/potlao-0.png)
 
-![image-20230722155428292](./image/ppe8yk-0.png)
+![image-20230722155428292](../../.gitbook/assets/ppe8yk-0.png)
 
-
-
-- keepalived：
-  - ip，辅助ip
-  - 配置文件：/etc/keepalived/keepalived.conf
-  - 没有数据流动的高可用对之间
-  - 如果有数据流动，自行解决
-
-- keepalived服务的三个重要功能
+* keepalived：
+  * ip，辅助ip
+  * 配置文件：/etc/keepalived/keepalived.conf
+  * 没有数据流动的高可用对之间
+  * 如果有数据流动，自行解决
+* keepalived服务的三个重要功能
   1. 管理LVS负载均衡
   2. 对LVS节点做健康检查(基于端口和URL)
   3. VRRP高可用功能(failover)
 
-![image-20230601165317349](./image/rc9dsf-0.png)
+![image-20230601165317349](../../.gitbook/assets/rc9dsf-0.png)
 
+* VRRP协议
 
+![image-20230601162212089](../../.gitbook/assets/qtrtp3-0.png)
 
-- VRRP协议
+* keepalived服务工作原理
 
-![image-20230601162212089](./image/qtrtp3-0.png)
+![image-20230601162236531](../../.gitbook/assets/qtwwnb-0.png)
 
-- keepalived服务工作原理
+## 2.Keepalived使用
 
-![image-20230601162236531](./image/qtwwnb-0.png)
+* 安装Keepalived：yum install -y keepalived
 
+![image-20230722160008269](../../.gitbook/assets/qiktoj-0.png)
 
-
-# 2.Keepalived使用
-
-- 安装Keepalived：yum install -y keepalived
-
-![image-20230722160008269](./image/qiktoj-0.png)
-
-
-
-## 1.Keepalived配置文件
+### 1.Keepalived配置文件
 
 配置文件用！进行注释
 
-- 全局定义(Global definitions)部分
-  - 这部分主要用来设置keepalived的故障通知机制和Router ID标识。
+* 全局定义(Global definitions)部分
+  * 这部分主要用来设置keepalived的故障通知机制和Router ID标识。
 
 ```bash
 ! Configuration File for keepalived
@@ -65,8 +58,8 @@ global_defs {
 }
 ```
 
-- VRRP实例定义区块(VRRP instance)部分
-  - 这部分主要用来定义具体服务的实例配置，包括Keepalived主备状态、接口、优先级、认证方式和IP信息等
+* VRRP实例定义区块(VRRP instance)部分
+  * 这部分主要用来定义具体服务的实例配置，包括Keepalived主备状态、接口、优先级、认证方式和IP信息等
 
 ```bash
 vrrp_instance VI_1 { # 指定VRRP实例名称
@@ -99,30 +92,26 @@ vrrp_instance VI_1 { # 指定VRRP实例名称
 要为Keepalived配置日志，可以按照以下步骤进行操作：
 
 1. 打开Keepalived的配置文件，通常位于`/etc/keepalived/keepalived.conf`。
-
 2. 在配置文件中找到名为`global_defs`的部分。
+3.  在`global_defs`部分中添加以下行来配置日志：
 
-3. 在`global_defs`部分中添加以下行来配置日志：
+    ```plaintext
+    global_defs {
+        log_file /var/log/keepalived.log  # 指定日志文件路径和名称
+        log_stdout off  # 禁止将日志输出到标准输出流
+        log_syslog on   # 将日志输出到syslog
+        debug_netlink off  # 禁止输出Netlink调试信息
+        debug_mcast off    # 禁止输出多播调试信息
+    }
+    ```
 
-   ```plaintext
-   global_defs {
-       log_file /var/log/keepalived.log  # 指定日志文件路径和名称
-       log_stdout off  # 禁止将日志输出到标准输出流
-       log_syslog on   # 将日志输出到syslog
-       debug_netlink off  # 禁止输出Netlink调试信息
-       debug_mcast off    # 禁止输出多播调试信息
-   }
-   ```
-   
-   可以根据需求调整日志文件路径和名称。
-   
+    可以根据需求调整日志文件路径和名称。
 4. 保存并关闭配置文件。
+5.  重新启动Keepalived服务，以使配置生效。可以使用以下命令：
 
-5. 重新启动Keepalived服务，以使配置生效。可以使用以下命令：
-
-   ```plaintext
-   sudo systemctl restart keepalived
-   ```
+    ```plaintext
+    sudo systemctl restart keepalived
+    ```
 
 配置完成后，Keepalived将开始将其操作和状态信息记录到指定的日志文件中。你可以使用`tail`命令来监视日志文件的更新，例如：
 
@@ -134,70 +123,67 @@ tail -f /var/log/keepalived.log
 
 请注意，配置日志功能可以帮助您跟踪和调试Keepalived的运行情况，因此建议您及时检查和分析日志文件以获取有价值的信息。
 
-
-
-## 2.双主配置
+### 2.双主配置
 
 要配置双主（双活）模式的Keepalived，请按照以下步骤进行操作：
 
-1. 安装Keepalived：在两台服务器上安装Keepalived软件包。可以使用适合您Linux发行版的包管理工具来进行安装，例如使用以下命令：
+1.  安装Keepalived：在两台服务器上安装Keepalived软件包。可以使用适合您Linux发行版的包管理工具来进行安装，例如使用以下命令：
 
-   plaintext
+    plaintext
 
-   复制
+    复制
 
-   ```plaintext
-   sudo apt-get install keepalived   # Debian/Ubuntu
-   sudo yum install keepalived       # CentOS/RHEL
-   ```
+    ```plaintext
+    sudo apt-get install keepalived   # Debian/Ubuntu
+    sudo yum install keepalived       # CentOS/RHEL
+    ```
+2.  配置Keepalived：在两台服务器上编辑Keepalived的配置文件`/etc/keepalived/keepalived.conf`。以下是一个简单示例的配置文件来配置双主模式：
 
-2. 配置Keepalived：在两台服务器上编辑Keepalived的配置文件`/etc/keepalived/keepalived.conf`。以下是一个简单示例的配置文件来配置双主模式：
+    ```bash
+    global_defs {
+       router_id LVS_DEVEL
+    }
 
-   ```bash
-   global_defs {
-      router_id LVS_DEVEL
-   }
-   
-   vrrp_instance VI_1 {
-       state MASTER
-       interface eth0
-       virtual_router_id 51
-       priority 101
-       advert_int 1
-       authentication {
-           auth_type PASS
-           auth_pass 1111
-       }
-       virtual_ipaddress {
-           192.168.1.3/24 dev eth0 label eth0:1
-           192.168.1.4/24 dev eth0 label eth0:2
-       }
-   }
-   
-   vrrp_instance VI_2 {
-       state MASTER
-       interface eth0
-       virtual_router_id 52
-       priority 101
-       advert_int 1
-       authentication {
-           auth_type PASS
-           auth_pass 1111
-       }
-       virtual_ipaddress {
-           192.168.1.5/24 dev eth0 label eth0:3
-           192.168.1.6/24 dev eth0 label eth0:4
-       }
-   }
-   ```
-   
-   请根据实际情况修改配置文件。确保将`your_password`替换为认证密码，并根据需要定义自定义脚本路径。
-   
-3. 启动Keepalived：在两台服务器上启动Keepalived服务，并确保在系统重新启动后自动启动。运行以下命令：
+    vrrp_instance VI_1 {
+        state MASTER
+        interface eth0
+        virtual_router_id 51
+        priority 101
+        advert_int 1
+        authentication {
+            auth_type PASS
+            auth_pass 1111
+        }
+        virtual_ipaddress {
+            192.168.1.3/24 dev eth0 label eth0:1
+            192.168.1.4/24 dev eth0 label eth0:2
+        }
+    }
 
-   ```plaintext
-   sudo systemctl start keepalived
-   sudo systemctl enable keepalived
+    vrrp_instance VI_2 {
+        state MASTER
+        interface eth0
+        virtual_router_id 52
+        priority 101
+        advert_int 1
+        authentication {
+            auth_type PASS
+            auth_pass 1111
+        }
+        virtual_ipaddress {
+            192.168.1.5/24 dev eth0 label eth0:3
+            192.168.1.6/24 dev eth0 label eth0:4
+        }
+    }
+    ```
+
+    请根据实际情况修改配置文件。确保将`your_password`替换为认证密码，并根据需要定义自定义脚本路径。
+3.  启动Keepalived：在两台服务器上启动Keepalived服务，并确保在系统重新启动后自动启动。运行以下命令：
+
+    ```plaintext
+    sudo systemctl start keepalived
+    sudo systemctl enable keepalived
+    ```
 
 配置完成后，Keepalived会在两台服务器之间使用VRRP协议维护一个虚拟IP地址（192.168.1.100）。如果一台服务器发生故障，另一台服务器将接管虚拟IP地址并继续提供服务。
 
@@ -212,89 +198,83 @@ tail -f /var/log/keepalived.log
 
 总之，Keepalived的双主配置能够提供高可用性、负载均衡和快速恢复等优势，可以帮助确保系统稳定运行和持续可用性。
 
+### 3.Keepalived高可用服务器对裂脑问题
 
-
-## 3.Keepalived高可用服务器对裂脑问题
-
-- 什么是裂脑？
+* 什么是裂脑？
 
 由于某些原因，导致两台高可用服务器对在指定时间内，无法检测到对方的心跳信息，各自取得资源及服务的所有权。而此时的两台高可用服务器对都还活着并在正常运行，这样就会导致同一个IP或服务在两端同时存在而发送冲突，最严重的是两台主机占用同一个VIP地址，当用户写入数据时可能会分别写入到两端，这可能会导致服务器两端的数据不一致或造成数据丢失，这种情况就会被称为裂脑
 
-- 导致裂脑发生的原因
-  - 高可用服务器对之间心跳线链路孤战，导致无法正常通信
-    - 心跳线坏了
-    - 网卡及相关驱动坏了，IP配置及冲突问题(网卡直连)
-    - 心跳线间连接的设备故障(网卡及交换机)
-    - 仲裁的机器除问题(采用仲裁方案)
-  - 高可用服务器对上开启了iptables防火墙阻挡了心跳信息传输
-  - 高可用服务器对上心跳网卡地址等信息配置不正确，导致发送心跳失败
-  - 其他服务配置不当等原因，如心跳方式不同，心跳广播冲突，软件BUG等
+* 导致裂脑发生的原因
+  * 高可用服务器对之间心跳线链路孤战，导致无法正常通信
+    * 心跳线坏了
+    * 网卡及相关驱动坏了，IP配置及冲突问题(网卡直连)
+    * 心跳线间连接的设备故障(网卡及交换机)
+    * 仲裁的机器除问题(采用仲裁方案)
+  * 高可用服务器对上开启了iptables防火墙阻挡了心跳信息传输
+  * 高可用服务器对上心跳网卡地址等信息配置不正确，导致发送心跳失败
+  * 其他服务配置不当等原因，如心跳方式不同，心跳广播冲突，软件BUG等
 
-> 如果keepalived配置里同一VRRP实例如果virtual_router_id参数两端配置不一致，也会导致裂脑问题发生
->
+> 如果keepalived配置里同一VRRP实例如果virtual\_router\_id参数两端配置不一致，也会导致裂脑问题发生
 
-![image-20230601223858887](./image/11132am-0.png)
+![image-20230601223858887](../../.gitbook/assets/11132am-0.png)
 
-![image-20230601224415149](./image/1146pbe-0.png)
+![image-20230601224415149](../../.gitbook/assets/1146pbe-0.png)
 
-![image-20230601224426516](./image/1146njb-0.png)
+![image-20230601224426516](../../.gitbook/assets/1146njb-0.png)
 
-
-
-## 4.解决高可用服务知识针对物理服务器问题
+### 4.解决高可用服务知识针对物理服务器问题
 
 keepalived高可用服务知识针对物理服务器，但是当服务器不宕机，nginx负载服务宕机。默认VIP是不漂移的。
 
 可以使用Keepalived的配置文件参数触发写好的检测服务脚本
 
-- 先写监测服务脚本
-![image-20230601225225454](./image/1190b73-0.png)
+* 先写监测服务脚本![image-20230601225225454](../../.gitbook/assets/1190b73-0.png)
+*   编写配置文件
 
-- 编写配置文件
+    ```bash
+    global_defs {
+       router_id 192.168.19.131
+       script_user $script_user
+    }
 
-  ```bash
-  global_defs {
-     router_id 192.168.19.131
-     script_user $script_user
-  }
-  
-  vrrp_script chk_nginx {  # 配置执行脚本
-      script "/etc/keepalived/check_port.sh 7443"
-      interval 2
-      weight -20
-  }
-  # 如果脚本执行结果为0，并且weight配置的值大于0，则优先级相应的增加
-  # 如果脚本执行结果非0，并且weight配置的值小于0，则优先级相应的减少
-  
-  vrrp_instance VI_1 {
-      state MASTER
-      interface ens33
-      virtual_router_id 251
-      priority 100
-      nopreempt
-       # 监控本机上的哪个网卡，网卡一旦故障则需要把VIP转移出去
-      track_interface {
-          eth0
-          ens33
-      }
-      authentication {
-          auth_type PASS
-          auth_pass 11111111
-      }
-      track_script {  # 调用脚本
-           chk_nginx
-      }
-      virtual_ipaddress {
-          192.168.19.10
-      }
-      unicast_src_ip 192.168.131.135  # 本地IP地址
-      unicast_peer {
-          192.168.131.134  # 组内其他ip地址
-          192.168.131.136  # 组内其他ip地址
-      }  # 指定是因为服务器网络环境中，路由交换层禁用了ARP的广播限制
-  }
-  
-  
+    vrrp_script chk_nginx {  # 配置执行脚本
+        script "/etc/keepalived/check_port.sh 7443"
+        interval 2
+        weight -20
+    }
+    # 如果脚本执行结果为0，并且weight配置的值大于0，则优先级相应的增加
+    # 如果脚本执行结果非0，并且weight配置的值小于0，则优先级相应的减少
+
+    vrrp_instance VI_1 {
+        state MASTER
+        interface ens33
+        virtual_router_id 251
+        priority 100
+        nopreempt
+         # 监控本机上的哪个网卡，网卡一旦故障则需要把VIP转移出去
+        track_interface {
+            eth0
+            ens33
+        }
+        authentication {
+            auth_type PASS
+            auth_pass 11111111
+        }
+        track_script {  # 调用脚本
+             chk_nginx
+        }
+        virtual_ipaddress {
+            192.168.19.10
+        }
+        unicast_src_ip 192.168.131.135  # 本地IP地址
+        unicast_peer {
+            192.168.131.134  # 组内其他ip地址
+            192.168.131.136  # 组内其他ip地址
+        }  # 指定是因为服务器网络环境中，路由交换层禁用了ARP的广播限制
+    }
 
 
 
+
+
+    ```

@@ -1,4 +1,6 @@
-# 修改网页目录
+# Tomcat
+
+## 修改网页目录
 
 如果您想将网页目录设置为其他位置，您可以进行以下操作：
 
@@ -24,18 +26,14 @@ xml
 
 现在，您的应用程序的网页目录就已经设置为您指定的路径了。您可以通过浏览器访问Tomcat服务器上的URL路径来查看您的网页内容。例如，`http://localhost:8080/yourapp`。
 
+## Tomcat指定JDK配置
 
-
-
-
-# Tomcat指定JDK配置
-
-如果系统默认的JDK版本是JDK 1.8.x，那么可以省略此步骤
+如果系统默认的JDK版本是JDK 1.8.x，那么可以省略此步骤\
 如果系统中需要部署多Tomcat，例如：Tomcat 7+JDK 7,Tomcat 8 + JDK 8共存那么则需要进行以下配置：
 
 > 本机默认Java版本可以通过命令 java -version 查看
 
-- 修改catalina.sh文件
+* 修改catalina.sh文件
 
 ```bash
 #修改catalina.sh
@@ -46,7 +44,7 @@ vi /usr/tomcat/tomcat8/bin/catalina.sh
 export JAVA_HOME=/usr/java/jdk1.8.0_151
 ```
 
-- 修改setclasspath.sh文件
+* 修改setclasspath.sh文件
 
 ```bash
 #修改setclasspath.sh
@@ -57,12 +55,12 @@ vi /usr/tomcat/tomcat8/bin/setclasspath.sh
 export JAVA_HOME=/usr/java/jdk1.8.0_151
 ```
 
-其中/usr/java/jdk1.8.0_151，是因为ken.io测试的服务器JDK8在这个目录
+其中/usr/java/jdk1.8.0\_151，是因为ken.io测试的服务器JDK8在这个目录\
 ，实际部署时替换成所在服务器jdk目录即可
 
-# Tomcat端口修改与防火墙配置
+## Tomcat端口修改与防火墙配置
 
-- 修改端口
+* 修改端口
 
 非必要操作，如果需要部署多Tomcat，则需要修改端口
 
@@ -79,9 +77,7 @@ vi /usr/tomcat/tomcat8/conf/server.xml
                redirectPort="8443" />
 ```
 
-
-
-# 将Tomcat配置为系统服务
+## 将Tomcat配置为系统服务
 
 ```bash
 #创建Tomcat8服务文件
@@ -104,8 +100,6 @@ ExecStop=/usr/tomcat/tomcat8/bin/shutdown.sh
 WantedBy=multi-user.target
 ```
 
+## 修改HTTPS
 
-
-# 修改HTTPS
-
-![](./image/wacg3o-0.png)
+![](../../.gitbook/assets/wacg3o-0.png)
