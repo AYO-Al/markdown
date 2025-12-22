@@ -1,32 +1,32 @@
-# 1.有了Docker，为什么还用Kubernetes
+# k8s极速版
 
-![image-20230713142558515](./image/nl57nx-0.png)
+## 1.有了Docker，为什么还用Kubernetes
 
-![image-20230713142907273](./image/nmufjg-0.png)
+![image-20230713142558515](../../../.gitbook/assets/nl57nx-0.png)
 
-![image-20230713143212070](./image/noo3ml-0.png)
+![image-20230713142907273](../../../.gitbook/assets/nmufjg-0.png)
 
-![image-20230713143617652](./image/nr4zoa-0.png)
+![image-20230713143212070](../../../.gitbook/assets/noo3ml-0.png)
 
-![image-20230713202023666](./image/xeysqf-0.png)
+![image-20230713143617652](../../../.gitbook/assets/nr4zoa-0.png)
 
-![image-20230713202458707](./image/xhe1no-0.png)
+![image-20230713202023666](../../../.gitbook/assets/xeysqf-0.png)
 
-![image-20230703085312752](./image/e3zkwd-0.png)
+![image-20230713202458707](../../../.gitbook/assets/xhe1no-0.png)
 
-![image-20230703091911708](./image/f7akbb-0.png)
+![image-20230703085312752](../../../.gitbook/assets/e3zkwd-0.png)
 
-![image-20230703093112688](./image/fefz0u-0.png)
+![image-20230703091911708](../../../.gitbook/assets/f7akbb-0.png)
 
-![image-20230703143702589](./image/nrn37k-0.png)
+![image-20230703093112688](../../../.gitbook/assets/fefz0u-0.png)
 
-![image-20230703143958984](./image/nt3ls3-0.png)
+![image-20230703143702589](../../../.gitbook/assets/nrn37k-0.png)
 
-![image-20230713144251352](./image/nuubll-0.png)
+![image-20230703143958984](../../../.gitbook/assets/nt3ls3-0.png)
 
+![image-20230713144251352](../../../.gitbook/assets/nuubll-0.png)
 
-
-# 2.环境准备三台主机
+## 2.环境准备三台主机
 
 ```bash
 # 1.设置主机名和时区
@@ -89,54 +89,46 @@ sysctl --system
 
 ```
 
-
-
-# 3.安装kubuadm
+## 3.安装kubuadm
 
 ```bash
 kubeadm join 192.168.19.137:6443 --token flknyj.dykek2mbjndszk2t \
     --discovery-token-ca-cert-hash sha256:b1ae30f0862edb021ff77901b05c95d2d8914bd5439e7871a1f7148599312b47 
 ```
 
+![image-20230703144645930](../../../.gitbook/assets/nx6x3t-0.png)
 
+![image-20230713163930774](../../../.gitbook/assets/r40gvn-0.png)
 
-![image-20230703144645930](./image/nx6x3t-0.png)
+## 4.快速部署一个网站
 
-![image-20230713163930774](./image/r40gvn-0.png)
+![image-20230713192301992](../../../.gitbook/assets/vszddr-0.png)
 
+![image-20230713192444792](../../../.gitbook/assets/vtrjft-0.png)
 
+![image-20230713193143839](../../../.gitbook/assets/w4xnlq-0.png)
 
-# 4.快速部署一个网站
+![image-20230713193340918](../../../.gitbook/assets/vz646w-0.png)
 
-![image-20230713192301992](./image/vszddr-0.png)
+![image-20230713194220937](../../../.gitbook/assets/w4erlo-0.png)
 
-![image-20230713192444792](./image/vtrjft-0.png)
-
-![image-20230713193143839](./image/w4xnlq-0.png)
-
-![image-20230713193340918](./image/vz646w-0.png)
-
-![image-20230713194220937](./image/w4erlo-0.png)
-
-![image-20230713194656909](./image/w783r9-0.png)
+![image-20230713194656909](../../../.gitbook/assets/w783r9-0.png)
 
 ```bash
 kubectl apply -f deployment.yaml
 ```
 
-![image-20230713195815304](./image/wduhjn-0.png)
+![image-20230713195815304](../../../.gitbook/assets/wduhjn-0.png)
 
+## 5.Deployment
 
+![image-20230713204132465](../../../.gitbook/assets/xrfpzd-0.png)
 
-# 5.Deployment
+![image-20230713204221801](../../../.gitbook/assets/xrvz9d-0.png)
 
-![image-20230713204132465](./image/xrfpzd-0.png)
+![image-20230713204420639](../../../.gitbook/assets/xt3ru4-0.png)
 
-![image-20230713204221801](./image/xrvz9d-0.png)
-
-![image-20230713204420639](./image/xt3ru4-0.png)
-
-![image-20230713204615894](./image/xuahm6-0.png)
+![image-20230713204615894](../../../.gitbook/assets/xuahm6-0.png)
 
 ```bash
 # 发布
@@ -187,43 +179,41 @@ spec:
 kubectl describe deployment web
 ```
 
-![image-20230713210654495](./image/yu6pls-0.png)
+![image-20230713210654495](../../../.gitbook/assets/yu6pls-0.png)
 
 ```bash
 # 记录更新记录，在更新命令上加
 --record=ture # 只能记录更新命令
 ```
 
-![image-20230713211755831](./image/z104sa-0.png)
+![image-20230713211755831](../../../.gitbook/assets/z104sa-0.png)
 
-![image-20230713212435768](./image/z4sjm7-0.png)
+![image-20230713212435768](../../../.gitbook/assets/z4sjm7-0.png)
 
 ```bash
 # 可以直接使用文件
 kubectl delete -f deployment.yaml
 ```
 
+## 6.Pod
 
+![image-20230713212915572](../../../.gitbook/assets/z7nu6c-0.png)
 
-# 6.Pod
+![image-20230713213038072](../../../.gitbook/assets/z8dyuf-0.png)
 
-![image-20230713212915572](./image/z7nu6c-0.png)
-
-![image-20230713213038072](./image/z8dyuf-0.png)
-
-![](./image/zihm5v-0.png)
+![](../../../.gitbook/assets/zihm5v-0.png)
 
 > Pod中使用Pause镜像启动Infra container，用来给pod中的容器提供共享卷和网络等功能
 
-![image-20230713215539988](./image/znabg5-0.png)
+![image-20230713215539988](../../../.gitbook/assets/znabg5-0.png)
 
-![image-20230714145055860](./image/nzz3y5-0.png)
+![image-20230714145055860](../../../.gitbook/assets/nzz3y5-0.png)
 
-# 7.Service
+## 7.Service
 
-![image-20230713220408974](./image/10gai43-0.png)
+![image-20230713220408974](../../../.gitbook/assets/10gai43-0.png)
 
-![image-20230713221708296](./image/10o07in-0.png)
+![image-20230713221708296](../../../.gitbook/assets/10o07in-0.png)
 
 ```bash
 # 把service导出为yaml格式
@@ -234,7 +224,7 @@ kubectl get service kubernetes -o yaml
 kubectl getpods -l app=pvc
 ```
 
-![image-20230713222302536](./image/10rjo8w-0.png)
+![image-20230713222302536](../../../.gitbook/assets/10rjo8w-0.png)
 
 ```bash
 # 查看pod的标签
@@ -254,26 +244,24 @@ spec:
   type: NodePort
 ```
 
-![image-20230714090155282](./image/ex4449-0.png)
+![image-20230714090155282](../../../.gitbook/assets/ex4449-0.png)
 
-![image-20230714090300202](./image/exms3k-0.png)
+![image-20230714090300202](../../../.gitbook/assets/exms3k-0.png)
 
-![image-20230714091108036](./image/f2ivz8-0.png)
+![image-20230714091108036](../../../.gitbook/assets/f2ivz8-0.png)
 
-![image-20230714092154235](./image/f8zhwi-0.png)
+![image-20230714092154235](../../../.gitbook/assets/f8zhwi-0.png)
 
-# 8.Ingress
+## 8.Ingress
 
-![image-20230714092834464](./image/fcpu9r-0.png)
+![image-20230714092834464](../../../.gitbook/assets/fcpu9r-0.png)
 
-![image-20230714093107588](./image/fecwto-0.png)
+![image-20230714093107588](../../../.gitbook/assets/fecwto-0.png)
 
-![image-20230714093144381](./image/fekonm-0.png)
+![image-20230714093144381](../../../.gitbook/assets/fekonm-0.png)
 
-![image-20230714093326021](./image/ffq509-0.png)
+![image-20230714093326021](../../../.gitbook/assets/ffq509-0.png)
 
+## 9.实战
 
-
-# 9.实战
-
-![image-20230714110828169](./image/ibxjv0-0.png)
+![image-20230714110828169](../../../.gitbook/assets/ibxjv0-0.png)

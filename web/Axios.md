@@ -1,4 +1,6 @@
-# 下载
+# Axios
+
+## 下载
 
 > 使用 npm:
 
@@ -30,14 +32,15 @@ $ yarn add axios
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 ```
 
-为了直接使用 `require` 导入预构建的 CommonJS 模块（如果您的模块打包器无法自动解析它们），我们提供了以下预构建模块：
+为了直接使用 `require` 导入预构建的 CommonJS 模块（如果您的模块打包器无法自动解析它们），我们提供了以下预构建模块：
 
 ```
 const axios = require('axios/dist/browser/axios.cjs'); // browserconst axios = require('axios/dist/node/axios.cjs'); // node
 ```
-# 使用
 
-- axios使用如下所示：
+## 使用
+
+* axios使用如下所示：
 
 ```vue
 axios(config)
@@ -55,7 +58,7 @@ axios({
 axios(url[, config]) // 发起一个 GET 请求 (默认请求方式)
 ```
 
-- **请求别名**
+* **请求别名**
 
 ```
 为了方便起见，已经为所有支持的请求方法提供了别名。
@@ -74,11 +77,12 @@ axios.patchForm(url[, data[, config]])
 注意
 在使用别名方法时， url、method、data 这些属性都不必在配置中指定。
 ```
-# 实例
+
+## 实例
 
 可以使用自定义配置新建一个实例。
 
- - `axios.create([config])`
+* `axios.create([config])`
 
 ```
 const instance = axios.create({
@@ -86,7 +90,6 @@ const instance = axios.create({
     timeout: 1000,  
     headers: {'X-Custom-Header': 'foobar'}});
 ```
-
 
 以下是可用的实例方法。指定的配置将与实例的配置合并。
 
@@ -101,7 +104,8 @@ axios#put(url[, data[, config]])
 axios#patch(url[, data[, config]])
 axios#getUri([config])
 ```
-# 请求配置
+
+## 请求配置
 
 ```
 {
@@ -266,7 +270,8 @@ axios#getUri([config])
 
 }
 ```
-# 响应体结构
+
+## 响应体结构
 
 一个请求的响应包含以下信息。
 
@@ -308,7 +313,8 @@ axios.get('/user/12345')
     console.log(response.config);
   });
 ```
-# 默认配置
+
+## 默认配置
 
 可以指定默认配置，它将作用于每个请求。
 
@@ -330,7 +336,8 @@ const instance = axios.create({
 instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
 ```
-配置的优先级
+
+配置的优先级\
 配置将会按优先级进行合并。它的顺序是：在lib/defaults.js中找到的库默认值，然后是实例的 defaults 属性，最后是请求的 config 参数。后面的优先级要高于前面的。下面有一个例子。
 
 ```
@@ -348,7 +355,8 @@ instance.get('/longRequest', {
 });
 ```
 
-# 拦截器
+## 拦截器
+
 在请求或响应被 then 或 catch 处理前拦截它们。
 
 ```
@@ -386,16 +394,17 @@ axios.interceptors.request.eject(myInterceptor);
 const instance = axios.create();
 instance.interceptors.request.use(function () {/*...*/});
 ```
-# 错误处理
 
-- `error` 通用字段：
+## 错误处理
 
-|字段名|类型|说明|
-|---|---|---|
-|`message`|string|错误描述（如 `"Request aborted"`、`"Network Error"`）|
-|`name`|string|错误类型名称（如 `"AxiosError"`、`"CanceledError"`）|
-|`config`|object|请求的配置信息（包含 URL、method、headers 等）|
-|`code`|string|错误代码（如 `"ERR_NETWORK"`、`"ERR_CANCELED"`，某些错误可能无此字段）|
+* `error` 通用字段：
+
+| 字段名       | 类型     | 说明                                                  |
+| --------- | ------ | --------------------------------------------------- |
+| `message` | string | 错误描述（如 `"Request aborted"`、`"Network Error"`）       |
+| `name`    | string | 错误类型名称（如 `"AxiosError"`、`"CanceledError"`）          |
+| `config`  | object | 请求的配置信息（包含 URL、method、headers 等）                    |
+| `code`    | string | 错误代码（如 `"ERR_NETWORK"`、`"ERR_CANCELED"`，某些错误可能无此字段） |
 
 ```
 axios.get('/user/12345')
@@ -429,7 +438,7 @@ axios.get('/user/12345', {
 })
 ```
 
-# 取消请求
+## 取消请求
 
 从 v0.22.0 开始，Axios 支持以 fetch API 方式—— AbortController 取消请求：
 
@@ -445,4 +454,3 @@ axios.get('/foo/bar', {
 // 取消请求
 controller.abort()
 ```
-

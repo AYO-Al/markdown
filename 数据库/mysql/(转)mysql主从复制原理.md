@@ -1,17 +1,20 @@
 ---
 title: MySQL主从复制
-date: 2022-12-23
-tags: 
-- MySQL
-- Database
-- 主从复制
+date: 2022-12-23T00:00:00.000Z
+tags:
+  - MySQL
+  - Database
+  - 主从复制
 categories: Database
+swiper_index: null
+sticky: null
 description: 本文介绍了MySQL数据库的主从复制的过程。
-cover:
-swiper_index:
-sticky: 
+coverY: 0
 ---
-# 1.为什么需要主从复制？
+
+# MySQL主从复制
+
+## 1.为什么需要主从复制？
 
 1、在业务复杂的系统中，有这么一个情景，有一句sql语句需要锁表，导致暂时不能使用读的服务，那么就很影响运行中的业务，使用主从复制，让主库负责写，从库负责读，这样，即使主库出现了锁表的情景，通过读从库也可以保证业务的正常运作。
 
@@ -19,13 +22,13 @@ sticky:
 
 3、架构的扩展。业务量越来越大，I/O访问频率过高，单机无法满足，此时做多库的存储，降低磁盘I/O访问的频率，提高单个机器的I/O性能。
 
-# 2.什么是主从复制
+## 2.什么是主从复制
 
 MySQL 主从复制是指数据可以从一个MySQL数据库服务器主节点复制到一个或多个从节点。MySQL 默认采用异步复制方式，这样从节点不用一直访问主服务器来更新自己的数据，数据的更新可以在远程连接上进行，从节点可以复制主数据库中的所有数据库或者特定的数据库，或者特定的表。
 
-### **2、mysql复制原理**
+#### **2、mysql复制原理**
 
-### **原理：**
+#### **原理：**
 
 （1）master服务器将数据的改变记录二进制binlog日志，当master上的数据发生改变时，则将其改变写入二进制日志中；
 
@@ -33,20 +36,20 @@ MySQL 主从复制是指数据可以从一个MySQL数据库服务器主节点复
 
 （3）同时主节点为每个I/O线程启动一个dump线程，用于向其发送二进制事件，并保存至从节点本地的中继日志中，从节点将启动SQL线程从中继日志中读取二进制日志，在本地重放，使得其数据和主节点的保持一致，最后I/OThread和SQLThread将进入睡眠状态，等待下一次被唤醒。
 
-### **也就是说：**
+#### **也就是说：**
 
-- 从库会生成两个线程,一个I/O线程,一个SQL线程;
-- I/O线程会去请求主库的binlog,并将得到的binlog写到本地的relay-log(中继日志)文件中;
-- 主库会生成一个log dump线程,用来给从库I/O线程传binlog;
-- SQL线程,会读取relay log文件中的日志,并解析成sql语句逐一执行;
+* 从库会生成两个线程,一个I/O线程,一个SQL线程;
+* I/O线程会去请求主库的binlog,并将得到的binlog写到本地的relay-log(中继日志)文件中;
+* 主库会生成一个log dump线程,用来给从库I/O线程传binlog;
+* SQL线程,会读取relay log文件中的日志,并解析成sql语句逐一执行;
 
-### **注意：**
+#### **注意：**
 
 1--master将操作语句记录到binlog日志中，然后授予slave远程连接的权限（master一定要开启binlog二进制日志功能；通常为了数据安全考虑，slave也开启binlog功能）。 2--slave开启两个线程：IO线程和SQL线程。其中：IO线程负责读取master的binlog内容到中继日志relay log里；SQL线程负责从relay log日志里读出binlog内容，并更新到slave的数据库里，这样就能保证slave数据和master数据保持一致了。 3--Mysql复制至少需要两个Mysql的服务，当然Mysql服务可以分布在不同的服务器上，也可以在一台服务器上启动多个服务。 4--Mysql复制最好确保master和slave服务器上的Mysql版本相同（如果不能满足版本一致，那么要保证master主节点的版本低于slave从节点的版本） 5--master和slave两节点间时间需同步
 
-![img](./image/v2-cf37bafd8a121454b5488c53ff2e0b2e_720w.webp)
+![img](../../.gitbook/assets/v2-cf37bafd8a121454b5488c53ff2e0b2e_720w.webp)
 
-### **具体步骤：**
+#### **具体步骤：**
 
 1、从库通过手工执行change master to 语句连接主库，提供了连接的用户一切条件（user 、password、port、ip），并且让从库知道，二进制日志的起点位置（file名 position 号）； start slave
 
@@ -60,29 +63,29 @@ MySQL 主从复制是指数据可以从一个MySQL数据库服务器主节点复
 
 6、从库SQL线程应用relay-log，并且把应用过的记录到[http://relay-log.info](https://link.zhihu.com/?target=http%3A//relay-log.info)中，默认情况下，已经应用过的relay 会自动被清理purge
 
-### **3、mysql主从形式**
+#### **3、mysql主从形式**
 
-### **（一）一主一从**
+#### **（一）一主一从**
 
-![img](./image/v2-db58dbb85336a8b81c44722b7427f1e7_720w.webp)
+![img](../../.gitbook/assets/v2-db58dbb85336a8b81c44722b7427f1e7_720w.webp)
 
 **（二）主主复制**
 
-![img](./image/v2-ff859625d385dd6b2a9f285f6530253f_720w.webp)
+![img](../../.gitbook/assets/v2-ff859625d385dd6b2a9f285f6530253f_720w.webp)
 
 **（三）一主多从**
 
-![img](./image/v2-002f299d038de575d8d3c0b16319fa6e_720w.webp)
+![img](../../.gitbook/assets/v2-002f299d038de575d8d3c0b16319fa6e_720w.webp)
 
 **（四）多主一从**
 
-![img](./image/v2-0cd030b2418237bb6763c7ec3fa7e30b_720w.webp)
+![img](../../.gitbook/assets/v2-0cd030b2418237bb6763c7ec3fa7e30b_720w.webp)
 
 **（五）联级复制**
 
-![img](./image/v2-c2b98b5f2a9db5e523e720f64bb88653_720w.webp)
+![img](../../.gitbook/assets/v2-c2b98b5f2a9db5e523e720f64bb88653_720w.webp)
 
-### **4、mysql主从同步延时分析**
+#### **4、mysql主从同步延时分析**
 
 mysql的主从复制都是单线程的操作，主库对所有DDL和DML产生的日志写进binlog，由于binlog是顺序写，所以效率很高，slave的sql thread线程将主库的DDL和DML操作事件在slave中重放。DML和DDL的IO操作是随机的，不是顺序，所以成本要高很多，另一方面，由于sql thread也是单线程的，当主库的并发较高时，产生的DML数量超过slave的SQL thread所能处理的速度，或者当slave中有大型query语句产生了锁等待，那么延时就产生了。
 
@@ -99,4 +102,3 @@ mysql的主从复制都是单线程的操作，主库对所有DDL和DML产生的
 5.使用比主库更好的硬件设备作为slave，mysql压力小，延迟自然会变小。
 
 6.使用更加强劲的硬件设备
-
