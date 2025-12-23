@@ -878,4 +878,4 @@ git push origin feature/user-registration-456
 # - 描述: 详细说明功能和测试情况
 ```
 
-![[Pasted image 20251215113143.png]]
+![[Pasted image 20251223110652.png]]

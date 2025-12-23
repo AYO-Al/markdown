@@ -1,12 +1,12 @@
 以下是 Prometheus Go 客户端库中 `collectors` 包的常用组件整理：
 
-|​**​Collector 名称​**​|​**​用途​**​|​**​常用指标示例​**​|​**​备注​**​|
-|---|---|---|---|
-|​**​GoCollector​**​|收集 Go 运行时指标|`go_goroutines`（当前协程数）  <br>`go_gc_duration_seconds`（GC 耗时统计）|默认自动注册，提供 Go 进程的运行时状态（GC、内存、协程等）。|
-|​**​ProcessCollector​**​|收集进程级资源使用情况|`process_cpu_seconds_total`（CPU 占用时间）  <br>`process_resident_memory_bytes`（内存占用）|需手动注册，监控进程的 CPU、内存、文件描述符等系统资源。|
-|​**​DBStatsCollector​**​|数据库连接池统计（如 `database/sql`）|`db_connections_open`（打开连接数）  <br>`db_connections_wait_duration_seconds`（等待耗时）|需结合具体数据库驱动实现，通常基于 `sql.DBStats` 结构生成指标。|
-|​**​BuildInfoCollector​**​|暴露应用版本信息|`app_info{version="1.0.0"}`（应用元数据）|需自定义实现，通过常量标签记录版本、Commit 等构建信息。|
-|​**​Custom Collectors​**​|用户自定义指标采集逻辑|如 `custom_requests_total`（自定义请求计数）|需实现 `Collector` 接口的 `Describe` 和 `Collect` 方法，灵活适配业务场景。|
+| ​**​Collector 名称​**​       | ​**​用途​**​                 | ​**​常用指标示例​**​                                                                   | ​**​备注​**​                                              |
+| -------------------------- | -------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| ​**​GoCollector​**​        | 收集 Go 运行时指标                | `go_goroutines`（当前协程数）  <br>`go_gc_duration_seconds`（GC 耗时统计）                    | 默认自动注册，提供 Go 进程的运行时状态（GC、内存、协程等）。                       |
+| ​**​ProcessCollector​**​   | 收集进程级资源使用情况                | `process_cpu_seconds_total`（CPU 占用时间）  <br>`process_resident_memory_bytes`（内存占用） | 需手动注册，监控进程的 CPU、内存、文件描述符等系统资源。                          |
+| ​**​DBStatsCollector​**​   | 数据库连接池统计（如 `database/sql`） | `db_connections_open`（打开连接数）  <br>`db_connections_wait_duration_seconds`（等待耗时）   | 需结合具体数据库驱动实现，通常基于 `sql.DBStats` 结构生成指标。                 |
+| ​**​BuildInfoCollector​**​ | 暴露应用版本信息                   | `app_info{version="1.0.0"}`（应用元数据）                                               | 需自定义实现，通过常量标签记录版本、Commit 等构建信息。                         |
+| ​**​Custom Collectors​**​  | 用户自定义指标采集逻辑                | 如 `custom_requests_total`（自定义请求计数）                                               | 需实现 `Collector` 接口的 `Describe` 和 `Collect` 方法，灵活适配业务场景。 |
 
 ### 关键说明：
 
