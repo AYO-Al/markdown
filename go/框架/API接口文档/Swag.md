@@ -1,8 +1,5 @@
-# Swag
-
 Swag将Go的注释转换为Swagger2.0文档。许多知名的Web框架都有对应的插件，方便快速集成。
-
-## 1 获取Swag
+# 1 获取Swag
 
 1. 使用如下命令下载swag：
 
@@ -10,8 +7,7 @@ Swag将Go的注释转换为Swagger2.0文档。许多知名的Web框架都有对�
 go install github.com/swaggo/swag/cmd/swag@latest
 ```
 
-2.
-   3. 在包含`main.go`文件的项目根目录运行`swag init`。这将会解析注释并生成需要的文件（`docs`文件夹和`docs/docs.go`）。
+2. 3. 在包含`main.go`文件的项目根目录运行`swag init`。这将会解析注释并生成需要的文件（`docs`文件夹和`docs/docs.go`）。
 
 ```bash
 swag init
@@ -22,9 +18,7 @@ swag init
 ```shell
 swag fmt
 ```
-
-## 2 Swag命令使用
-
+# 2 Swag命令使用
 ```bash
 swag init -h
 NAME:
@@ -64,8 +58,7 @@ OPTIONS:
    --generalInfo value, -g value  API通用信息所在的go源文件路径，如果是相对路径则基于API解析目录 (默认: "main.go")
    --help, -h                     show help (default: false)
 ```
-
-## 3 与gin集成
+# 3 与gin集成
 
 1. 使用`swag init`生成Swagger2.0文档后，导入如下代码包：
 
@@ -118,29 +111,29 @@ func main() {
 swag init
 ```
 
-4. 运行程序，然后在浏览器中访问 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) 。将看到Swagger 2.0 Api文档
+4. 运行程序，然后在浏览器中访问 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) 。将看到Swagger 2.0 Api文档
 
 > 为什么需要加上`index.html`？因为`ginSwagger.WrapHandler`实际上是将一个静态文件服务挂载到了`/swagger/`路径下。这个静态文件服务包含了Swagger UI的所有资源（包括index.html）。当我们访问`/swagger/`时，实际上并没有默认返回index.html，因此需要明确指定。
 
-## 4 声明式注释格式
+# 4 声明式注释格式
 
-### 4.1 通用API信息
+## 4.1 通用API信息
 
 | 注释                       | 说明                                                                                                                                                                          | 示例                                                                                                                 |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **title**                | **必填** 应用程序的名称。                                                                                                                                                             | // @title Swagger Example API                                                                                      |
-| **version**              | **必填** 提供应用程序API的版本。                                                                                                                                                        | // @version 1.0                                                                                                    |
+| **title**                | **必填** 应用程序的名称。                                                                                                                                                             | // @title Swagger Example API                                                                                      |
+| **version**              | **必填** 提供应用程序API的版本。                                                                                                                                                        | // @version 1.0                                                                                                    |
 | **description**          | 应用程序的简短描述。                                                                                                                                                                  | // @description This is a sample server celler server.                                                             |
 | tag.name                 | 标签的名称。                                                                                                                                                                      | // @tag.name This is the name of the tag                                                                           |
 | tag.description          | 标签的描述。                                                                                                                                                                      | // @tag.description Cool Description                                                                               |
-| tag.docs.url             | 标签的外部文档的URL。                                                                                                                                                                | // @tag.docs.url [https://example.com](https://example.com/)                                                       |
+| tag.docs.url             | 标签的外部文档的URL。                                                                                                                                                                | // @tag.docs.url [https://example.com](https://example.com/)                                                       |
 | tag.docs.description     | 标签的外部文档说明。                                                                                                                                                                  | // @tag.docs.description Best example documentation                                                                |
-| termsOfService           | API的服务条款。                                                                                                                                                                   | // @termsOfService [http://swagger.io/terms/](http://swagger.io/terms/)                                            |
+| termsOfService           | API的服务条款。                                                                                                                                                                   | // @termsOfService [http://swagger.io/terms/](http://swagger.io/terms/)                                            |
 | contact.name             | 公开的API的联系信息。                                                                                                                                                                | // @contact.name API Support                                                                                       |
-| contact.url              | 联系信息的URL。 必须采用网址格式。                                                                                                                                                         | // @contact.url [http://www.swagger.io/support](http://www.swagger.io/support)                                     |
-| contact.email            | 联系人/组织的电子邮件地址。 必须采用电子邮件地址的格式。                                                                                                                                               | // @contact.email [support@swagger.io](mailto:support@swagger.io)                                                  |
-| license.name             | **必填** 用于API的许可证名称。                                                                                                                                                         | // @license.name Apache 2.0                                                                                        |
-| license.url              | 用于API的许可证的URL。 必须采用网址格式。                                                                                                                                                    | // @license.url [http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html) |
+| contact.url              | 联系信息的URL。 必须采用网址格式。                                                                                                                                                         | // @contact.url [http://www.swagger.io/support](http://www.swagger.io/support)                                     |
+| contact.email            | 联系人/组织的电子邮件地址。 必须采用电子邮件地址的格式。                                                                                                                                               | // @contact.email [support@swagger.io](mailto:support@swagger.io)                                                  |
+| license.name             | **必填** 用于API的许可证名称。                                                                                                                                                         | // @license.name Apache 2.0                                                                                        |
+| license.url              | 用于API的许可证的URL。 必须采用网址格式。                                                                                                                                                    | // @license.url [http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html) |
 | **host**                 | 运行API的主机（主机名或IP地址）。                                                                                                                                                         | // @host localhost:8080                                                                                            |
 | **BasePath**             | 运行API的基本路径。                                                                                                                                                                 | // @BasePath /api/v1                                                                                               |
 | accept                   | API 可以使用的 MIME 类型列表。 请注意，Accept 仅影响具有请求正文的操作，例如 POST、PUT 和 PATCH。 值必须如“[Mime类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#mime%E7%B1%BB%E5%9E%8B)”中所述。 | // @accept json                                                                                                    |
@@ -148,22 +141,22 @@ swag init
 | query.collection.format  | 请求URI query里数组参数的默认格式：csv，multi，pipes，tsv，ssv。 如果未设置，则默认为csv。                                                                                                               | // @query.collection.format multi                                                                                  |
 | schemes                  | 用空格分隔的请求的传输协议。                                                                                                                                                              | // @schemes http https                                                                                             |
 | externalDocs.description | Description of the external document.                                                                                                                                       | // @externalDocs.description OpenAPI                                                                               |
-| externalDocs.url         | URL of the external document.                                                                                                                                               | // @externalDocs.url [https://swagger.io/resources/open-api/](https://swagger.io/resources/open-api/)              |
+| externalDocs.url         | URL of the external document.                                                                                                                                               | // @externalDocs.url [https://swagger.io/resources/open-api/](https://swagger.io/resources/open-api/)              |
 | x-name                   | 扩展的键必须以x-开头，并且只能使用json值                                                                                                                                                     | // @x-example-key {"key": "value"}                                                                                 |
 
-#### 4.1.1 使用Markdown描述
+### 4.1.1 使用Markdown描述
 
 如果文档中的短字符串不足以完整表达，或者需要展示图片，代码示例等类似的内容，则可能需要使用Markdown描述。要使用Markdown描述，请使用以下注释。
 
 | 注释                       | 说明                                                        | 示例                                                                                |
 | ------------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| title                    | **必填** 应用程序的名称。                                           | // @title Swagger Example API                                                     |
-| version                  | **必填** 提供应用程序API的版本。                                      | // @version 1.0                                                                   |
+| title                    | **必填** 应用程序的名称。                                           | // @title Swagger Example API                                                     |
+| version                  | **必填** 提供应用程序API的版本。                                      | // @version 1.0                                                                   |
 | description.markdown     | 应用程序的简短描述。 从`api.md`文件中解析。 这是`@description`的替代用法。         | // @description.markdown No value needed, this parses the description from api.md |
 | tag.name                 | 标签的名称。                                                    | // @tag.name This is the name of the tag                                          |
 | tag.description.markdown | 标签说明，这是`tag.description`的替代用法。 该描述将从名为`tagname.md的`文件中读取。 | // @tag.description.markdown                                                      |
 
-### 4.2 API操作
+## 4.2 API操作
 
 | 注释                   | 描述                                                                                                                                                                          |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -174,20 +167,20 @@ swag init
 | **summary**          | 该操作的简短摘要。                                                                                                                                                                   |
 | accept               | API 可以使用的 MIME 类型列表。 请注意，Accept 仅影响具有请求正文的操作，例如 POST、PUT 和 PATCH。 值必须如“[Mime类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#mime%E7%B1%BB%E5%9E%8B)”中所述。 |
 | produce              | API可以生成的MIME类型的列表。值必须如“[Mime类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#mime%E7%B1%BB%E5%9E%8B)”中所述。                                                 |
-| **param**            | 用空格分隔的参数。`param name`,`param type`,`data type`,`is mandatory?`,`comment` `attribute(optional)`                                                                              |
+| **param**            | 用空格分隔的参数。`param name`,`param type`,`data type`,`is mandatory?`,`comment` `attribute(optional)`                                                                              |
 | security             | 每个API操作的[安全性](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#%E5%AE%89%E5%85%A8%E6%80%A7)。                                                                  |
 | **success**          | 以空格分隔的成功响应。`return code`,`{param type}`,`data type`,`comment`                                                                                                               |
 | failure              | 以空格分隔的故障响应。`return code`,`{param type}`,`data type`,`comment`                                                                                                               |
 | response             | 与success、failure作用相同                                                                                                                                                        |
-| header               | 以空格分隔的头字段。 `return code`,`{param type}`,`data type`,`comment`                                                                                                               |
-| **router**           | 以空格分隔的路径定义。 `path`,`[httpMethod]`                                                                                                                                           |
+| header               | 以空格分隔的头字段。 `return code`,`{param type}`,`data type`,`comment`                                                                                                               |
+| **router**           | 以空格分隔的路径定义。 `path`,`[httpMethod]`                                                                                                                                           |
 | deprecatedrouter     | 与router相同，但是是deprecated的。                                                                                                                                                   |
 | x-name               | 扩展字段必须以`x-`开头，并且只能使用json值。                                                                                                                                                  |
 | deprecated           | 将当前API操作的所有路径设置为deprecated                                                                                                                                                  |
 
-### 4.3 Mime类型
+## 4.3 Mime类型
 
-`swag` 接受所有格式正确的MIME类型, 即使匹配 `*/*`。除此之外，`swag`还接受某些MIME类型的别名，如下所示：
+`swag` 接受所有格式正确的MIME类型, 即使匹配 `*/*`。除此之外，`swag`还接受某些MIME类型的别名，如下所示：
 
 | Alias                 | MIME Type                         |
 | --------------------- | --------------------------------- |
@@ -204,42 +197,42 @@ swag init
 | jpeg                  | image/jpeg                        |
 | gif                   | image/gif                         |
 
-### 4.4 参数类型
+## 4.4 参数类型
 
-* query
-* path
-* header
-* body
-* formData
+- query
+- path
+- header
+- body
+- formData
 
-### 4.5 数据类型
+## 4.5 数据类型
 
-* string (string)
-* integer (int, uint, uint32, uint64)
-* number (float32)
-* boolean (bool)
-* user defined struct
+- string (string)
+- integer (int, uint, uint32, uint64)
+- number (float32)
+- boolean (bool)
+- user defined struct
 
-### 4.6 安全性
+## 4.6 安全性
 
-| 注释                                     | 描述                                                                                            | 参数                                | 示例                                                           |
-| -------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
-| securitydefinitions.basic              | [Basic](https://swagger.io/docs/specification/2-0/authentication/basic-authentication/) auth. |                                   | // @securityDefinitions.basic BasicAuth                      |
-| securitydefinitions.apikey             | [API key](https://swagger.io/docs/specification/2-0/authentication/api-keys/) auth.           | in, name                          | // @securityDefinitions.apikey ApiKeyAuth                    |
-| securitydefinitions.oauth2.application | [OAuth2 application](https://swagger.io/docs/specification/authentication/oauth2/) auth.      | tokenUrl, scope                   | // @securitydefinitions.oauth2.application OAuth2Application |
-| securitydefinitions.oauth2.implicit    | [OAuth2 implicit](https://swagger.io/docs/specification/authentication/oauth2/) auth.         | authorizationUrl, scope           | // @securitydefinitions.oauth2.implicit OAuth2Implicit       |
-| securitydefinitions.oauth2.password    | [OAuth2 password](https://swagger.io/docs/specification/authentication/oauth2/) auth.         | tokenUrl, scope                   | // @securitydefinitions.oauth2.password OAuth2Password       |
-| securitydefinitions.oauth2.accessCode  | [OAuth2 access code](https://swagger.io/docs/specification/authentication/oauth2/) auth.      | tokenUrl, authorizationUrl, scope | // @securitydefinitions.oauth2.accessCode OAuth2AccessCode   |
+|注释|描述|参数|示例|
+|---|---|---|---|
+|securitydefinitions.basic|[Basic](https://swagger.io/docs/specification/2-0/authentication/basic-authentication/) auth.||// @securityDefinitions.basic BasicAuth|
+|securitydefinitions.apikey|[API key](https://swagger.io/docs/specification/2-0/authentication/api-keys/) auth.|in, name|// @securityDefinitions.apikey ApiKeyAuth|
+|securitydefinitions.oauth2.application|[OAuth2 application](https://swagger.io/docs/specification/authentication/oauth2/) auth.|tokenUrl, scope|// @securitydefinitions.oauth2.application OAuth2Application|
+|securitydefinitions.oauth2.implicit|[OAuth2 implicit](https://swagger.io/docs/specification/authentication/oauth2/) auth.|authorizationUrl, scope|// @securitydefinitions.oauth2.implicit OAuth2Implicit|
+|securitydefinitions.oauth2.password|[OAuth2 password](https://swagger.io/docs/specification/authentication/oauth2/) auth.|tokenUrl, scope|// @securitydefinitions.oauth2.password OAuth2Password|
+|securitydefinitions.oauth2.accessCode|[OAuth2 access code](https://swagger.io/docs/specification/authentication/oauth2/) auth.|tokenUrl, authorizationUrl, scope|// @securitydefinitions.oauth2.accessCode OAuth2AccessCode|
 
-| 参数注释             | 示例                                                                                              |
-| ---------------- | ----------------------------------------------------------------------------------------------- |
-| in               | // @in header                                                                                   |
-| name             | // @name Authorization                                                                          |
-| tokenUrl         | // @tokenUrl [https://example.com/oauth/token](https://example.com/oauth/token)                 |
-| authorizationurl | // @authorizationurl [https://example.com/oauth/authorize](https://example.com/oauth/authorize) |
-| scope.hoge       | // @scope.write Grants write access                                                             |
+|参数注释|示例|
+|---|---|
+|in|// @in header|
+|name|// @name Authorization|
+|tokenUrl|// @tokenUrl [https://example.com/oauth/token](https://example.com/oauth/token)|
+|authorizationurl|// @authorizationurl [https://example.com/oauth/authorize](https://example.com/oauth/authorize)|
+|scope.hoge|// @scope.write Grants write access|
 
-### 4.7 属性
+## 4.7 属性
 
 ```go
 // @Param   enumstring  query     string     false  "string enums"       Enums(A, B, C)
@@ -262,30 +255,30 @@ type Foo struct {
 }
 ```
 
-#### 4.7.1 当前可用的
+### 4.7.1 当前可用的
 
-| 字段名              | 类型        | 描述                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| default          | \*        | 声明如果未提供任何参数，则服务器将使用的默认参数值，例如，如果请求中的客户端未提供该参数，则用于控制每页结果数的“计数”可能默认为100。 （注意：“default”对于必需的参数没有意义）。参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-6.2。](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-6.2%E3%80%82) 与JSON模式不同，此值务必符合此参数的定义[类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#parameterType)。                                         |
-| maximum          | `number`  | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2).                                                                                                                                                                                                                                                        |
-| minimum          | `number`  | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3).                                                                                                                                                                                                                                                        |
-| maxLength        | `integer` | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1).                                                                                                                                                                                                                                                        |
-| minLength        | `integer` | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2).                                                                                                                                                                                                                                                        |
-| enums            | \[\*]     | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.5.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.5.1).                                                                                                                                                                                                                                                        |
-| format           | `string`  | 上面提到的[类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#parameterType)的扩展格式。有关更多详细信息，请参见[数据类型格式](https://swagger.io/specification/v2/#dataTypeFormat)。                                                                                                                                                                                                                                                   |
-| collectionFormat | `string`  | <p>指定query数组参数的格式。 可能的值为：<br><br>- <code>csv</code> - 逗号分隔值 <code>foo,bar</code>.<br>- <code>ssv</code> - 空格分隔值 <code>foo bar</code>.<br>- <code>tsv</code> - 制表符分隔值 <code>foo\tbar</code>.<br>- <code>pipes</code> - 管道符分隔值 <code>foo|bar</code>.<br>- <code>multi</code> - 对应于多个参数实例，而不是单个实例 <code>foo=bar＆foo=baz</code> 的多个值。这仅对“<code>query</code>”或“<code>formData</code>”中的参数有效。<br><br>默认值是 <code>csv</code>。</p> |
+| 字段名              | 类型        | 描述                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default          | *         | 声明如果未提供任何参数，则服务器将使用的默认参数值，例如，如果请求中的客户端未提供该参数，则用于控制每页结果数的“计数”可能默认为100。 （注意：“default”对于必需的参数没有意义）。参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-6.2。](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-6.2%E3%80%82) 与JSON模式不同，此值务必符合此参数的定义[类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#parameterType)。 |
+| maximum          | `number`  | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.2).                                                                                                                                                                                                                |
+| minimum          | `number`  | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.3).                                                                                                                                                                                                                |
+| maxLength        | `integer` | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.1).                                                                                                                                                                                                                |
+| minLength        | `integer` | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.2).                                                                                                                                                                                                                |
+| enums            | [*]       | 参看 [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.5.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.5.1).                                                                                                                                                                                                                |
+| format           | `string`  | 上面提到的[类型](https://github.com/swaggo/swag/blob/v2.0.0-rc4/README_zh-CN.md#parameterType)的扩展格式。有关更多详细信息，请参见[数据类型格式](https://swagger.io/specification/v2/#dataTypeFormat)。                                                                                                                                                                                                           |
+| collectionFormat | `string`  | 指定query数组参数的格式。 可能的值为：<br><br>- `csv` - 逗号分隔值 `foo,bar`.<br>- `ssv` - 空格分隔值 `foo bar`.<br>- `tsv` - 制表符分隔值 `foo\tbar`.<br>- `pipes` - 管道符分隔值 `foo\|bar`.<br>- `multi` - 对应于多个参数实例，而不是单个实例 `foo=bar＆foo=baz` 的多个值。这仅对“`query`”或“`formData`”中的参数有效。<br><br>默认值是 `csv`。                                                                                                              |
 
-#### 4.7.2 进一步的
+### 4.7.2 进一步的
 
-| 字段名         |     类型    | 描述                                                                                                                                                                  |
-| ----------- | :-------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| multipleOf  |  `number` | See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1). |
-| pattern     |  `string` | See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3). |
-| maxItems    | `integer` | See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2). |
-| minItems    | `integer` | See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3). |
-| uniqueItems | `boolean` | See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4). |
+|字段名|类型|描述|
+|---|:-:|---|
+|multipleOf|`number`|See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.1.1).|
+|pattern|`string`|See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.2.3).|
+|maxItems|`integer`|See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.2).|
+|minItems|`integer`|See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.3).|
+|uniqueItems|`boolean`|See [https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4](https://tools.ietf.org/html/draft-fge-json-schema-validation-00#section-5.3.4).|
 
-## 5 示例
+# 5 示例
 
 ```go
 package main  
@@ -322,6 +315,6 @@ func getc(c *gin.Context) {
 }
 ```
 
-* **在设置通用API信息时，需要导入`_ "awesomeProject2/docs"`**
-* **出现页面无法找到API信息时，可以使用 `get -u`更新一下依赖**
-* **Swagger注释信息可以大写开头，也可以小写**
+- **在设置通用API信息时，需要导入`_ "awesomeProject2/docs"`**
+- **出现页面无法找到API信息时，可以使用 `get -u`更新一下依赖**
+- **Swagger注释信息可以大写开头，也可以小写**

@@ -1,5 +1,3 @@
-# 06-Kubernetes：Kubeadm一键部署
-
 > 本质内容包括：
 
 通过前面几篇文章的内容，其实阐述了这样一个思想：**要真正发挥容器技术的实力，你就不能仅仅局限于对Linux容器本身的钻研和使用**。
@@ -21,7 +19,6 @@
 这个问题，在Kubernetes社区里一直没有得到足够重视。直到2017年，在志愿者的推动下，社区才终于发起了一个独立的部署工具，名叫：kubeadm。
 
 这个项目的目的，就是要让用户能够通过这样两条指令完成一个Kubernetes集群的部署：
-
 ```bash
 # 创建一个Master节点 
 $ kubeadm init 
@@ -29,12 +26,10 @@ $ kubeadm init
 # 将一个Node节点加入到当前集群中 
 $ kubeadm join <Master节点的IP和端口>
 ```
-
 是不是非常方便呢？
 
 不过，你可能也会有所顾虑：**Kubernetes的功能那么多，这样一键部署出来的集群，能用于生产环境吗**？
-
-## kubeadm的工作原理
+# kubeadm的工作原理
 
 在上一篇文章中，已经详细介绍了Kubernetes的架构和它的组件。在部署时，它的每一个组件都是一个需要被执行的、单独的二进制文件。所以不难想象，SaltStack这样的运维工具或者由社区维护的脚本的功能，就是要把这些二进制文件传输到指定的机器当中，然后编写控制脚本来启停这些组件。
 
@@ -63,26 +58,23 @@ $ kubeadm join <Master节点的IP和端口>
 正因为如此，kubeadm选择了一种妥协方案：**把kubelet直接运行在宿主机上，然后使用容器部署其他的Kubernetes组件。**
 
 所以，你使用kubeadm的第一步，是在机器上手动安装kubeadm、kubelet和kubectl这三个二进制文件。当然，kubeadm的作者已经为各个发行版的Linux准备好了安装包，所以你只需要执行：
-
 ```bash
 $ yum install kubeadm
 ```
-
 接下来，你就可以使用“kubeadm init”部署Master节点了。
-
-## kubeadm init的工作流程
+# kubeadm init的工作流程
 
 当你执行kubeadm init指令后，**kubeadm首先要做的，是一系列的检查工作，以确定这台机器可以用来部署Kubernetes**。这一步检查，我们称为“Preflight Checks”​，它可以为你省掉很多后续的麻烦。
 
 其实，Preflight Checks包括了很多方面，比如：
-
-* Linux内核的版本必须是否是3.10以上？
-* Linux Cgroups模块是否可用？
-* 机器的hostname是否标准？
-* 在Kubernetes项目里，机器的名字以及一切存储在Etcd中的API对象，都必须使用标准的DNS命名（RFC 1123）​。用户安装的kubeadm和kubelet的版本是否匹配？
-* 机器上是不是已经安装了Kubernetes的二进制文件？
-* Kubernetes的工作端口10250/10251/10252端口是不是已经被占用？
-* ip、mount等Linux指令是否存在？Docker是否已经安装？**在通过了Preflight Checks之后，kubeadm要为你做的，是生成Kubernetes对外提供服务所需的各种证书和对应的目录**。
+- Linux内核的版本必须是否是3.10以上？
+- Linux Cgroups模块是否可用？
+- 机器的hostname是否标准？
+- 在Kubernetes项目里，机器的名字以及一切存储在Etcd中的API对象，都必须使用标准的DNS命名（RFC 1123）​。用户安装的kubeadm和kubelet的版本是否匹配？
+- 机器上是不是已经安装了Kubernetes的二进制文件？
+- Kubernetes的工作端口10250/10251/10252端口是不是已经被占用？
+- ip、mount等Linux指令是否存在？Docker是否已经安装？
+**在通过了Preflight Checks之后，kubeadm要为你做的，是生成Kubernetes对外提供服务所需的各种证书和对应的目录**。
 
 **Kubernetes对外提供服务时，除非专门开启“不安全模式”​，否则都要通过HTTPS才能访问kube-apiserver。这就需要为Kubernetes集群配置好证书文件。**
 
@@ -91,20 +83,16 @@ kubeadm为**Kubernetes项目生成的证书文件都放在Master节点的/etc/ku
 此外，**用户使用kubectl获取容器日志等streaming操作时，需要通过kube-apiserver向kubelet发起请求，这个连接也必须是安全的。kubeadm为这一步生成的是apiserver-kubelet-client.crt文件，对应的私钥是apiserver-kubelet-client.key**。
 
 除此之外，Kubernetes集群中还有Aggregate APIServer等特性，也需要用到专门的证书，这里我就不再一一列举了。需要指出的是，你可以选择不让kubeadm为你生成这些证书，而是拷贝现有的证书到如下证书的目录里：
-
 ```bash
 /etc/kubernetes/pki/ca.{crt,key}
 ```
-
 这时，kubeadm就会跳过证书生成的步骤，把它完全交给用户处理。
 
 证书生成后，kubeadm接下来会为其他组件生成访问kube-apiserver所需的配置文件。这些文件的路径是：/etc/kubernetes/xxx.conf：
-
 ```bash
 ls /etc/kubernetes/ 
 admin.conf controller-manager.conf kubelet.conf scheduler.conf
 ```
-
 这些文件里面记录的是，当前这个Master节点的服务器地址、监听端口、证书目录等信息。这样，对应的客户端（比如scheduler，kubelet等）​，可以直接加载相应的文件，使用里面的信息与kube-apiserver建立安全连接。
 
 接下来，kubeadm会为Master组件生成Pod配置文件。已经在上一篇文章中和你介绍过Kubernetes有三个Master组件kube-apiserver、kube-controller-manager、kube-scheduler，而它们都会被使用Pod的方式部署起来。
@@ -118,7 +106,6 @@ admin.conf controller-manager.conf kubelet.conf scheduler.conf
 从这一点也可以看出，**kubelet在Kubernetes项目中的地位非常高，在设计上它就是一个完全独立的组件，而其他Master组件，则更像是辅助性的系统容器**。
 
 在kubeadm中，Master组件的YAML文件会被生成在/etc/kubernetes/manifests路径下。比如，kube-apiserver.yaml：
-
 ```yaml
 apiVersion: v1 
 kind: Pod 
@@ -162,7 +149,6 @@ spec:
             type: DirectoryOrCreate 
           name: etc-ca-certificates ...
 ```
-
 这个Pod里只定义了一个容器，它使用的镜像是：k8s.gcr.io/kube-apiserver-amd64:v1.11.1。这个镜像是Kubernetes官方维护的一个组件镜像。
 
 这个容器的启动命令（commands）是kube-apiserver --authorization-mode=Node,RBAC …，这样一句非常长的命令。其实，它就是容器里kube-apiserver这个二进制文件再加上指定的配置参数而已。
@@ -170,12 +156,10 @@ spec:
 如果你要修改一个已有集群的kube-apiserver的配置，需要修改这个YAML文件。
 
 在这一步完成后，kubeadm还会再生成一个Etcd的Pod YAML文件，用来通过同样的Static Pod的方式启动Etcd。所以，最后Master组件的Pod YAML文件如下所示：
-
 ```bash
 $ ls /etc/kubernetes/manifests/ 
 etcd.yaml kube-apiserver.yaml kube-controller-manager.yaml kube-scheduler.yaml
 ```
-
 而一旦这些YAML文件出现在被kubelet监视的/etc/kubernetes/manifests目录下，kubelet就会自动创建这些YAML文件中定义的Pod，即Master组件的容器。
 
 **Master容器启动后，kubeadm会通过检查localhost:6443/healthz这个Master组件的健康检查URL，等待Master组件完全运行起来**。
@@ -187,8 +171,7 @@ etcd.yaml kube-apiserver.yaml kube-controller-manager.yaml kube-scheduler.yaml
 在token生成之后，**kubeadm会将ca.crt等Master节点的重要信息，通过ConfigMap的方式保存在Etcd当中，供后续部署Node节点使用。这个ConfigMap的名字是cluster-info**。
 
 **kubeadm init的最后一步，就是安装默认插件**。Kubernetes默认kube-proxy和DNS这两个插件是必须安装的。它们分别用来提供整个集群的服务发现和DNS功能。其实，这两个插件也只是两个容器镜像而已，所以kubeadm只要用Kubernetes客户端创建两个Pod就可以了。
-
-## Kubeadm join的工作流程
+# Kubeadm join的工作流程
 
 这个流程其实非常简单，kubeadm init生成bootstrap token之后，你就可以在任意一台安装了kubelet和kubeadm的机器上执行kubeadm join了。
 
@@ -203,23 +186,19 @@ etcd.yaml kube-apiserver.yaml kube-controller-manager.yaml kube-scheduler.yaml
 只要有了cluster-info里的kube-apiserver的地址、端口、证书，kubelet就可以以“安全模式”连接到apiserver上，这样一个新的节点就部署完成了。
 
 接下来，你只要在其他节点上重复这个指令就可以了。
-
-## 配置kubeadm的部署参数
+# 配置kubeadm的部署参数
 
 我在前面讲了kubeadm部署Kubernetes集群最关键的两个步骤，kubeadm init和kubeadm join。相信你一定会有这样的疑问：kubeadm确实简单易用，可是我又该如何定制我的集群组件参数呢？
 
 比如，我要指定kube-apiserver的启动参数，该怎么办？
 
 在这里，我强烈推荐你在使用kubeadm init部署Master节点时，使用下面这条指令：
-
 ```bash
 $ kubeadm init --config kubeadm.yaml
 ```
-
 这时，你就可以给kubeadm提供一个YAML文件。
 
 通过制定这样一个部署参数配置文件，你就可以很方便地在这个文件里填写各种自定义的部署参数了。比如，我现在要指定kube-apiserver的参数，那么我只要在这个文件里加上这样一段信息：
-
 ```bash
 ... 
 apiServerExtraArgs: 
@@ -228,12 +207,10 @@ apiServerExtraArgs:
   enable-admission-plugins: AlwaysPullImages,DefaultStorageClass 
   audit-log-path: /home/johndoe/audit.log
 ```
-
 然后，kubeadm就会使用上面这些信息替换/etc/kubernetes/manifests/kube-apiserver.yaml里的command字段里的参数了。
 
 而这个YAML文件提供的可配置项远不止这些。比如，你还可以修改kubelet和kube-proxy的配置，修改Kubernetes使用的基础镜像的URL（默认的k8s.gcr.io/xxx镜像URL在国内访问是有困难的）​，指定自己的证书文件，指定特殊的容器运行时等等。这些配置项，就留给你在后续实践中探索了。
-
-## 总结
+# 总结
 
 在今天的这次分享中，我重点介绍了kubeadm这个部署工具的工作原理和使用方法。紧接着，我会在下一篇文章中，使用它一步步地部署一个完整的Kubernetes集群。
 
@@ -244,3 +221,8 @@ apiServerExtraArgs:
 现在，来回答一下上面那个问题，kubeadm是否能用于生产环境？
 
 这个问题的答案是可以，因为生产环境的kubernetes的集群应该是一个多节点的高可用集群。具体可以参考[利用 kubeadm 创建高可用集群](https://kubernetes.io/zh-cn/docs/setup/production-environment/tools/kubeadm/high-availability/)
+
+
+
+
+

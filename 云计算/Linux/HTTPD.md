@@ -1,88 +1,94 @@
-# HTTPD
+# 1.httpd基础知识
 
-## 1.httpd基础知识
+![image-20230704192137636](./image/w0dfbp-0.png)
 
-![image-20230704192137636](../../.gitbook/assets/w0dfbp-0.png)
+![image-20230704192225824](./image/w0skx7-0.png)
 
-![image-20230704192225824](../../.gitbook/assets/w0skx7-0.png)
+![image-20230704192242635](./image/w0pvsp-0.png)
 
-![image-20230704192242635](../../.gitbook/assets/w0pvsp-0.png)
+![image-20230704192430791](./image/w0z25f-0.png)
 
-![image-20230704192430791](../../.gitbook/assets/w0z25f-0.png)
+![image-20230704192621874](./image/w1d0ky-0.png)
 
-![image-20230704192621874](../../.gitbook/assets/w1d0ky-0.png)
+![image-20230704193330484](./image/w1jqgg-0.png)
 
-![image-20230704193330484](../../.gitbook/assets/w1jqgg-0.png)
 
-## 2.HTTPD工作模型
 
-![image-20230704194710308](../../.gitbook/assets/w7coev-0.png)
+# 2.HTTPD工作模型
 
-![image-20230704194934684](../../.gitbook/assets/w8n88i-0.png)
+![image-20230704194710308](./image/w7coev-0.png)
 
-![image-20230704195445430](../../.gitbook/assets/wbpasb-0.png)
+![image-20230704194934684](./image/w8n88i-0.png)
 
-![image-20230704200608340](../../.gitbook/assets/x6h917-0.png)
+![image-20230704195445430](./image/wbpasb-0.png)
 
-![image-20230704200658548](../../.gitbook/assets/x6xj48-0.png)
+![image-20230704200608340](./image/x6h917-0.png)
 
-![image-20230704200749193](../../.gitbook/assets/x780lo-0.png)
+![image-20230704200658548](./image/x6xj48-0.png)
 
-![image-20230704201134362](../../.gitbook/assets/x9ihzh-0.png)
+![image-20230704200749193](./image/x780lo-0.png)
 
-![image-20230704201333134](../../.gitbook/assets/xapuxw-0.png)
+![image-20230704201134362](./image/x9ihzh-0.png)
 
-![image-20230704201410965](../../.gitbook/assets/xb6ajq-0.png)
+![image-20230704201333134](./image/xapuxw-0.png)
 
-![image-20230704201507403](../../.gitbook/assets/xbrdsu-0.png)
+![image-20230704201410965](./image/xb6ajq-0.png)
 
-![image-20230704201436965](../../.gitbook/assets/xbc4k5-0.png)
+![image-20230704201507403](./image/xbrdsu-0.png)
 
-![image-20230704202433909](../../.gitbook/assets/xhc1zc-0.png)
+![image-20230704201436965](./image/xbc4k5-0.png)
 
-## 3.HTTPD
+![image-20230704202433909](./image/xhc1zc-0.png)
 
-### 1.MPM
 
-![image-20230704202800317](../../.gitbook/assets/xjhm19-0.png)
 
-![image-20230707145004107](d://i/2023/07/07/nzc2vn-0.png)
+# 3.HTTPD
 
-![image-20230704203034385](../../.gitbook/assets/xkwyqv-0.png)
+## 1.MPM
 
-![image-20230704203755558](../../.gitbook/assets/xpe1tw-0.png)
+![image-20230704202800317](./image/xjhm19-0.png)
 
-![image-20230704203529733](../../.gitbook/assets/xnugcg-0.png)
+![image-20230707145004107](D://i/2023/07/07/nzc2vn-0.png)
 
-![image-20230704203655969](../../.gitbook/assets/xosow6-0.png)
+![image-20230704203034385](./image/xkwyqv-0.png)
 
-### 2.安装
+![image-20230704203755558](./image/xpe1tw-0.png)
 
-![image-20230705084540981](../../.gitbook/assets/dzp44j-0.png)
+![image-20230704203529733](./image/xnugcg-0.png)
 
-![image-20230705084931675](../../.gitbook/assets/e1oi87-0.png)
+![image-20230704203655969](./image/xosow6-0.png)
 
-![image-20230705084955376](../../.gitbook/assets/e1tsxw-0.png)
 
-### 3.配置
 
-![image-20230705085159934](../../.gitbook/assets/e3bq6q-0.png)
+## 2.安装
 
-![image-20230705085904031](../../.gitbook/assets/e7lszg-0.png)
+![image-20230705084540981](./image/dzp44j-0.png)
 
-![image-20230705090318781](../../.gitbook/assets/eytz2h-0.png)
+![image-20230705084931675](./image/e1oi87-0.png)
 
-![image-20230705090449323](../../.gitbook/assets/eyk2ay-0.png)
+![image-20230705084955376](./image/e1tsxw-0.png)
 
-![image-20230705091005060](../../.gitbook/assets/f1wsbz-0.png)
 
-![image-20230705091236166](../../.gitbook/assets/f38jc0-0.png)
 
-![image-20230705092219816](../../.gitbook/assets/f92f2o-0.png)
+## 3.配置
 
-![image-20230705095204320](../../.gitbook/assets/fqwl3y-0.png)
+![image-20230705085159934](./image/e3bq6q-0.png)
 
-![image-20230705095918373](../../.gitbook/assets/fv5o9r-0.png)
+![image-20230705085904031](./image/e7lszg-0.png)
+
+![image-20230705090318781](./image/eytz2h-0.png)
+
+![image-20230705090449323](./image/eyk2ay-0.png)
+
+![image-20230705091005060](./image/f1wsbz-0.png)
+
+![image-20230705091236166](./image/f38jc0-0.png)
+
+![image-20230705092219816](./image/f92f2o-0.png)
+
+![image-20230705095204320](./image/fqwl3y-0.png)
+
+![image-20230705095918373](./image/fv5o9r-0.png)
 
 ```bash
 # 在httpd2.4，设置文档页面之后需要授权
@@ -98,21 +104,21 @@ DocumentRoot "/var/www/html"
 </Directory>
 ```
 
-![image-20230705100305545](../../.gitbook/assets/gl9uam-0.png)
+![image-20230705100305545](./image/gl9uam-0.png)
 
-![image-20230705100356564](../../.gitbook/assets/glimk5-0.png)
+![image-20230705100356564](./image/glimk5-0.png)
 
-![image-20230705100419611](../../.gitbook/assets/glw6ra-0.png)
+![image-20230705100419611](./image/glw6ra-0.png)
 
-![image-20230705100637934](../../.gitbook/assets/gn8q0s-0.png)
+![image-20230705100637934](./image/gn8q0s-0.png)
 
-![image-20230705100707218](../../.gitbook/assets/gnlmnv-0.png)
+![image-20230705100707218](./image/gnlmnv-0.png)
 
-![image-20230705100944437](../../.gitbook/assets/gp0fiq-0.png)
+![image-20230705100944437](./image/gp0fiq-0.png)
 
-![image-20230705101327804](../../.gitbook/assets/grd9og-0.png)
+![image-20230705101327804](./image/grd9og-0.png)
 
-![image-20230705101429440](../../.gitbook/assets/grw9j1-0.png)
+![image-20230705101429440](./image/grw9j1-0.png)
 
 ```bash
 ErrorLog "logs/error_log"
@@ -128,55 +134,65 @@ LogLevel warn
     CustomLog "logs/access_log" combined
 ```
 
-![image-20230705104036707](../../.gitbook/assets/h7f8pq-0.png)
+![image-20230705104036707](./image/h7f8pq-0.png)
 
-![image-20230705104351223](../../.gitbook/assets/h9apn7-0.png)
+![image-20230705104351223](./image/h9apn7-0.png)
 
-![image-20230705104539686](../../.gitbook/assets/haf6rp-0.png)
+![image-20230705104539686](./image/haf6rp-0.png)
 
-![image-20230705105451829](../../.gitbook/assets/hfumtm-0.png)
+![image-20230705105451829](./image/hfumtm-0.png)
 
 > 需要加载`auth_basic`模块
 
-![image-20230705110209305](../../.gitbook/assets/i86308-0.png)
+![image-20230705110209305](./image/i86308-0.png)
 
-![image-20230705110220671](../../.gitbook/assets/i895ig-0.png)
+![image-20230705110220671](./image/i895ig-0.png)
 
-![image-20230705112513705](../../.gitbook/assets/ilz9dh-0.png)
+![image-20230705112513705](./image/ilz9dh-0.png)
 
-![image-20230705112806788](../../.gitbook/assets/innl99-0.png)
+![image-20230705112806788](./image/innl99-0.png)
 
-![image-20230705112838071](../../.gitbook/assets/inttv3-0.png)
+![image-20230705112838071](./image/inttv3-0.png)
 
-![image-20230705113734972](../../.gitbook/assets/it8ibi-0.png)
+![image-20230705113734972](./image/it8ibi-0.png)
 
-![image-20230705113800709](../../.gitbook/assets/itjvyp-0.png)
+![image-20230705113800709](./image/itjvyp-0.png)
 
-![image-20230705114351713](../../.gitbook/assets/iwu75k-0.png)
+![image-20230705114351713](./image/iwu75k-0.png)
 
-## 4.多虚拟主机
 
-### 1.基于ip
 
-![image-20230705115310226](../../.gitbook/assets/j2lqxq-0.png)
+# 4.多虚拟主机
 
-### 2.基于port
+## 1.基于ip
 
-![image-20230705115441764](../../.gitbook/assets/j3cebs-0.png)
+![image-20230705115310226](./image/j2lqxq-0.png)
 
-### 3.基于多主机
 
-![image-20230705144913300](../../.gitbook/assets/nytw18-0.png)
 
-## 5.mod\_deflate模块
+## 2.基于port
 
-![image-20230705145413330](../../.gitbook/assets/o1unad-0.png)
+![image-20230705115441764](./image/j3cebs-0.png)
 
-![image-20230705145841925](../../.gitbook/assets/o4by4u-0.png)
 
-## 6.https
 
-![image-20230705150244240](../../.gitbook/assets/ouvkgm-0.png)
+## 3.基于多主机
+
+![image-20230705144913300](./image/nytw18-0.png)
+
+
+
+# 5.mod_deflate模块
+
+![image-20230705145413330](./image/o1unad-0.png)
+
+![image-20230705145841925](./image/o4by4u-0.png)
+
+
+
+# 6.https
+
+![image-20230705150244240](./image/ouvkgm-0.png)
 
 ```bash
 # 安装ssl模块
@@ -191,7 +207,7 @@ LogLevel warn
 #SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt CA证书
 ```
 
-![image-20230705160403410](../../.gitbook/assets/qj0tzf-0.png)
+![image-20230705160403410](./image/qj0tzf-0.png)
 
 ```bash
 <VirtualHost *:80>
@@ -211,142 +227,170 @@ LogLevel warn
 </VirtualHost>
 ```
 
-## 7.重定向
 
-![image-20230705160904468](../../.gitbook/assets/qlzzk4-0.png)
+
+# 7.重定向
+
+![image-20230705160904468](./image/qlzzk4-0.png)
 
 > 如果不在虚拟主机中使用`Redirect`，可能会造成循环重定向问题
 
-![image-20230705201144318](../../.gitbook/assets/x9x7fi-0.png)
+![image-20230705201144318](./image/x9x7fi-0.png)
 
-## 8.代理
 
-![image-20230705202910576](../../.gitbook/assets/xk5pfr-0.png)
 
-![image-20230705203156254](../../.gitbook/assets/xlwe7r-0.png)
 
-## 9.Sendfile(零复制)
 
-![image-20230705204451380](../../.gitbook/assets/xtm415-0.png)
+# 8.代理
 
-![image-20230705204616707](../../.gitbook/assets/xu9cdc-0.png)
+![image-20230705202910576](./image/xk5pfr-0.png)
 
-## 10.HTTP协议
+![image-20230705203156254](./image/xlwe7r-0.png)
 
-![image-20230706092635866](../../.gitbook/assets/fbl45a-0.png)
 
-![image-20230706092810994](../../.gitbook/assets/fckxf8-0.png)
 
-![image-20230706093141445](../../.gitbook/assets/fem5qt-0.png)
+# 9.Sendfile(零复制)
 
-![image-20230706093550903](../../.gitbook/assets/fgzh4j-0.png)
+![image-20230705204451380](./image/xtm415-0.png)
 
-![image-20230706093756512](../../.gitbook/assets/fiiq48-0.png)
+![image-20230705204616707](./image/xu9cdc-0.png)
 
-![image-20230706093942965](../../.gitbook/assets/fjbncw-0.png)
 
-![image-20230706094041561](../../.gitbook/assets/fjx6vb-0.png)
 
-![image-20230706094245050](../../.gitbook/assets/fl43zc-0.png)
+# 10.HTTP协议
 
-![image-20230706094528388](../../.gitbook/assets/fmwy08-0.png)
+![image-20230706092635866](./image/fbl45a-0.png)
 
-![image-20230706103652760](../../.gitbook/assets/h55f2x-0.png)
+![image-20230706092810994](./image/fckxf8-0.png)
 
-![image-20230706103909338](../../.gitbook/assets/h6pvcb-0.png)
+![image-20230706093141445](./image/fem5qt-0.png)
 
-![image-20230706104252002](../../.gitbook/assets/h8pgkk-0.png)
+![image-20230706093550903](./image/fgzh4j-0.png)
 
-![image-20230706105919181](../../.gitbook/assets/iartq5-0.png)
+![image-20230706093756512](./image/fiiq48-0.png)
 
-![image-20230706110205935](../../.gitbook/assets/i8vig1-0.png)
+![image-20230706093942965](./image/fjbncw-0.png)
 
-![image-20230706110245398](../../.gitbook/assets/i8yv70-0.png)
+![image-20230706094041561](./image/fjx6vb-0.png)
 
-![image-20230706110258037](../../.gitbook/assets/i9gosx-0.png)
+![image-20230706094245050](./image/fl43zc-0.png)
 
-![image-20230706110641301](../../.gitbook/assets/ib5484-0.png)
+![image-20230706094528388](./image/fmwy08-0.png)
 
-## 11.HTTPD编译安装
+![image-20230706103652760](./image/h55f2x-0.png)
 
-![image-20230706110753894](../../.gitbook/assets/ica72i-0.png)
+![image-20230706103909338](./image/h6pvcb-0.png)
 
-![image-20230706111947635](../../.gitbook/assets/iij4jx-0.png)
+![image-20230706104252002](./image/h8pgkk-0.png)
 
-![image-20230706112119242](../../.gitbook/assets/ijk559-0.png)
+![image-20230706105919181](./image/iartq5-0.png)
 
-## 12.LAMP
+![image-20230706110205935](./image/i8vig1-0.png)
 
-![image-20230706120420650](../../.gitbook/assets/jx1qih-0.png)
+![image-20230706110245398](./image/i8yv70-0.png)
 
-![image-20230706142834798](../../.gitbook/assets/nmiiyg-0.png)
+![image-20230706110258037](./image/i9gosx-0.png)
 
-![image-20230706143149207](../../.gitbook/assets/noay7g-0.png)
+![image-20230706110641301](./image/ib5484-0.png)
 
-### 1.PHP
 
-![image-20230706143216985](../../.gitbook/assets/nospm2-0.png)
 
-![image-20230706143338910](../../.gitbook/assets/npru48-0.png)
+# 11.HTTPD编译安装
 
-![image-20230706143424350](../../.gitbook/assets/npzo5w-0.png)
+![image-20230706110753894](./image/ica72i-0.png)
 
-![image-20230706143447550](../../.gitbook/assets/nq3ytd-0.png)
+![image-20230706111947635](./image/iij4jx-0.png)
 
-### 2.Module方式
+![image-20230706112119242](./image/ijk559-0.png)
 
-![image-20230706143751670](../../.gitbook/assets/nsdw8d-0.png)
 
-![image-20230706144146958](../../.gitbook/assets/nujkud-0.png)
+
+# 12.LAMP
+
+![image-20230706120420650](./image/jx1qih-0.png)
+
+![image-20230706142834798](./image/nmiiyg-0.png)
+
+![image-20230706143149207](./image/noay7g-0.png)
+
+
+
+## 1.PHP
+
+![image-20230706143216985](./image/nospm2-0.png)
+
+![image-20230706143338910](./image/npru48-0.png)
+
+![image-20230706143424350](./image/npzo5w-0.png)
+
+![image-20230706143447550](./image/nq3ytd-0.png)
+
+
+
+## 2.Module方式
+
+![image-20230706143751670](./image/nsdw8d-0.png)
+
+![image-20230706144146958](./image/nujkud-0.png)
 
 ```bash
 # 优先解析index.php
 DirectoryIndex index.php index.html
 ```
 
-![image-20230706144226561](../../.gitbook/assets/nuq6mv-0.png)
+![image-20230706144226561](./image/nuq6mv-0.png)
 
-![image-20230706144458512](../../.gitbook/assets/nwijp6-0.png)
+![image-20230706144458512](./image/nwijp6-0.png)
 
-![image-20230706150414684](../../.gitbook/assets/ovjg8k-0.png)
+![image-20230706150414684](./image/ovjg8k-0.png)
 
-### 3.LAMP部署应用
 
-![image-20230706151401402](../../.gitbook/assets/p1indo-0.png)
 
-#### 1.phpadmin
+## 3.LAMP部署应用
 
-![image-20230706154735812](../../.gitbook/assets/plajm2-0.png)
+![image-20230706151401402](./image/p1indo-0.png)
 
-#### 2.wordpress
 
-![image-20230706155232598](../../.gitbook/assets/poamlk-0.png)
 
-![image-20230706162219608](../../.gitbook/assets/qtw3p6-0.png)
+### 1.phpadmin
 
-#### 3.powerdns
+![image-20230706154735812](./image/plajm2-0.png)
 
-![image-20230706162243144](../../.gitbook/assets/qtz5r2-0.png)
 
-![image-20230706164133359](../../.gitbook/assets/r5cspt-0.png)
 
-![image-20230706164829208](../../.gitbook/assets/r9e6fu-0.png)
+### 2.wordpress
 
-![image-20230706170344289](../../.gitbook/assets/s6kqyd-0.png)
+![image-20230706155232598](./image/poamlk-0.png)
 
-![image-20230706171401543](../../.gitbook/assets/scl612-0.png)
+![image-20230706162219608](./image/qtw3p6-0.png)
 
-![image-20230706172034990](../../.gitbook/assets/sgdnga-0.png)
 
-### 4.PHP FastCGI方式
 
-![image-20230706190417328](../../.gitbook/assets/vhq2k7-0.png)
+### 3.powerdns
 
-![image-20230706190528159](../../.gitbook/assets/vih92l-0.png)
+![image-20230706162243144](./image/qtz5r2-0.png)
 
-![image-20230706191519521](../../.gitbook/assets/vodmbr-0.png)
+![image-20230706164133359](./image/r5cspt-0.png)
 
-![image-20230706191540202](../../.gitbook/assets/vofh1j-0.png)
+![image-20230706164829208](./image/r9e6fu-0.png)
+
+![image-20230706170344289](./image/s6kqyd-0.png)
+
+![image-20230706171401543](./image/scl612-0.png)
+
+![image-20230706172034990](./image/sgdnga-0.png)
+
+
+
+## 4.PHP FastCGI方式
+
+![image-20230706190417328](./image/vhq2k7-0.png)
+
+![image-20230706190528159](./image/vih92l-0.png)
+
+![image-20230706191519521](./image/vodmbr-0.png)
+
+![image-20230706191540202](./image/vofh1j-0.png)
 
 ```bash
 DirectoryIndex index.php
@@ -354,14 +398,16 @@ ProxyRequests off
 ProxyPassMatch "^/.*\.php(.*)$" "fcgi://127.0.0.1:9000/var/www/html/"
 ```
 
-![image-20230706204537488](../../.gitbook/assets/xu5qd1-0.png)
+![image-20230706204537488](./image/xu5qd1-0.png)
 
-![image-20230706210628038](../../.gitbook/assets/yu41an-0.png)
+![image-20230706210628038](./image/yu41an-0.png)
 
-### 5.编译PHP
 
-![image-20230706214012849](../../.gitbook/assets/ze71uq-0.png)
 
-![image-20230706214030247](../../.gitbook/assets/zeakmx-0.png)
+## 5.编译PHP
 
-![image-20230706215615982](../../.gitbook/assets/znqm5s-0.png)
+![image-20230706214012849](./image/ze71uq-0.png)
+
+![image-20230706214030247](./image/zeakmx-0.png)
+
+![image-20230706215615982](./image/znqm5s-0.png)

@@ -1,149 +1,190 @@
-# CICD
-
-## 1.GitLab
+# 1.GitLab
 
 > 什么是GitLab
 
-GitLab是一个基于Web的Git存储库，是一个开源分布式版本控制系统。提供免费的开放和私有存储库、问题跟踪功能和维基。它是一个完整的DevOps平台，使专业人员能够执行项目中的所有任务——从项目规划和源代码管理到监控和安全。你可以在gitlab.com/users/sign\_in登录GitLab。
+GitLab是一个基于Web的Git存储库，是一个开源分布式版本控制系统。提供免费的开放和私有存储库、问题跟踪功能和维基。它是一个完整的DevOps平台，使专业人员能够执行项目中的所有任务——从项目规划和源代码管理到监控和安全。你可以在gitlab.com/users/sign_in登录GitLab。
+
+
 
 > GitLab优势
 
-* 开源免费，适合中小型公司将代码放置在该系统
-* 差异化的版本管理，离线同步以及强大分支管理功能
-* 便捷的GUI操作界面以及强大账户权限管理功能
-* 集成度很高，能够集成绝大多数的开发工具
-* 支持内置HA，保证在高并发下任旧实现高可用
+- 开源免费，适合中小型公司将代码放置在该系统
+- 差异化的版本管理，离线同步以及强大分支管理功能
+- 便捷的GUI操作界面以及强大账户权限管理功能
+- 集成度很高，能够集成绝大多数的开发工具
+- 支持内置HA，保证在高并发下任旧实现高可用
+
+
 
 > GitLab服务构成
 
-* Nginx 静态Web服务器
-* GitLab-workhorse 轻量级的方向代理服务器
-* GitLab-shell 用于处理Git命令和修改authorized keys列表
-* Logrotate 日志文件管理工具
-* Postgresql 数据库
-* Redis 缓存数据库
-* sidekiq 用于在后台执行队列任务
+- Nginx 静态Web服务器
+- GitLab-workhorse 轻量级的方向代理服务器
+- GitLab-shell 用于处理Git命令和修改authorized keys列表
+- Logrotate 日志文件管理工具
+- Postgresql 数据库
+- Redis 缓存数据库
+- sidekiq 用于在后台执行队列任务
 
-### 1.1.GitLab工作流程
 
-* 创建并克隆项目
-* 创建项目某Feature分支
-* 编写代码并提交至该分支
-* 推送该项目分支至远程GitLab服务器
-* 进行代码检查并提交Master主分支合并申请
-* 项目领导审查代码并合并申请
 
-### 1.2.GitLab安装配置管理
+## 1.1.GitLab工作流程
 
-* 安装GitLab前系统预配置准备工作
-  * 关闭防火墙
-  * 关闭SELINUX
-* Omnibus Gitlab-ce package
-  * 安装GitLab组件
-    * yum -y install curl policycoreutils-utils openssh-server openssh-clients postfix
-  * 配置YUM仓库
-    * ```csharp
+- 创建并克隆项目
+- 创建项目某Feature分支
+- 编写代码并提交至该分支
+- 推送该项目分支至远程GitLab服务器
+-  进行代码检查并提交Master主分支合并申请
+- 项目领导审查代码并合并申请
+
+
+
+## 1.2.GitLab安装配置管理
+
+- 安装GitLab前系统预配置准备工作
+  - 关闭防火墙
+  - 关闭SELINUX
+
+- Omnibus Gitlab-ce package
+  - 安装GitLab组件
+    - yum -y install curl policycoreutils-utils openssh-server openssh-clients postfix
+
+  - 配置YUM仓库
+    - ```csharp
       [gitlab-ce]
       name=Gitlab CE Repository
       baseurl=https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el$releasever/
       gpgcheck=0
       enabled=1
       ```
-  * 启动postfix邮件服务
-    * systemctl start postfix
-  * 安装GitLab-ce社区版
-    * yum install -y gitlab-ce
-* 相关配置初始化并完成安装
-  * 证书创建与配置加载
-    * 创建目录：mkdir -p /etc/gitlab/ssl/
-    * 生成秘钥：openssl genrsa -out /etc/gitlab/ssl/gitlab.example.com.key 2048
-    *   生成公钥：openssl req -new -key /etc/gitlab/ssl/gitlab.example.com.key -out /etc/gitlab/ssl/gitlab.example.com.csr
 
-        ![image-20230410203311730](../../.gitbook/assets/xminpy-0.png)
-    * 生成证书：openssl x509 -req -days 365 -in /etc/gitlab/ssl/gitlab.example.com.csr -signkey /etc/gitlab/ssl/gitlab.example.com.key -out /etc/gitlab/ssl/gitlab.example.com.crt
-    * 输出pem证书：openssl dhparam -out /etc/gitlab/ssl//dhparam.pem 2048
-    * 修改权限：chmod 600 \*
-    * 修改配置文件：
-      * external\_url 'https://gitlab.example.com'
-      * nginx\['redirect\_http\_to\_https'] = true
-      * nginx\['ssl\_certificate'] = "/etc/gitlab/ssl/gitlab.example.com.crt"
-      * nginx\['ssl\_certificate\_key'] = "/etc/gitlab/ssl/gitlab.example.com.key"
-      * nginx\['ssl\_dhparam'] = /etc/gitlab/ssl/dhparam.pem
-    * 初始化：gitlab-ctl reconfigure
-  * Nginx SSL代理服务配置
-    * vim /var/opt/gitlab/nginx/conf/gitlab-http.conf
-      * 在server块中：rewrite ^(.\*)$ https://$host$1 permanent;
-      * 重启生效：gitlab-ctl restart
-    * 在hosts文件中添加本机的记录
-  * 初始化Gitlab相关服务并完成安装
+  - 启动postfix邮件服务
 
-## 2.Ansible
+    - systemctl start postfix
+
+  - 安装GitLab-ce社区版
+
+    - yum install -y gitlab-ce
+
+- 相关配置初始化并完成安装
+
+  - 证书创建与配置加载
+  
+    - 创建目录：mkdir -p /etc/gitlab/ssl/
+  
+    - 生成秘钥：openssl genrsa -out /etc/gitlab/ssl/gitlab.example.com.key 2048
+  
+    - 生成公钥：openssl req -new -key  /etc/gitlab/ssl/gitlab.example.com.key -out /etc/gitlab/ssl/gitlab.example.com.csr
+  
+      ![image-20230410203311730](./image/xminpy-0.png)
+  
+    - 生成证书：openssl x509 -req -days 365 -in /etc/gitlab/ssl/gitlab.example.com.csr -signkey /etc/gitlab/ssl/gitlab.example.com.key -out /etc/gitlab/ssl/gitlab.example.com.crt
+  
+    - 输出pem证书：openssl dhparam -out /etc/gitlab/ssl//dhparam.pem 2048
+  
+    - 修改权限：chmod 600 *
+  
+    - 修改配置文件：
+  
+      - external_url 'https://gitlab.example.com'
+      - nginx['redirect_http_to_https'] = true
+      - nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.example.com.crt"
+      - nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.example.com.key"
+      - nginx['ssl_dhparam'] = /etc/gitlab/ssl/dhparam.pem
+  
+    - 初始化：gitlab-ctl reconfigure
+  
+  - Nginx SSL代理服务配置
+  
+    - vim /var/opt/gitlab/nginx/conf/gitlab-http.conf
+      - 在server块中：rewrite ^(.*)$ https://$host$1 permanent;
+      - 重启生效：gitlab-ctl restart
+    - 在hosts文件中添加本机的记录
+  
+  - 初始化Gitlab相关服务并完成安装
+
+
+
+
+
+# 2.Ansible
 
 > 什么是Ansible
 
-* Ansible是一个开源部署工具
-* 开发语言：Python
-* 特点：SSH协议通讯，全平台，无需编译，模块化部署管理
-* 作用：推送Playbook进行远程节点快速部署
+- Ansible是一个开源部署工具
+- 开发语言：Python
+- 特点：SSH协议通讯，全平台，无需编译，模块化部署管理
+- 作用：推送Playbook进行远程节点快速部署
+
+
 
 > Ansible与Chef，Saltstack的不同
 
-![image-20230410212553589](../../.gitbook/assets/z5i3cp-0.png)
+![image-20230410212553589](./image/z5i3cp-0.png)
 
-### 2.1.Ansible的优势和应用场景
 
-* 轻量无客户端(Agentless)
-* 开源免费，学习成本低，快速上手
-* 使用Playbook作为核心配置架构，同一的脚本格式批量化部署
-* 完善的模块化扩展，支持目前主流的开发场景
-* 强大的稳定性和兼容性
-* 活跃的官方社区问题讨论，方便Trubleshooting与DEBUG问题
 
-### 2.2.Ansible配合virtualenv安装配置
+## 2.1.Ansible的优势和应用场景
 
-* Ansible的两种安装模式
+- 轻量无客户端(Agentless)
+- 开源免费，学习成本低，快速上手
+- 使用Playbook作为核心配置架构，同一的脚本格式批量化部署
+- 完善的模块化扩展，支持目前主流的开发场景
+- 强大的稳定性和兼容性
+- 活跃的官方社区问题讨论，方便Trubleshooting与DEBUG问题
+
+
+
+## 2.2.Ansible配合virtualenv安装配置
+
+- Ansible的两种安装模式
   1. Yum包管理安装：yum -y install ansible
-  2. Git源代码安装\[推荐]：git clone https://github.com/ansible/ansible.git
-* Ansible + Python安装步骤
+  2. Git源代码安装[推荐]：git clone https://github.com/ansible/ansible.git
+
+- Ansible + Python安装步骤
+
   1. 预先安装Python3.6版本
   2. 安装virtualenv
-     * pip install virtualenv
+     - pip install virtualenv
   3. 创建Ansible账户并安装python virtualenv实例
-     * useradd deploy && su - deploy
-     * virtualenv -p /usr/local/bin/python3 .py3-a2.5-env
+     - useradd deploy && su - deploy
+     - virtualenv -p /usr/local/bin/python3 .py3-a2.5-env
   4. Git源代码安装ansible
-     * cd /home/deploy/.py3-a25-env
-     * git clone https://github.com/ansible/ansible.git
+     - cd /home/deploy/.py3-a25-env
+     - git clone https://github.com/ansible/ansible.git
+
   5. 加载python3.6 virtualenv环境
-     * source /home/deploy/.py3-a25-env/bin/activate
+     - source /home/deploy/.py3-a25-env/bin/activate
   6. 安装ansible依赖包
-     * pip3 install paramiko PyYAML jinja2
+     - pip3 install paramiko PyYAML jinja2
   7. 在python虚拟环境下加载ansible
-     * source /home/deploy/.py3-a25-env/ansible/hacking/env-setup -q
+     - source /home/deploy/.py3-a25-env/ansible/hacking/env-setup -q
   8. 验证ansible
-     * ansible --version
+     - ansible --version
 
-### 2.2.配置文件
+## 2.2.配置文件
 
-Ansible 的配置文件通常位于 /etc/ansible/ansible.cfg，但也可以在其他位置，例如当前工作目录或用户主目录中。您可以通过设置 ANSIBLE\_CONFIG 环境变量来指定配置文件的位置。
+Ansible 的配置文件通常位于 /etc/ansible/ansible.cfg，但也可以在其他位置，例如当前工作目录或用户主目录中。您可以通过设置 ANSIBLE_CONFIG 环境变量来指定配置文件的位置。
 
 **配置文件的查找顺序**：
 
-1. 环境变量**ANSIBLE\_CONFIG**所指向的位置
+1. 环境变量**ANSIBLE_CONFIG**所指向的位置
 2. 当前目录下的ansible.cfg
-3. HOME目录下的配置文件\~/.ansible.cfg
+3. HOME目录下的配置文件~/.ansible.cfg
 4. /etc/ansible/ansible.cfg
 
 下面是一些常用的配置文件选项：
 
-* inventory：指定 Ansible 应使用的清单文件的位置。
-* remote\_user：指定用于 SSH 连接的远程用户。
-* host\_key\_checking：指定是否在首次连接到远程主机时检查主机密钥。
-* roles\_path：指定角色的搜索路径。
-* log\_path：指定日志文件的位置。
-* forks：指定 Ansible 在并行执行任务时应使用的进程数。
+- inventory：指定 Ansible 应使用的清单文件的位置。
+- remote_user：指定用于 SSH 连接的远程用户。
+- host_key_checking：指定是否在首次连接到远程主机时检查主机密钥。
+- roles_path：指定角色的搜索路径。
+- log_path：指定日志文件的位置。
+- forks：指定 Ansible 在并行执行任务时应使用的进程数。
 
-### 2.3.Playbook
+
+
+## 2.3.Playbook
 
 Playbooks 是 Ansible的配置,部署,编排语言.他们可以被描述为一个需要希望远程主机执行命令的方案,或者一组IT程序运行的命令集合.
 
@@ -180,7 +221,9 @@ Playbooks 可用于声明配置,更强大的地方在于,在 playbooks 中可以
       service: name=httpd state=restarted
 ```
 
-#### 2.3.1.Playbook基础
+
+
+### 2.3.1.Playbook基础
 
 playbook 由一个或多个 ‘**plays**’ 组成.它的内容是一个以 ‘**plays**’ 为元素的列表.
 
@@ -188,7 +231,7 @@ playbook 由一个或多个 ‘**plays**’ 组成.它的内容是一个以 ‘*
 
 hosts 行的内容是一个或多个组或主机的 **patterns**,以**逗号**为分隔符
 
-remote\_user指定的是用户
+remote_user指定的是用户
 
 也可以指定是否用sudo执行命令
 
@@ -262,7 +305,9 @@ ansible-playbook --vault-password-file /path/to/password_file your_playbook.yml
 ansible-playbook --ask-vault-pass your_playbook.yml
 ```
 
-#### 2.3.2.Tasks列表
+
+
+### 2.3.2.Tasks列表
 
 每一个 play 包含了一个 task 列表（任务列表）.一个 task 在其所对应的所有主机上（通过 host pattern 匹配的所有主机）执行完毕之后,下一个 task 才会执行.有一点需要明白的是（很重要）,在一个 play 之中,所有 hosts 会获取相同的任务指令,这是 play 的一个目的所在,也就是将一组选出的 **hosts 映射到 task**.
 
@@ -288,7 +333,9 @@ tasks:
   			
 ```
 
-#### 2.3.3.Handlers
+
+
+### 2.3.3.Handlers
 
 module 具有”**幂等**”性,所以当远端系统被人改动时,可以重放 playbooks 达到**恢复**的目的. playbooks 本身可以识别这种改动,并且有一个基本的 **event system**（事件系统）,可以响应这种改动.
 
@@ -322,7 +369,9 @@ Handlers 最佳的应用场景是用来**重启服务**,或者**触发系统重�
 
 **handlers 会按照声明的顺序执行**
 
-#### 2.3.4.Roles和Include
+
+
+### 2.3.4.Roles和Include
 
 基本上，使用 include 语句引用 **task 文件**的方法，可允许你将一个配置策略分解到更小的文件中。使用 include 语句引用 tasks 是将 tasks 从其他文件拉取过来。因为 handlers 也是 tasks，所以你也可以使用 include 语句去引用 **handlers 文件**。handlers 文件来自 ‘handlers:’ section。
 
@@ -339,35 +388,38 @@ tasks:
 
 给Include传递参数的方式：
 
-1.  使用字典和列表传递参数
+1. 使用字典和列表传递参数
 
-    ```bash
-    tasks:
-      - { include: wordpress.yml, wp_user: timmy, ssh_keys: [ 'keys/one.txt', 'keys/two.txt' ] }
-    ```
-2.  使用vars语句传递参数
+   ```bash
+   tasks:
+     - { include: wordpress.yml, wp_user: timmy, ssh_keys: [ 'keys/one.txt', 'keys/two.txt' ] }
+   ```
 
-    ```bash
-    tasks:
-      - include: wordpress.yml
-        vars:
-          wp_user: timmy
-          ssh_keys:
-            - keys/one.txt
-            - keys/two.txt
-    ```
-3.  使用with\_items传递参数
+2. 使用vars语句传递参数
 
-    ```bash
-    tasks:
-      - include: wordpress.yml
-        vars:
-          wp_user: "{{ item }}"
-        with_items:
-          - timmy
-          - alice
-          - bob
-    ```
+   ```bash
+   tasks:
+     - include: wordpress.yml
+       vars:
+         wp_user: timmy
+         ssh_keys:
+           - keys/one.txt
+           - keys/two.txt
+   ```
+
+3. 使用with_items传递参数
+
+   ```bash
+   tasks:
+     - include: wordpress.yml
+       vars:
+         wp_user: "{{ item }}"
+       with_items:
+         - timmy
+         - alice
+         - bob
+   ```
+
 
 除了显式传递的参数，所有在 **vars section** 中定义的变量也可在这里使用
 
@@ -472,7 +524,9 @@ include_vars是一个模块，可以用来在运行时动态导入变量文件�
 - public：此选项决定角色的变量和默认值是否暴露给play。如果设置为true，则变量将可用于include_role任务之后的任务。
 ```
 
-`include_tasks`、`include_role` 和 `include_vars` 都是 Ansible 的模块，它们只能用在 tasks、pre\_tasks、post\_tasks 或 handlers 列表中。这些模块不能直接在 play 的顶层使用。
+`include_tasks`、`include_role` 和 `include_vars` 都是 Ansible 的模块，它们只能用在 tasks、pre_tasks、post_tasks 或 handlers 列表中。这些模块不能直接在 play 的顶层使用。
+
+
 
 > Roles
 
@@ -480,13 +534,17 @@ include_vars是一个模块，可以用来在运行时动态导入变量文件�
 
 在角色目录下，你可以创建以下子目录来组织你的角色内容：
 
-* tasks：包含主要的任务列表。
-* handlers：包含用于处理特定事件的任务。
-* files：包含需要由文件模块复制到远程主机的文件。
-* templates：包含需要由模板模块复制到远程主机的模板文件。
-* vars：包含变量定义。
-* defaults：包含默认变量定义。**最低优先级的变量**
-* meta：包含角色元数据，如角色依赖关系。\
+- tasks：包含主要的任务列表。
+- handlers：包含用于处理特定事件的任务。
+
+- files：包含需要由文件模块复制到远程主机的文件。
+
+- templates：包含需要由模板模块复制到远程主机的模板文件。
+
+- vars：包含变量定义。
+
+- defaults：包含默认变量定义。**最低优先级的变量**
+- meta：包含角色元数据，如角色依赖关系。
   每个子目录都应该包含一个名为“main.yml”的文件，用于定义该子目录的内容。
 
 如果 roles 目录下有文件不存在，这些文件将被忽略。比如 roles 目录下面缺少了 ‘vars/’ 目录，这也没关系。
@@ -501,9 +559,9 @@ include_vars是一个模块，可以用来在运行时动态导入变量文件�
      - webservers
 ```
 
-在 Ansible 1.4 及之后版本，你可以为”角色”的搜索设定 **roles\_path** 配置项。使用这个配置项将所有的 common 角色 check out 到一个位置，以便在多个 playbook 项目中可方便的共享使用它们。
+在 Ansible 1.4 及之后版本，你可以为”角色”的搜索设定 **roles_path** 配置项。使用这个配置项将所有的 common 角色 check out 到一个位置，以便在多个 playbook 项目中可方便的共享使用它们。
 
-注意：你仍然可以在 playbook 中松散地列出 tasks，vars\_files 以及 handlers，这种方式仍然可用，但 roles 是一种很好的具有**组织性**的功能特性，我们强烈建议使用它。如果你在 playbook 中同时使用 roles 和 tasks，vars\_files 或者 handlers，roles 将**优先执行**。
+注意：你仍然可以在 playbook 中松散地列出 tasks，vars_files 以及 handlers，这种方式仍然可用，但 roles 是一种很好的具有**组织性**的功能特性，我们强烈建议使用它。如果你在 playbook 中同时使用 roles 和 tasks，vars_files 或者 handlers，roles 将**优先执行**。
 
 如果你希望定义一些 tasks，让它们在 roles 之前以及之后执行，你可以这样做:
 
@@ -524,6 +582,8 @@ include_vars是一个模块，可以用来在运行时动态导入变量文件�
   post_tasks:
     - shell: echo 'goodbye'
 ```
+
+
 
 > 角色依赖
 
@@ -547,7 +607,7 @@ dependencies:
   - {role: geerlingguy.apache}
 ```
 
-“角色依赖” 总是在 role （包含”角色依赖”的role）之前执行，并且是递归地执行。默认情况下，作为 “角色依赖” 被添加的 role 只能被添加一次，如果另一个 role 将一个相同的角色列为 “角色依赖” 的对象，它不会被重复执行。但这种默认的行为可被修改，通过添加 allow\_duplicates: yes 到 meta/main.yml 文件中。 比如，一个 role 名为 ‘car’，它可以添加名为 ‘wheel’ 的 role 到它的 “角色依赖” 中:
+“角色依赖” 总是在 role （包含”角色依赖”的role）之前执行，并且是递归地执行。默认情况下，作为 “角色依赖” 被添加的 role 只能被添加一次，如果另一个 role 将一个相同的角色列为 “角色依赖” 的对象，它不会被重复执行。但这种默认的行为可被修改，通过添加 allow_duplicates: yes 到 meta/main.yml 文件中。 比如，一个 role 名为 ‘car’，它可以添加名为 ‘wheel’ 的 role 到它的 “角色依赖” 中:
 
 ```yaml
 ---
@@ -570,19 +630,21 @@ dependencies:
 
 Ansible在搜索角色时会按照以下顺序检查目录：
 
-* 执行ansible-playbook命令时所在的当前目录。
-* playbook文件所在的目录及playbook文件所在目录的roles目录。
-* 当前系统用户下的～/.ansible/roles目录。
-* /usr/share/ansible/roles目录。
-* ansible.cfg 中「roles\_path」指定的目录，默认值为/etc/ansible/roles目录。\
-  可以通过修改ansible.cfg中的「roles\_path」来更改角色和角色依赖的默认路径。
+- 执行ansible-playbook命令时所在的当前目录。
+- playbook文件所在的目录及playbook文件所在目录的roles目录。
+- 当前系统用户下的～/.ansible/roles目录。
+- /usr/share/ansible/roles目录。
+- ansible.cfg 中「roles_path」指定的目录，默认值为/etc/ansible/roles目录。
+  可以通过修改ansible.cfg中的「roles_path」来更改角色和角色依赖的默认路径。
+
+
 
 > 使用ansible-galaxy管理role
 
-* 安装角色：ansible-galaxy install username.rolename
-  * -p：指定安装位置
-* 构建角色框架：ansible-galaxy init rolename
-* 从文件中安装多个角色：
+- 安装角色：ansible-galaxy install username.rolename
+  - -p：指定安装位置
+- 构建角色框架：ansible-galaxy init rolename
+- 从文件中安装多个角色：
 
 > 想安装多个角色，ansible-galaxy 命令行可以通过一个 requirements 文件实现。各种版本的ansible 都允许使用下面的语法从 Ansible galaxy 网站安装角色。
 >
@@ -590,13 +652,17 @@ Ansible在搜索角色时会按照以下顺序检查目录：
 >
 > requirements.txt 文件看起来就像这样
 >
-> username1.foo\_role username2.bar\_role
+> username1.foo_role username2.bar_role
 >
 > 想得到指定版本(tag)的role，使用下面的语法
 >
-> username1.foo\_role,version username2.bar\_role,version
+> username1.foo_role,version username2.bar_role,version
 
-#### 2.3.5.变量
+
+
+
+
+### 2.3.5.变量
 
 **变量名可以为字母,数字以及下划线.变量始终应该以字母开头**
 
@@ -607,6 +673,8 @@ Ansible在搜索角色时会按照以下顺序检查目录：
   vars:
     http_port: 80
 ```
+
+
 
 > 使用变量
 
@@ -622,13 +690,15 @@ My amp goes to {{ max_amp_value }}
 template: src=foo.cfg.j2 dest={{ remote_install_path }}/foo.cfg
 ```
 
-YAML语法要求如果值以\{{ foo \}}开头的话我们**需要将整行用双引号包起来**.这是为了确认你不是想声明一个YAML字典
+YAML语法要求如果值以{{ foo }}开头的话我们**需要将整行用双引号包起来**.这是为了确认你不是想声明一个YAML字典
 
 ```yaml
 - hosts: app_servers
   vars:
        app_path: "{{ base_path }}/22"
 ```
+
+
 
 > Facts
 
@@ -652,6 +722,8 @@ ansible hostname -m setup
 - hosts: whatever
   gather_facts: no
 ```
+
+
 
 > Fact缓存
 
@@ -686,7 +758,9 @@ fact_caching_connection = /path/to/cachedir
 fact_caching_timeout = 86400 # seconds
 ```
 
-fact\_caching\_connection是一个本地文件路径，指向一个可读目录（如果目录不存在，ansible将尝试创建它），其中将存储缓存文件。
+fact_caching_connection是一个本地文件路径，指向一个可读目录（如果目录不存在，ansible将尝试创建它），其中将存储缓存文件。
+
+
 
 > 注册变量
 
@@ -707,9 +781,9 @@ fact\_caching\_connection是一个本地文件路径，指向一个可读目录�
 
 你可以访问：
 
-* `result.stdout`：命令的标准输出。
-* `result.stderr`：命令的标准错误输出。
-* `result.rc`：命令的返回码。
+- `result.stdout`：命令的标准输出。
+- `result.stderr`：命令的标准错误输出。
+- `result.rc`：命令的返回码。
 
 若是一个嵌套的变量，则可以使用
 
@@ -723,37 +797,44 @@ fact\_caching\_connection是一个本地文件路径，指向一个可读目录�
 {{ foo[0] }}
 ```
 
+
+
 > 魔法变量
 
 魔法变量是Ansible自动提供给你的一些变量，即使你并没有定义过它们。由于这些变量名是预留的，所以用户**不应当覆盖它们**
 
 Ansible中常用的魔法变量有：
 
-* `hostvars`：可以让你访问其他主机的变量，包括哪些主机中获取到的facts。
-* `group_names`：是当前主机所在所有群组的列表（数组）。
-* `groups`：是inventory中所有群组（主机）的列表。可用于枚举群组中的所有主机。
-* `inventory_hostname`：是Ansible inventory主机文件中配置的主机名称。
-* `inventory_hostname_short`：是inventory\_hostname中域名第一个分号之前的部分。
-* `play_hosts`：是在当前play范围中可用的一组主机名。
-* `delegate_to`：是使用 ‘delegate\_to’ 代理的任务中主机的inventory主机名。
-* `inventory_dir`：是保存Ansible inventory主机文件的目录路径。
-* `inventory_file`：是指向Ansible inventory主机文件的路径和文件名。
-* `role_path`：会返回当前role的目录名（1.8及以后）。只有在role中才能使用该变量。
+- `hostvars`：可以让你访问其他主机的变量，包括哪些主机中获取到的facts。
+- `group_names`：是当前主机所在所有群组的列表（数组）。
+- `groups`：是inventory中所有群组（主机）的列表。可用于枚举群组中的所有主机。
+
+- `inventory_hostname`：是Ansible inventory主机文件中配置的主机名称。
+- `inventory_hostname_short`：是inventory_hostname中域名第一个分号之前的部分。
+- `play_hosts`：是在当前play范围中可用的一组主机名。
+- `delegate_to`：是使用 ‘delegate_to’ 代理的任务中主机的inventory主机名。
+- `inventory_dir`：是保存Ansible inventory主机文件的目录路径。
+- `inventory_file`：是指向Ansible inventory主机文件的路径和文件名。
+- `role_path`：会返回当前role的目录名（1.8及以后）。只有在role中才能使用该变量。
+
+
 
 > 变量优先级
 
 1. 命令行中的额外变量（-e）始终获胜
-2. 然后是清单中定义的连接变量（例如ansible\_ssh\_user等）
+2. 然后是清单中定义的连接变量（例如ansible_ssh_user等）
 3. 然后是“几乎所有其他”（命令行开关，play中的变量，包含的变量，角色变量等）
 4. 然后是清单中定义的其余变量
 5. 然后是有关系统的事实
 6. 最后是“角色默认值”，它们是最“默认”的，并且在所有内容中都失去优先权。
 
-#### 2.3.6.条件选择
+
+
+### 2.3.6.条件选择
 
 > when语句
 
-有时候用户有可能需要某一个主机越过某一个特定的步骤.这个过程就可以简单的像在某一个特定版本的系统上 少装了一个包一样或者像在一个满了的文件系统上执行清理操作一样. 这些操作在Ansible上,若使用`when`语句都异常简单.When语句包含Jinja2表达式(参见:doc:playbooks\_variables). 实际上真的很简单:
+有时候用户有可能需要某一个主机越过某一个特定的步骤.这个过程就可以简单的像在某一个特定版本的系统上 少装了一个包一样或者像在一个满了的文件系统上执行清理操作一样. 这些操作在Ansible上,若使用`when`语句都异常简单.When语句包含Jinja2表达式(参见:doc:playbooks_variables). 实际上真的很简单:
 
 ```yaml
 tasks:
@@ -822,7 +903,7 @@ tasks:
 
 这个机制在选择引入变量文件时有时候特别有用,详情如下.
 
-note当同时使用`when`和`with_items` (详见:doc:playbooks\_loops), `when`语句对于不同项目将会单独处理.这个源于原初设计:
+note当同时使用`when`和`with_items` (详见:doc:playbooks_loops), `when`语句对于不同项目将会单独处理.这个源于原初设计:
 
 ```yaml
 tasks:
@@ -847,9 +928,11 @@ tasks:
 
 这段文本是一个Ansible Playbook的一部分。它定义了一个名为“template a file”的任务，该任务使用template模块来创建一个文件。目标文件的路径为/etc/myapp/foo.conf。
 
-该任务使用了with\_first\_found循环来查找源文件。它将在指定的paths路径中查找第一个匹配的文件，并将其用作模板的源文件。在这个例子中，它将首先查找名为\{{ ansible\_distribution \}}.conf的文件，如果找不到，则查找名为default.conf的文件。
+该任务使用了with_first_found循环来查找源文件。它将在指定的paths路径中查找第一个匹配的文件，并将其用作模板的源文件。在这个例子中，它将首先查找名为{{ ansible_distribution }}.conf的文件，如果找不到，则查找名为default.conf的文件。
 
-#### 2.3.7.循环
+
+
+### 2.3.7.循环
 
 > 标准循环
 
@@ -911,6 +994,8 @@ with_items: "{{somelist}}"
         
 ```
 
+
+
 > 嵌套循环
 
 循环也可以嵌套:
@@ -946,6 +1031,8 @@ with_items: "{{somelist}}"
 #with_nested用于嵌套循环。它可以用来迭代多个列表，并在每次迭代中生成一个笛卡尔积。例如，如果您有两个列表A和B，那么使用with_nested来迭代这两个列表将生成A和B的笛卡尔积，即A中的每个元素与B中的每个元素的组合。
 ```
 
+
+
 > 对整数序列使用循环
 
 `with_sequence` 可以以升序数字顺序生成一组序列.你可以指定起始值、终止值,以及一个可选的步长值.
@@ -978,9 +1065,11 @@ with_items: "{{somelist}}"
       with_sequence: count=4
 ```
 
+
+
 > 随机选择
 
-‘random\_choice’功能可以用来随机获取一些值.它并不是负载均衡器(已经有相关的模块了).它有时可以用作一个简化版的负载均衡器,比如作为条件判断:
+‘random_choice’功能可以用来随机获取一些值.它并不是负载均衡器(已经有相关的模块了).它有时可以用作一个简化版的负载均衡器,比如作为条件判断:
 
 ```
 - debug: msg={{ item }}
@@ -994,6 +1083,8 @@ with_items: "{{somelist}}"
 提供的字符串中的其中一个会被随机选中.
 
 还有一个基本的场景,该功能可用于在一个可预测的自动化环境中添加混乱和兴奋点.
+
+
 
 > Do-Until循环
 
@@ -1010,6 +1101,8 @@ with_items: "{{somelist}}"
 上面的例子递归运行shell模块,直到模块结果中的stdout输出中包含”all systems go”字符串,或者该任务按照10秒的延迟重试超过5次.”retries”和”delay”的默认值分别是3和5.
 
 该任务返回最后一个任务返回的结果.单次重试的结果可以使用-vv选项来查看. 被注册的变量会有一个新的属性’attempts’,值为该任务重试的次数.
+
+
 
 > 遍历配置文件
 

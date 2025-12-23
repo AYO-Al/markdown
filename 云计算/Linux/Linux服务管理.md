@@ -1,8 +1,8 @@
-# Linux服务管理
-
-## 1.Linux的进程
+# 1.Linux的进程
 
 **守护进程**就是一直在后台运行的程序
+
+
 
 一般来说，Linux的进程分为**前台进程、后台进程、守护进程**
 
@@ -12,32 +12,32 @@
 
 **守护进程**：是一种特殊的后台进程，它独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件
 
-![image-20230610132216515](../../.gitbook/assets/lvango-0.png)
+![image-20230610132216515](./image/lvango-0.png)
 
-![image-20230610133545238](../../.gitbook/assets/m33n0d-0.png)
+![image-20230610133545238](./image/m33n0d-0.png)
 
-![image-20230610134636345](../../.gitbook/assets/m9nu63-0.png)
+![image-20230610134636345](./image/m9nu63-0.png)
 
-![image-20230610134848629](../../.gitbook/assets/mauzs2-0.png)
+![image-20230610134848629](./image/mauzs2-0.png)
 
-![image-20230610135301491](../../.gitbook/assets/mdk2s5-0.png)
+![image-20230610135301491](./image/mdk2s5-0.png)
 
-![image-20230610135245878](../../.gitbook/assets/md7ygy-0.png)
+![image-20230610135245878](./image/md7ygy-0.png)
 
-![image-20230610135734655](../../.gitbook/assets/mg78ex-0.png)
+![image-20230610135734655](./image/mg78ex-0.png)
 
-![](../../.gitbook/assets/n5um7f-0.png)
+![](./image/n5um7f-0.png)
 
-![image-20230610140732814](../../.gitbook/assets/n9yhq8-0.png)
+![image-20230610140732814](./image/n9yhq8-0.png)
 
-![image-20230610141403628](../../.gitbook/assets/ndvvv2-0.png)
+![image-20230610141403628](./image/ndvvv2-0.png)
 
 ```bash
 # 可以使用renice命令调整优先级
 renice -n -20 23422
 ```
 
-![image-20230610141432109](../../.gitbook/assets/ne46xw-0.png)
+![image-20230610141432109](./image/ne46xw-0.png)
 
 > 在 Linux 系统中，进程可以分为非实时进程和实时进程。它们主要的区别在于调度上的优先级和调度策略的不同。
 >
@@ -49,9 +49,9 @@ renice -n -20 23422
 >
 > 实时进程要比非实时进程具有更快的响应时间和更可靠的执行时间。因此，它们通常应用于满足实时需求的任务，如控制系统、信号处理、数据采集和音频/视频处理等。当实时进程运行时，实时性要求高的进程优先完成，从而保证了系统的稳定性和准确性。
 
-![image-20230610141622175](../../.gitbook/assets/nf96k3-0.png)
+![image-20230610141622175](./image/nf96k3-0.png)
 
-## 2.前台进程与后台进程
+# 2.前台进程与后台进程
 
 有时候我们不想把程序在前台运行，我们可以把前台进程转换为后台进程
 
@@ -68,7 +68,9 @@ yum makecache &
 
 所以。后台进程和前台进程的本质区别只有一个：**是否继承标准输入**。所以，执行后台任务的同时，用户还可以输入其他命令
 
-## 3.SIGHUP信号
+
+
+# 3.SIGHUP信号
 
 当用户退出session以后，后台进程是否还会继续执行？
 
@@ -91,7 +93,9 @@ shopt | grep huponexit
 
 一般来说，这个参数默认是关闭的，因此，session退出的时候，不会把`SIGHUP`信号发给后台进程。所以，一般来说，后台程序不会随着session一起退出
 
-## 4.disown命令
+
+
+# 4.disown命令
 
 其实，通过后台进程启动守护进程并不保险，因为有的系统huponexit参数时打开的
 
@@ -117,7 +121,9 @@ disown %2
 disown -h %2
 ```
 
-## 5.nohup命令
+
+
+# 5.nohup命令
 
 如果是不想让后台进程接收`SIGHUP`信号，还有一个命令可以实现。那就是`nohup`命令
 
@@ -129,19 +135,21 @@ disown -h %2
 
 但是，`nohub`不会自动把进程变成后台进程，所以还是得使用`&`
 
-## 6.进程管理工具
 
-![](../../.gitbook/assets/nivllc-0.png)
 
-![image-20230610142808022](../../.gitbook/assets/nm8rgo-0.png)
+# 6.进程管理工具
 
-![image-20230610143715363](../../.gitbook/assets/nrps31-0.png)
+![](./image/nivllc-0.png)
 
-![image-20230610144148387](../../.gitbook/assets/nuj3x7-0.png)
+![image-20230610142808022](./image/nm8rgo-0.png)
 
-![image-20230610144628683](../../.gitbook/assets/nx5i3g-0.png)
+![image-20230610143715363](./image/nrps31-0.png)
 
-![image-20230610144747251](../../.gitbook/assets/nxuyf2-0.png)
+![image-20230610144148387](./image/nuj3x7-0.png)
+
+![image-20230610144628683](./image/nx5i3g-0.png)
+
+![image-20230610144747251](./image/nxuyf2-0.png)
 
 ```bash
 # pidof查看命令进程的pid
@@ -151,37 +159,37 @@ taskset -cp 0,4 `pidof dd`
 # -p，--pid：绑定已有进程到指定的 CPU 上。
 ```
 
-![image-20230610150737985](../../.gitbook/assets/oxirjp-0.png)
+![image-20230610150737985](./image/oxirjp-0.png)
 
-![image-20230610171841268](../../.gitbook/assets/sf66l2-0.png)
+![image-20230610171841268](./image/sf66l2-0.png)
 
-![image-20230610172854619](../../.gitbook/assets/slfsld-0.png)
+![image-20230610172854619](./image/slfsld-0.png)
 
-![image-20230610173312954](../../.gitbook/assets/snxdps-0.png)
+![image-20230610173312954](./image/snxdps-0.png)
 
-![image-20230610173822679](../../.gitbook/assets/sqys04-0.png)
+![image-20230610173822679](./image/sqys04-0.png)
 
-![image-20230610174003124](../../.gitbook/assets/ss1khr-0.png)
+![image-20230610174003124](./image/ss1khr-0.png)
 
-![image-20230610174409354](../../.gitbook/assets/sugiqs-0.png)
+![image-20230610174409354](./image/sugiqs-0.png)
 
-![image-20230610174457970](../../.gitbook/assets/suzi4z-0.png)
+![image-20230610174457970](./image/suzi4z-0.png)
 
-![image-20230610175449700](../../.gitbook/assets/t0vzpe-0.png)
+![image-20230610175449700](./image/t0vzpe-0.png)
 
-![image-20230610175506345](../../.gitbook/assets/t0xfar-0.png)
+![image-20230610175506345](./image/t0xfar-0.png)
 
-![image-20230610175522452](../../.gitbook/assets/t10pyv-0.png)
+![image-20230610175522452](./image/t10pyv-0.png)
 
-![image-20230610175642535](../../.gitbook/assets/t1qk9s-0.png)
+![image-20230610175642535](./image/t1qk9s-0.png)
 
-![image-20230610175750372](../../.gitbook/assets/t2do2q-0.png)
+![image-20230610175750372](./image/t2do2q-0.png)
 
-![image-20230610175736399](../../.gitbook/assets/t2ap37-0.png)
+![image-20230610175736399](./image/t2ap37-0.png)
 
-![image-20230610180101112](../../.gitbook/assets/tsci39-0.png)
+![image-20230610180101112](./image/tsci39-0.png)
 
-![image-20230610180233777](../../.gitbook/assets/tt4twi-0.png)
+![image-20230610180233777](./image/tt4twi-0.png)
 
 ```bash
 # 0信号可以检查进程是否存在
@@ -190,34 +198,36 @@ taskset -cp 0,4 `pidof dd`
 0
 ```
 
-![image-20230610195806853](../../.gitbook/assets/wdscke-0.png)
+![image-20230610195806853](./image/wdscke-0.png)
 
-## 7.系统启动流程
+
+
+# 7.系统启动流程
 
 > LInux组成
 
-* Linux：kernel+rootfs
-  * kernel：进程管理、内存管理、网络管理、驱动程序、文件系统、安全功能
-  * rootfs：程序和glic
-  * 库：函数集合，function，调用接口(头文件负责描述)
-  * 程序：二进制执行文件
-* 内核设计流派：
-  * 单内核(monolithic kernel)：Linux
-    * 把所有功能集成与同一程序，分层实现不同功能，系统庞大复杂
-  * 微内核(micro kernel)：Windows，Solaris
-    * 每种功能使一个单独子系统实现，将内核功能移到用户空间，性能差
+- Linux：kernel+rootfs
+  - kernel：进程管理、内存管理、网络管理、驱动程序、文件系统、安全功能
+  - rootfs：程序和glic
+  - 库：函数集合，function，调用接口(头文件负责描述)
+  - 程序：二进制执行文件
+- 内核设计流派：
+  - 单内核(monolithic kernel)：Linux
+    - 把所有功能集成与同一程序，分层实现不同功能，系统庞大复杂
+  - 微内核(micro kernel)：Windows，Solaris
+    - 每种功能使一个单独子系统实现，将内核功能移到用户空间，性能差
 
-![image-20230611172240919](../../.gitbook/assets/shjuqf-0.png)
+![image-20230611172240919](./image/shjuqf-0.png)
 
-![image-20230621143129514](../../.gitbook/assets/no5uns-0.png)
+![image-20230621143129514](./image/no5uns-0.png)
 
-![image-20230611172529419](../../.gitbook/assets/sja2tn-0.png)
+![image-20230611172529419](./image/sja2tn-0.png)
 
-![image-20230611173350785](../../.gitbook/assets/soejjz-0.png)
+![image-20230611173350785](./image/soejjz-0.png)
 
-![image-20230611175536421](../../.gitbook/assets/t16jwl-0.png)
+![image-20230611175536421](./image/t16jwl-0.png)
 
-![image-20230611181057635](../../.gitbook/assets/tyaehg-0.png)
+![image-20230611181057635](./image/tyaehg-0.png)
 
 ```bash
 # /boot/initramfs-3.10.0-1160.90.1.el7.x86_64.img
@@ -228,39 +238,45 @@ taskset -cp 0,4 `pidof dd`
 mkinitrd /boot/initramfs-`uname -r`.img `uname -r`
 ```
 
-![image-20230611181902371](../../.gitbook/assets/u30p5c-0.png)
+![image-20230611181902371](./image/u30p5c-0.png)
 
-![image-20230620165749377](../../.gitbook/assets/revcl8-0.png)
+![image-20230620165749377](./image/revcl8-0.png)
 
-![image-20230621144245440](../../.gitbook/assets/nusyxg-0.png)
+![image-20230621144245440](./image/nusyxg-0.png)
+
+
+
+
 
 > grub修复
 
-![image-20230620171626732](../../.gitbook/assets/sdtr7m-0.png)
+![image-20230620171626732](./image/sdtr7m-0.png)
 
 第二种方法必须保证grub目录下的文件完整性，grub2可以使用`grub2-makeconfig -o /boot/grub2/grub.cfg`依赖`/etc/default/grub`生成配置文件
 
-![image-20230620180012562](../../.gitbook/assets/trr2fm-0.png)
+![image-20230620180012562](./image/trr2fm-0.png)
 
-![](../../.gitbook/assets/ttofzk-0.png)
+![](./image/ttofzk-0.png)
 
-![image-20230620180446147](../../.gitbook/assets/tuby38-0.png)
+![image-20230620180446147](./image/tuby38-0.png)
 
-![image-20230620180509770](../../.gitbook/assets/tupqbz-0.png)
+![image-20230620180509770](./image/tupqbz-0.png)
 
-![image-20230620180528466](../../.gitbook/assets/tutlfm-0.png)
+![image-20230620180528466](./image/tutlfm-0.png)
 
-## 8./proc
 
-![image-20230620224135129](../../.gitbook/assets/112fztn-0.png)
 
-![image-20230620224411649](../../.gitbook/assets/1143gjt-0.png)
+# 8./proc
+
+![image-20230620224135129](./image/112fztn-0.png)
+
+![image-20230620224411649](./image/1143gjt-0.png)
 
 命令修改或者在/proc/sys里面修改都只能临时修改，如果要永久修改，要到配置文件中修改，格式参照`sysctl -a`
 
-## 9.编译内核
+# 9.编译内核
 
-![image-20230620225632617](../../.gitbook/assets/11bd60u-0.png)
+![image-20230620225632617](./image/11bd60u-0.png)
 
 ```bash
 # 使用可视化菜单来编译模块
@@ -268,23 +284,25 @@ make menuconfig
 # 可以把/boot/config-3.10.0-1160.90.1.el7.x86_64复制为本文件夹的.config，让基于这个文件的模块修改
 ```
 
-![image-20230620225646674](../../.gitbook/assets/11bg4cf-0.png)
+![image-20230620225646674](./image/11bg4cf-0.png)
 
-![image-20230620230739279](../../.gitbook/assets/125roty-0.png)
+![image-20230620230739279](./image/125roty-0.png)
 
-![image-20230621130804218](../../.gitbook/assets/lmtdh0-0.png)
+![image-20230621130804218](./image/lmtdh0-0.png)
 
-![image-20230621131052254](../../.gitbook/assets/lo93bq-0.png)
+![image-20230621131052254](./image/lo93bq-0.png)
 
-## 6.Systemd
+
+
+# 6.Systemd
 
 除了上述的几种方法外，Linux系统有自己专门的守护进程管理工具Systemd。它是操作系统的一部分，直接与内核交互，性能出色，功能强大。我们完全可以将程序交给 Systemd ，让系统统一管理，成为真正意义上的系统服务。
 
-![image-20230621134537387](../../.gitbook/assets/m905aq-0.png)
+![image-20230621134537387](./image/m905aq-0.png)
 
-![image-20230621135052768](../../.gitbook/assets/mc2mo8-0.png)
+![image-20230621135052768](./image/mc2mo8-0.png)
 
-### 6.1.由来
+## 6.1.由来
 
 一直以来，Linux的启动一直采用`init`进程
 
@@ -300,7 +318,9 @@ service httpd start
 
 二是启动脚本复杂。`init`进程只是执行启动脚本，不管其他事情。脚本需要自己处理各种情况，这往往使得脚本变得很长
 
-### 6.2.Systemd概述
+
+
+## 6.2.Systemd概述
 
 Systemd 就是为了解决这些问题而诞生的。它的设计目标是，为系统的启动和管理提供一套完整的解决方案。
 
@@ -314,13 +334,15 @@ pstree
 
 Systemd的功能强大，使用方便，但是体系庞大，非常复杂。
 
-![img](../../.gitbook/assets/ifjhs1-0.png)
+![img](./image/ifjhs1-0.png)
 
-### 6.3.系统管理
+
+
+## 6.3.系统管理
 
 Systemd并不是一个命令，而是一组命令，涉及到系统管理的方方面面
 
-#### 6.3.1.systemctl
+### 6.3.1.systemctl
 
 `systemctl`是Systemd的主命令，用于管理系统
 
@@ -347,7 +369,9 @@ $ sudo systemctl hybrid-sleep
 $ sudo systemctl rescue
 ```
 
-#### 6.3.2.systemd-analyze
+
+
+### 6.3.2.systemd-analyze
 
 `systemd-analyze`命令用于查看启动耗时
 
@@ -365,7 +389,9 @@ $ systemd-analyze critical-chain
 $ systemd-analyze critical-chain atd.service
 ```
 
-#### 6.3.3.hostnamectl
+
+
+### 6.3.3.hostnamectl
 
 `hostnamectl`用于查看当前主机的信息
 
@@ -377,20 +403,24 @@ $ hostnamectl
 $ sudo hostnamectl set-hostname rhel7
 ```
 
-#### 6.3.4.localetcl
+
+
+### 6.3.4.localetcl
 
 `localectl`命令用于查看本地化设置。
 
-```bash
-# 查看本地化设置
- $ localectl
+ ```bash
+ # 查看本地化设置
+  $ localectl
+ 
+ # 设置本地化参数。
+ $ sudo localectl set-locale LANG=en_GB.utf8
+ $ sudo localectl set-keymap en_GB
+ ```
 
-# 设置本地化参数。
-$ sudo localectl set-locale LANG=en_GB.utf8
-$ sudo localectl set-keymap en_GB
-```
 
-#### 6.3.5.timedatectl
+
+### 6.3.5.timedatectl
 
 `timedatectl`命令用于查看当前时区设置。
 
@@ -407,7 +437,9 @@ $ sudo timedatectl set-time YYYY-MM-DD
 $ sudo timedatectl set-time HH:MM:SS
 ```
 
-#### 6.3.6.loginctl
+
+
+### 6.3.6.loginctl
 
 `loginctl`命令用于查看当前登录的用户。
 
@@ -422,26 +454,30 @@ $ loginctl list-users
 $ loginctl show-user ruanyf
 ```
 
-### 6.4.Unit
+
+
+## 6.4.Unit
 
 Systemd可以管理所有系统资源，不同的资源统称为Unit(单位)
 
-![image-20230621134759429](../../.gitbook/assets/makgtu-0.png)
+![image-20230621134759429](./image/makgtu-0.png)
 
 Unit 一共分成12种。
 
-> * Service unit：系统服务
-> * Target unit：多个 Unit 构成的一个组
-> * Device Unit：硬件设备
-> * Mount Unit：文件系统的挂载点
-> * Automount Unit：自动挂载点
-> * Path Unit：文件或路径
-> * Scope Unit：不是由 Systemd 启动的外部进程
-> * Slice Unit：进程组
-> * Snapshot Unit：Systemd 快照，可以切回某个快照
-> * Socket Unit：进程间通信的 socket
-> * Swap Unit：swap 文件
-> * Timer Unit：定时器
+> - Service unit：系统服务
+> - Target unit：多个 Unit 构成的一个组
+> - Device Unit：硬件设备
+> - Mount Unit：文件系统的挂载点
+> - Automount Unit：自动挂载点
+> - Path Unit：文件或路径
+> - Scope Unit：不是由 Systemd 启动的外部进程
+> - Slice Unit：进程组
+> - Snapshot Unit：Systemd 快照，可以切回某个快照
+> - Socket Unit：进程间通信的 socket
+> - Swap Unit：swap 文件
+> - Timer  Unit：定时器
+
+
 
 `systemctl list-units`命令可以查看当前系统的所有 Unit 。
 
@@ -466,7 +502,9 @@ systemctl list-unit-files --type=service | grep enabled
 
 ```
 
-#### 6.4.1.Unit状态
+
+
+### 6.4.1.Unit状态
 
 `systemctl status`命令用于查看系统状态和单个 Unit 的状态。
 
@@ -528,9 +566,13 @@ $ systemctl is-failed application.service
 $ systemctl is-enabled application.service
 ```
 
-![image-20230621141950519](../../.gitbook/assets/nh52xg-0.png)
+![image-20230621141950519](./image/nh52xg-0.png)
 
-#### 6.4.2.Unit管理
+
+
+
+
+### 6.4.2.Unit管理
 
 对于用户来说，最常用的是下面这些命令，用于启动和停止 Unit（主要是 service）。
 
@@ -566,7 +608,9 @@ $ sudo systemctl set-property httpd.service CPUShares=500
 $ systemctl mask(unmask) name
 ```
 
-#### 6.4.3.依赖关系
+
+
+### 6.4.3.依赖关系
 
 Unit 之间存在依赖关系：A 依赖于 B，就意味着 Systemd 在启动 A 的时候，同时会去启动 B。
 
@@ -582,9 +626,11 @@ $ systemctl list-dependencies nginx.service
 $ systemctl list-dependencies --all nginx.service
 ```
 
-### 6.5.Unit配置文件
 
-#### 6.5.1.概述
+
+## 6.5.Unit配置文件
+
+### 6.5.1.概述
 
 每一个Unit都有一个配置文件，告诉Systemd怎么启动这个Unit
 
@@ -608,7 +654,9 @@ $ sudo systemctl disable clamd@scan.service
 
 配置文件的后缀名，就是该 Unit 的种类，比如`sshd.socket`。如果省略，Systemd 默认后缀名为`.service`，所以`sshd`会被理解成`sshd.service`。
 
-#### 6.5.2.配置文件状态
+
+
+### 6.5.2.配置文件状态
 
 `systemctl list-unit-files`命令用于列出所有配置文件。
 
@@ -633,10 +681,10 @@ clamd@scan.service     disabled
 
 这个列表显示每个配置文件的状态，一共有四种。
 
-> * enabled：已建立启动链接
-> * disabled：没建立启动链接
-> * static：该配置文件没有`[Install]`部分（无法执行），只能作为其他配置文件的依赖
-> * masked：该配置文件被禁止建立启动链接
+> - enabled：已建立启动链接
+> - disabled：没建立启动链接
+> - static：该配置文件没有`[Install]`部分（无法执行），只能作为其他配置文件的依赖
+> - masked：该配置文件被禁止建立启动链接
 
 注意，从配置文件的状态无法看出，该 Unit 是否正在运行。这必须执行前面提到的`systemctl status`命令。
 
@@ -651,11 +699,13 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl restart httpd.service
 ```
 
-#### 6.5.3.配置文件格式
 
-* \[Unit]：描述服务的元数据，如服务名称、描述、依赖关系等。
-* \[Service]：描述服务的具体行为，如要运行的命令、环境变量、工作目录等。
-* \[Install]：描述如何安装服务，如安装路径、安装类型等。
+
+### 6.5.3.配置文件格式
+
+- [Unit]：描述服务的元数据，如服务名称、描述、依赖关系等。
+- [Service]：描述服务的具体行为，如要运行的命令、环境变量、工作目录等。
+- [Install]：描述如何安装服务，如安装路径、安装类型等。
 
 `systemctl cat`命令可以查看配置文件内容
 
@@ -695,37 +745,37 @@ WantedBy=multi-user.target
 
 每个区块内部是一些等号连接的键值对。且键值对的等号两侧不能有空格
 
-#### 6.5.4.配置文件的区块
+
+
+### 6.5.4.配置文件的区块
 
 `[Unit]`区块通常是配置文件的第一个区块，用来定义 Unit 的元数据，以及配置与其他 Unit 的关系。它的主要字段如下。
 
-> * `Description`：简短描述
-> * `Documentation`：文档地址
-> * `Requires`：当前 Unit 依赖的其他 Unit，如果它们没有运行，当前 Unit 会启动失败
-> * `Wants`：与当前 Unit 配合的其他 Unit，如果它们没有运行，当前 Unit 不会启动失败
-> * `BindsTo`：与`Requires`类似，它指定的 Unit 如果退出，会导致当前 Unit 停止运行
-> * `Before`：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之后启动
-> * `After`：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之前启动
-> * `Conflicts`：这里指定的 Unit 不能与当前 Unit 同时运行
-> * `Condition...`：当前 Unit 运行必须满足的条件，否则不会运行
-> * `Assert...`：当前 Unit 运行必须满足的条件，否则会报启动失败
+> - `Description`：简短描述
+> - `Documentation`：文档地址
+> - `Requires`：当前 Unit 依赖的其他 Unit，如果它们没有运行，当前 Unit 会启动失败
+> - `Wants`：与当前 Unit 配合的其他 Unit，如果它们没有运行，当前 Unit 不会启动失败
+> - `BindsTo`：与`Requires`类似，它指定的 Unit 如果退出，会导致当前 Unit 停止运行
+> - `Before`：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之后启动
+> - `After`：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之前启动
+> - `Conflicts`：这里指定的 Unit 不能与当前 Unit 同时运行
+> - `Condition...`：当前 Unit 运行必须满足的条件，否则不会运行
+> - `Assert...`：当前 Unit 运行必须满足的条件，否则会报启动失败
 
 注意：`After`和`Before`字段只涉及启动顺序，不涉及依赖关系。
 
-​ `Wants`定义弱依赖关系，即设定的依赖出了问题，不影响服务继续执行
+​			`Wants`定义弱依赖关系，即设定的依赖出了问题，不影响服务继续执行
 
-​ `Requires`定义强依赖关系，即如果定义的依赖除了文件，此服务也不能运行
+​			`Requires`定义强依赖关系，即如果定义的依赖除了文件，此服务也不能运行
 
-```
-	   `Wants`和`Requires`字段致设计依赖关系，与启动顺序无关，默认同时启动
-```
+ 		   `Wants`和`Requires`字段致设计依赖关系，与启动顺序无关，默认同时启动
 
 `[Install]`通常是配置文件的最后一个区块，用来定义如何启动，以及是否开机启动。它的主要字段如下。
 
-> * `WantedBy`：它的值是一个或多个 Target，当前 Unit 激活时（enable）符号链接会放入`/etc/systemd/system`目录下面以 Target 名 + `.wants`后缀构成的子目录中
-> * `RequiredBy`：它的值是一个或多个 Target，当前 Unit 激活时，符号链接会放入`/etc/systemd/system`目录下面以 Target 名 + `.required`后缀构成的子目录中
-> * `Alias`：当前 Unit 可用于启动的别名
-> * `Also`：当前 Unit 激活（enable）时，会被同时激活的其他 Unit
+> - `WantedBy`：它的值是一个或多个 Target，当前 Unit 激活时（enable）符号链接会放入`/etc/systemd/system`目录下面以 Target 名 + `.wants`后缀构成的子目录中
+> - `RequiredBy`：它的值是一个或多个 Target，当前 Unit 激活时，符号链接会放入`/etc/systemd/system`目录下面以 Target 名 + `.required`后缀构成的子目录中
+> - `Alias`：当前 Unit 可用于启动的别名
+> - `Also`：当前 Unit 激活（enable）时，会被同时激活的其他 Unit
 
 `Target`的含义是服务组，表示一组服务。`WantedBy=multi-user.target`指的是，sshd 所在的 Target 是`multi-user.target`。
 
@@ -733,36 +783,36 @@ WantedBy=multi-user.target
 
 `[Service]`区块用来 Service 的配置，只有 Service 类型的 Unit 才有这个区块。它的主要字段如下。
 
-> * `Type`：定义启动时的进程行为。它有以下几种值。
->   * `Type=simple`：默认值，执行`ExecStart`指定的命令，启动主进程
->   * `Type=forking`：以 fork 方式从父进程创建子进程，创建后父进程会立即退出
->   * `Type=oneshot`：一次性进程，Systemd 会等当前服务退出，再继续往下执行
->   * `Type=dbus`：当前服务通过D-Bus启动
->   * `Type=notify`：当前服务启动完毕，会通知`Systemd`，再继续往下执行
->   * `Type=idle`：若有其他任务执行完毕，当前服务才会运行
-> * `ExecStart`：启动当前服务的命令
-> * `ExecStartPre`：启动当前服务之前执行的命令
-> * `ExecStartPost`：启动当前服务之后执行的命令
-> * `ExecReload`：重启当前服务时执行的命令
-> * `ExecStop`：停止当前服务时执行的命令
-> * `ExecStopPost`：停止当其服务之后执行的命令
-> * `RestartSec`：自动重启当前服务间隔的秒数
-> * `Restart`：定义何种情况 Systemd 会自动重启当前服务
->   * no（默认值）：退出后不会重启
->   * on-success：只有正常退出时（退出状态码为0），才会重启
->   * on-failure：非正常退出时（退出状态码非0），包括被信号终止和超时，才会重启
->   * on-abnormal：只有被信号终止和超时，才会重启
->   * on-abort：只有在收到没有捕捉到的信号终止时，才会重启
->   * on-watchdog：超时退出，才会重启
->   * always：不管是什么退出原因，总是重启
->   * 对于守护进程，推荐设为`on-failure`。对于那些允许发生错误退出的服务，可以设为`on-abnormal`
-> * `KillMode`：定义Systemd如何停止sshd服务
->   * control-group（默认值）：当前控制组里面的所有子进程，都会被杀掉
->   * process：只杀主进程
->   * mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号
->   * none：没有进程会被杀掉，只是执行服务的 stop 命令。
-> * `TimeoutSec`：定义 Systemd 停止当前服务之前等待的秒数
-> * `Environment`：指定环境变量
+> - `Type`：定义启动时的进程行为。它有以下几种值。
+>   - `Type=simple`：默认值，执行`ExecStart`指定的命令，启动主进程
+>   - `Type=forking`：以 fork 方式从父进程创建子进程，创建后父进程会立即退出
+>   - `Type=oneshot`：一次性进程，Systemd 会等当前服务退出，再继续往下执行
+>   - `Type=dbus`：当前服务通过D-Bus启动
+>   - `Type=notify`：当前服务启动完毕，会通知`Systemd`，再继续往下执行
+>   - `Type=idle`：若有其他任务执行完毕，当前服务才会运行
+> - `ExecStart`：启动当前服务的命令
+> - `ExecStartPre`：启动当前服务之前执行的命令
+> - `ExecStartPost`：启动当前服务之后执行的命令
+> - `ExecReload`：重启当前服务时执行的命令
+> - `ExecStop`：停止当前服务时执行的命令
+> - `ExecStopPost`：停止当其服务之后执行的命令
+> - `RestartSec`：自动重启当前服务间隔的秒数
+> - `Restart`：定义何种情况 Systemd 会自动重启当前服务
+>   - no（默认值）：退出后不会重启
+>   - on-success：只有正常退出时（退出状态码为0），才会重启
+>   - on-failure：非正常退出时（退出状态码非0），包括被信号终止和超时，才会重启
+>   - on-abnormal：只有被信号终止和超时，才会重启
+>   - on-abort：只有在收到没有捕捉到的信号终止时，才会重启
+>   - on-watchdog：超时退出，才会重启
+>   - always：不管是什么退出原因，总是重启
+>   - 对于守护进程，推荐设为`on-failure`。对于那些允许发生错误退出的服务，可以设为`on-abnormal`
+> - `KillMode`：定义Systemd如何停止sshd服务
+>   - control-group（默认值）：当前控制组里面的所有子进程，都会被杀掉
+>   - process：只杀主进程
+>   - mixed：主进程将收到 SIGTERM 信号，子进程收到 SIGKILL 信号
+>   - none：没有进程会被杀掉，只是执行服务的 stop 命令。
+> - `TimeoutSec`：定义 Systemd 停止当前服务之前等待的秒数
+> - `Environment`：指定环境变量
 
 注意：所有的启动设置之前，都可以加上一个连词号（`-`），表示"抑制错误"，即发生错误的时候，不影响其他命令的执行。比如，`EnvironmentFile=-/etc/sysconfig/sshd`（注意等号后面的那个连词号），就表示即使`/etc/sysconfig/sshd`文件不存在，也不会抛出错误。
 
@@ -802,7 +852,9 @@ WantedBy=multi-user.target
 
 Unit 配置文件的完整字段清单，请参考[官方文档](https://www.freedesktop.org/software/systemd/man/systemd.unit.html)。
 
-### 6.6.Target
+
+
+## 6.6.Target
 
 启动计算机的时候，需要启动大量的 Unit。如果每一次启动，都要一一写明本次启动需要哪些 Unit，显然非常不方便。Systemd 的解决方案就是 Target。
 
@@ -877,7 +929,7 @@ AllowIsolate=yes
 >
 > `AllowIsolate`：允许使用`systemctl isolate`命令切换到`multi-user.target`。
 
-### 6.7.日志管理
+## 6.7.日志管理
 
 Systemd 统一管理所有 Unit 的启动日志。带来的好处就是，可以只用`journalctl`一个命令，查看所有日志（内核日志和应用日志）。日志的配置文件是`/etc/systemd/journald.conf`。
 
@@ -966,7 +1018,9 @@ $ sudo journalctl --vacuum-size=1G
 $ sudo journalctl --vacuum-time=1years
 ```
 
-### 6.8.修改配置文件后重启
+
+
+## 6.8.修改配置文件后重启
 
 如果你修改了配置文件，那么需要重新加载配置文件，如何重新启动相关服务
 
@@ -985,3 +1039,10 @@ $ systemctl daemon-reload
 
 $ systemctl restart systemd
 ```
+
+
+
+
+
+
+

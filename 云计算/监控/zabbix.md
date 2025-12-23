@@ -1,64 +1,87 @@
-# zabbix
+# 1.Zabbix
 
-## 1.Zabbix
-
-### 1.1.监控概述
+## 1.1.监控概述
 
 **监控**是指对行为、活动或其他**变动**中信息的一种**持续性**关注，通常是为了对人达成影响、管理、指导或保护的目的
 
-* 监控
-  * 监视主机架构状态
-  * 控制，事后追责
-  * 目标：早发现早处理(故障、性能、架构) 网站扩容(用数据说话)
+- 监控
+
+  - 监视主机架构状态
+  - 控制，事后追责
+  - 目标：早发现早处理(故障、性能、架构) 网站扩容(用数据说话)
+
+  
 
 > 为什么要监控
 
-* 对系统不间断实时监控
-* 实时反馈系统当前状态
-* 保证业务持续性运行
+- 对系统不间断实时监控
+- 实时反馈系统当前状态
+- 保证业务持续性运行
+
+
 
 > 监控流程
 
 1. 数据采集
+
 2. 数据存储
+
 3. 数据分析
+
 4. 展示/告警
+
+
 
 > 监控的内容
 
-![image-20230505142647440](../../.gitbook/assets/nllo82-0.png)
+![image-20230505142647440](./image/nllo82-0.png)
 
-![image-20230505145055781](../../.gitbook/assets/nzmlwe-0.png)
+![image-20230505145055781](./image/nzmlwe-0.png)
 
-### 1.2.Linux有关性能的指令
 
-![image-20230509093215338](../../.gitbook/assets/ff0qes-0.png)
 
-### 1.3.企业面试题：公司监控如何做
+## 1.2.Linux有关性能的指令
 
-* 等同于：你们公司监控了什么？
-* 单台机器
-  * 业务信息：应用、程序代码是否有问题(需要与开发沟通，书写一个页面)
-  * 服务信息：各种服务的进程、端口、状态、特定的信息(不同服务)
-  * 系统信息：cpu、内存(swap,buffer/cache)、磁盘(io,使用率,inode)、负载、网络....
-  * 硬件信息：磁盘、raid状态、温度、风扇转速
-* 网站集群监控(用户访问流程)
-  * DNS解析与CDN 通过全局访问测试工具(模仿用户在全国(全球)各地访问网站)
-    * 在全国各地核心城市部署一台服务器，访问源站/cdn/dns（smokeping）
-    * 免费：[17ce.com](https://www.17ce.com/)
-    * 商业版：听云、监控宝
-  * TCP三次握手-网站负载均衡监控 ss-ant
-  * HTTP请求报文-监控web日志查看(状态码) 补充：加上HTTPS监控过期
-  * 请求经过网站架构
-    * 负载均衡(Nginx)
-    * web服务器(php,tomcat...)
-    * 缓存
-    * 数据库
-    * 存储
-  * TCP四次挥手-网站负载均衡监控
-  * 断开连接
+![image-20230509093215338](./image/ff0qes-0.png)
 
-### 1.2.概述
+
+
+## 1.3.企业面试题：公司监控如何做
+
+- 等同于：你们公司监控了什么？
+
+- 单台机器
+
+  - 业务信息：应用、程序代码是否有问题(需要与开发沟通，书写一个页面)
+  - 服务信息：各种服务的进程、端口、状态、特定的信息(不同服务)
+  - 系统信息：cpu、内存(swap,buffer/cache)、磁盘(io,使用率,inode)、负载、网络....
+  - 硬件信息：磁盘、raid状态、温度、风扇转速
+
+- 网站集群监控(用户访问流程)
+
+  - DNS解析与CDN 通过全局访问测试工具(模仿用户在全国(全球)各地访问网站)
+    - 在全国各地核心城市部署一台服务器，访问源站/cdn/dns（smokeping）
+    - 免费：[17ce.com](https://www.17ce.com/)
+    - 商业版：听云、监控宝
+    
+  - TCP三次握手-网站负载均衡监控 ss-ant
+  - HTTP请求报文-监控web日志查看(状态码)   补充：加上HTTPS监控过期
+  - 请求经过网站架构
+    - 负载均衡(Nginx)
+    - web服务器(php,tomcat...)
+    - 缓存
+    - 数据库
+    - 存储
+  - TCP四次挥手-网站负载均衡监控
+  - 断开连接
+
+
+
+
+
+
+
+## 1.2.概述
 
 Zabbix 由 Alexei Vladishev 创建，目前由 Zabbix SIA 主导开发和支持。
 
@@ -70,98 +93,102 @@ Zabbix 支持轮询和 trapping。所有 Zabbix 报告和统计数据以及配�
 
 > Linux相关指标命令
 
-![image-20230506103508282](../../.gitbook/assets/h4bfdp-0.png)
+![image-20230506103508282](./image/h4bfdp-0.png)
+
+
 
 Zabbix功能有如下：
 
-[**数据收集**](https://www.zabbix.com/documentation/current/zh/manual/config/items)
+**[数据收集](https://www.zabbix.com/documentation/current/zh/manual/config/items)**
 
-* 可用性和性能检查
-* 支持 SNMP（trapping 和 polling）、IPMI、JMX、VMware监控
-* 自定义检查
-* 以自定义间隔收集所需数据
-* 由 server/proxy 和 agents 执行
+- 可用性和性能检查
+- 支持 SNMP（trapping 和 polling）、IPMI、JMX、VMware监控
+- 自定义检查
+- 以自定义间隔收集所需数据
+- 由 server/proxy 和 agents 执行
 
-[**灵活的阈值定义**](https://www.zabbix.com/documentation/current/zh/manual/config/triggers)
+**[灵活的阈值定义](https://www.zabbix.com/documentation/current/zh/manual/config/triggers)**
 
-* 可以定义非常灵活的问题阈值，称为触发器，从后端数据库引用值
+- 可以定义非常灵活的问题阈值，称为触发器，从后端数据库引用值
 
-[**高度可配置的告警**](https://www.zabbix.com/documentation/current/zh/manual/config/notifications)
+**[高度可配置的告警](https://www.zabbix.com/documentation/current/zh/manual/config/notifications)**
 
-* 可以针对升级计划、收件人、媒体类型自定义发送通知
-* 使用宏可以使通知变得有意义和有用
-* 自动化操作包括执行远程命令
+- 可以针对升级计划、收件人、媒体类型自定义发送通知
+- 使用宏可以使通知变得有意义和有用
+- 自动化操作包括执行远程命令
 
-[**实时图形**](https://www.zabbix.com/documentation/current/zh/manual/config/visualization/graphs/simple)
+**[实时图形](https://www.zabbix.com/documentation/current/zh/manual/config/visualization/graphs/simple)**
 
-* 采集到的监控项值可以使用内置的绘图功能立即绘图
+- 采集到的监控项值可以使用内置的绘图功能立即绘图
 
-[**网络监控功能**](https://www.zabbix.com/documentation/current/zh/manual/web_monitoring)
+**[网络监控功能](https://www.zabbix.com/documentation/current/zh/manual/web_monitoring)**
 
-* Zabbix 可以跟踪网站上的模拟鼠标点击路径并检查功能和响应时间
+- Zabbix 可以跟踪网站上的模拟鼠标点击路径并检查功能和响应时间
 
-[**广泛的可视化选项**](https://www.zabbix.com/documentation/current/zh/manual/config/visualization)
+**[广泛的可视化选项](https://www.zabbix.com/documentation/current/zh/manual/config/visualization)**
 
-* 创建自定义图形的能力，可以将多个监控项组合成一个聚合图形
-* 网络拓扑图
-* 在仪表盘中显示幻灯片
-* 报表
-* 受监控资源的高级（业务）视图
+- 创建自定义图形的能力，可以将多个监控项组合成一个聚合图形
+- 网络拓扑图
+- 在仪表盘中显示幻灯片
+- 报表
+- 受监控资源的高级（业务）视图
 
-[**历史数据存储**](https://www.zabbix.com/documentation/current/zh/manual/installation/requirements#database-size)
+**[历史数据存储](https://www.zabbix.com/documentation/current/zh/manual/installation/requirements#database-size)**
 
-* 存储在数据库中的数据
-* 可配置的历史（保留趋势）
-* 内置管家程序
+- 存储在数据库中的数据
+- 可配置的历史（保留趋势）
+- 内置管家程序
 
-[**建议的配置**](https://www.zabbix.com/documentation/current/zh/manual/config/hosts)
+**[建议的配置](https://www.zabbix.com/documentation/current/zh/manual/config/hosts)**
 
-* 将受监控的设备添加为主机
-* 一旦主机被数据库添加，就会开始进行数据采集
-* 将模板应用于受监控的设备
+- 将受监控的设备添加为主机
+- 一旦主机被数据库添加，就会开始进行数据采集
+- 将模板应用于受监控的设备
 
-[**模板的使用**](https://www.zabbix.com/documentation/current/zh/manual/config/templates)
+**[模板的使用](https://www.zabbix.com/documentation/current/zh/manual/config/templates)**
 
-* 在模板中分组检查
-* 模板可以继承其他模板
+- 在模板中分组检查
+- 模板可以继承其他模板
 
-[**网络发现**](https://www.zabbix.com/documentation/current/zh/manual/discovery)
+**[网络发现](https://www.zabbix.com/documentation/current/zh/manual/discovery)**
 
-* 网络设备自动发现
-* agent 自动注册
-* 发现文件系统、网络接口和 SNMP OID
+- 网络设备自动发现
+- agent 自动注册
+- 发现文件系统、网络接口和 SNMP OID
 
-[**便捷的 web 界面**](https://www.zabbix.com/documentation/current/zh/manual/web_interface)
+**[便捷的 web 界面](https://www.zabbix.com/documentation/current/zh/manual/web_interface)**
 
-* 基于web的PHP前端
-* 可从任何地方访问
-* 可以通过你的方式点击（到任何页面）
-* 审计日志
+- 基于web的PHP前端
+- 可从任何地方访问
+- 可以通过你的方式点击（到任何页面）
+- 审计日志
 
-[**Zabbix API**](https://www.zabbix.com/documentation/current/zh/manual/api)
+**[Zabbix API](https://www.zabbix.com/documentation/current/zh/manual/api)**
 
-* Zabbix API 为 Zabbix 提供可编程接口，用于大规模操作、第 3 方软件集成和其他用途。
+- Zabbix API 为 Zabbix 提供可编程接口，用于大规模操作、第 3 方软件集成和其他用途。
 
-[**权限系统**](https://www.zabbix.com/documentation/current/zh/manual/config/users_and_usergroups)
+**[权限系统](https://www.zabbix.com/documentation/current/zh/manual/config/users_and_usergroups)**
 
-* 安全用户认证
-* 某些用户可以被限制仅访问某些视图
+- 安全用户认证
+- 某些用户可以被限制仅访问某些视图
 
-[**全功能且易于扩展的 agent**](https://www.zabbix.com/documentation/current/zh/manual/concepts/agent)
+**[全功能且易于扩展的 agent](https://www.zabbix.com/documentation/current/zh/manual/concepts/agent)**
 
-* 部署在被监控目标上
-* Linux 和 Windows 操作系统都适用于
+- 部署在被监控目标上
+- Linux 和 Windows 操作系统都适用于
 
-[**二进制守护进程**](https://www.zabbix.com/documentation/current/zh/manual/concepts/server)
+**[二进制守护进程](https://www.zabbix.com/documentation/current/zh/manual/concepts/server)**
 
-* 用 C 编写，用于提高性能和减少内存占用
-* 轻量级、便携
+- 用 C 编写，用于提高性能和减少内存占用
+- 轻量级、便携
 
-[**为复杂环境做好准备**](https://www.zabbix.com/documentation/current/zh/manual/distributed_monitoring)
+**[为复杂环境做好准备](https://www.zabbix.com/documentation/current/zh/manual/distributed_monitoring)**
 
-* 使用 Zabbix proxy 轻松实现远程监控
+- 使用 Zabbix proxy 轻松实现远程监控
 
-### 1.3.Zabbix架构
+
+
+## 1.3.Zabbix架构
 
 **Server**
 
@@ -183,32 +210,37 @@ Zabbix 收集的所有配置信息以及数据都存储在数据库中。
 
 Zabbix agent 部署在被监控目标上，以主动监控本地资源和应用程序，并将收集到的数据报告给 Zabbix server。从 Zabbix 4.4 开始，有两种类型的 agent 可用：[Zabbix agent](https://www.zabbix.com/documentation/current/zh/manual/concepts/agent) （轻量级，在许多平台上支持，用 C 编写）和 [Zabbix agent 2](https://www.zabbix.com/documentation/current/zh/manual/concepts/agent) （非常灵活，易于使用插件扩展，用 Go 编写）。
 
-## 2.使用Zabbix
 
-### 2.1.配置要求
+
+# 2.使用Zabbix
+
+## 2.1.配置要求
 
 | Name         | Platform                | CPU/Memory        | Database                               | Monitored hosts |
-| ------------ | ----------------------- | ----------------- | -------------------------------------- | --------------- |
-| _Small_      | CentOS                  | Virtual Appliance | MySQL InnoDB                           | 100             |
-| _Medium_     | CentOS                  | 2 CPU cores/2GB   | MySQL InnoDB                           | 500             |
-| _Large_      | RedHat Enterprise Linux | 4 CPU cores/8GB   | RAID10 MySQL InnoDB or PostgreSQL      | >1000           |
-| _Very large_ | RedHat Enterprise Linux | 8 CPU cores/16GB  | Fast RAID10 MySQL InnoDB or PostgreSQL | >10000          |
+| :----------- | :---------------------- | :---------------- | :------------------------------------- | :-------------- |
+| *Small*      | CentOS                  | Virtual Appliance | MySQL InnoDB                           | 100             |
+| *Medium*     | CentOS                  | 2 CPU cores/2GB   | MySQL InnoDB                           | 500             |
+| *Large*      | RedHat Enterprise Linux | 4 CPU cores/8GB   | RAID10 MySQL InnoDB or PostgreSQL      | >1000           |
+| *Very large* | RedHat Enterprise Linux | 8 CPU cores/16GB  | Fast RAID10 MySQL InnoDB or PostgreSQL | >10000          |
 
 下表包含可用于计算 Zabbix 系统所需磁盘空间的公式：
 
-| 参数 所              | 磁盘空间的计算公式 （单位：字节）                                                                                                                                                    |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| _Zabbix 配置文件_ 固定大 | 。通常为 10MB 或更少。                                                                                                                                                       |
-| _History_(历史数据)   | days\*(items/refresh rate)_2&#x34;_&#x33;600\*bytes items：监控项数量。 days：保留历史数据的天数。 refresh rate：监控项的更新间隔。 bytes：保留单个值所需要占用的字节数，依赖于数据库引擎，通常为 \~90 字节。                   |
-| _Trends_（趋势数据）    | days\*(items/3600)_2&#x34;_&#x33;600\*bytes items：监控项数量。 days：保留历史数据的天数。 bytes：保留单个趋势数据所需要占用的字节数，依赖于数据库引擎，通常为 \~90 字节。                                               |
-| _Events_（事件数据）    | day&#x73;_&#x65;vent&#x73;_&#x32;&#x34;_&#x33;60&#x30;_&#x62;ytes events：每秒产生的事件数量。假设最糟糕的情况下，每秒产生 1 个事件。 days：保留历史数据的天数。 bytes：保留单个趋势数据所需的字节数，取决于数据库引擎，通常为 \~170 字节。 |
+| 参数 所                  | 磁盘空间的计算公式 （单位：字节）                            |
+| :----------------------- | :----------------------------------------------------------- |
+| *Zabbix 配置文件* 固定大 | 。通常为 10MB 或更少。                                       |
+| *History*(历史数据)      | days*(items/refresh rate)*24*3600*bytes items：监控项数量。 days：保留历史数据的天数。 refresh rate：监控项的更新间隔。 bytes：保留单个值所需要占用的字节数，依赖于数据库引擎，通常为 ~90 字节。 |
+| *Trends*（趋势数据）     | days*(items/3600)*24*3600*bytes items：监控项数量。 days：保留历史数据的天数。 bytes：保留单个趋势数据所需要占用的字节数，依赖于数据库引擎，通常为 ~90 字节。 |
+| *Events*（事件数据）     | days*events*24*3600*bytes events：每秒产生的事件数量。假设最糟糕的情况下，每秒产生 1 个事件。 days：保留历史数据的天数。 bytes：保留单个趋势数据所需的字节数，取决于数据库引擎，通常为 ~170 字节。 |
 
-### 2.2.Zabbix安装
 
-* 使用yum和自定义配置安装
-  * lnmp+zabbix-server(yum)
-  * zabbix-web(源码包)
-* nginx和php环境
+
+## 2.2.Zabbix安装
+
+- 使用yum和自定义配置安装
+  - lnmp+zabbix-server(yum)
+  - zabbix-web(源码包)
+
+- nginx和php环境
 
 ```bash
 # yum配置
@@ -275,7 +307,7 @@ phpinfo();
 [root@cloud ~]# curl zabbix.test
 ```
 
-* 数据库配置
+- 数据库配置
 
 ```bash
 # 安装数据库
@@ -352,7 +384,7 @@ mysql> grant all privileges on zabbix.* to zabbix@%;  # 授予所有权限
 mysql> set global log_bin_trust_function_creators = 1;  # 允许在启用二进制日志时创建存储函数，而无需有SUPER权限
 ```
 
-* Zabbix服务端
+- Zabbix服务端
 
 ```bash
 # 配置yum
@@ -394,7 +426,7 @@ StatsAllowedIP=127.0.0.1 # 允许访问统计数据信息的IP地址
 systemctl start zabbix-server
 ```
 
-* zabbix前端页面
+- zabbix前端页面
 
 ```bash
 # 使用源码包
@@ -405,7 +437,7 @@ wget https://cdn.zabbix.com/zabbix/sources/stable/5.0/zabbix-5.0.39.tar.gz
 [root@cloud zabbix-5.0.34]# chown -R named:named /code/zabbix/
 ```
 
-* 安装zabbix(zabbix前端页面连接数据库与zabbix-server)
+- 安装zabbix(zabbix前端页面连接数据库与zabbix-server)
 
 ```
 # 需要在/etc/php.ini中修改的配置
@@ -418,24 +450,26 @@ date.timezone = Asia/Shanghai
 
 当你其他配置都完成后，出现这个页面就是成功了！并且配置项都可以去conf/zabbix.conf.php文件修改
 
-![image-20230514154501340](../../.gitbook/assets/pjwsus-0.png)
+![image-20230514154501340](./image/pjwsus-0.png)
 
 完成之后就可以登录zabbix了，默认用户名是**Admin**，密码是**zabbix**，登录后可以自己修改密码
 
-### 2.3.监控主机
 
-* 安装zabbix-agent2
+
+## 2.3.监控主机
+
+- 安装zabbix-agent2
 
 ```
 yum install -y zabbix-server zabbix-agent2
 ```
 
-|      | zabbix agent | zabbix agent2                      |
-| ---- | ------------ | ---------------------------------- |
-| 开发语言 | C            | Go和C                               |
-| 性能   | 独立进程方式运行     | 1个进程多线程运行，减少资源消耗占用较少tcp资源，能够承受更高并发 |
+|          | zabbix agent     | zabbix agent2                                                |
+| -------- | ---------------- | ------------------------------------------------------------ |
+| 开发语言 | C                | Go和C                                                        |
+| 性能     | 独立进程方式运行 | 1个进程多线程运行，减少资源消耗占用较少tcp资源，能够承受更高并发 |
 
-* 监控流程
+- 监控流程
   1. 在客户端安装zabbix-agent2
   2. 修改配置文件 指定Server为zabbix服务端
   3. web页面配置 ----> 主机中添加主机
@@ -470,45 +504,48 @@ yum install -y zabbix-get
 zabbix_get -s 127.0.0.1 -p 10050 -k "system.cpu.load[all,avg1]"
 ```
 
-### 2.4.自定义监控
+
+
+## 2.4.自定义监控
 
 以下监控项类型由Zabbix提供：
 
-* [Zabbix agent 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/zabbix_agent)
-* [SNMP agent 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/snmp)
-* [SNMP traps](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/snmptrap)
-* [IPMI 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/ipmi)
-* 简单检查
-  * [VMware 监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/simple_checks/vmware_keys)
-* [日志文件监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/log_items)
-* 可计算监控项
-  * [聚合计算](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/calculated/aggregate)
-* [Zabbix 内部检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/internal)
-* [SSH 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/ssh_checks)
-* [Telnet 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/telnet_checks)
-* [外部检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/external)
-* [采集器监控项](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/trapper)
-* [JMX 监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/jmx_monitoring)
-* [ODBC 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/odbc_checks)
-* [相关监控项](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/dependent_items)
-* [HTTP 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/http)
-* [Prometheus 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/prometheus)
-* [脚本监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/script)
-* 概述
-  * 定制化，监控我们所要的内容
-  * 提升性能，提升zabbix性能，去掉不需要的监控项
-  * zabbix自定义监控：**只要能够通过命令取出来的内容，就可以做自定义监控**
-* 应用场景：
-  * 定制：默认的模板中没有我们要的监控项
-  * 提升zabbix性能/优化：去掉/定制监控项，提升zabbix服务端的性能
-* 自定义监控流程
-  * Zabbix客户端，\*\*创建key(键值)\*\*与调试
-    * 书写监控命令/脚本
-    * 调试Debug命令与脚本
-    * 写入到zabbix客户端配置文件中`UserParameter=key，command或脚本`与调试zabbix\_get
-  * zabbix服务端web页面
-    * 查看Web页面是否可以获取数据
-    * 设置Web触发器trigger-什么时候报警
+- [Zabbix agent 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/zabbix_agent)
+- [SNMP agent 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/snmp)
+- [SNMP traps](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/snmptrap)
+- [IPMI 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/ipmi)
+- 简单检查
+  - [VMware 监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/simple_checks/vmware_keys)
+- [日志文件监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/log_items)
+- 可计算监控项
+  - [聚合计算](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/calculated/aggregate)
+- [Zabbix 内部检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/internal)
+- [SSH 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/ssh_checks)
+- [Telnet 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/telnet_checks)
+- [外部检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/external)
+- [采集器监控项](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/trapper)
+- [JMX 监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/jmx_monitoring)
+- [ODBC 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/odbc_checks)
+- [相关监控项](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/dependent_items)
+- [HTTP 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/http)
+- [Prometheus 检查](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/prometheus)
+- [脚本监控](https://www.zabbix.com/documentation/6.4/zh/manual/config/items/itemtypes/script)
+
+- 概述
+  - 定制化，监控我们所要的内容
+  - 提升性能，提升zabbix性能，去掉不需要的监控项
+  - zabbix自定义监控：**只要能够通过命令取出来的内容，就可以做自定义监控**
+- 应用场景：
+  - 定制：默认的模板中没有我们要的监控项
+  - 提升zabbix性能/优化：去掉/定制监控项，提升zabbix服务端的性能
+- 自定义监控流程
+  - Zabbix客户端，**创建key(键值)**与调试
+    - 书写监控命令/脚本
+    - 调试Debug命令与脚本
+    - 写入到zabbix客户端配置文件中`UserParameter=key，command或脚本`与调试zabbix_get
+  - zabbix服务端web页面
+    - 查看Web页面是否可以获取数据
+    - 设置Web触发器trigger-什么时候报警
 
 ```bash
 # 检查80端口是否占用
@@ -528,40 +565,49 @@ nginx.alive[active,80],sh nginx_stat.sh "$1" "$2"
 #Key名本身具有有限的允许字符范围，允许的字符是：0-9a-zA-Z_-.
 ```
 
-* 新建监控项
+- 新建监控项
 
-![image-20230514222723660](../../.gitbook/assets/10u1vm8-0.png)
+![image-20230514222723660](./image/10u1vm8-0.png)
 
-* 历史数据(history)保留时长：每个更新间隔获取到的数据，推荐设置为30d
-* 趋势数据(trend)保留时长：记录数据变化的趋势，推荐设置
+- 历史数据(history)保留时长：每个更新间隔获取到的数据，推荐设置为30d
+- 趋势数据(trend)保留时长：记录数据变化的趋势，推荐设置
 
-#### 1.监控项类型
 
-![image-20230515112301799](../../.gitbook/assets/ikmlnv-0.png)
 
-### 2.5.自定义触发器
+### 1.监控项类型
 
-* 触发器：trigger 什么时候进行告警
-* 本质使用监控项获取的数据，与我们设置的条件进行比较，从而触发警报
-* 触发器表达式功能
+ ![image-20230515112301799](./image/ikmlnv-0.png)
 
-![image-20230515103049178](../../.gitbook/assets/h1kpyl-0.png)
 
-* 触发器表达式格式
+
+## 2.5.自定义触发器
+
+- 触发器：trigger 什么时候进行告警
+- 本质使用监控项获取的数据，与我们设置的条件进行比较，从而触发警报
+
+
+
+- 触发器表达式功能
+
+![image-20230515103049178](./image/h1kpyl-0.png)
+
+- 触发器表达式格式
 
 ```bash
 # {主机名:监控项.使用函数}判断条件
 {Zabbix server:nginx.alive.last()}=0
 ```
 
-![image-20230515103547465](../../.gitbook/assets/h4i29g-0.png)
+![image-20230515103547465](./image/h4i29g-0.png)
 
-### 2.6.自定义监控故障案例
 
-#### 1.权限
 
-* 原因：zabbix客户端运行的时候zabbix用户，获取数据可能导致权限故障permission denied
-* 解决：授权sudo
+## 2.6.自定义监控故障案例
+
+### 1.权限
+
+- 原因：zabbix客户端运行的时候zabbix用户，获取数据可能导致权限故障permission denied
+- 解决：授权sudo
 
 ```bash
 zabbix_get -s 127.0.0.1 -p 10050 -k vfs.file.contents[/etc/shadow]
@@ -574,17 +620,23 @@ zabbix ALL=(ALL) NOPASSWD: ALL
 UserParameter=conf.shadow,sudo wc -l /etc/shadow
 ```
 
-#### 2.脚本执行时间
 
-* zabbix默认限制命令或脚本执行时间不能超过30s
-* 修改服务端和客户端Timeout选项
 
-#### 3.awk取列
+### 2.脚本执行时间
 
-* 自定义监控的时候推荐使用脚本，尤其是awk
-* awk取列的时候容器出现故障 $2 推荐使用\$$2
+- zabbix默认限制命令或脚本执行时间不能超过30s
+- 修改服务端和客户端Timeout选项
 
-### 2.7.创建模板
+
+
+### 3.awk取列
+
+- 自定义监控的时候推荐使用脚本，尤其是awk
+- awk取列的时候容器出现故障 $2 推荐使用$$2
+
+
+
+## 2.7.创建模板
 
 1. 创建模板
 2. 创建应用集(监控项分类)
@@ -593,28 +645,34 @@ UserParameter=conf.shadow,sudo wc -l /etc/shadow
 5. 创建图像
 6. 模板可以与多个机器关联，避免web页面重复操作
 
-![image-20230516091140388](../../.gitbook/assets/f2obxl-0.png)
+![image-20230516091140388](./image/f2obxl-0.png)
 
 **创建模板成功后，就可以正常添加监控项，触发器等，监控项、触发器、图形都可以直接从其他主机上复制到模板中**
 
-![image-20230516092516922](../../.gitbook/assets/fatpcz-0.png)
+![image-20230516092516922](./image/fatpcz-0.png)
 
-* 主要事项
-  * 先找一个主机配置监控项等，进行测试
-  * 然后再进行创建模板
+- 主要事项
+  - 先找一个主机配置监控项等，进行测试
+  - 然后再进行创建模板
 
-### 2.8.告警方案
 
-* 前端消息告警
-  * 开启功能并保证前端页面开启，有报警提示时，会发出声音(不推荐)
 
-![image-20230516092955148](../../.gitbook/assets/fdfj0q-0.png)
+## 2.8.告警方案
 
-#### 1.告警分类
+- 前端消息告警
+  - 开启功能并保证前端页面开启，有报警提示时，会发出声音(不推荐)
 
-![image-20230516093412852](../../.gitbook/assets/fg5pzc-0.png)
+![image-20230516092955148](./image/fdfj0q-0.png)
 
-#### 2.邮件报警
+
+
+### 1.告警分类
+
+![image-20230516093412852](./image/fg5pzc-0.png)
+
+
+
+### 2.邮件报警
 
 1. 个人/企业邮箱
 2. 开启个人邮箱smtp功能，获取授权码
@@ -622,47 +680,57 @@ UserParameter=conf.shadow,sudo wc -l /etc/shadow
 4. **收件人**：配置用户接收报警
 5. 配置动作
 
-* 配置报警媒介参数
 
-![image-20230516102827073](../../.gitbook/assets/h07kv2-0.png)
 
-![image-20230516104907452](../../.gitbook/assets/hclegr-0.png)
+- 配置报警媒介参数
 
-![image-20230516103307922](../../.gitbook/assets/h32lsn-0.png)
+![image-20230516102827073](./image/h07kv2-0.png)
 
-![image-2023 0516103415265](../../.gitbook/assets/h3phdg-0.png)
+![image-20230516104907452](./image/hclegr-0.png)
 
-* 收件人配置
-  * **对所有人员分组。权限一般以组设置**
-  * 创建用户时设置报警媒介
+![image-20230516103307922](./image/h32lsn-0.png)
 
-![image-20230516105320128](../../.gitbook/assets/hf1r74-0.png)
+![image-2023 0516103415265](./image/h3phdg-0.png)
 
-* 配置动作
+- 收件人配置
+  - **对所有人员分组。权限一般以组设置**
+  - 创建用户时设置报警媒介
 
-![image-20230516212500172](../../.gitbook/assets/z588zj-0.png)
 
-![image-20230516212521858](../../.gitbook/assets/z5az2u-0.png)
+![image-20230516105320128](./image/hf1r74-0.png)
 
-#### 3.脚本报警
+- 配置动作        
 
-![image-20230516214952667](../../.gitbook/assets/zjs1dy-0.png)
+![image-20230516212500172](./image/z588zj-0.png)
 
-### 2.9.zabbix客户端
+![image-20230516212521858](./image/z5az2u-0.png)
 
-| zabbix客户端          |                                                                             |
-| ------------------ | --------------------------------------------------------------------------- |
-| zabbix-agent2(最常用) | 适用于几乎所有情况，linux，Windows                                                     |
-| SNMP               | Simple Network Management Protocal **简单网络管理协议** 监控网络设备                      |
-| JMX                | Java-gateway，监控java app(tomcat)。**未来建议自定义监控(zabbix\_agent2 + jmap/jstats)** |
-| IPMI               | 监控硬件(物理服务器)，直接使用自定义监控(**ipmitool**+**megacli**)                             |
 
-#### 1.snmp监控
 
-* 应用：
-  * 监控网络设备
-  * 也支持监控可以启动SNMP设备(Linux，Windows，打印机....)
-* 使用snmp
+### 3.脚本报警
+
+![image-20230516214952667](./image/zjs1dy-0.png)
+
+
+
+## 2.9.zabbix客户端
+
+| zabbix客户端          |                                                              |
+| --------------------- | ------------------------------------------------------------ |
+| zabbix-agent2(最常用) | 适用于几乎所有情况，linux，Windows                           |
+| SNMP                  | Simple Network Management Protocal **简单网络管理协议** 监控网络设备 |
+| JMX                   | Java-gateway，监控java app(tomcat)。**未来建议自定义监控(zabbix_agent2 + jmap/jstats)** |
+| IPMI                  | 监控硬件(物理服务器)，直接使用自定义监控(**ipmitool**+**megacli**) |
+
+
+
+### 1.snmp监控
+
+- 应用：
+  - 监控网络设备
+  - 也支持监控可以启动SNMP设备(Linux，Windows，打印机....)
+
+- 使用snmp
   1. 启动设备的SNMP功能
   2. zabbix服务端进行测试，能否获取到网络设备的信息
   3. web添加主机监控项
@@ -688,103 +756,120 @@ snmpwalk -c oldbox -v 2c 192.168.13.1 sysUptime
 sysUptime：指定要查询的OID（对象标识符）。
 ```
 
-![image-20230519112826774](../../.gitbook/assets/ins56z-0.png)
+![image-20230519112826774](./image/ins56z-0.png)
 
-#### 2.JMX监控
 
-![image-20230519121037713](../../.gitbook/assets/k0mjrn-0.png)
+
+### 2.JMX监控
+
+![image-20230519121037713](./image/k0mjrn-0.png)
 
 1. 安装java程序，并开启远程监控功能
 2. 安装zabbix-java-gateway服务端
 3. 配置web主机
 
-![image-20230519115858298](../../.gitbook/assets/j5sjko-0.png)
+![image-20230519115858298](./image/j5sjko-0.png)
 
 这个配置只能写成一行
 
-![image-20230519120719007](../../.gitbook/assets/jyq97e-0.png)
+![image-20230519120719007](./image/jyq97e-0.png)
 
-![image-20230519121129545](../../.gitbook/assets/k167hu-0.png)
+ ![image-20230519121129545](./image/k167hu-0.png)
 
-*   获取数据
+- 获取数据
 
-    ```
-    # 
-    java -jar cmdline-jmxclient-0.10.3.jar - 10.0.0.7:12345
-    ```
-* 添加主机
+  ```
+  # 
+  java -jar cmdline-jmxclient-0.10.3.jar - 10.0.0.7:12345
+  ```
 
-![image-20230519121744845](../../.gitbook/assets/k4u130-0.png)
+- 添加主机
 
-![image-20230519121827292](../../.gitbook/assets/k5buau-0.png)
+![image-20230519121744845](./image/k4u130-0.png)
 
-### 2.10.自动化监控
+![image-20230519121827292](./image/k5buau-0.png)
 
-* 自动发现：服务端主动
-* 自动注册：客户端主动
-* zabbix客户端主动与被动模式
-* zabbix分布式监控
 
-#### 1.自动发现和自动注册
 
-|      | 共同点              | 区别                                                          |
-| ---- | ---------------- | ----------------------------------------------------------- |
-| 自动发现 | 自动添加主机并关联模板，启动主机 | <p>1.客户端被动<br>2.使用简单<br>3.效率或性能较低<br>4.对zabbix服务端压力较大</p>   |
-| 自动注册 | 自动添加主机并管理模板，启动主机 | <p>1.客户端主动<br>2.配置繁琐一点<br>3.对zabbix服务端压力较低<br>4.高并发注册机器</p> |
+## 2.10.自动化监控
 
-*   自动发现
+- 自动发现：服务端主动
+- 自动注册：客户端主动
+- zabbix客户端主动与被动模式
+- zabbix分布式监控
 
-    * 配置自动发现规则 - 发现主机
 
-    ![image-20230519215442063](../../.gitbook/assets/zmov2g-0.png)
 
-    ![image-20230519215628552](../../.gitbook/assets/znsl6m-0.png)
+### 1.自动发现和自动注册
 
-    * 配置自动发现动作 - 发现主机后关联模板等动作
+|          | 共同点                           | 区别                                                         |
+| -------- | -------------------------------- | ------------------------------------------------------------ |
+| 自动发现 | 自动添加主机并关联模板，启动主机 | 1.客户端被动<br/>2.使用简单<br/>3.效率或性能较低<br/>4.对zabbix服务端压力较大 |
+| 自动注册 | 自动添加主机并管理模板，启动主机 | 1.客户端主动<br/>2.配置繁琐一点<br/>3.对zabbix服务端压力较低<br/>4.高并发注册机器 |
 
-    ![image-20230519220222942](../../.gitbook/assets/10f5jii-0.png)
 
-![image-20230519220314601](../../.gitbook/assets/10fp4e1-0.png)
 
-*   自动注册(可与ansible结合使用)
+- 自动发现
 
-    * 修改zabbix客户端配置文件:ServeActive=服务端ip 和Hostname=...
+  - 配置自动发现规则 - 发现主机
 
-    ![image-20230520103911431](../../.gitbook/assets/h6o3n7-0.png)
+  ![image-20230519215442063](./image/zmov2g-0.png)
 
-    * web页面，动作---->自动注册 autoreg
+  ![image-20230519215628552](./image/znsl6m-0.png)
 
-![image-20230520104534739](../../.gitbook/assets/hadi1t-0.png)
+  - 配置自动发现动作 - 发现主机后关联模板等动作
 
-#### 2.zabbix-agent(取值)主动与被动
+  ![image-20230519220222942](./image/10f5jii-0.png)
+
+![image-20230519220314601](./image/10fp4e1-0.png)
+
+
+
+
+
+- 自动注册(可与ansible结合使用)
+
+  - 修改zabbix客户端配置文件:ServeActive=服务端ip 和Hostname=...
+
+  ![image-20230520103911431](./image/h6o3n7-0.png)
+
+  - web页面，动作---->自动注册 autoreg
+
+![image-20230520104534739](./image/hadi1t-0.png)
+
+
+
+### 2.zabbix-agent(取值)主动与被动
 
 zabbix-agent主动：主动向zabbix-server汇报，52个监控，请求1次，服务端收集到所有的数据
 
 zabbix-agent被动：等待zabbix-server索要，52个监控，请求52次，效率低，对zabbix服务压力大
 
-![image-20230520111333335](../../.gitbook/assets/ieuvmi-0.png)
+![image-20230520111333335](./image/ieuvmi-0.png)
 
-![image-20230520111303279](../../.gitbook/assets/ieocar-0.png)
+ ![image-20230520111303279](./image/ieocar-0.png)
 
-### 2.11.分布式监控
 
-* 应用场景：有多个机房/网段/地域进行监控，分布式监控（proxy代理监控）
 
-![image-20230520111508279](../../.gitbook/assets/ifwd5j-0.png)
+## 2.11.分布式监控
 
-* 安装zabbix-proxy-mysql
+- 应用场景：有多个机房/网段/地域进行监控，分布式监控（proxy代理监控）
+
+![image-20230520111508279](./image/ifwd5j-0.png)
+
+- 安装zabbix-proxy-mysql
 
 ```bash
 yum install -y https://mirrors.aliyun.com/zabbix/zabbix/5.0/rhel/7/x86_64/zabbix-proxy-mysql-5.0.0-1.el7.x86_64.rpm
 ```
 
-* 导入zabbix表结构
+- 导入zabbix表结构 
 
 ```bash
 [root@test ~]# zcat /usr/share/doc/zabbix-proxy-mysql-5.0.0/schema.sql.gz | mysql -uzabbix -pzabbix zabbix
 ```
 
-* 配置zabbix-proxy
+- 配置zabbix-proxy
 
 ```bash
 [root@test ~]# grep '^[a-Z]' /etc/zabbix/zabbix_proxy.conf
@@ -806,42 +891,48 @@ LogSlowQueries=3000
 StatsAllowedIP=127.0.0.1
 ```
 
-* 配置web代理
+- 配置web代理
 
-![image-20230520114550472](../../.gitbook/assets/iy0akt-0.png)
+![image-20230520114550472](./image/iy0akt-0.png)
 
-* 修改客户端指向
+- 修改客户端指向
 
-![image-20230520115221171](../../.gitbook/assets/j202f5-0.png)
+![image-20230520115221171](./image/j202f5-0.png)
 
-![image-20230520115201131](../../.gitbook/assets/j1vqw0-0.png)
+![image-20230520115201131](./image/j1vqw0-0.png)
 
-### 2.12.lld
+
+
+
+
+## 2.12.lld
 
 低级自动发现可以**自动为主机上的不同实体创建监控项、触发器和图表**。比如， Zabbix可以自动监控文件系统和网络接口，并且不需要为其手工创建监控项。另外，可以基于周期性自动发现的结果来删除无用的监控实体。
 
-* **应用场景**
-  * 低级自动发现**特别适合用于监控那些有规律，又有差异的监控对象**
-*   系统内置的自动发现
+- **应用场景**
+  - 低级自动发现**特别适合用于监控那些有规律，又有差异的监控对象**
 
-    如果想立刻上手熟悉其它类型的自动发现，更多信息和如何实现(how-to)方面可参阅以下章节:
+- 系统内置的自动发现
 
-    * [网络接口](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/network_interfaces)的自动发现;
-    * [CPU 和 CPU 核心](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/cpu)的自动发现;
-    * [SNMP OID](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/snmp_oids)的自动发现;
-    * [JMX 对象](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/jmx)的自动发现;
-    * 使用[ODBC SQL 查询](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/sql_queries)的自动发现;
-    * [Windows 服务](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/windows_services)的自动发现;
-    * Zabbix [主机接口](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/host_interfaces)的自动发现。
-* 自动发现/自动注册----自动添加主机
-* 希望zabbix自动添加监控项：自动监控一些有关联的内容：网卡、磁盘、磁盘分区...低级自动发现(Low Level Discovery)
-* 系统模板自带的自动发现规则
+  如果想立刻上手熟悉其它类型的自动发现，更多信息和如何实现(how-to)方面可参阅以下章节:
 
-![image-20230520133744442](../../.gitbook/assets/m4adk2-0.png)
+  - [网络接口](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/network_interfaces)的自动发现;
+  - [CPU 和 CPU 核心](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/cpu)的自动发现;
+  - [SNMP OID](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/snmp_oids)的自动发现;
+  - [JMX 对象](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/jmx)的自动发现;
+  - 使用[ODBC SQL 查询](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/sql_queries)的自动发现;
+  - [Windows 服务](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/windows_services)的自动发现;
+  - Zabbix [主机接口](https://www.zabbix.com/documentation/current/zh/manual/discovery/low_level_discovery/examples/host_interfaces)的自动发现。
 
-* 系统内置自动发现**键值**
+- 自动发现/自动注册----自动添加主机
+- 希望zabbix自动添加监控项：自动监控一些有关联的内容：网卡、磁盘、磁盘分区...低级自动发现(Low Level Discovery)
+- 系统模板自带的自动发现规则
 
-![image-20230520133756225](../../.gitbook/assets/m4clzb-0.png)
+![image-20230520133744442](./image/m4adk2-0.png)
+
+- 系统内置自动发现**键值**
+
+![image-20230520133756225](./image/m4clzb-0.png)
 
 ```bash
 [root@test zabbix]# zabbix_get -s 192.168.19.137 -p 10050 -k "net.if.discovery"
@@ -851,13 +942,15 @@ StatsAllowedIP=127.0.0.1
 # zabbix低级自动发现专用宏 {#IFNAME}
 ```
 
-* 根据网卡名字创建对应的**监控项原型**：net.if.in\["{#IFNAME}"]-----> net.if.in\[eth0] 然后 net.if.in\[eth1]
+- 根据网卡名字创建对应的**监控项原型**：net.if.in["{#IFNAME}"]-----> net.if.in[eth0] 然后 net.if.in[eth1]
 
-![image-20230521131256835](../../.gitbook/assets/lprn68-0.png)
+![image-20230521131256835](./image/lprn68-0.png)
 
-![image-20230521132220196](../../.gitbook/assets/lv7mpr-0.png)
+![image-20230521132220196](./image/lv7mpr-0.png)
 
-#### 1.案例：统计网卡总流量
+
+
+### 1.案例：统计网卡总流量
 
 1. 监控项原型
 2. 流量过大 告警(触发器模型)
@@ -895,17 +988,19 @@ StatsAllowedIP=127.0.0.1
 554386852
 ```
 
-![image-20230521144407310](../../.gitbook/assets/nvs1fc-0.png)
+![image-20230521144407310](./image/nvs1fc-0.png)
 
-* 设置触发器原型
+- 设置触发器原型
 
-![image-20230521151852864](../../.gitbook/assets/p43r5m-0.png)
+![image-20230521151852864](./image/p43r5m-0.png)
 
-* 设置图形
+- 设置图形
 
-![image-20230521152949653](../../.gitbook/assets/pamq9c-0.png)
+![image-20230521152949653](./image/pamq9c-0.png)
 
-#### 2.从零开始lld
+
+
+### 2.从零开始lld
 
 1. 获取你要的内容，磁盘分区的名字，网卡名字
 2. 根据自动发现内容，创建自动发现规则
@@ -963,29 +1058,31 @@ UserParameter=net.port.discovery,sh /server/scripts/net.port.sh
 
 ```
 
-* 创建发现规则
+- 创建发现规则
 
-![image-20230521163504410](../../.gitbook/assets/r1h356-0.png)
+![image-20230521163504410](./image/r1h356-0.png)
 
-### 2.13.web场景
 
-![image-20230525160907892](../../.gitbook/assets/qm0s9s-0.png)
 
-![image-20230525161008257](../../.gitbook/assets/qmmd7e-0.png)
+## 2.13.web场景
 
-### 2.14.Zabbix api
+![image-20230525160907892](./image/qm0s9s-0.png)
 
-* application interface 程序接口
-* 针对zabbix进行二次开发，公司，运维管理平台 CMDB(存储与管理企业IT架构中设备的各种配置信息)(把zabbix集成成自己的运维平台)
-* zabbix api主要的接口功能：通过api接口可以代替web页面操作。增删改查
-* api接口应用场景：人脸识别，短信验证，身份证验证...
-* 使用与调用：
-  * \*\*自己写程序调用：\*\*直接通过程序代码进行调用，需要参考对方的api接口文档
-  * \*\*官方写好的，可以直接使用(SDK一般指软件开发工具包)：\*\*通过SDK样例快速调用和使用即可
-* api接口使用流程
-  * 根据zabbix用户名和密码，获取token
-  * 使用token访问或调取zabbix资源
-  * [官方API文档](https://www.zabbix.com/documentation/6.4/zh/manual/api)
+![image-20230525161008257](./image/qmmd7e-0.png)
+
+## 2.14.Zabbix api
+
+- application interface 程序接口
+- 针对zabbix进行二次开发，公司，运维管理平台 CMDB(存储与管理企业IT架构中设备的各种配置信息)(把zabbix集成成自己的运维平台)
+- zabbix api主要的接口功能：通过api接口可以代替web页面操作。增删改查
+- api接口应用场景：人脸识别，短信验证，身份证验证...
+- 使用与调用：
+  - **自己写程序调用：**直接通过程序代码进行调用，需要参考对方的api接口文档
+  - **官方写好的，可以直接使用(SDK一般指软件开发工具包)：**通过SDK样例快速调用和使用即可
+- api接口使用流程
+  - 根据zabbix用户名和密码，获取token
+  - 使用token访问或调取zabbix资源
+  - [官方API文档](https://www.zabbix.com/documentation/6.4/zh/manual/api)
 
 ```bash
 当完成了前端的安装配置后，你就可以使用远程HTTP请求来调用API。为此，需要向位于前端目录中的 api_jsonrpc.php 文件发送 HTTP POST 请求。例如，如果你的 Zabbix 前端安装在 http://example.com/zabbix， 那么用HTTP请求来调用 apiinfo.version 方法就如下面这样：
@@ -1100,72 +1197,79 @@ cat token.txt|jq ".result, .id"
 }
 ```
 
-## 3.zabbix性能优化
 
-* 网站架构调整：尽量让用户的请求往前推(用户请求不要到达网站走cdn，使用缓存，消息队列)
-* 根据业务类型调整：读少写多
-  * zabbix是一个写多读少的业务，优化数据库的写入性能，建议使用InnoDB或tokudb存储引擎
-  * 数据库分离或数据库拆分
-* zabbix键值与监控项处理
-  * 增加取值的时间
-  * 使用自定义模板，控制功能全面监控，监控项少 精简监控项
-  * 历史数据保留时长减少，设置为30d或7d，增加趋势存储时间365d
-* zabbix触发器
-  * 尽量使用last()/diff()/nodata()
-  * 避免使用需要计算max()/min()/avg()
-  * 整体目标：不要让zabbix服务端进行计算/数据库进行计数，需要计算的内容放在客户端(自定义监控项)
-* zabbix服务端
-  * 增加zabbix进程数量，那种进程占用大量资源，增加数量 Start...
-  * 增加zabbix缓存大小，缓存各种从客户端获取数据 Cache
-* zabbix客户端
-  * 使用主动模式 `ServerActive`
-* zabbix参数配置：**缓存和进程数量**
-  * xxxxcache：用于zabbix服务端缓存获取的各类数据(历史数据，趋势数据)
-  * poller：zabbix用于接收各类数据的进程数量
 
-> CacheSize 否 128K-64G 8M 缓存大小, 单位为字节。\
+# 3.zabbix性能优化
+
+- 网站架构调整：尽量让用户的请求往前推(用户请求不要到达网站走cdn，使用缓存，消息队列)
+- 根据业务类型调整：读少写多
+  - zabbix是一个写多读少的业务，优化数据库的写入性能，建议使用InnoDB或tokudb存储引擎
+  - 数据库分离或数据库拆分
+- zabbix键值与监控项处理
+  - 增加取值的时间
+  - 使用自定义模板，控制功能全面监控，监控项少 精简监控项
+  - 历史数据保留时长减少，设置为30d或7d，增加趋势存储时间365d
+- zabbix触发器
+  - 尽量使用last()/diff()/nodata()
+  - 避免使用需要计算max()/min()/avg()
+  - 整体目标：不要让zabbix服务端进行计算/数据库进行计数，需要计算的内容放在客户端(自定义监控项)
+- zabbix服务端
+  - 增加zabbix进程数量，那种进程占用大量资源，增加数量 Start...
+  - 增加zabbix缓存大小，缓存各种从客户端获取数据 Cache
+- zabbix客户端
+  - 使用主动模式 `ServerActive`
+
+- zabbix参数配置：**缓存和进程数量**
+
+  - xxxxcache：用于zabbix服务端缓存获取的各类数据(历史数据，趋势数据)
+
+  - poller：zabbix用于接收各类数据的进程数量
+
+> CacheSize	否	128K-64G	8M	缓存大小, 单位为字节。
 > 用于存储主机、监控项、触发器数据的共享内存大小。
 >
-> CacheUpdateFrequency 否 1-3600 60 Zabbix执行配置缓存更新的频率，以秒为单位。
+> CacheUpdateFrequency	否	1-3600	60	Zabbix执行配置缓存更新的频率，以秒为单位。
 >
-> HistoryCacheSize 否 128K-2G 16M 历史缓存的大小，以字节为单位。\
+> HistoryCacheSize	否	128K-2G	16M	历史缓存的大小，以字节为单位。
 > 用于存储历史数据的共享内存大小。
 >
-> HistoryIndexCacheSize 否 128K-2G 4M 历史索引缓存的大小，以字节为单位。\
-> 用于索引存储在历史缓存中的历史数据的共享内存大小。\
-> 索引缓存一个监控项大约需要 100 字节。\
+> HistoryIndexCacheSize	否	128K-2G	4M	历史索引缓存的大小，以字节为单位。
+> 用于索引存储在历史缓存中的历史数据的共享内存大小。
+> 索引缓存一个监控项大约需要 100 字节。
 > 自 Zabbix 3.0.0 版本起开始支持此参数。
 >
-> TrendCacheSize 否 128K-2G 4M 趋势缓存的大小，以字节为单位。\
+> TrendCacheSize	否	128K-2G	4M	趋势缓存的大小，以字节为单位。
 > 用于存储趋势数据的共享内存大小。
 >
-> ValueCacheSize 否 0,128K-64G 8M 历史值缓存的大小，以字节为单位。\
-> 用于缓存监控项历史数据请求的共享内存大小。\
-> 设置为 0 将禁用缓存（不推荐）。\
+> ValueCacheSize	否	0,128K-64G	8M	历史值缓存的大小，以字节为单位。
+> 用于缓存监控项历史数据请求的共享内存大小。
+> 设置为 0 将禁用缓存（不推荐）。
 > 当值缓存耗尽共享内存时，每 5 分钟会向服务器日志写入一条告警消息。
 
-![](../../.gitbook/assets/z6pbdr-0.png)
+![](./image/z6pbdr-0.png)
 
-> StartPollers 否 0-1000 5 轮询进程的初始实例数量，必须非0
+> StartPollers	否	0-1000	5	轮询进程的初始实例数量，必须非0
 >
-> StartPollersUnreachable 否 0-1000 1 不可达主机轮询器 (包括 IPMI 和 Java)1 的 pre-forked（预分配）实例数量。\
+> StartPollersUnreachable	否	0-1000	1	不可达主机轮询器 (包括 IPMI 和 Java)1 的 pre-forked（预分配）实例数量。
 > 如果启动了常规、IPMI 或 Java轮询器，则必须至少运行一个无法访问主机的轮询器。
 >
-> StartIPMIPollers 否 0-1000 0 IPMI 轮询器的 pre-forked（预分配）实例数量
+> StartIPMIPollers	否	0-1000	0	IPMI 轮询器的 pre-forked（预分配）实例数量
 >
-> StartJavaPollers 否 0-1000 0 Java 轮询器1 的 pre-forked（预分配）实例数量
+> StartJavaPollers	否	0-1000	0	Java 轮询器1 的 pre-forked（预分配）实例数量
 >
-> StartHTTPPollers 否 0-1000 1 HTTP 轮询器1 的 pre-forked（预分配）实例数量
+> StartHTTPPollers	否	0-1000	1	HTTP 轮询器1 的 pre-forked（预分配）实例数量
 >
-> StartProxyPollers 否 0-250 1 passive proxies 被动代理轮询器1 的 pre-forked（预分配）实例数量。
+> StartProxyPollers	否	0-250	1	passive proxies 被动代理轮询器1 的 pre-forked（预分配）实例数量。
 
-![image-20230521220550533](../../.gitbook/assets/image-20230521220550533.png)
+![image-20230521220550533](./image/image-20230521220550533.png)
 
-## 4.zabbix与其他
 
-* zabbix收集数据，**grafana**显示图形
 
-![image-20230522154018235](../../.gitbook/assets/ph1974-0.png)
+# 4.zabbix与其他
+
+- zabbix收集数据，**grafana**显示图形
+
+![image-20230522154018235](./image/ph1974-0.png)
 
 ```bash
 # 安装Grafana
@@ -1186,93 +1290,132 @@ yum install -y https://mirrors.aliyun.com/grafana/yum/rpm/Packages/grafana-enter
 # 导入模板
 ```
 
-* 登录相关页面ip:3000 用户名：密码：都是admin
+- 登录相关页面ip:3000 用户名：密码：都是admin
 
-![image-20230523082241143](../../.gitbook/assets/dlp5y8-0.png)
+![image-20230523082241143](./image/dlp5y8-0.png)
 
-* 安装检查zabbix插件
+- 安装检查zabbix插件
 
-![image-20230523082858745](../../.gitbook/assets/dpkjc1-0.png)
+![image-20230523082858745](./image/dpkjc1-0.png)
 
-![image-20230523084143171](../../.gitbook/assets/dwz1b5-0.png)
+![image-20230523084143171](./image/dwz1b5-0.png)
 
 ```bash
 # 也可以命令行安装
 grafana-cli plugins install alexanderzobnin-zabbix-app 版本号
 ```
 
-* 修改数据源
+- 修改数据源
 
-![image-20230523084010887](../../.gitbook/assets/dw6rdr-0.png)
+![image-20230523084010887](./image/dw6rdr-0.png)
 
-![image-20230523084604107](../../.gitbook/assets/dzpuuu-0.png)
+![image-20230523084604107](./image/dzpuuu-0.png)
 
-* 创建图像
+- 创建图像
 
-![image-20230523093641892](../../.gitbook/assets/fhj8xq-0.png)
+![image-20230523093641892](./image/fhj8xq-0.png)
 
-![image-20230523093649493](../../.gitbook/assets/fhkpuz-0.png)
+![image-20230523093649493](./image/fhkpuz-0.png)
 
 ```bash
 # 设置监控项时可以用正则
 /.*/
 ```
 
-* 使用模板
+- 使用模板
 
 [模板下载地址](https://grafana.com/grafana/dashboards/)
 
 下载模板的JSON文件或者复制模板ID后，在Grafana中导入
 
-![image-20230523103851461](../../.gitbook/assets/h6bii0-0.png)
+![image-20230523103851461](./image/h6bii0-0.png)
 
-![image-20230523103837848](../../.gitbook/assets/h68g09-0.png)
+![image-20230523103837848](./image/h68g09-0.png)
 
 导入之后默认是只读的，需要在设置中修改
 
-![image-20230523104414544](../../.gitbook/assets/h9o4ar-0.png)
+![image-20230523104414544](./image/h9o4ar-0.png)
 
-## 5.监控架设
 
-### 1.详细要求
 
-* 所有服务器基础监控：cpu、内存、网卡、磁盘(大小/io)、网络带宽、负载...
-* cdn/dns：听云/监控宝
-* 负载均衡：(nginx lvs haproxy)
-  * 端口80监控
-  * keepalived服务进程监控
-  * tcp11种状态数量监控(当前网站并发)
-  * nginx状态监控
-  * 日志 每种状态码的数量
-  * https证书过期时间
-* web服务器
-  * 端口80和9000监控
-  * nginx状态监控
-  * 访问日志状态码数量监控
-  * ngin+php 监控
-  * php+数据库 连接监控
-  * php状态
-  * tomcat多实例/单实例监控(jvm内存使用情况)
-* 数据库服务监控
-  * 进程，端口
-* 存储服务
-  * 共享了那些目录监控，共享目录大小监控
-  * nfs，rpc服务监控
-* 备份服务器
-  * rsync端口，进程监控
-  * rsync守护进程模式监控
-  * 是否可以数据传输
-* redis缓存
-  * 端口，进程
-  * 状态(命中率)
+# 5.监控架设
 
-### 2.环境准备
+## 1.详细要求
 
-| 主机名    | 功能         | ip |
-| ------ | ---------- | -- |
-| lb01   | 负载均衡       |    |
-| web01  | web服务器     |    |
-| db01   | 数据库及缓存     |    |
-| nfs01  | 存储         |    |
-| backup | 备份rsync服务端 |    |
-| m02    | zabbix服务器  |    |
+- 所有服务器基础监控：cpu、内存、网卡、磁盘(大小/io)、网络带宽、负载...
+- cdn/dns：听云/监控宝
+- 负载均衡：(nginx lvs haproxy)
+  - 端口80监控
+  - keepalived服务进程监控
+  - tcp11种状态数量监控(当前网站并发)
+  - nginx状态监控
+  - 日志 每种状态码的数量
+  - https证书过期时间
+- web服务器
+  - 端口80和9000监控
+  - nginx状态监控
+  - 访问日志状态码数量监控
+  - ngin+php 监控
+  - php+数据库 连接监控
+  - php状态
+  - tomcat多实例/单实例监控(jvm内存使用情况)
+- 数据库服务监控
+  - 进程，端口
+- 存储服务
+  - 共享了那些目录监控，共享目录大小监控
+  - nfs，rpc服务监控
+- 备份服务器
+  - rsync端口，进程监控
+  - rsync守护进程模式监控
+  - 是否可以数据传输
+- redis缓存
+  - 端口，进程
+  - 状态(命中率)
+
+
+
+## 2.环境准备
+
+| 主机名 | 功能            | ip   |
+| ------ | --------------- | ---- |
+| lb01   | 负载均衡        |      |
+| web01  | web服务器       |      |
+| db01   | 数据库及缓存    |      |
+| nfs01  | 存储            |      |
+| backup | 备份rsync服务端 |      |
+| m02    | zabbix服务器    |      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
