@@ -48,6 +48,19 @@ POST /upload/image HTTP/1.1
 | ​**​`If-None-Match`​**​     | 条件   | ★★★ | 允许服务器在资源的 ETag ​**​与列表中任何一个都不匹配​**​的情况下返回 `304 Not Modified`。比 `If-Modified-Since` 更精确。 | `If-None-Match: <etag>[, <etag>]*`  <br>`If-None-Match: *`                | `If-None-Match: "737060cd8c284d8af7ad3082f209582d"`  <br>`If-None-Match: "strong-tag", W/"weak-tag"`                                                                | ​**​etag:​**​ 实体标签，来自服务器的 `ETag` 响应头。  <br>​**​​**​*: 特殊值，匹配任何当前存在的资源。                                              | 列表    | ​**​条件性 GET 请求​**​。与服务器的 `ETag` 响应头配合使用，实现高效的缓存验证。                                                                  |
 | ​**​`Cache-Control`​**​     | 缓存   | ★★☆ | 客户端使用该头来指定缓存机制在本次请求/响应链中应如何操作。                                                          | `Cache-Control: <directive>`                                              | `Cache-Control: no-cache`  <br>`Cache-Control: max-age=0`  <br>`Cache-Control: no-store`                                                                            | ​**​no-cache:​**​ 在使用缓存副本前强制向服务器验证。  <br>​**​max-age=0:​**​ 含义类似于 `no-cache`。  <br>​**​no-store:​**​ 请求和响应都禁止被缓存。   | 指令    | 强制浏览器或代理服务器向源服务器重新验证缓存 (`no-cache`)。确保获取最新内容。                                                                       |
 | ​**​`Connection`​**​        | 连接   | ★☆☆ | 控制当前网络连接在当前请求完成后是否保持打开。                                                                 | `Connection: keep-alive \| close`                                         | `Connection: keep-alive`                                                                                                                                            | ​**​keep-alive:​**​ 保持连接打开（HTTP/1.1 默认）。  <br>​**​close:​**​ 本次传输后关闭连接。                                             | 字符串   | 客户端希望管理 TCP 连接的寿命以减少开销。                                                                                             |
+
+HTTP Authorization 提供了多种认证机制来保护接口安全，不同方案各有其适用场景和安全性考量。以下是主要的认证类型：
+
+| 认证类型                       | 核心机制                             | 典型场景               | 安全性          |
+| -------------------------- | -------------------------------- | ------------------ | ------------ |
+| **Basic Authentication**​  | 用户名和密码经过Base64编码后放入请求头           | 内部系统、路由器管理界面       | 低（必须配合HTTPS） |
+| **API Key**​               | 服务端生成的唯一字符串，通过请求头或URL参数传递        | 第三方公开API、服务器间通信    | 中（必须配合HTTPS） |
+| **Cookie-Session**​        | 服务端创建Session并将会话ID通过Cookie返回给客户端 | 传统有状态的Web应用        | 中（需防御CSRF）   |
+| **Bearer Token**​          | 持有令牌即可访问资源，令牌通常由授权服务器颁发          | 前后端分离应用、移动端        | 高（需配合HTTPS）  |
+| **JWT**​                   | 一种无状态的Bearer Token，令牌本身包含用户信息和签名 | 微服务架构、单点登录         | 高（需保护密钥）     |
+| **OAuth 2.0**​             | 授权框架，通过授权码等模式让用户授权第三方应用访问其资源     | 第三方登录、开放平台授权       | 极高           |
+| **Digest Authentication**​ | 挑战-响应模式，使用随机数和非明文方式传输验证信息        | 需要比Basic认证更高安全性的场景 | 中高           |
+
 ## 请求体 - Request Body
 
 主要用于 POST、PUT 等方法携带数据
