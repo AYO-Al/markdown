@@ -723,6 +723,7 @@ func main(){
  - Abort
      - 终止调用整个链条,但只是不会调用此函数所有中间件的后面中间件，本中间件和之前的中间件会调用完毕
      - 比如token认证没有通过，不能直接使用return返回，而是使用Abort来终止
+
 ```go
 func MiddleWare1(context *gin.Context) {  
     fmt.Println("中间件一开始")  
