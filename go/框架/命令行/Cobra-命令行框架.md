@@ -1075,3 +1075,17 @@ var createCmd = &cobra.Command{
 ```
 
 **触发场景与输出**：当用户没有提供必需的 `NAME`参数时，Cobra 会自动调用 `Usage()`。
+## 2.6 PositionalArgs类型
+
+```go
+type PositionalArgs func(cmd *Command, args []string) error
+```
+
+|方法名|核心作用简介|
+|---|---|
+|`ExactArgs(n int)`|要求参数个数必须等于 `n`。|
+|`MinimumNArgs(n int)`|要求参数个数至少为 `n`。|
+|`MaximumNArgs(n int)`|要求参数个数最多为 `n`。|
+|`RangeArgs(min int, max int)`|要求参数个数在 `min`到 `max`之间（闭区间）。|
+|`ExactValidArgs(n int)`|(已弃用) 要求参数个数等于 `n`且每个参数值在命令的 `ValidArgs`列表中。|
+|`MatchAll(pargs ...PositionalArgs)`|要求参数满足所有传入的验证规则。|
