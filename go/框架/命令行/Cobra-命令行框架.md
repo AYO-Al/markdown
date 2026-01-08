@@ -917,8 +917,6 @@ var myCmd = &cobra.Command{
 }
 ```
 
-- **注意事项**：调用 `Help()`方法后，它通常会通过 `os.Exit(0)`退出程序。如果你的程序有特殊的清理逻辑，需要注意这一点。
-
 - `HelpFunc() func(*Command, []string)与 SetHelpFunc`
 	- 作用：HelpFunc()用于获取当前命令的帮助函数。更常用的是 SetHelpFunc，它允许你为命令设置一个自定义的函数来生成帮助信息，覆盖 Cobra 默认的帮助信息输出格式
 	- 使用场景：当你需要高度定制帮助信息的布局、颜色或内容时
