@@ -91,7 +91,10 @@ protoc --go_out=. hello.proto // hello.pb.go
 // 生成 ​**gRPC 服务端和客户端的接口代码**​（通信逻辑的 Go 代码）。
 // 包含 `.proto` 文件中定义的 ​gRPC 服务接口。
 // --go-grpc_out 表示使用 `protoc-gen-go-grpc` 插件（负责生成 gRPC 服务端/客户端代码）。
-protoc --go-grpc_out=. hello.proto  // hello_grpc.pb.go
+// --go-opt=module= 指定项目名称
+// -I 指定proto文件搜索路径，多个路径可以使用多个-I选项，如果不指定默认当前目录
+//  go install google.golang.org/protobuf/cmd/proto-gen0go@latest
+protoc --go-grpc_out=. --go-opt=module="rpc" -I=. hello.proto  // hello_grpc.pb.go
 
 protoc --go_out=. --go-grpc_out=. hello.proto
 ```
@@ -122,7 +125,26 @@ message类似于go中的struct。
 
 `repeated`：消息体中可以重复的字段，重复的值的顺序会被保留在go中定义为切片。
 
+```proto
+message Search {
+	repeated Result results =1;
+}
+
+/*
+type Search struct {
+	results []*Result
+}
+*/
+```
+
 `map`：键/值对字段类型。
+
+```proto
+map<key_type,value_type> map_field = 3
+
+// projects map[string]Project
+map<string,Project> projects = 3
+```
 
 ## 3.3 消息号
 
@@ -446,6 +468,20 @@ default:
 ```
 
 编译器还会生成 get 方法 `func (m *Profile) GetImageUrl() string` 和 `func (m *Profile) GetImageData() []byte`。每个 get 函数都返回该字段的值，如果未设置，则返回零值。
+## 3.14 Any
+
+- 功能特性：用于处理未知数据类型，类似于Go中的空接口(interface{})或JSON中的raw message
+- 使用场景：当无法预知或明确数据类型时使用，特别适用于需要处理多种可能类型的场景
+- 底层实现：实际存储为byte数组，使用时需要自行决定转换为什么类型
+- 风险提示：
+    - 类型转换可能存在风险
+    - 如果转换后的结构与原始数据不匹配会导致错误
+    - 需要开发者自行确保类型安全
+
+- 引入方式：必须通过import语句引入google/protobuf/any.proto文件
+- 包名结构：使用google.protobuf作为包名，Any作为类型名
+- 典型场景：适用于无法明确定义数据类型的场合，如处理多种事件类型
+
 # 4 ProtoBuf限制
 
 ## 4.1 字段数量
