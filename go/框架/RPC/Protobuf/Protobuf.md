@@ -90,13 +90,19 @@ protoc --go_out=. hello.proto // hello.pb.go
 
 // 生成 ​**gRPC 服务端和客户端的接口代码**​（通信逻辑的 Go 代码）。
 // 包含 `.proto` 文件中定义的 ​gRPC 服务接口。
-// --go-grpc_out 表示使用 `protoc-gen-go-grpc` 插件（负责生成 gRPC 服务端/客户端代码）。
-// --go-opt=module= 指定项目名称
-// -I 指定proto文件搜索路径，多个路径可以使用多个-I选项，如果不指定默认当前目录
-//  go install google.golang.org/protobuf/cmd/proto-gen0go@latest
-protoc --go-grpc_out=. --go-opt=module="rpc" -I=. hello.proto  // hello_grpc.pb.go
+// 
+//  go install google.golang.org/protobuf/cmd/proto-gen-go@latest
+// go install google.golang.org/grpc/cmd/proto-gen-go-grcp@latest
+protoc --go-grpc_out=. -I=. hello.proto  // hello_grpc.pb.go
 
-protoc --go_out=. --go-grpc_out=. hello.proto
+
+// `-I=.`**Import Path**告诉编译器去哪里找 `.proto` 文件。`.` 代表当前目录。
+// `--go_out=./service`**Go Output**指定生成基础消息代码（`.pb.go`）的根输出目录。
+// `--go_opt=module="grpc"`**Go Module Option**核心参数。它告诉插件，如果 `go_package` 以 `grpc` 开头，就移除这个前缀。
+// `--go-grpc_out=./service`**gRPC Output**指定生成 gRPC 服务代码（`_grpc.pb.go`）的根输出目录。
+// `--go-grpc_opt=module="grcp"`**gRPC Option**同上，但用于 gRPC 插件。
+// `service/hello.proto`**Input File**你要编译的源文件路径。
+protoc -I=. --go_out=. --go_opt=module="grpc" --go-grpc_out=. --go-grpc_opt=module="grpc" ./service/hello.proto
 ```
 # 3 proto编写语法
 

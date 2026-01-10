@@ -114,7 +114,166 @@ func main() {
   
 }
 ```
-# 5 认证-安全传输
+# 5 流式处理
+
+```go
+service Hello {  
+  rpc SayHello(HelloRequest) returns(HelloResponse){};  
+  rpc Channel(stream HelloRequest) returns(stream HelloResponse){};  
+}
+```
+
+`stream` 关键字指定启用流特性，参数部分是接收客户端参数的流，返回值是返回给客户端的流。
+
+定义语法为：
+
+```bash
+rpc <func name> (stream <type>) returns(stream <type>){}
+```
+
+## 5.1 示例
+
+- **proto文件**
+
+```bash
+syntax = "proto3";  
+  
+package hello;  
+  
+option go_package = "grpc/service";  
+  
+  
+message HelloResponse {  
+  string message = 1;  
+}  
+  
+message HelloRequest {  
+  string my_name = 1;  
+  int64  age = 2;  
+  repeated int64 magic_number = 3;  
+  map<string,string> extras = 4;  
+}  
+  
+service Hello {  
+  rpc SayHello(HelloRequest) returns(HelloResponse){};  
+  rpc Channel(stream HelloRequest) returns(stream HelloResponse){};  
+}
+```
+
+- **server文件**
+
+```go
+package main  
+  
+import (  
+    "context"  
+    "fmt"    "google.golang.org/grpc"    "grpc/service"    "io"    "log"    "net"    "strconv")  
+  
+type Hello struct {  
+    service.UnimplementedHelloServer  
+}  
+
+func (h *Hello) SayHello(c context.Context, r *service.HelloRequest) (*service.HelloResponse, error) {  
+    mess := fmt.Sprintf("%s，你的年纪是%d，", r.MyName, r.Age)  
+    resp := service.HelloResponse{Message: mess}  
+    return &resp, nil  
+}  
+
+// 实现Channel方法
+// BidiStreamingServer是一个流式接口
+func (h *Hello) Channel(c grpc.BidiStreamingServer[service.HelloRequest, service.HelloResponse]) error {  
+    for {  
+       req, err := c.Recv()  
+       if err != nil {  
+          // 判断流尾
+          if err == io.EOF {  
+             return nil  
+          }  
+          log.Fatalln(err)  
+       }  
+       if err := c.Send(&service.HelloResponse{Message: strconv.Itoa(int(req.Age))}); err != nil {  
+          log.Fatalln(err)  
+       }  
+    }  
+    return nil  
+}  
+  
+func main() {  
+    s := grpc.NewServer()  
+    h := &Hello{}  
+    service.RegisterHelloServer(s, h)  
+  
+    t, err := net.Listen("tcp", ":1234")  
+    if err != nil {  
+       log.Fatalln(err)  
+    }  
+    if err := s.Serve(t); err != nil {  
+       log.Fatalln(err)  
+    }  
+}
+```
+
+- **客户端**
+
+```go
+package main  
+  
+import (  
+    "context"  
+    "fmt"    "google.golang.org/grpc"    "google.golang.org/grpc/credentials/insecure"    "grpc/service"    "log"    "time")  
+  
+func main() {  
+    gClient, err := grpc.NewClient("127.0.0.1:1234", grpc.WithTransportCredentials(insecure.NewCredentials()))  
+    if err != nil {  
+       log.Fatalln(err)  
+    }  
+  
+    c := service.NewHelloClient(gClient)  
+    resp, err := c.SayHello(context.Background(), &service.HelloRequest{  
+       MyName:      "yyyy",  
+       Age:         100,  
+       MagicNumber: nil,  
+       Extras:      nil,  
+    })  
+  
+	// Channel方法返回一个BidiStreamingClient流式接口
+    ch, err := c.Channel(context.Background())  
+    if err != nil {  
+       log.Fatalln(err)  
+    }  
+  
+    go func() {  
+       for {  
+          // 接收回复
+          resp, err = ch.Recv()  
+          if err != nil {  
+             log.Fatalln(err)  
+          }  
+          fmt.Println(resp)  
+       }  
+    }()  
+  
+    for i := range 10 { 
+       // 流式发送10个信息 
+       if ch.Send(&service.HelloRequest{Age: int64(i)}); err != nil {  
+          log.Fatalln(err)  
+       }  
+    }  
+    
+    // 关闭流
+    ch.CloseSend()  
+  
+    time.Sleep(3 * time.Second)  
+    if err != nil {  
+       log.Fatalln(err)  
+    }  
+  
+    fmt.Println(resp)  
+}
+```
+
+
+# 6 认证-安全传输
 
 `gRPC` 是一个典型的C/S模型，需要开发客户端和服务端，客户端与服务端需要达成协议，使用某一个确认的传输协议来传输数据，gRPC通常默认是使用protobuf来作为传输协议，当然也可以使用其他自定义的。
 ![](image/gRPC_time_2.png)
@@ -147,7 +306,7 @@ csr：证书签名请求文件，用于提交给证书颁发机构(CA)对证书�
 crt：由证书颁发机构签名后的证书，或者是开发者自签名的证书，包含证书持有人信息，持有人公钥，以及签署者的签名信息
 
 pem：是基于Base64编码的证书格式，扩展名包括PEM，CRT和CER
-## 5.1 SSL/TLS认证方式
+## 6.1 SSL/TLS认证方式
 
 ```bash
 // 生成私钥
@@ -287,7 +446,7 @@ func main() {
   
 }
 ```
-## 5.2 Token认证
+## 6.2 Token认证
 
 ```go
 // server
