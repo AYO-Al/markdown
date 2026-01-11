@@ -72,6 +72,8 @@ service SayHello {
 // message关键字可以理解为Go中的结构体  
 // 注意，这里并不是赋值，而是定义这个变量在message中的位置  
 message HelloRequest {  
+   // 通过这个指令，你可以强制指定标签
+  // gotags: json:"request_name" validate:"require"
   string requestName = 1;  
 }  
   
