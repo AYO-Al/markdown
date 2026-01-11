@@ -40,6 +40,19 @@ go get google.golang.org/grpc // gRPC库
 // 按照生成go代码的插件
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+// 自定义tag插件
+go install github.com/favadi/protoc-go-inject-tag@latest  
+
+message ResourceSet {  
+  // @gotags: json:"custom_value" validate:"required"  
+  int64 total = 1;  
+  // gotags: json:"123"  
+  repeated Resource items = 2;  
+}
+
+// 生成*.pb.go再执行
+// protoc-go-inject-tag  -input="./apps/resource/*.pb.go"  
 ```
 
 使用gRPC之前要先编写[Protobuf](Protobuf/Protobuf.md)。
