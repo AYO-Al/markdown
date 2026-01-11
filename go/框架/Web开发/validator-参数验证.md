@@ -89,3 +89,29 @@ type FieldLevel interface {
 
 
 FieldLevel 包含所有用于验证字段的信息和辅助函数
+# 示例
+
+```go
+type Inner struct {
+	StartDate time.Time
+}
+
+// 多个标签用逗号隔开
+type Outer struct {
+	InnerStructField *Inner
+	CreatedAt time.Time      `validate:"ltecsfield=InnerStructField.StartDate"`
+}
+
+now := time.Now()
+
+inner := &Inner{
+	StartDate: now,
+}
+
+outer := &Outer{
+	InnerStructField: inner,
+	CreatedAt: now,
+}
+
+errs := validate.Struct(outer)
+```
